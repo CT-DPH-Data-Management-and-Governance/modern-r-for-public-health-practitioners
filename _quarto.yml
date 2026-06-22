@@ -1,0 +1,43 @@
+project:
+  type: book
+
+book:
+  title: "Modern R for Public Health Practitioners"
+  subtitle: "CT DPH DMAG Training"
+  author: "Alexander Senetcky, MPH"
+  date: "06/22/2026"
+
+  search: true
+  repo-url: https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners
+  repo-actions: [edit]
+
+  sidebar:
+    style: floating
+
+  page-footer:
+    left: |
+      This is a proof of concept for the CT State Health Assessment.
+    right: |
+      All information, data and figures are copied out of context or made up.
+
+  chapters:
+    - index.qmd
+    - preface.qmd
+    - part: "Introduction and Process"
+      chapters:
+        - intro-overview.qmd
+        - intro-methodology.qmd
+    - references.qmd
+  page-navigation: true
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: [cosmo, theme-ctdph.scss]
+  pdf:
+    documentclass: scrreprt
+
+
+
