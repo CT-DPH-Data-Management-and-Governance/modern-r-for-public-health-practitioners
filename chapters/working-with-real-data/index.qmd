@@ -1,0 +1,62 @@
+---
+title: "Getting Ready for working with files"
+---
+
+## The Setup
+
+Covid-19 challenged Public Health infrastructure in so many multi-faceted 
+ways. The sheer amount of data collected and processed over the pandemic
+meant that what worked in the beginning of the pandemic was no longer
+feasible towards the end of the pandemic.
+
+Over the course of this book we will explore Connecticut pandemic 
+data and how to deal with the ever increasing amount of data. We will
+start simple and do things manually before moving on to refine our 
+analytics methodologies.
+
+## Data Intro
+
+We are going to use a snippet of real pandemic-era covid-19 data from the 
+connecticut department of public health's open data portal^[[CT Open Data Portal](https://data.ct.gov/)].  
+The full dataset can be found on the portal^[[Archived Covid Data](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data)] 
+but we will start simply and use the provided snippet in this  
+
+TODO: add evergreen link 
+
+repository `chapters/working-with-real-data/data/covid-2022.csv`
+
+## Setup
+
+R has many tools for working with data. Over the years the R community
+has built up a number of their own tools and one of the most popular, 
+the `tidyverse` will be our entrypoint into working with data in R.
+
+R comes with a base set of tools and eager epidemiologists can opt to use
+only the base suite of tool and go out into the world if they so choose.
+However, many smart developers and epidemiologists have come before us
+and we do not need to recreate the wheel. R has what are called
+`packages' - or collection of ready made code that folks can use to
+get work done.
+
+TODO: -- talk about the CRAN etc etc....
+
+
+
+We're going to slowly introduce the different parts of the tidyverse individually....
+
+TODO: flesh 
+
+### Installing Packages
+
+```{r}
+#| label: install-packages
+#| eval: false 
+
+# pulls the code down from the CRAN for folks to use and installs on 
+# their computer
+install.packages(
+    "dplyr",  # for manipulating data
+    "readr", # for reading data files from a users' computers
+    "fs" # for working with files on users' file systems
+    )
+```
