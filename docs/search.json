@@ -1,0 +1,174 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Modern R for Public Health Practitioners",
+    "section": "",
+    "text": "Welcome\nThis is the website for the Connecticut Department of Public Health’s Data Management, Analytics, and Governance (DMAG) R training for public health practitioners.",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "index.html#special-thanks",
+    "href": "index.html#special-thanks",
+    "title": "Modern R for Public Health Practitioners",
+    "section": "Special Thanks",
+    "text": "Special Thanks\n\nGary Archambault and the rest of the DMAG team\nMukhtar Mohamed\nSydney Jones",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "index.html#about-the-author",
+    "href": "index.html#about-the-author",
+    "title": "Modern R for Public Health Practitioners",
+    "section": "About the Author",
+    "text": "About the Author\nEpidemiologist turned Data Scientist with a decade of R experience.",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "preface.html",
+    "href": "preface.html",
+    "title": "Preface",
+    "section": "",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis posuere ligula sit amet lacinia. Duis dignissim pellentesque magna, rhoncus congue sapien finibus mollis. Ut eu sem laoreet, vehicula ipsum in, convallis erat. Vestibulum magna sem, blandit pulvinar augue sit amet, auctor malesuada sapien. Nullam faucibus leo eget eros hendrerit, non laoreet ipsum lacinia. Curabitur cursus diam elit, non tempus ante volutpat a. Quisque hendrerit blandit purus non fringilla. Integer sit amet elit viverra ante dapibus semper. Vestibulum viverra rutrum enim, at luctus enim posuere eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "chapters/orientation/index.html",
+    "href": "chapters/orientation/index.html",
+    "title": "1  Adopting an R Project Mindset",
+    "section": "",
+    "text": "1.1 The Mental Model",
+    "crumbs": [
+      "Introduction and Process",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Adopting an R Project Mindset</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/orientation/introduction.html",
+    "href": "chapters/orientation/introduction.html",
+    "title": "2  How to use this book",
+    "section": "",
+    "text": "2.1 The big idea\nThis course is not about teaching you epidemiology. It’s about giving you the R fluency to apply what you already know.\nWe will dive straight into a data analysis project and with every chapter will we iteratively polish our analysis until at the very end we have something that could be confidently deployed in day to day use.",
+    "crumbs": [
+      "Introduction and Process",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>How to use this book</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/orientation/introduction.html#the-arc",
+    "href": "chapters/orientation/introduction.html#the-arc",
+    "title": "2  How to use this book",
+    "section": "2.2 The arc",
+    "text": "2.2 The arc\nWIP - PLACEHOLDER\n\n\n\n\n\n\n\n\nChapter\nWhat you build\nThe new skill\n\n\n\n\n0 — Orientation\nYour first rendered R analysis\nR mindset; the SAS→R Rosetta stone\n\n\n1 — Import\nA real CT dataset + data profile\nreadr; inspect before you trust\n\n\n2 — Wrangling\nA clean, joined, analysis-ready dataset\ntidyverse DATA-step verbs; joins\n\n\n3 — Descriptive epi\nPublication-quality tables\ngt; counts, rates, CIs\n\n\n4 — Visualization\nTrend charts + a CT choropleth map\nggplot2; sf + tigris\n\n\n5 — Quarto report\nLeadership-ready report v1\nQuarto; findings before methods\n\n\n6 — Functions\nOne template, any county or year\nFunctions; Quarto params\n\n\n7 — API\nA self-fetching, live-data report\nSODA API; SoQL; fallback caching\n\n\n8 — Reproducibility\nPublished GitHub Pages capstone\nrenv; here; GitHub Pages\n\n\n9 — Automation (stretch)\nScheduled re-render\nGitHub Actions; handoff",
+    "crumbs": [
+      "Introduction and Process",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>How to use this book</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/orientation/introduction.html#how-to-use-this-site",
+    "href": "chapters/orientation/introduction.html#how-to-use-this-site",
+    "title": "2  How to use this book",
+    "section": "2.3 How to use this site",
+    "text": "2.3 How to use this site\nWork through modules in order. Each one has:\n\nOverview — what you’ll build, why it matters, and the SAS concepts it remaps\nLesson — a runnable, narrated .qmd file you execute yourself\nExercises — 3–5 scaffolded problems with explicit “done when” checks\nSolutions — available after you’ve tried on your own",
+    "crumbs": [
+      "Introduction and Process",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>How to use this book</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/orientation/introduction.html#before-you-start",
+    "href": "chapters/orientation/introduction.html#before-you-start",
+    "title": "2  How to use this book",
+    "section": "2.4 Before you start",
+    "text": "2.4 Before you start\n\n\n\n\n\n\nTipStart here:\n\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis posuere ligula sit amet lacinia. Duis dignissim pellentesque magna, rhoncus congue sapien finibus mollis. Ut eu sem laoreet, vehicula ipsum in, convallis erat. Vestibulum magna sem, blandit pulvinar augue sit amet, auctor malesuada sapien. Nullam faucibus leo eget eros hendrerit, non laoreet ipsum lacinia. Curabitur cursus diam elit, non tempus ante volutpat a. Quisque hendrerit blandit purus non fringilla. Integer sit amet elit viverra ante dapibus semper. Vestibulum viverra rutrum enim, at luctus enim posuere eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "crumbs": [
+      "Introduction and Process",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>How to use this book</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/orientation/introduction.html#what-youll-need",
+    "href": "chapters/orientation/introduction.html#what-youll-need",
+    "title": "2  How to use this book",
+    "section": "2.5 What you’ll need",
+    "text": "2.5 What you’ll need\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis posuere ligula sit amet lacinia. Duis dignissim pellentesque magna, rhoncus congue sapien finibus mollis. Ut eu sem laoreet, vehicula ipsum in, convallis erat. Vestibulum magna sem, blandit pulvinar augue sit amet, auctor malesuada sapien. Nullam faucibus leo eget eros hendrerit, non laoreet ipsum lacinia. Curabitur cursus diam elit, non tempus ante volutpat a. Quisque hendrerit blandit purus non fringilla. Integer sit amet elit viverra ante dapibus semper. Vestibulum viverra rutrum enim, at luctus enim posuere eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "crumbs": [
+      "Introduction and Process",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>How to use this book</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/working-with-real-data/index.html",
+    "href": "chapters/working-with-real-data/index.html",
+    "title": "3  Getting Ready for working with files",
+    "section": "",
+    "text": "3.1 The Setup\nCovid-19 challenged Public Health infrastructure in so many multi-faceted ways. The sheer amount of data collected and processed over the pandemic meant that what worked in the beginning of the pandemic was no longer feasible towards the end of the pandemic.\nOver the course of this book we will explore Connecticut pandemic data and how to deal with the ever increasing amount of data. We will start simple and do things manually before moving on to refine our analytics methodologies.",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Getting Ready for working with files</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/working-with-real-data/index.html#data-intro",
+    "href": "chapters/working-with-real-data/index.html#data-intro",
+    "title": "3  Getting Ready for working with files",
+    "section": "3.2 Data Intro",
+    "text": "3.2 Data Intro\nWe are going to use a snippet of real pandemic-era covid-19 data from the connecticut department of public health’s open data portal1.\nThe full dataset can be found on the portal2 but we will start simply and use the provided snippet in this\nTODO: add evergreen link\nrepository chapters/working-with-real-data/data/covid-2022.csv",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Getting Ready for working with files</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/working-with-real-data/index.html#setup",
+    "href": "chapters/working-with-real-data/index.html#setup",
+    "title": "3  Getting Ready for working with files",
+    "section": "3.3 Setup",
+    "text": "3.3 Setup\nR has many tools for working with data. Over the years the R community has built up a number of their own tools and one of the most popular, the tidyverse will be our entrypoint into working with data in R.\nR comes with a base set of tools and eager epidemiologists can opt to use only the base suite of tool and go out into the world if they so choose. However, many smart developers and epidemiologists have come before us and we do not need to recreate the wheel. R has what are called `packages’ - or collection of ready made code that folks can use to get work done.\nTODO: – talk about the CRAN etc etc….\nWe’re going to slowly introduce the different parts of the tidyverse individually….\nTODO: flesh\n\n3.3.1 Installing Packages\n\n# pulls the code down from the CRAN for folks to use and installs on \n# their computer\ninstall.packages(\n    \"dplyr\",  # for manipulating data\n    \"readr\", # for reading data files from a users' computers\n    \"fs\" # for working with files on users' file systems\n    )",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Getting Ready for working with files</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/working-with-real-data/index.html#footnotes",
+    "href": "chapters/working-with-real-data/index.html#footnotes",
+    "title": "3  Getting Ready for working with files",
+    "section": "",
+    "text": "CT Open Data Portal↩︎\nArchived Covid Data↩︎",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Getting Ready for working with files</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/working-with-real-data/reading-comma-delimited-files.html",
+    "href": "chapters/working-with-real-data/reading-comma-delimited-files.html",
+    "title": "4  Reading Comma Delimited Files",
+    "section": "",
+    "text": "4.1 Reading our Comma Delimited File (.csv)\nWe are going to do a few things here:\n# Users can have all sorts of packages on their computer\n# but will only need a limited subset of them at any one time\n# add these packages to your session with `library()` function.\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(fs)\n\n# we have a file - how do we read it in?\n# we use fs's path() function to create a path\n# we user readr's read_csv() and point it to  our path\n\ncsv_path &lt;- path(\"data/covid-2022.csv\")\n\ncovid_data &lt;- read_csv(csv_path)\nWe have our data saved into our session, now what? Let’s take a look at it!\n# taking a look at the top few rows\nhead(covid_data)\n\n# A tibble: 6 × 16\n  last_update_date town_number town   total_cases confirmed_cases probable_cases\n  &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;\n1 2022-01-03                 1 Andov…         312             269             43\n2 2022-01-03                 2 Anson…        3103            2632            471\n3 2022-01-03                 3 Ashfo…         441             398             43\n4 2022-01-03                 4 Avon          1690            1584            106\n5 2022-01-03                 5 Barkh…         325             309             16\n6 2022-01-03                 6 Beaco…         888             790             98\n# ℹ 10 more variables: case_rate &lt;dbl&gt;, total_deaths &lt;dbl&gt;,\n#   confirmed_deaths &lt;dbl&gt;, probable_deaths &lt;dbl&gt;, people_tested &lt;dbl&gt;,\n#   rate_tested_per_100k &lt;dbl&gt;, number_of_tests &lt;dbl&gt;,\n#   number_of_positives &lt;dbl&gt;, number_of_negatives &lt;dbl&gt;,\n#   number_of_indeterminates &lt;dbl&gt;\n# glimpse from dplyr\nglimpse(covid_data)\n\nRows: 20,956\nColumns: 16\n$ last_update_date         &lt;date&gt; 2022-01-03, 2022-01-03, 2022-01-03, 2022-01-…\n$ town_number              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14…\n$ town                     &lt;chr&gt; \"Andover\", \"Ansonia\", \"Ashford\", \"Avon\", \"Bar…\n$ total_cases              &lt;dbl&gt; 312, 3103, 441, 1690, 325, 888, 2580, 646, 27…\n$ confirmed_cases          &lt;dbl&gt; 269, 2632, 398, 1584, 309, 790, 2392, 584, 22…\n$ probable_cases           &lt;dbl&gt; 43, 471, 43, 106, 16, 98, 188, 62, 494, 71, 2…\n$ case_rate                &lt;dbl&gt; 9642, 16635, 10364, 9247, 9013, 14272, 12625,…\n$ total_deaths             &lt;dbl&gt; 4, 35, 5, 76, 7, 7, 44, 4, 63, 2, 124, 6, 7, …\n$ confirmed_deaths         &lt;dbl&gt; 3, 31, 4, 61, 6, 7, 38, 3, 49, 2, 104, 4, 7, …\n$ probable_deaths          &lt;dbl&gt; 1, 4, 1, 15, 1, 0, 6, 1, 14, 0, 20, 2, 0, 7, …\n$ people_tested            &lt;dbl&gt; 2243, 14847, 3105, 15488, 2487, 4580, 15122, …\n$ rate_tested_per_100k     &lt;dbl&gt; 69314, 79592, 72973, 84745, 68968, 73610, 739…\n$ number_of_tests          &lt;dbl&gt; 7638, 62140, 10619, 59793, 9080, 19193, 62374…\n$ number_of_positives      &lt;dbl&gt; 352, 3735, 510, 1959, 379, 1059, 3095, 779, 3…\n$ number_of_negatives      &lt;dbl&gt; 7281, 58269, 10099, 57770, 8689, 18094, 59221…\n$ number_of_indeterminates &lt;dbl&gt; 5, 136, 10, 64, 12, 40, 58, 20, 59, 16, 162, …",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reading Comma Delimited Files</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/working-with-real-data/reading-comma-delimited-files.html#reading-our-comma-delimited-file-.csv",
+    "href": "chapters/working-with-real-data/reading-comma-delimited-files.html#reading-our-comma-delimited-file-.csv",
+    "title": "4  Reading Comma Delimited Files",
+    "section": "",
+    "text": "‘Invoke’ the packages we will be using so they are availabe to us.\nCreate and capture the path to our data file and save inside of an object csv_path.\nRead the data into our session from the csv and save inside of an object covid_data.",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reading Comma Delimited Files</span>"
+    ]
+  }
+]
