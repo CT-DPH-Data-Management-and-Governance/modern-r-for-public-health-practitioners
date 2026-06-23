@@ -1,0 +1,15 @@
+{
+  "hash": "aadaabc0f66e225bf82869bb0fe8240a",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Getting Ready for working with files\"\n---\n\n## The Setup\n\nCovid-19 challenged Public Health infrastructure in so many multi-faceted \nways. The sheer amount of data collected and processed over the pandemic\nmeant that what worked in the beginning of the pandemic was no longer\nfeasible towards the end of the pandemic.\n\nOver the course of this book we will explore Connecticut pandemic \ndata and how to deal with the ever increasing amount of data. We will\nstart simple and do things manually before moving on to refine our \nanalytics methodologies.\n\n## Data Intro\n\nWe are going to use a snippet of real pandemic-era covid-19 data from the \nconnecticut department of public health's open data portal^[[CT Open Data Portal](https://data.ct.gov/)].  \nThe full dataset can be found on the portal^[[Archived Covid Data](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data)] \nbut we will start simply and use the provided snippet in this  \n\nTODO: add evergreen link \n\nrepository `chapters/working-with-real-data/data/covid-2022.csv`\n\n## Setup\n\nR has many tools for working with data. Over the years the R community\nhas built up a number of their own tools and one of the most popular, \nthe `tidyverse` will be our entrypoint into working with data in R.\n\nR comes with a base set of tools and eager epidemiologists can opt to use\nonly the base suite of tool and go out into the world if they so choose.\nHowever, many smart developers and epidemiologists have come before us\nand we do not need to recreate the wheel. R has what are called\n`packages' - or collection of ready made code that folks can use to\nget work done.\n\nTODO: -- talk about the CRAN etc etc....\n\n\n\nWe're going to slowly introduce the different parts of the tidyverse individually....\n\nTODO: flesh \n\n### Installing Packages\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# pulls the code down from the CRAN for folks to use and installs on \n# their computer\ninstall.packages(\n    \"dplyr\",  # for manipulating data\n    \"readr\", # for reading data files from a users' computers\n    \"fs\" # for working with files on users' file systems\n    )\n```\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

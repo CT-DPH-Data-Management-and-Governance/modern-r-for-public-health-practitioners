@@ -6,6 +6,10 @@ book:
   subtitle: "CT DPH DMAG Training"
   author: "Alexander Senetcky, MPH"
   date: "06/22/2026"
+  description: >
+    A project-based course for public health practitioners who
+    want to become confident R users by buidling a report
+    that grows with every chapter.
 
   search: true
   repo-url: https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners
@@ -25,19 +29,33 @@ book:
     - preface.qmd
     - part: "Introduction and Process"
       chapters:
-        - intro-overview.qmd
-        - intro-methodology.qmd
-    - references.qmd
+        - chapters/orientation/index.qmd
+        - chapters/orientation/introduction.qmd
+    - part: "Working with real data"
+      chapters:
+        - chapters/working-with-real-data/index.qmd
+        - chapters/working-with-real-data/reading-comma-delimited-files.qmd
+  appendices: 
+    - chapters/appendicies/resources.qmd
+    - chapters/appendicies/tools.qmd
   page-navigation: true
 
-bibliography: references.bib
 
 format:
   html:
     theme:
       light: [cosmo, theme-ctdph.scss]
+    code-overflow: wrap
+    code-copy: true
+    code-line-numbers: true
   pdf:
     documentclass: scrreprt
+
+execute:
+  freeze: auto
+  echo: true
+  warning: false
+  message: false
 
 
 

@@ -1,16 +1,16 @@
 # Welcome {.unnumbered}
 
-This is a website for showcasing how the state can adopt to using markdown,
-quarto and the Open Data Portal (ODP) to streamline the State Health Assessment
-creation process allowing for more timely releases and in turn providing
-stakeholders with greater agency and the ability to act on the information
-housed therein.
+This is the website for the Connecticut Department of Public Health's
+Data Management, Analytics, and Governance (DMAG) R training for
+public health practitioners.
 
-This concept will be *deliberately* using the same or similiar language from
-the 2025 Health Assessment for ease of comparison. This meant to be a vertical
-slice of the 2025 Health Assessment, showcasing a little bit of everything.
+## Special Thanks
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+ - Gary Archambault and the rest of the DMAG team
+ - Mukhtar Mohamed
+ - Sydney Jones
 
-To learn more about the latest CT State Health Assessment visit 
-<https://portal.ct.gov/dph/state-health-planning/healthy-connecticut/healthy-connecticut-2025>
+
+## About the Author
+
+Epidemiologist turned Data Scientist with a decade of R experience.
