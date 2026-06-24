@@ -9,7 +9,9 @@ the R fluency to apply what you already know.
 
 We will dive straight into a data analysis project and with every chapter 
 will we iteratively polish our analysis until at the very end we have 
-something that could be confidently deployed in day to day use.
+something that could be confidently deployed in day to day use. 
+
+To get the most out of the lessons users should code along with the examples.
 
 
 ## The arc

@@ -2,6 +2,15 @@
 title: todos for me
 ---
 
-### What we didn't do
 
 TODO^[[Jenny Bryan's blog post](https://tidyverse.org/blog/2017/12/workflow-vs-script/)]
+
+Epidemiologists transitioning to R would benefit from training and code resources focused on:
+
+data import and management
+data cleaning
+report writing
+combining files
+merging datasets
+SQL operations
+creating functions
