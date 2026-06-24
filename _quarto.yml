@@ -21,9 +21,10 @@ book:
 
   page-footer:
     left: |
-      This is a proof of concept for the CT State Health Assessment.
+      This is a proof of concept.
     right: |
-      All information, data and figures are copied out of context or made up.
+      This is a proof of concept.
+
 
   chapters:
     - index.qmd
@@ -36,9 +37,9 @@ book:
       chapters:
         - chapters/working-with-real-data/index.qmd
         - chapters/working-with-real-data/reading-comma-delimited-files.qmd
-  appendices: 
-    - chapters/appendicies/resources.qmd
-    - chapters/appendicies/tools.qmd
+    - part: "Further Reading"
+      chapters:
+        - chapters/further-reading/index.qmd
   page-navigation: true
 
 
@@ -46,9 +47,7 @@ format:
   html:
     theme:
       light: [cosmo, theme-ctdph.scss]
-    code-overflow: wrap
     code-copy: true
-    code-line-numbers: true
   pdf:
     documentclass: scrreprt
 

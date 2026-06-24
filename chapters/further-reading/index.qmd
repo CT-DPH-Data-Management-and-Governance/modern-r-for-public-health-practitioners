@@ -1,0 +1,14 @@
+---
+title: Resources
+---
+
+testing123
+
+## Recommended Books
+
+- [R for Data Science 2nd Edition](https://r4ds.hadley.nz/)
+    - One of the authors, Hadley Wickham, is the creator
+    of the tidyverse and this is a wonderful resource
+    for learning analytics in R. Don't let the Data Science
+    in the title intimidate, there is rich info in this
+    for R users of all skill levels.
