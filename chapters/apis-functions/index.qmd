@@ -1,0 +1,303 @@
+---
+title: Working with APIs and Functions
+---
+
+
+## What is an API!?
+
+To put it simply, An API^[[IBM's definition](https://www.ibm.com/think/topics/api)] 
+or **application programming interface** can be thought of in part as another 
+tool in the user's tool belt to *programmatically* interact and often extract 
+data without having to manually download data. No one needs to lift their
+mouse and search through a webpage and click download.  This is a simple,
+yet powerful concept that extend to many areas of data work and beyond. 
+I encourage users to read up on and develop their API skills beyond 
+what is presented in our coursework.
+
+
+## Working with `httr2`
+
+We will be working with [`httr2`](https://httr2.r-lib.org/articles/httr2.html)
+as our package of choice for API work. Often, specific APIs will have their
+own packages for working with them, it is often better to use those, but we
+cannot cover them all, and not every API has its own package. `httr2` will
+always be here for us, and if users can understand `httr2` then picking
+up the other more specific packages will become even easier.
+
+Remember our Covid-19 pandemic dataset? Before we would navigate to that 
+website and download the datafile, or perhaps rely on the snippet of data
+provided in this course. No more - we are far too busy for that kind of work.
+From here on out we will be using the API, and in the future when users
+encounter data they want to incorporate into their analyses - it is almost
+always better to use the API.
+
+Install `httr2` like we would any other package.
+
+```{r}
+#| label: installing httr2
+#| eval: false
+
+install.packages('httr2')
+```
+
+Next we'll attach the `httr2` and `dplyr` packages to our session.
+
+```{r}
+#| label: httr2-intro-libs
+library(dplyr) |> suppressPackageStartupMessages() # this silences dplyr messages when loading the package
+library(httr2)
+```
+
+
+### `httr2` requests and responses
+
+Recall our [pandemic data's landing page](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data) -
+notice what pops up when you click the 'Export' button in the top right of
+the webpage. The popup has 'Download file' defaulting to 'Export format' of
+csv. However, right next to it is 'API endpoint' - click that and notice
+the 'Data format' switches to 'JSON'. Below that you may notice that
+there is a 'Version' toggle for either 'SODA3' or 'SODA2'. For now, select
+'SODA2' and copy the url provided, it should look like this:
+[https://data.ct.gov/resource/28fr-iqnx.json](https://data.ct.gov/resource/28fr-iqnx.json)
+now that we have our url or **endpoint** as they are often called let's hop
+into the code. 
+
+
+```{r}
+#| label: httr2-request-response
+
+# save our url into an object so we don't have to type it out everywhere
+endpoint <- "https://data.ct.gov/resource/28fr-iqnx.json"
+
+# We build our data request up piece by piece
+
+my_request <- request(endpoint) # base of the request
+
+# Get a our response from the Open Data Portal API
+
+odp_response <-
+  my_request |>
+  req_perform() # perform the request, and get a response base
+
+odp_response
+```
+
+
+### Extracting data from responses
+
+We have a response - now where is our data?  We need to pull it out of
+the body of the response and then convert it into an R dataframe.
+
+
+```{r}
+#| label: httr2-data
+
+my_odp_data <-
+  odp_response |>
+  resp_body_json() |> # extract the data, it's returned as an R list
+  bind_rows() # for this endpoint we can easily convert to a dataframe
+
+my_odp_data
+```
+
+
+Lovely - but how come there are only 1000 rows? That leads us to our next
+wrinkle when working with APIs. This one is public, so just about anyone
+can hammer on this API at anytime, and some of data can be quite large. In 
+order to prevent users from accidentally running a massive query for data they
+may not even need (and to prevent misuse from unscrupulous types) APIs will
+often only send a small chunk of the data and then offer up ways to retrieve
+the next chunk, and then the next chunk, and so on and so forth.  This can
+be accomplished in a few different ways, but for this API they use pages
+with **limits** and **offsets**. 
+
+
+::: {.callout-note}
+Users working with different APIs should read *that* API's 
+documentation to see how that specific API handles pagination/iteration
+through responses.
+:::
+
+
+
+
+## Extracting *all* data
+
+We're going to have to do a little leg work here to get *all* the
+data, and then I am going to show you how you can package this all up
+so you can reuse it over and over again.
+
+First, users need to understand what the limit and offset are and
+how they can leverage those to get the data they expect.
+
+- **limit**: The total number of *rows* of data brought back in the request.
+    - The default for *this* API and this endpoint is 1000. Some datasets might
+    be small like 5000 rows. You can just bump this number up to 5000 and pull
+    it all in one go.
+
+- **offset**: The starting point row number for the query.
+    - The default for *this* API is 0, because it starts at the first row.
+
+These two parameters can be used in conjunction to, for example, grab the 
+first 1000 rows of a dataset, and then grab the next 1000 and so on and so
+forth until all data is had.
+
+### Modifying the limit and offset
+
+So modifying the limit and offset is all well in good, but how do we
+actually go about changing those values? Remember our endpoint url?
+Thankfully these are parameters that can be tacked on to the end
+of the url.
+
+If for whatever reason we wanted the 10th row, and *only* the 10th row
+of our dataset we can modify our url to look like this:
+
+[`https://data.ct.gov/resource/28fr-iqnx.json?$limit=1&$offset=9`](https://data.ct.gov/resource/28fr-iqnx.json?$limit=1&$offset=9)
+
+Notice that the parameters come at the end of the original url after a `?`.
+Users then append `$limit=` and `&` and `$offset=` with the desired values.
+Feel free to try this in your web browser - most modern browsers will display
+the data from the response. 
+
+
+::: {.callout-note}
+
+Note that items/data are zero-indexed, meaning the first item the 
+data is 'row' 0. To grab the 10th item we skip the first 9 items.
+
+:::
+
+
+Do not take my word for it. Try this out:
+click on [`https://data.ct.gov/resource/28fr-iqnx.json?$limit=10&$offset=0`](https://data.ct.gov/resource/28fr-iqnx.json?$limit=10&$offset=0)
+and make note of the tenth item.
+
+It should look something like this:
+
+```json
+{
+    "lastupdatedate":"2022-06-24T00:00:00.000",
+    "town_no":"10","town":"Bethlehem",
+    "towntotalcases":"620",
+    "townconfirmedcases":"529",
+    "townprobablecases":"91",
+    "towncaserate":"18225",
+    "towntotaldeaths":"3",
+    "townconfirmeddeaths":"2",
+    "townprobabledeaths":"1",
+    "peopletested":"2781",
+    "ratetested100k":"81746",
+    "numberoftests":"11841",
+    "numberofpositives":"749",
+    "numberofnegatives":"11070",
+    "numberofindeterminates":"22"
+}
+```
+
+Does that match our original single item we had before?
+
+### Using httr2
+
+No one wants to modify urls by hand, and we're still clicking through 
+everything, time to use `httr2` to do the heavy lifting.
+
+
+```{r}
+# We're going to grab first 5000 rows, 1000 rows at a time.
+# so we will query 1000 rows, 5 times
+
+req <-
+  request(endpoint) |>
+  # don't forget the $ as part of the parameter name for this api
+  # backticks are required for nonstandard r names
+  req_url_query(
+    `$limit` = 1000,
+    `$offset` = 0
+  )
+
+
+resps <-
+  req_perform_iterative(
+    req,
+    next_req = iterate_with_offset(
+      param_name = "$offset",
+      start = 0,
+      offset = 1000
+    ),
+    max_reqs = 5
+  )
+
+# resps contains a list of 5 responses
+# we want to take each response and do what we did above to all of them
+# we will use an anonymous function otherwise known as lambda functions in 
+# other programming languages
+
+data <- 
+    resps |> 
+    resps_data(
+        \(resp) # declare the name of each item in our resps list
+            resp |> # for each response in our responses
+            resp_body_json() |> # convert the json to a list
+            bind_rows() # bind these into a dataframe
+    )
+
+data
+```
+
+### All the data everywhere, all at once
+
+Wait - weren't we promised all the data!?
+Fair point, how do we grab that data if we don't know how many rows there are?
+At time of writing there are 102245 rows in this dataset, but let's pretend
+we do not know that, and often that is the case.
+
+```{r}
+
+# bump this up to 10k rows per request and 10k offset each times
+number_of_rows = 10000
+
+# first request grabs the first 10k
+req <-
+  request(endpoint) |>
+  req_url_query(
+    `$limit` = number_of_rows,
+    `$offset` = callout-warning0
+  )
+
+# drop the max_reqs argument
+resps <-
+  req_perform_iterative(
+    req,
+    next_req = iterate_with_offset(
+      param_name = "$offset",
+      start = 0,
+      offset = number_of_rows
+    )
+  )
+
+data <- 
+    resps |> 
+    resps_data(
+        \(resp) 
+            resp |> 
+            resp_body_json() |> 
+            bind_rows()
+    )
+
+nrow(data) == 102245
+```
+
+Look at that! We have our 102245 rows. 
+
+
+::: {.callout-warning}
+
+***Start small when working with a new endpoint***
+
+Users will often want *all* the data, but they will often *not* know how many 
+rows there are. Use caution when grabbing everything, there may be more data
+than can be handled at once.
+
+:::
+
+
