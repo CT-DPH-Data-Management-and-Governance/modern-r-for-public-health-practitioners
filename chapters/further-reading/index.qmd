@@ -12,3 +12,9 @@ testing123
     for learning analytics in R. Don't let the Data Science
     in the title intimidate, there is rich info in this
     for R users of all skill levels.
+
+## Recommended Websites
+
+- [Quarto.org](https://quarto.org/)
+
+- [httr2 documentation](https://httr2.r-lib.org/index.html)

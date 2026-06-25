@@ -270,6 +270,7 @@ req <-
 resps <-
   req_perform_iterative(
     req,
+    progress = FALSE, # the progress bar is super cool, but doesn't play nicely with the website, feel free to leave it on!
     next_req = iterate_with_offset(
       param_name = "$offset",
       start = 0,
@@ -364,7 +365,7 @@ fetch_all_data <-
     resps <-
       req_perform_iterative(
         req,
-        progress = FALSE, # the progress bar is super cool, but doesn't play nicely with the website, feel free to leave it on!
+        progress = FALSE,
         next_req = iterate_with_offset(
           param_name = "$offset",
           start = 0,
@@ -412,3 +413,9 @@ Some tips to consider:
     - Handling errors gracefully would be a good next stop - remember the issue
     may not be on the user's end, the portal could be having issues etc...
 :::
+
+Users who checked out the `httr2` documentation may have noticed that the
+authors went through great lengths to discuss secrets and api keys.
+Since the API key is sort of a nice to have for this public API we
+will be discussing those later on. See @sec-secrets for
+those details if you wish skip ahead now. 
