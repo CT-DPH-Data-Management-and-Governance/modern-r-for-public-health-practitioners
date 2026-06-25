@@ -261,7 +261,7 @@ req <-
   request(endpoint) |>
   req_url_query(
     `$limit` = number_of_rows,
-    `$offset` = callout-warning0
+    `$offset` = 0
   )
 
 # drop the max_reqs argument
@@ -301,3 +301,99 @@ than can be handled at once.
 :::
 
 
+## Functions crash course
+
+By now users may have noticed that we've written the same or similar
+chain of request and response a few times now. Let us tidy this up into
+something we can reuse over and over - a function! The `httr2` documentation
+has a wonderful section on [wrapping apis](https://httr2.r-lib.org/articles/wrapping-apis.html#secret-management)
+into useful functions that I will encourage users to read.
+
+We will take much of the logic and code discussed in that document and 
+apply it to our usecases.
+
+Up to this point users will be using functions all over the place in R.
+Now we are going to write out own using the `function()` function to
+encapsulate our logic. We will do this time and time again. We create
+our function by providing the inputs it expects, and then perform
+the actions we want it to do with those inputs. Good functions typically
+will do one thing or step really well, and have a descriptive name. It is
+usually good to create and chain a few smaller functions instead of having
+one massive function.
+
+Let's start by creating a function that reduces the amount of repetitive
+typing we need to do, smooths over some API rough edges and finally
+returns all the data.
+
+Take one more look at our endpoint: `https://data.ct.gov/resource/28fr-iqnx.json`.
+Notice anything? If we're always using the Open Data Portal, the domain (data.ct.gov)
+is always going to be the same. There is always going to be a '/resource/' 
+section and always a '.json'.  The only real part that is going to change is
+the resource id (often called a four by four on this portal). So that is
+probably a good target for input from users.
+
+```{r}
+
+# our function will be called fetch all data
+fetch_all_data <- 
+    function(resource, rows=10000) {
+    # Fetch all data from the provided resource id for the CT Open Data Portal
+    # 
+    # resource: string - Required portal "four by four" in the format 'xxxx-xxxx'
+    # rows: numeric - Number of rows of data to fetch one response at a time.
+    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.
+    # Returns: A tibble
+
+    # handle the resource from the user
+    
+    base <- "https://data.ct.gov/resource"
+
+    # create the first request
+    req <- 
+        request(base) |> 
+        req_url_path_append(resource) |> #appened the user provided 4x4 to the base url
+        req_url_query(
+            `$limit` = rows, # use the default rows=10000 or what ever the user provided
+            `$offset` = 0 # start with the first row
+        )
+
+    # perform the request and then with each request increment the offset by `rows`
+    resps <-
+        req_perform_iterative(
+            req,
+            next_req = iterate_with_offset(
+                param_name = "$offset",
+                start = 0,
+                offset = rows # use the default rows=10000 or what ever the user provided
+            )
+        )
+
+    # convert the response objects from the API to a tibble of data
+    # for each response from the API grab the json body, convert to an R list 
+    # and then squash all that into a singular tibble
+    data <- 
+        resps |> 
+        resps_data(
+            \(resp) 
+                resp |> 
+                resp_body_json() |> 
+                bind_rows()
+        )
+
+    return(data)
+    }
+```
+
+
+We wrote our function, now let us take it for a spin. Our resource ID was
+`28fr-iqnx.` 
+
+
+```{r}
+resource<- "28fr-iqnx"
+covid_data <- fetch_all_data(resource = resource)
+
+covid_data
+```
+
+If this was your first function, congratulations!
