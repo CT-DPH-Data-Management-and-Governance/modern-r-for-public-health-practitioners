@@ -1,0 +1,21 @@
+---
+title: Reproducible Workflows
+---
+
+## Reproducibility is a Spectrum
+
+Time and effort matter - often it's best to start with what's good enough
+especially when velocity matters more than perfect as is often the 
+case in public health emergencies.
+
+Do what you can - and in the downtime, hone your skills and build
+the tools you would've like to have had if you can.
+
+
+
+## `renv`
+
+
+## git
+
+## packages 

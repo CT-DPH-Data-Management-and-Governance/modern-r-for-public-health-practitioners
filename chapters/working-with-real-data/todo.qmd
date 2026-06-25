@@ -14,3 +14,10 @@ combining files
 merging datasets
 SQL operations
 creating functions
+
+
+
+
+you know what -  just keep one index per chap and usse liberal use of headers
+and then have like a project.qmd and perhaps a data folder and thats it. keep
+it consistant
