@@ -229,17 +229,19 @@ resps <-
 
 # resps contains a list of 5 responses
 # we want to take each response and do what we did above to all of them
-# we will use an anonymous function otherwise known as lambda functions in 
+# we will use an anonymous function otherwise known as lambda functions in
 # other programming languages
 
-data <- 
-    resps |> 
-    resps_data(
-        \(resp) # declare the name of each item in our resps list
-            resp |> # for each response in our responses
-            resp_body_json() |> # convert the json to a list
-            bind_rows() # bind these into a dataframe
-    )
+data <-
+  resps |>
+  resps_data(
+    \(resp) {
+      # declare the name of each item in our resps list
+      resp |> # for each response in our responses
+        resp_body_json() |> # convert the json to a list
+        bind_rows() # bind these into a dataframe
+    }
+  )
 
 data
 ```
@@ -254,7 +256,7 @@ we do not know that, and often that is the case.
 ```{r}
 
 # bump this up to 10k rows per request and 10k offset each times
-number_of_rows = 10000
+number_of_rows <- 10000
 
 # first request grabs the first 10k
 req <-
@@ -275,14 +277,15 @@ resps <-
     )
   )
 
-data <- 
-    resps |> 
-    resps_data(
-        \(resp) 
-            resp |> 
-            resp_body_json() |> 
-            bind_rows()
-    )
+data <-
+  resps |>
+  resps_data(
+    \(resp) {
+      resp |>
+        resp_body_json() |>
+        bind_rows()
+    }
+  )
 
 nrow(data) == 102245
 ```
@@ -335,53 +338,55 @@ probably a good target for input from users.
 ```{r}
 
 # our function will be called fetch all data
-fetch_all_data <- 
-    function(resource, rows=10000) {
+fetch_all_data <-
+  function(resource, rows = 10000) {
     # Fetch all data from the provided resource id for the CT Open Data Portal
-    # 
+    #
     # resource: string - Required portal "four by four" in the format 'xxxx-xxxx'
     # rows: numeric - Number of rows of data to fetch one response at a time.
     #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.
     # Returns: A tibble
 
     # handle the resource from the user
-    
+
     base <- "https://data.ct.gov/resource"
 
     # create the first request
-    req <- 
-        request(base) |> 
-        req_url_path_append(resource) |> #appened the user provided 4x4 to the base url
-        req_url_query(
-            `$limit` = rows, # use the default rows=10000 or what ever the user provided
-            `$offset` = 0 # start with the first row
-        )
+    req <-
+      request(base) |>
+      req_url_path_append(resource) |> #appened the user provided 4x4 to the base url
+      req_url_query(
+        `$limit` = rows, # use the default rows=10000 or what ever the user provided
+        `$offset` = 0 # start with the first row
+      )
 
     # perform the request and then with each request increment the offset by `rows`
     resps <-
-        req_perform_iterative(
-            req,
-            next_req = iterate_with_offset(
-                param_name = "$offset",
-                start = 0,
-                offset = rows # use the default rows=10000 or what ever the user provided
-            )
+      req_perform_iterative(
+        req,
+        progress = FALSE, # the progress bar is super cool, but doesn't play nicely with the website, feel free to leave it on!
+        next_req = iterate_with_offset(
+          param_name = "$offset",
+          start = 0,
+          offset = rows # use the default rows=10000 or what ever the user provided
         )
+      )
 
     # convert the response objects from the API to a tibble of data
-    # for each response from the API grab the json body, convert to an R list 
+    # for each response from the API grab the json body, convert to an R list
     # and then squash all that into a singular tibble
-    data <- 
-        resps |> 
-        resps_data(
-            \(resp) 
-                resp |> 
-                resp_body_json() |> 
-                bind_rows()
-        )
+    data <-
+      resps |>
+      resps_data(
+        \(resp) {
+          resp |>
+            resp_body_json() |>
+            bind_rows()
+        }
+      )
 
     return(data)
-    }
+  }
 ```
 
 
@@ -390,10 +395,20 @@ We wrote our function, now let us take it for a spin. Our resource ID was
 
 
 ```{r}
-resource<- "28fr-iqnx"
+resource <- "28fr-iqnx"
 covid_data <- fetch_all_data(resource = resource)
 
 covid_data
 ```
 
-If this was your first function, congratulations!
+If this was your first function, congratulations! 
+
+
+::: {.callout-tip}
+
+From here users can go in many different directions. 
+Some tips to consider:
+    - It would be a good idea to check the user input to make sure it is valid
+    - Handling errors gracefully would be a good next stop - remember the issue
+    may not be on the user's end, the portal could be having issues etc...
+:::
