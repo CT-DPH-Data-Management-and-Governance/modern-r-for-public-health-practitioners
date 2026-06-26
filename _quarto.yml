@@ -32,7 +32,6 @@ book:
     - part: "Introduction and Process"
       chapters:
         - chapters/00-orientation/index.qmd
-        - chapters/00-orientation/project.qmd
     - part: "Working with real data"
       chapters:
         - chapters/01-working-with-real-data/index.qmd

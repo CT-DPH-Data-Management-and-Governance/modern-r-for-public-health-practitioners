@@ -52,17 +52,20 @@ TODO: flesh
 #| label: install-packages
 #| eval: false 
 
-# pulls the code down from the CRAN for folks to use and installs on 
+# pulls the code down from the CRAN for folks to use and installs on
 # their computer
 install.packages(
-    "dplyr",  # for manipulating data
-    "readr", # for reading data files from a users' computers
-    "fs" # for working with files on users' file systems
-    )
+  "dplyr", # for manipulating data
+  "readr", # for reading common data files from a users' computers
+  "fs", # for working with files on users' file systems
+  "readxl", # for reading data from .xlsx files
+  "writexl", # for writing data to .xlsx files
+)
 ```
 
+## Reading Data Files
 
-## Reading our Comma Delimited File (.csv)
+### Reading our Comma Delimited File (.csv)
 
 We are going to do a few things here:
 
@@ -104,3 +107,85 @@ head(covid_data)
 glimpse(covid_data)
 ```
 
+
+### Reading .xlsx files
+
+
+We are going to use a new package `readxl` to read another
+common data file type: '.xlsx' excel files. We will do
+something similar to before but we will pick the excel file path.
+
+```{r}
+# our libraries above are still at play - no need to call again
+
+library(readxl)
+
+xlsx_path <- path("data/covid-2022.xlsx")
+covid_data <- read_excel(xlsx_path)
+
+covid_data
+```
+
+## Writing to files
+
+### Writing to .csv
+
+With our `covid_data` still in memory we are going to write it back
+to our computer as a file.
+
+It is easy to write .csv's user `readr`, .xlsx requires another package
+`writexl`
+
+```{r}
+
+library(writexl)
+
+# csv
+new_csv_path <- path("data/my-new-file.csv")
+
+write_csv(
+  covid_data,
+  file = new_csv_path
+)
+
+
+# xlsx
+new_xlsx_path <- path("data/my-new-file.xlsx")
+
+write_xlsx(
+  covid_data,
+  path = new_xlsx_path
+)
+```
+
+Now we are going to use `fs` to check the contents of our data folder
+and then clean up after ourselves.
+
+```{r}
+
+# check the data/ folder
+dir_ls(
+  path = path("data/")
+)
+```
+
+
+The new files are there, but we already have that data.  We are going
+to select *only* the file paths for our new files using `fs` and
+then delete them from our space.
+
+
+```{r}
+
+files <-
+  dir_ls(
+    path = path("data/"),
+    glob = "*my-new-file*" # use glob to search for text patterns
+  )
+
+file_exists(files)
+
+file_delete(files)
+
+file_exists(files)
+```

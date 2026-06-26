@@ -67,3 +67,28 @@ Work through modules in order. Each one has:
 
 ## Project Inroduction
 
+
+
+### project setup
+
+Setting up your project....
+
+
+```{r}
+#| label: setup-fake-proj
+
+proj_path <- fs::path_wd('modern-r-proj')
+
+# create the folders
+fs::path(proj_path) |>
+  fs::dir_create()
+
+fs::path(proj_path, "data") |>
+  fs::dir_create()
+
+# create the files
+fs::file_create(
+  fs::path(proj_path, "analysis.r")
+)
+fs::dir_tree(proj_path)
+```
