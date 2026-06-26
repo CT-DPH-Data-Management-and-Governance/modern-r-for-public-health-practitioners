@@ -1,0 +1,94 @@
+---
+title: Implementing APIs into our Analysis
+---
+
+
+```{r}
+
+# === setup ===
+library(dplyr)
+library(httr2)
+
+# === constants ===
+RESOURCE <- "28fr-iqnx"
+
+# === functions ===
+fetch_all_data <-
+  function(resource, rows = 10000) {
+    # Fetch all data from the provided resource id for the CT Open Data Portal
+    #
+    # resource: string - Required portal "four by four" in the format 'xxxx-xxxx'
+    # rows: numeric - Number of rows of data to fetch one response at a time.
+    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.
+    # Returns: A tibble
+
+    # handle the resource from the user
+
+    base <- "https://data.ct.gov/resource"
+
+    # create the first request
+    req <-
+      request(base) |>
+      req_url_path_append(resource) |> #appened the user provided 4x4 to the base url
+      req_url_query(
+        `$limit` = rows, # use the default rows=10000 or what ever the user provided
+        `$offset` = 0 # start with the first row
+      )
+
+    # perform the request and then with each request increment the offset by `rows`
+    resps <-
+      req_perform_iterative(
+        req,
+        progress = FALSE,
+        next_req = iterate_with_offset(
+          param_name = "$offset",
+          start = 0,
+          offset = rows # use the default rows=10000 or what ever the user provided
+        )
+      )
+
+    # convert the response objects from the API to a tibble of data
+    # for each response from the API grab the json body, convert to an R list
+    # and then squash all that into a singular tibble
+    data <-
+      resps |>
+      resps_data(
+        \(resp) {
+          resp |>
+            resp_body_json() |>
+            bind_rows()
+        }
+      )
+
+    return(data)
+  }
+
+# === main ===
+main <- function() {
+  # main entrypoint into our analysis
+
+  # data ingestion
+  data <- fetch_all_data(resource = RESOURCE)
+
+  # key measures
+  total_tests <-
+    data |>
+    reframe(
+      total_pandemic_tests = sum(
+        as.numeric(numberoftests),
+        na.rm = TRUE
+      )
+    ) |>
+    pull(total_pandemic_tests)
+
+  cat(
+    paste(
+      "The total number of pandemic tests in these data were:",
+      format(total_tests, big.mark = ',')
+    )
+  )
+}
+
+# === entrypoint ===
+main()
+```

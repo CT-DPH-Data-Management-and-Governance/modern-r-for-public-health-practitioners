@@ -37,6 +37,11 @@ book:
       chapters:
         - chapters/working-with-real-data/index.qmd
         - chapters/working-with-real-data/reading-comma-delimited-files.qmd
+        - chapters/apis-functions/index.qmd
+        - chapters\apis-functions\project.qmd
+    - part: "Security Basics"
+      chapters:
+        - chapters/secrets/index.qmd
     - part: "Further Reading"
       chapters:
         - chapters/further-reading/index.qmd
