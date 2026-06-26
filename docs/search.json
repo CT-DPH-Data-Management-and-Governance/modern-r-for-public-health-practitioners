@@ -55,7 +55,7 @@
     "href": "chapters/orientation/introduction.html",
     "title": "2  How to use this book",
     "section": "",
-    "text": "2.1 The big idea\nThis course is not about teaching you epidemiology. It’s about giving you the R fluency to apply what you already know.\nWe will dive straight into a data analysis project and with every chapter will we iteratively polish our analysis until at the very end we have something that could be confidently deployed in day to day use.",
+    "text": "2.1 The big idea\nThis course is not about teaching you epidemiology. It’s about giving you the R fluency to apply what you already know.\nWe will dive straight into a data analysis project and with every chapter will we iteratively polish our analysis until at the very end we have something that could be confidently deployed in day to day use.\nTo get the most out of the lessons users should code along with the examples.",
     "crumbs": [
       "Introduction and Process",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>How to use this book</span>"
@@ -169,6 +169,127 @@
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reading Comma Delimited Files</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apis-functions/index.html",
+    "href": "chapters/apis-functions/index.html",
+    "title": "5  Working with APIs and Functions",
+    "section": "",
+    "text": "5.1 What is an API!?\nTo put it simply, An API1 or application programming interface can be thought of in part as another tool in the user’s tool belt to programmatically interact and often extract data without having to manually download data. No one needs to lift their mouse and search through a webpage and click download. This is a simple, yet powerful concept that extend to many areas of data work and beyond. I encourage users to read up on and develop their API skills beyond what is presented in our coursework.",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apis-functions/index.html#working-with-httr2",
+    "href": "chapters/apis-functions/index.html#working-with-httr2",
+    "title": "5  Working with APIs and Functions",
+    "section": "5.2 Working with httr2",
+    "text": "5.2 Working with httr2\nWe will be working with httr2 as our package of choice for API work. Often, specific APIs will have their own packages for working with them, it is often better to use those, but we cannot cover them all, and not every API has its own package. httr2 will always be here for us, and if users can understand httr2 then picking up the other more specific packages will become even easier.\nRemember our Covid-19 pandemic dataset? Before we would navigate to that website and download the datafile, or perhaps rely on the snippet of data provided in this course. No more - we are far too busy for that kind of work. From here on out we will be using the API, and in the future when users encounter data they want to incorporate into their analyses - it is almost always better to use the API.\nInstall httr2 like we would any other package.\n\ninstall.packages('httr2')\n\nNext we’ll attach the httr2 and dplyr packages to our session.\n\nlibrary(dplyr) |&gt; suppressPackageStartupMessages() # this silences dplyr messages when loading the package\nlibrary(httr2)\n\n\n5.2.1 httr2 requests and responses\nRecall our pandemic data’s landing page - notice what pops up when you click the ‘Export’ button in the top right of the webpage. The popup has ‘Download file’ defaulting to ‘Export format’ of csv. However, right next to it is ‘API endpoint’ - click that and notice the ‘Data format’ switches to ‘JSON’. Below that you may notice that there is a ‘Version’ toggle for either ‘SODA3’ or ‘SODA2’. For now, select ‘SODA2’ and copy the url provided, it should look like this: https://data.ct.gov/resource/28fr-iqnx.json now that we have our url or endpoint as they are often called let’s hop into the code.\n\n# save our url into an object so we don't have to type it out everywhere\nendpoint &lt;- \"https://data.ct.gov/resource/28fr-iqnx.json\"\n\n# We build our data request up piece by piece\n\nmy_request &lt;- request(endpoint) # base of the request\n\n# Get a our response from the Open Data Portal API\n\nodp_response &lt;-\n  my_request |&gt;\n  req_perform() # perform the request, and get a response base\n\nodp_response\n\n&lt;httr2_response&gt;\nGET https://data.ct.gov/resource/28fr-iqnx.json\nStatus: 200 OK\nContent-Type: application/json\nBody: In memory (412447 bytes)\n\n\n\n\n5.2.2 Extracting data from responses\nWe have a response - now where is our data? We need to pull it out of the body of the response and then convert it into an R dataframe.\n\nmy_odp_data &lt;-\n  odp_response |&gt;\n  resp_body_json() |&gt; # extract the data, it's returned as an R list\n  bind_rows() # for this endpoint we can easily convert to a dataframe\n\nmy_odp_data\n\n# A tibble: 1,000 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 990 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nLovely - but how come there are only 1000 rows? That leads us to our next wrinkle when working with APIs. This one is public, so just about anyone can hammer on this API at anytime, and some of data can be quite large. In order to prevent users from accidentally running a massive query for data they may not even need (and to prevent misuse from unscrupulous types) APIs will often only send a small chunk of the data and then offer up ways to retrieve the next chunk, and then the next chunk, and so on and so forth. This can be accomplished in a few different ways, but for this API they use pages with limits and offsets.\n\n\n\n\n\n\nNote\n\n\n\nUsers working with different APIs should read that API’s documentation to see how that specific API handles pagination/iteration through responses.",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apis-functions/index.html#extracting-all-data",
+    "href": "chapters/apis-functions/index.html#extracting-all-data",
+    "title": "5  Working with APIs and Functions",
+    "section": "5.3 Extracting all data",
+    "text": "5.3 Extracting all data\nWe’re going to have to do a little leg work here to get all the data, and then I am going to show you how you can package this all up so you can reuse it over and over again.\nFirst, users need to understand what the limit and offset are and how they can leverage those to get the data they expect.\n\nlimit: The total number of rows of data brought back in the request.\n\nThe default for this API and this endpoint is 1000. Some datasets might be small like 5000 rows. You can just bump this number up to 5000 and pull it all in one go.\n\noffset: The starting point row number for the query.\n\nThe default for this API is 0, because it starts at the first row.\n\n\nThese two parameters can be used in conjunction to, for example, grab the first 1000 rows of a dataset, and then grab the next 1000 and so on and so forth until all data is had.\n\n5.3.1 Modifying the limit and offset\nSo modifying the limit and offset is all well in good, but how do we actually go about changing those values? Remember our endpoint url? Thankfully these are parameters that can be tacked on to the end of the url.\nIf for whatever reason we wanted the 10th row, and only the 10th row of our dataset we can modify our url to look like this:\nhttps://data.ct.gov/resource/28fr-iqnx.json?$limit=1&$offset=9\nNotice that the parameters come at the end of the original url after a ?. Users then append $limit= and & and $offset= with the desired values. Feel free to try this in your web browser - most modern browsers will display the data from the response.\n\n\n\n\n\n\nNote\n\n\n\nNote that items/data are zero-indexed, meaning the first item the data is ‘row’ 0. To grab the 10th item we skip the first 9 items.\n\n\nDo not take my word for it. Try this out: click on https://data.ct.gov/resource/28fr-iqnx.json?$limit=10&$offset=0 and make note of the tenth item.\nIt should look something like this:\n{\n    \"lastupdatedate\":\"2022-06-24T00:00:00.000\",\n    \"town_no\":\"10\",\"town\":\"Bethlehem\",\n    \"towntotalcases\":\"620\",\n    \"townconfirmedcases\":\"529\",\n    \"townprobablecases\":\"91\",\n    \"towncaserate\":\"18225\",\n    \"towntotaldeaths\":\"3\",\n    \"townconfirmeddeaths\":\"2\",\n    \"townprobabledeaths\":\"1\",\n    \"peopletested\":\"2781\",\n    \"ratetested100k\":\"81746\",\n    \"numberoftests\":\"11841\",\n    \"numberofpositives\":\"749\",\n    \"numberofnegatives\":\"11070\",\n    \"numberofindeterminates\":\"22\"\n}\nDoes that match our original single item we had before?\n\n\n5.3.2 Using httr2\nNo one wants to modify urls by hand, and we’re still clicking through everything, time to use httr2 to do the heavy lifting.\n\n# We're going to grab first 5000 rows, 1000 rows at a time.\n# so we will query 1000 rows, 5 times\n\nreq &lt;-\n  request(endpoint) |&gt;\n  # don't forget the $ as part of the parameter name for this api\n  # backticks are required for nonstandard r names\n  req_url_query(\n    `$limit` = 1000,\n    `$offset` = 0\n  )\n\n\nresps &lt;-\n  req_perform_iterative(\n    req,\n    next_req = iterate_with_offset(\n      param_name = \"$offset\",\n      start = 0,\n      offset = 1000\n    ),\n    max_reqs = 5\n  )\n\n# resps contains a list of 5 responses\n# we want to take each response and do what we did above to all of them\n# we will use an anonymous function otherwise known as lambda functions in\n# other programming languages\n\ndata &lt;-\n  resps |&gt;\n  resps_data(\n    \\(resp) {\n      # declare the name of each item in our resps list\n      resp |&gt; # for each response in our responses\n        resp_body_json() |&gt; # convert the json to a list\n        bind_rows() # bind these into a dataframe\n    }\n  )\n\ndata\n\n# A tibble: 5,000 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 4,990 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\n\n\n5.3.3 All the data everywhere, all at once\nWait - weren’t we promised all the data!? Fair point, how do we grab that data if we don’t know how many rows there are? At time of writing there are 102245 rows in this dataset, but let’s pretend we do not know that, and often that is the case.\n\n# bump this up to 10k rows per request and 10k offset each times\nnumber_of_rows &lt;- 10000\n\n# first request grabs the first 10k\nreq &lt;-\n  request(endpoint) |&gt;\n  req_url_query(\n    `$limit` = number_of_rows,\n    `$offset` = 0\n  )\n\n# drop the max_reqs argument\nresps &lt;-\n  req_perform_iterative(\n    req,\n    progress = FALSE, # the progress bar is super cool, but doesn't play nicely with the website, feel free to leave it on!\n    next_req = iterate_with_offset(\n      param_name = \"$offset\",\n      start = 0,\n      offset = number_of_rows\n    )\n  )\n\ndata &lt;-\n  resps |&gt;\n  resps_data(\n    \\(resp) {\n      resp |&gt;\n        resp_body_json() |&gt;\n        bind_rows()\n    }\n  )\n\nnrow(data) == 102245\n\n[1] TRUE\n\n\nLook at that! We have our 102245 rows.\n\n\n\n\n\n\nWarning\n\n\n\nStart small when working with a new endpoint\nUsers will often want all the data, but they will often not know how many rows there are. Use caution when grabbing everything, there may be more data than can be handled at once.",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apis-functions/index.html#functions-crash-course",
+    "href": "chapters/apis-functions/index.html#functions-crash-course",
+    "title": "5  Working with APIs and Functions",
+    "section": "5.4 Functions crash course",
+    "text": "5.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 7.2 for those details if you wish skip ahead now.",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apis-functions/index.html#footnotes",
+    "href": "chapters/apis-functions/index.html#footnotes",
+    "title": "5  Working with APIs and Functions",
+    "section": "",
+    "text": "IBM’s definition↩︎",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/apis-functions/project.html",
+    "href": "chapters/apis-functions/project.html",
+    "title": "Implementing APIs into our Analysis",
+    "section": "",
+    "text": "# === setup ===\nlibrary(dplyr)\nlibrary(httr2)\n\n# === constants ===\nRESOURCE &lt;- \"28fr-iqnx\"\n\n# === functions ===\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\n# === main ===\nmain &lt;- function() {\n  # main entrypoint into our analysis\n\n  # data ingestion\n  data &lt;- fetch_all_data(resource = RESOURCE)\n\n  # key measures\n  total_tests &lt;-\n    data |&gt;\n    reframe(\n      total_pandemic_tests = sum(\n        as.numeric(numberoftests),\n        na.rm = TRUE\n      )\n    ) |&gt;\n    pull(total_pandemic_tests)\n\n  cat(\n    paste(\n      \"The total number of pandemic tests in these data were:\",\n      format(total_tests, big.mark = ',')\n    )\n  )\n}\n\n# === entrypoint ===\nmain()\n\nThe total number of pandemic tests in these data were: 4,502,905,950",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Implementing APIs into our Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/secrets/index.html",
+    "href": "chapters/secrets/index.html",
+    "title": "7  Managing Secrets",
+    "section": "",
+    "text": "7.1 What are Secrets\nSecrets are…",
+    "crumbs": [
+      "Security Basics",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Managing Secrets</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/secrets/index.html#sec-secrets",
+    "href": "chapters/secrets/index.html#sec-secrets",
+    "title": "7  Managing Secrets",
+    "section": "7.2 Keeping secrets secretly",
+    "text": "7.2 Keeping secrets secretly\nSecrets are…",
+    "crumbs": [
+      "Security Basics",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Managing Secrets</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/index.html",
+    "href": "chapters/further-reading/index.html",
+    "title": "8  Resources",
+    "section": "",
+    "text": "8.1 Recommended Books\ntesting123",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/index.html#recommended-books",
+    "href": "chapters/further-reading/index.html#recommended-books",
+    "title": "8  Resources",
+    "section": "",
+    "text": "R for Data Science 2nd Edition\n\nOne of the authors, Hadley Wickham, is the creator of the tidyverse and this is a wonderful resource for learning analytics in R. Don’t let the Data Science in the title intimidate, there is rich info in this for R users of all skill levels.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/index.html#recommended-websites",
+    "href": "chapters/further-reading/index.html#recommended-websites",
+    "title": "8  Resources",
+    "section": "8.2 Recommended Websites",
+    "text": "8.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Resources</span>"
     ]
   }
 ]
