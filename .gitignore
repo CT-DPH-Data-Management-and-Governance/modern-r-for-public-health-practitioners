@@ -51,3 +51,7 @@ rsconnect/
 
 # quarto book
 _book/
+
+
+# env vars
+.env
