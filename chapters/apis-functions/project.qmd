@@ -1,12 +1,11 @@
 ---
-title: Revisting our Analysis
+title: Implementing APIs into our Analysis
 ---
 
 
 ```{r}
 
 # === setup ===
-
 library(dplyr)
 library(httr2)
 
@@ -14,7 +13,6 @@ library(httr2)
 RESOURCE <- "28fr-iqnx"
 
 # === functions ===
-
 fetch_all_data <-
   function(resource, rows = 10000) {
     # Fetch all data from the provided resource id for the CT Open Data Portal
@@ -66,7 +64,6 @@ fetch_all_data <-
   }
 
 # === main ===
-
 main <- function() {
   # main entrypoint into our analysis
 
