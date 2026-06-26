@@ -27,16 +27,15 @@ book:
 
 
   chapters:
-    - index.qmd
-    - preface.qmd
+    - index.qmd 
+    - chapters/00-orientation/preface.qmd
     - part: "Introduction and Process"
       chapters:
-        - chapters/orientation/index.qmd
-        - chapters/orientation/introduction.qmd
+        - chapters/00-orientation/index.qmd
+        - chapters/00-orientation/project.qmd
     - part: "Working with real data"
       chapters:
-        - chapters/working-with-real-data/index.qmd
-        - chapters/working-with-real-data/reading-comma-delimited-files.qmd
+        - chapters/01-working-with-real-data/index.qmd
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
     - part: "Security Basics"

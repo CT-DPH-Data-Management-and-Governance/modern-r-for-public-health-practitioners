@@ -60,3 +60,47 @@ install.packages(
     "fs" # for working with files on users' file systems
     )
 ```
+
+
+## Reading our Comma Delimited File (.csv)
+
+We are going to do a few things here:
+
+1. 'Invoke' the packages we will be using so they are availabe to us.
+1. Create and capture the path to our data file and save inside of an object
+`csv_path`.
+1. Read the data into our session from the csv and save inside of an object `covid_data`.
+
+```{r}
+#| label: setup-libraries
+
+# Users can have all sorts of packages on their computer
+# but will only need a limited subset of them at any one time
+# add these packages to your session with `library()` function.
+
+library(dplyr)
+library(readr)
+library(fs)
+
+# we have a file - how do we read it in?
+# we use fs's path() function to create a path
+# we user readr's read_csv() and point it to  our path
+
+csv_path <- path("data/covid-2022.csv")
+
+covid_data <- read_csv(csv_path)
+```
+
+We have our data saved into our session, now what?
+Let's take a look at it!
+
+```{r}
+# taking a look at the top few rows
+head(covid_data)
+```
+
+```{r}
+# glimpse from dplyr
+glimpse(covid_data)
+```
+

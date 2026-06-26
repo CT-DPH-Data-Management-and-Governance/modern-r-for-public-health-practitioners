@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by buidling a report that grows with every chapter.">
 
-<title>4&nbsp; Reading Comma Delimited Files – Modern R for Public Health Practitioners</title>
+<title>2&nbsp; Project Intro – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -69,8 +34,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/apis-functions/index.html" rel="next">
-<link href="../../chapters/working-with-real-data/index.html" rel="prev">
+<link href="../../chapters/01-working-with-real-data/index.html" rel="next">
+<link href="../../chapters/00-orientation/index.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -80,7 +45,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-a006f442bb2576b0215d31d46213bbfe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-16d416cc1026f4d67c5752f2a15b15f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -121,7 +86,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/working-with-real-data/index.html">Working with real data</a></li><li class="breadcrumb-item"><a href="../../chapters/working-with-real-data/reading-comma-delimited-files.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading Comma Delimited Files</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/index.html">Introduction and Process</a></li><li class="breadcrumb-item"><a href="../../chapters/00-orientation/project.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Intro</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -157,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../preface.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -172,14 +137,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/orientation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Adopting an R Project Mindset</span></span></a>
+  <a href="../../chapters/00-orientation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/orientation/introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">How to use this book</span></span></a>
+  <a href="../../chapters/00-orientation/project.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Intro</span></span></a>
   </div>
 </li>
       </ul>
@@ -195,26 +160,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/working-with-real-data/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/01-working-with-real-data/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Ready for working with files</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/working-with-real-data/reading-comma-delimited-files.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading Comma Delimited Files</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
   </div>
 </li>
       </ul>
@@ -231,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
   </div>
 </li>
       </ul>
@@ -248,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
       </ul>
@@ -258,21 +217,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#reading-our-comma-delimited-file-.csv" id="toc-reading-our-comma-delimited-file-.csv" class="nav-link active" data-scroll-target="#reading-our-comma-delimited-file-.csv"><span class="header-section-number">4.1</span> Reading our Comma Delimited File (.csv)</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/working-with-real-data/reading-comma-delimited-files.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/working-with-real-data/index.html">Working with real data</a></li><li class="breadcrumb-item"><a href="../../chapters/working-with-real-data/reading-comma-delimited-files.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading Comma Delimited Files</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/index.html">Introduction and Process</a></li><li class="breadcrumb-item"><a href="../../chapters/00-orientation/project.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Intro</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading Comma Delimited Files</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Intro</span></h1>
 </div>
 
 
@@ -289,79 +242,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="reading-our-comma-delimited-file-.csv" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="reading-our-comma-delimited-file-.csv"><span class="header-section-number">4.1</span> Reading our Comma Delimited File (.csv)</h2>
-<p>We are going to do a few things here:</p>
-<ol type="1">
-<li>‘Invoke’ the packages we will be using so they are availabe to us.</li>
-<li>Create and capture the path to our data file and save inside of an object <code>csv_path</code>.</li>
-<li>Read the data into our session from the csv and save inside of an object <code>covid_data</code>.</li>
-</ol>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Users can have all sorts of packages on their computer</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but will only need a limited subset of them at any one time</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># add these packages to your session with `library()` function.</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># we have a file - how do we read it in?</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># we use fs's path() function to create a path</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># we user readr's read_csv() and point it to  our path</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>csv_path <span class="ot">&lt;-</span> <span class="fu">path</span>(<span class="st">"data/covid-2022.csv"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(csv_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>We have our data saved into our session, now what? Let’s take a look at it!</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># taking a look at the top few rows</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 16
-  last_update_date town_number town   total_cases confirmed_cases probable_cases
-  &lt;date&gt;                 &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;
-1 2022-01-03                 1 Andov…         312             269             43
-2 2022-01-03                 2 Anson…        3103            2632            471
-3 2022-01-03                 3 Ashfo…         441             398             43
-4 2022-01-03                 4 Avon          1690            1584            106
-5 2022-01-03                 5 Barkh…         325             309             16
-6 2022-01-03                 6 Beaco…         888             790             98
-# ℹ 10 more variables: case_rate &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
-#   confirmed_deaths &lt;dbl&gt;, probable_deaths &lt;dbl&gt;, people_tested &lt;dbl&gt;,
-#   rate_tested_per_100k &lt;dbl&gt;, number_of_tests &lt;dbl&gt;,
-#   number_of_positives &lt;dbl&gt;, number_of_negatives &lt;dbl&gt;,
-#   number_of_indeterminates &lt;dbl&gt;</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glimpse from dplyr</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(covid_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 20,956
-Columns: 16
-$ last_update_date         &lt;date&gt; 2022-01-03, 2022-01-03, 2022-01-03, 2022-01-…
-$ town_number              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14…
-$ town                     &lt;chr&gt; "Andover", "Ansonia", "Ashford", "Avon", "Bar…
-$ total_cases              &lt;dbl&gt; 312, 3103, 441, 1690, 325, 888, 2580, 646, 27…
-$ confirmed_cases          &lt;dbl&gt; 269, 2632, 398, 1584, 309, 790, 2392, 584, 22…
-$ probable_cases           &lt;dbl&gt; 43, 471, 43, 106, 16, 98, 188, 62, 494, 71, 2…
-$ case_rate                &lt;dbl&gt; 9642, 16635, 10364, 9247, 9013, 14272, 12625,…
-$ total_deaths             &lt;dbl&gt; 4, 35, 5, 76, 7, 7, 44, 4, 63, 2, 124, 6, 7, …
-$ confirmed_deaths         &lt;dbl&gt; 3, 31, 4, 61, 6, 7, 38, 3, 49, 2, 104, 4, 7, …
-$ probable_deaths          &lt;dbl&gt; 1, 4, 1, 15, 1, 0, 6, 1, 14, 0, 20, 2, 0, 7, …
-$ people_tested            &lt;dbl&gt; 2243, 14847, 3105, 15488, 2487, 4580, 15122, …
-$ rate_tested_per_100k     &lt;dbl&gt; 69314, 79592, 72973, 84745, 68968, 73610, 739…
-$ number_of_tests          &lt;dbl&gt; 7638, 62140, 10619, 59793, 9080, 19193, 62374…
-$ number_of_positives      &lt;dbl&gt; 352, 3735, 510, 1959, 379, 1059, 3095, 779, 3…
-$ number_of_negatives      &lt;dbl&gt; 7281, 58269, 10099, 57770, 8689, 18094, 59221…
-$ number_of_indeterminates &lt;dbl&gt; 5, 136, 10, 64, 12, 40, 58, 20, 59, 16, 162, …</code></pre>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -766,13 +648,13 @@ $ number_of_indeterminates &lt;dbl&gt; 5, 136, 10, 64, 12, 40, 58, 20, 59, 16, 1
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/working-with-real-data/index.html" class="pagination-link" aria-label="Getting Ready for working with files">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Ready for working with files</span></span>
+      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/apis-functions/index.html" class="pagination-link" aria-label="Working with APIs and Functions">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/01-working-with-real-data/index.html" class="pagination-link" aria-label="Getting Ready for working with files">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Ready for working with files</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -784,7 +666,7 @@ $ number_of_indeterminates &lt;dbl&gt; 5, 136, 10, 64, 12, 40, 58, 20, 59, 16, 1
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/working-with-real-data/reading-comma-delimited-files.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/project.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This is a proof of concept.</p>
 </div>
