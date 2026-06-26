@@ -8,6 +8,7 @@ title: Implementing APIs into our Analysis
 # === setup ===
 library(dplyr)
 library(httr2)
+library(lubridate)
 
 # === constants ===
 RESOURCE <- "28fr-iqnx"
@@ -29,7 +30,7 @@ fetch_all_data <-
     # create the first request
     req <-
       request(base) |>
-      req_url_path_append(resource) |> #appened the user provided 4x4 to the base url
+      req_url_path_append(resource) |> #append the user provided 4x4 to the base url
       req_url_query(
         `$limit` = rows, # use the default rows=10000 or what ever the user provided
         `$offset` = 0 # start with the first row
@@ -73,6 +74,8 @@ main <- function() {
   # key measures
   total_tests <-
     data |>
+    mutate(date = ymd_hms(lastupdatedate)) |>
+    filter(date == max(date)) |>
     reframe(
       total_pandemic_tests = sum(
         as.numeric(numberoftests),
