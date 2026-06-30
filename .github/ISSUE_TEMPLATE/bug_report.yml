@@ -1,0 +1,52 @@
+name: Bug Report
+description: Broken code, render errors, or incorrect output
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for broken code chunks, render failures, or results that don't match what the book describes.
+
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter / section
+      placeholder: "e.g. Chapter 01, section 'Loading the data'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What went wrong
+      description: Paste the error message or describe unexpected output
+      placeholder: "Error in ... : could not find function ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What the book says should happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open chapter 01
+        2. Run code chunk on page X
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Output of `sessionInfo()` in R
+    validations:
+      required: false
