@@ -2,6 +2,13 @@
 title: "Loading Your First Dataset"
 ---
 
+```{r}
+#| label: chapter-root
+#| include: false
+library(here)
+.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+```
+
 Your workspace is set up and your raw data is sitting in `data/raw/`.
 Time to write your first R code.
 
@@ -16,7 +23,7 @@ repository.
 The family of packages we'll lean on most is called the **tidyverse** —
 a curated set of tools that share a common design and work well together.
 We'll introduce them one at a time. This chapter uses three of them plus
-two helpers for reading and writing files.
+a few helpers for reading, writing, and navigating files.
 
 ### Installing Packages
 
@@ -26,11 +33,10 @@ two helpers for reading and writing files.
 
 # Run this once to install the packages onto your computer.
 install.packages(c(
-  "dplyr",   # for manipulating data
-  "readr",   # for reading common data files
-  "fs",      # for working with files and paths
-  "readxl",  # for reading .xlsx files
-  "writexl"  # for writing .xlsx files
+  "dplyr", # for manipulating data
+  "readr", # for reading common data files
+  "fs", # for working with files and paths
+  "here" # for building paths that work everywhere
 ))
 ```
 
@@ -40,32 +46,52 @@ install.packages(c(
 
 We are going to do a few things here:
 
-1. 'Invoke' the packages we will be using so they are available to us.
-2. Create and capture the path to our data file and save it inside an object called `csv_path`.
-3. Read the data into our session from the csv and save it inside an object called `covid_data`.
+1. Load the packages we need into our session.
+2. Build a path to our data file and save it as `csv_path`.
+3. Read the data into our session and save it as `covid_data`.
 
 ```{r}
 #| label: setup-libraries
 
-# Users can have all sorts of packages on their computer
-# but will only need a limited subset of them at any one time.
-# Add these packages to your session with the `library()` function.
-
 library(dplyr)
 library(readr)
 library(fs)
+library(here)
+```
 
-# We have a file - how do we read it in?
-# Use fs's path() function to create a path,
-# then readr's read_csv() to load it.
+### Paths and `here()`
 
-csv_path <- path("data/ct-covid-by-town-2026-06-30.csv")
+Before reading the file, a word on paths — because this is where R trips
+people up early.
+
+When you run code interactively, R looks for files starting from your project
+root (wherever your `.Rproj` file lives). When Quarto *renders* a document,
+it shifts the working directory to wherever the `.qmd` file lives. These
+locations are often different, which is why a path that works in your console
+can fail during render, or vice versa.
+
+`here()` from the `here` package fixes this. It detects your project root
+and always builds paths from there, regardless of how or where the code runs.
+Use it instead of `path()` whenever you are building paths to data files.
+
+```{r}
+#| eval: false
+
+# here() takes folder names as separate arguments.
+# It joins them with the correct separator for your OS.
+csv_path <- here("data", "raw", "ct_covid_by_town_2026-06-30.csv")
 
 covid_data <- read_csv(csv_path)
 ```
 
-We have our data saved into our session, now what?
-Let's take a look at it!
+```{r}
+#| include: false
+
+csv_path <- fs::path(.chapter_data, "ct-covid-by-town-2026-06-30.csv")
+covid_data <- read_csv(csv_path)
+```
+
+We have our data saved into our session — now let's look at it.
 
 ```{r}
 # taking a look at the top few rows
@@ -78,81 +104,11 @@ glimpse(covid_data)
 ```
 
 
-### Reading .xlsx files
+::: {.callout-note}
+Working with Excel files (`.xlsx`) is covered in [Working with Excel Files](../further-reading/excel-files.qmd).
+:::
 
-Many files you'll encounter in public health come as Excel spreadsheets.
-We use `readxl` to read them the same way we read CSVs.
-
-```{r}
-#| eval: false
-
-# our libraries above are still at play — no need to call them again
-
-library(readxl)
-
-xlsx_path <- path("data/your-file.xlsx")
-covid_data <- read_excel(xlsx_path)
-
-covid_data
-```
-
-## Writing to files
-
-### Writing to .csv
-
-With our `covid_data` still in memory we are going to write it back
-to our computer as a file.
-
-Writing .csv files uses `readr`; writing .xlsx requires the `writexl` package.
-
-```{r}
-
-library(writexl)
-
-# csv
-new_csv_path <- path("data/my-new-file.csv")
-
-write_csv(
-  covid_data,
-  file = new_csv_path
-)
-
-
-# xlsx
-new_xlsx_path <- path("data/my-new-file.xlsx")
-
-write_xlsx(
-  covid_data,
-  path = new_xlsx_path
-)
-```
-
-Now we are going to use `fs` to check the contents of our data folder
-and then clean up after ourselves.
-
-```{r}
-
-# check the data/ folder
-dir_ls(
-  path = path("data/")
-)
-```
-
-The new files are there, but we already have that data. We are going
-to select *only* the file paths for our new files using `fs` and
-then delete them from our space.
-
-```{r}
-
-files <-
-  dir_ls(
-    path = path("data/"),
-    glob = "*my-new-file*" # use glob to search for text patterns
-  )
-
-file_exists(files)
-
-file_delete(files)
-
-file_exists(files)
-```
+::: {.callout-note}
+Writing data to files — CSV, parquet, and others — is covered in
+[Writing Data Files](../further-reading/writing-files.qmd).
+:::
