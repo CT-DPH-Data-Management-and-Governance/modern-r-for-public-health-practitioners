@@ -1,0 +1,177 @@
+---
+title: "A First Look at Hartford"
+---
+
+```{r}
+#| label: project-root
+#| include: false
+library(here)
+.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+```
+
+The scenario question from chapter 0: **Is it getting worse in Hartford?**
+
+The data is loaded. Now let's answer it.
+
+## Setup
+
+```{r}
+#| label: setup
+#| eval: false
+
+library(dplyr)
+library(readr)
+library(here)
+
+covid_data <- read_csv(here("data", "raw", "ct_covid_by_town_2026-06-30.csv"))
+```
+
+```{r}
+#| label: setup-exec
+#| include: false
+
+library(dplyr)
+library(readr)
+library(fs)
+library(here)
+
+covid_data <- read_csv(fs::path(
+  .chapter_data,
+  "ct-covid-by-town-2026-06-30.csv"
+))
+```
+
+## The pipe
+
+Before diving in, one piece of syntax you'll see throughout this book:
+
+```{r}
+#| eval: false
+
+# The pipe |> passes the result of one step into the next.
+# Read it as "and then."
+covid_data |>
+  filter(Town == "Hartford")
+
+# is the same as:
+filter(covid_data, Town == "Hartford")
+```
+
+Coming from SAS, think of it like chaining `DATA` steps and `PROC` steps
+without writing an intermediate dataset between each one.
+
+::: {.callout-tip}
+## Keyboard shortcuts
+
+| Shortcut | What it does |
+|---|---|
+| `Ctrl+Shift+M` | Insert the pipe `|>` |
+| `Ctrl+Enter` | Run the current line or selection |
+| `Ctrl+Shift+Enter` | Run the entire current chunk |
+
+Learn all three early — you will use them on every line you write.
+:::
+
+## Step 1 — Filter to Hartford
+
+`filter()` keeps only the rows that match a condition.
+
+```{r}
+hartford <-
+  covid_data |>
+  filter(Town == "Hartford")
+
+nrow(hartford)
+```
+
+## Step 2 — Select and rename columns
+
+`glimpse()` shows that some column names have spaces — a common headache
+with real-world data. `select()` lets us pick the columns we want and
+rename them at the same time.
+
+Column names with spaces need backticks when you reference them:
+
+```{r}
+hartford <-
+  hartford |>
+  select(
+    date = `Last update date`,
+    town = Town,
+    new_positives = `Number of positives`,
+    total_cases = `Total cases`,
+    total_deaths = `Total deaths`
+  )
+
+glimpse(hartford)
+```
+
+## Step 3 — Parse the date
+
+The date column came in as a character string. We need it as an actual
+date so we can sort and eventually plot it correctly.
+
+`mutate()` adds or modifies columns. `parse_date()` from `readr` converts
+a character string to a date given a format string.
+
+```{r}
+hartford <-
+  hartford |>
+  mutate(
+    date = parse_date(
+      date,
+      format = "%m/%d/%Y"
+    )
+  )
+
+glimpse(hartford)
+```
+
+## Step 4 — Sort by date
+
+`arrange()` sorts rows. The data comes in reverse-chronological order;
+let's flip it so the earliest dates come first.
+
+```{r}
+hartford <-
+  hartford |>
+  arrange(date)
+
+head(hartford)
+```
+
+## Putting it together
+
+Each step above modified `hartford` and saved it back. We can write that
+entire chain as one pipeline:
+
+```{r}
+#| eval: false
+
+hartford <-
+  covid_data |>
+  filter(Town == "Hartford") |>
+  select(
+    date = `Last update date`,
+    town = Town,
+    new_positives = `Number of positives`,
+    total_cases = `Total cases`,
+    total_deaths = `Total deaths`
+  ) |>
+  mutate(date = parse_date(date, format = "%m/%d/%Y")) |>
+  arrange(date)
+```
+
+## What does the data say?
+
+```{r}
+tail(hartford, 14)
+```
+
+Two weeks of Hartford data, with new daily positives and running totals.
+This is the foundation the briefing will be built on — clean, sorted,
+and scoped to the question.
+
+Note that `total_cases` is cumulative: it only goes up. `new_positives`
+is the count of new positive tests reported for that date — that is the
+number to watch when asking whether things are getting worse.

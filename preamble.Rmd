@@ -1,20 +1,20 @@
-```{r setup, echo=FALSE}
+```{r setup-themes, echo=FALSE}
 library(ggplot2)
 
 # color lists
 
-list_old_sha_colors <- 
+list_old_sha_colors <-
   dplyr::lst(
     lightblue = "#61B5CC",
     blue = "#3866A0",
-    darkblue ="#214066",
-    gray ="#7B8B98",
+    darkblue = "#214066",
+    gray = "#7B8B98",
     yellowgreen = "#B8C349",
     orange = "#E39B3B",
     purple = "#47205B"
   )
 
-list_ct_primary_colors <- 
+list_ct_primary_colors <-
   dplyr::lst(
     primary = "#3371E7",
     primary_shade1 = "#00214D",
@@ -23,19 +23,19 @@ list_ct_primary_colors <-
     primary_shade4 = "#C6D4FB"
   )
 
-list_ct_secondary_colors <- 
+list_ct_secondary_colors <-
   dplyr::lst(
     secondary = "#F27124",
     secondary_shade = "#FAAA19"
   )
 
-list_ct_tertiary_colors <- 
+list_ct_tertiary_colors <-
   dplyr::lst(
-   tertiary =  "#D8343E",
+    tertiary = "#D8343E",
     tertiary_shade = "#94343E"
   )
 
-list_color_hex_codes <- 
+list_color_hex_codes <-
   dplyr::lst(
     list_old_sha_colors,
     list_ct_primary_colors,
@@ -47,18 +47,18 @@ list_color_hex_codes <-
 
 # for vertical plots
 theme_ct_vertical <- function() {
-  ggplot2::theme_classic() + 
-  ggplot2::theme(
-    axis.line.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    axis.ticks.x = element_blank(),
-    axis.title = element_text(face = "bold", family = "Poppins")
-  )
+  ggplot2::theme_classic() +
+    ggplot2::theme(
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title = element_text(face = "bold", family = "Poppins")
+    )
 }
 
 # for sideways like horizontal plots
 theme_ct_horizontal <- function() {
-  ggplot2::theme_classic() + 
+  ggplot2::theme_classic() +
     ggplot2::theme(
       axis.line.x = element_blank(),
       axis.ticks.y = element_blank(),
@@ -74,7 +74,153 @@ theme_poppins_bold_all <- function() {
     text = element_text(family = "Poppins", face = "bold")
   )
 }
+```
 
 
+```{r setup-workspace, echo=FALSE}
+#' Create a Modern R Project Scaffold
+#'
+#' Builds a standard directory structure for a data analysis project,
+#' along with a starter README. Safe to re-run: existing directories/files
+#' are left untouched, and only missing pieces are created.
+#'
+#' @param base_path The root directory where the scaffold should be built.
+#'   Defaults to current working directory. Will be created if it doesn't
+#'   already exist.
+#' @param project_name Optional name to use in the README header. Defaults
+#'   to the basename of `base_path` (or of the current working directory
+#'   if `base_path = "."`).
+#'
+#' @return Invisibly, a named character vector of the full paths created
+#'   (directories and files).
+#'
+#' @examples
+#' \dontrun{
+#' create_project_scaffold("~/projects/ct-indicator-report")
+#' create_project_scaffold()  # scaffold the current working directory
+#' }
+#'
+#' @export
+create_project_scaffold <- function(base_path = ".", project_name = NULL) {
 
+  rlang::check_installed("fs", reason = "to create the project scaffold")
+  rlang::check_installed("cli", reason = "to print scaffold progress")
+
+  # --- Argument checks ------------------------------------------------------
+
+  if (!rlang::is_string(base_path)) {
+    cli::cli_abort(c(
+      "{.arg base_path} must be a single string.",
+      "x" = "You supplied {.obj_type_friendly {base_path}}."
+    ))
+  }
+
+  if (!is.null(project_name) && !rlang::is_string(project_name)) {
+    cli::cli_abort(c(
+      "{.arg project_name} must be a single string or {.code NULL}.",
+      "x" = "You supplied {.obj_type_friendly {project_name}}."
+    ))
+  }
+
+  # --- Resolve base_path ----------------------------------------------------
+
+  # fs::dir_create is recursive, so base_path itself doesn't need to exist yet
+  fs::dir_create(base_path)
+  base_path_abs <- fs::path_abs(base_path)
+
+  if (is.null(project_name)) {
+    project_name <- fs::path_file(base_path_abs)
+  }
+
+  cli::cli_h1("Creating project scaffold")
+  cli::cli_alert_info("Target directory: {.path {base_path_abs}}")
+
+  # --- Define the directory tree --------------------------------------------
+
+  project_dirs <- c(
+    "data/raw",        # Treat raw data as read-only
+    "data/processed",  # Cleaned, intermediate data ready for modeling/viz
+    "R",               # Custom R functions (modular code)
+    "scripts",         # Analysis scripts (e.g., 01_clean.R, 02_eda.R)
+    "outputs/figures", # Generated plots
+    "outputs/tables",  # Generated data summaries/CSVs
+    "docs"             # Quarto/RMarkdown reports and documentation
+  )
+
+  full_dirs <- fs::path(base_path_abs, project_dirs)
+
+  # --- Create directories idempotently ---------------------------------------
+  # fs::dir_create silently no-ops on existing directories, so this is
+  # already idempotent. We track which ones were newly made for reporting.
+
+  existed_before <- fs::dir_exists(full_dirs)
+  fs::dir_create(full_dirs)
+  newly_created_dirs <- full_dirs[!existed_before]
+
+  cli::cli_h2("Directories")
+  if (length(newly_created_dirs) > 0) {
+    cli::cli_bullets(c(
+      "v" = "Created {length(newly_created_dirs)} new director{?y/ies}:"
+    ))
+    cli::cli_ul(fs::path_rel(newly_created_dirs, start = base_path_abs))
+  }
+  if (any(existed_before)) {
+    cli::cli_alert_info(
+      "{sum(existed_before)} director{?y/ies} already existed and {?was/were} left as-is."
+    )
+  }
+
+  # --- Create starter README, but never overwrite an existing one -----------
+
+  readme_path <- fs::path(base_path_abs, "README.md")
+  created_files <- c()
+
+  cli::cli_h2("Files")
+
+  if (!fs::file_exists(readme_path)) {
+    readme_content <- c(
+      paste0("# ", project_name),
+      "",
+      "## Overview",
+      "",
+      "_Describe the purpose of this analysis project here._",
+      "",
+      "## Project structure",
+      "",
+      "```",
+      "data/raw/        # Original, untouched source data (read-only)",
+      "data/processed/  # Cleaned, analysis-ready data",
+      "R/                # Reusable functions, sourced by scripts",
+      "scripts/          # Numbered analysis scripts (01_clean.R, 02_eda.R, ...)",
+      "outputs/figures/  # Generated plots",
+      "outputs/tables/   # Generated summary tables / CSVs",
+      "docs/             # Quarto/RMarkdown reports",
+      "```",
+      "",
+      "## Usage",
+      "",
+      "_Document how to reproduce the analysis here, e.g. the order in which",
+      "scripts in `scripts/` should be run._",
+      "",
+      paste0("Scaffold generated on ", Sys.Date(), ".")
+    )
+    fs::file_create(readme_path)
+    writeLines(readme_content, readme_path)
+    created_files <- c(created_files, readme_path)
+    cli::cli_alert_success("Created {.file README.md}")
+  } else {
+    cli::cli_alert_info("{.file README.md} already exists; left untouched")
+  }
+
+  # --- Final summary ----------------------------------------------------------
+
+  cli::cli_rule()
+  if (length(newly_created_dirs) == 0 && length(created_files) == 0) {
+    cli::cli_alert_info("Nothing to do — scaffold was already complete.")
+  } else {
+    cli::cli_alert_success("Scaffold ready at {.path {base_path_abs}}")
+  }
+
+  invisible(c(full_dirs, readme_path))
+}
 ```

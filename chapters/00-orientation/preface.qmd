@@ -1,0 +1,38 @@
+# Preface {.unnumbered}
+
+This book is for public health practitioners who already know how to do
+the work — the epidemiology, the surveillance, the briefings — but are
+being asked to do it in R. Maybe your agency is moving off SAS. Maybe a
+collaborator handed you a `.R` file and you want to understand it. Maybe
+you've opened RStudio, stared at a blank script, and closed it again.
+
+This book is not a general introduction to R. It is not a statistics
+textbook. It will not teach you epidemiology. It assumes you already
+have domain knowledge and gives you the R fluency to apply it.
+
+This book has one job: get a practicing epidemiologist writing, 
+running, and sharing R-based analyses as fast as possible.
+
+## How this book works
+
+Every chapter builds on one analysis: a COVID-19 briefing for a state
+health commissioner. You start with a raw CSV and a blank folder. By the
+end, you have a self-updating report that pulls live data and publishes
+itself. Each chapter introduces exactly one new skill and shows you why
+it earns its place in the workflow — not as an exercise, but as a real
+improvement to something you built yourself in the chapter before.
+
+Work through the chapters in order. They are designed to be read with
+R open in front of you, running the code as you go.
+
+
+## What you need to bring
+
+- R and Quarto installed on your machine
+- RStudio or Positron as your editor
+- A folder where you keep projects
+- Epidemiological concepts you already know — rates, counts, surveillance cadence
+
+You do not need prior programming experience. You do not need to clone
+this repository. Everything you need to run is in the book itself.
+
