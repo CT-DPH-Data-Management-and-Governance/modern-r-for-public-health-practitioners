@@ -2,27 +2,43 @@
 title: Modern R and Public Health
 ---
 
-This course is not about teaching you epidemiology. It's about giving you
-the R fluency to apply what you already know. 
+Public health work is converging on R. This chapter gets your workspace ready so chapter 1 can start with code.
 
-## The big idea
+## Why R
 
-### Why R
-...
+If your agency runs SAS, you already know the core loop: read data in, reshape it, summarize it, output it. R does the same thing. The difference is everything around that loop.
 
+**Free.** No license. No seat-count negotiation with procurement. No renewal cycle. R runs on a laptop, a server, or a cloud VM — same tool, same code.
 
-### The Setup
+**Analysis lives in a script.** Every step is recorded. Six months later you run the same file and get the same answer. When the Commissioner asks "where did this number come from," you show the code.
 
-We will dive straight into a data analysis project and with every chapter 
-will we iteratively polish our analysis until at the very end we have 
-something that could be confidently deployed in day to day use. 
+**Reports update themselves.** Quarto — the tool this book is built with — embeds code directly in a document. Change a number upstream and the table in the PDF changes with it. No more copy-pasting from Excel into Word.
 
-To get the most out of the lessons users should code along with the examples.
+**The public health ecosystem is here.** CDC, state health departments, and academic epi groups publish R code. Reading it — and writing it — is a basic competency the field is converging on.
 
+**The tidyverse maps to what you already know.** SAS DATA steps and PROC steps have direct equivalents:
+
+| SAS | R (tidyverse) |
+|-----|---------------|
+| `DATA step` with `WHERE` | `filter()` |
+| New variable in `DATA step` | `mutate()` |
+| `PROC MEANS` / `PROC FREQ` | `summarise()` + `count()` |
+| `BY` statement | `group_by()` |
+| `PROC SORT` | `arrange()` |
+
+Syntax changes. Mental model mostly doesn't.
+
+## How this works
+
+Every chapter builds on one analysis: a COVID-19 briefing for a Connecticut health commissioner. You start with a raw CSV and an empty folder. Chapter by chapter the analysis gains new capabilities — until at the end you have a self-updating report that anyone on your team could run.
+
+Each chapter introduces exactly one new skill. The skill earns its place by solving a real problem in the analysis — not as an exercise, but as a genuine improvement to what you built before.
+
+Code along. Every code block in this book is meant to be run, not just read. Open R before you start each chapter and keep it open.
+
+One thing to know about R before you start: unlike SAS, R is interactive. When you run code, results appear immediately in your session. Objects — datasets, plots, numbers — live in memory and you can inspect them at any time. Think of it less like submitting a batch job and more like a conversation with your data.
 
 ## The arc
-
-WIP - PLACEHOLDER
 
 | Chapter | What you build | The new skill |
 |--------|---------------|---------------|
@@ -39,56 +55,122 @@ WIP - PLACEHOLDER
 
 ## How to use this site
 
-Work through modules in order. Each one has:
+Work through chapters in order. Each one has:
 
-- **Overview** — what you'll build, why it matters, and the SAS concepts it remaps
 - **Lesson** — a runnable, narrated `.qmd` file you execute yourself
 - **Exercises** — 3–5 scaffolded problems with explicit "done when" checks
 - **Solutions** — available after you've tried on your own
 
-
 ## Before you start
 
 ::: {.callout-tip}
-## Start here: 
-{{< lipsum 1 >}}
+## Install these before chapter 1
 
+- **R** (≥ 4.3): [r-project.org](https://www.r-project.org)
+- **RStudio** or **Positron**: either works; Positron is newer and supports R and Python side-by-side
+- **Quarto**: [quarto.org](https://quarto.org/docs/get-started/)
+
+If you run into install problems, the Posit community forums are the fastest place to get unstuck.
 :::
 
 ## What you'll need
 
-{{< lipsum 1 >}}
+- A computer where you can install software
+- R, Quarto, and an IDE (see above)
+- An internet connection to download the dataset
+- No prior programming experience required
 
+## The scenario
 
-## Adopting the Project Mindset
+It's spring of 2020 and you are working as an analyst for
+the Connecticut Department of Public Health's Pandemic Incident Command.
+You are tasked with preparing a briefing for the Commissioner so that they
+can in turn brief the governor on the current situation.
 
-### The Mental Model
+The first standing question is this: **Is it getting worse in Hartford, or not?**
 
+Today we are going to answer that question, click by click. Slowly we will
+build up our R knowledge and reduce friction until we have an analysis
+we can share with others.
 
-## Project Inroduction
+### Folder Structure
 
+It is good practice to stick with a common folder layout for each of your
+projects. Different programming languages have different conventions but
+many layouts are very similar. This reduces the cognitive load for yourself
+and others when navigating larger projects. There are tools for creating,
+saving, and sharing project templates, but for now we will do this by hand.
 
+1. Create a new folder called `covid-briefing` wherever you keep projects.
+2. Inside it, create these folders one at a time:
+   - `data`
+   - `R`
+   - `scripts`
+   - `outputs`
+   - `docs`
+3. Inside `data`, create two more folders: `raw` and `processed`.
+4. Inside `outputs`, create two more folders: `figures` and `tables`.
 
-### project setup
+At the end you should have a folder structure that looks like this:
 
-Setting up your project....
-
-
-```{r}
-#| label: setup-fake-proj
-
-proj_path <- fs::path_wd('modern-r-proj')
-
-# create the folders
-fs::path(proj_path) |>
-  fs::dir_create()
-
-fs::path(proj_path, "data") |>
-  fs::dir_create()
-
-# create the files
-fs::file_create(
-  fs::path(proj_path, "analysis.r")
-)
-fs::dir_tree(proj_path)
 ```
+covid-briefing/
+├── data/
+│   ├── raw/
+│   │   └── ct_covid_by_town_2026-06-30.csv   ← you'll add this shortly
+│   └── processed/
+├── R/
+├── scripts/
+├── outputs/
+│   ├── figures/
+│   └── tables/
+└── docs/
+```
+
+**Why these specific folders?**
+
+| Folder | Purpose | Rule |
+|---|---|---|
+| `data/raw` | Exactly what you downloaded | Never edit a file in here. |
+| `data/processed` | Cleaned data you can trust | Always regenerable from `raw` + a script |
+| `R` | Reusable functions | Empty today — used once you stop copy-pasting |
+| `scripts` | Numbered analysis steps | `01_`, `02_`, ... so the order is obvious |
+| `outputs/figures` | Plots | Never hand-edited; always regenerated |
+| `outputs/tables` | Summary CSVs etc... | Same rule as figures |
+| `docs` | Reports | Empty today — used when you build the briefing doc |
+
+### Open the Project in Your IDE
+
+Once the folders exist, open the project in RStudio or Positron so that
+every path you write in code is relative to `covid-briefing/`, not to
+your Desktop or Downloads folder.
+
+**RStudio:** File → New Project → Existing Directory → select `covid-briefing` → Create Project.
+
+**Positron:** File → Open Folder → select `covid-briefing`.
+
+Either way, the IDE will reopen with `covid-briefing` as your working
+directory. This matters throughout the rest of the book.
+
+### Getting the Data
+
+1. Go to the dataset page:
+   `https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx`
+2. Click **Export → CSV** to download it.
+3. Move the downloaded file into `data/raw/`.
+4. Rename it to include the date you downloaded it, e.g.:
+   `ct_covid_by_town_2026-06-30.csv`
+
+The date stamp matters more than it looks like it should. This dataset is
+revised after the fact — Connecticut DPH updates prior dates as new reports
+come in. Stamping the filename is how you'll later be able to say
+"this analysis used the data *as it existed on this date,*" which is
+exactly the kind of question a Commissioner will ask you.
+
+From this point forward: **never open this file and edit it by hand.** If
+something about it needs to change, that change happens in a script, not in
+the file itself.
+
+### Diving In
+
+Workspace is ready, data is in `data/raw/`. Next chapter: write your first R code.

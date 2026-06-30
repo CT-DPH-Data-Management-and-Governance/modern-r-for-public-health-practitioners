@@ -1,66 +1,37 @@
 ---
-title: "Getting Ready for working with files"
+title: "Loading Your First Dataset"
 ---
 
-## The Setup
+Your workspace is set up and your raw data is sitting in `data/raw/`.
+Time to write your first R code.
 
-Covid-19 challenged Public Health infrastructure in so many multi-faceted 
-ways. The sheer amount of data collected and processed over the pandemic
-meant that what worked in the beginning of the pandemic was no longer
-feasible towards the end of the pandemic.
+## Packages
 
-Over the course of this book we will explore Connecticut pandemic 
-data and how to deal with the ever increasing amount of data. We will
-start simple and do things manually before moving on to refine our 
-analytics methodologies.
+R ships with a base set of tools. On top of that, the community has built
+thousands of *packages* — collections of ready-made code you can install
+and use without writing everything yourself. These are distributed through
+**CRAN** (the Comprehensive R Archive Network), R's official package
+repository.
 
-## Data Intro
-
-We are going to use a snippet of real pandemic-era covid-19 data from the 
-connecticut department of public health's open data portal^[[CT Open Data Portal](https://data.ct.gov/)].  
-The full dataset can be found on the portal^[[Archived Covid Data](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data)] 
-but we will start simply and use the provided snippet in this  
-
-TODO: add evergreen link 
-
-repository `chapters/working-with-real-data/data/covid-2022.csv`
-
-## Setup
-
-R has many tools for working with data. Over the years the R community
-has built up a number of their own tools and one of the most popular, 
-the `tidyverse` will be our entrypoint into working with data in R.
-
-R comes with a base set of tools and eager epidemiologists can opt to use
-only the base suite of tool and go out into the world if they so choose.
-However, many smart developers and epidemiologists have come before us
-and we do not need to recreate the wheel. R has what are called
-`packages' - or collection of ready made code that folks can use to
-get work done.
-
-TODO: -- talk about the CRAN etc etc....
-
-
-
-We're going to slowly introduce the different parts of the tidyverse individually....
-
-TODO: flesh 
+The family of packages we'll lean on most is called the **tidyverse** —
+a curated set of tools that share a common design and work well together.
+We'll introduce them one at a time. This chapter uses three of them plus
+two helpers for reading and writing files.
 
 ### Installing Packages
 
 ```{r}
 #| label: install-packages
-#| eval: false 
+#| eval: false
 
-# pulls the code down from the CRAN for folks to use and installs on
-# their computer
-install.packages(
-  "dplyr", # for manipulating data
-  "readr", # for reading common data files from a users' computers
-  "fs", # for working with files on users' file systems
-  "readxl", # for reading data from .xlsx files
-  "writexl", # for writing data to .xlsx files
-)
+# Run this once to install the packages onto your computer.
+install.packages(c(
+  "dplyr",   # for manipulating data
+  "readr",   # for reading common data files
+  "fs",      # for working with files and paths
+  "readxl",  # for reading .xlsx files
+  "writexl"  # for writing .xlsx files
+))
 ```
 
 ## Reading Data Files
@@ -69,27 +40,26 @@ install.packages(
 
 We are going to do a few things here:
 
-1. 'Invoke' the packages we will be using so they are availabe to us.
-1. Create and capture the path to our data file and save inside of an object
-`csv_path`.
-1. Read the data into our session from the csv and save inside of an object `covid_data`.
+1. 'Invoke' the packages we will be using so they are available to us.
+2. Create and capture the path to our data file and save it inside an object called `csv_path`.
+3. Read the data into our session from the csv and save it inside an object called `covid_data`.
 
 ```{r}
 #| label: setup-libraries
 
 # Users can have all sorts of packages on their computer
-# but will only need a limited subset of them at any one time
-# add these packages to your session with `library()` function.
+# but will only need a limited subset of them at any one time.
+# Add these packages to your session with the `library()` function.
 
 library(dplyr)
 library(readr)
 library(fs)
 
-# we have a file - how do we read it in?
-# we use fs's path() function to create a path
-# we user readr's read_csv() and point it to  our path
+# We have a file - how do we read it in?
+# Use fs's path() function to create a path,
+# then readr's read_csv() to load it.
 
-csv_path <- path("data/covid-2022.csv")
+csv_path <- path("data/ct-covid-by-town-2026-06-30.csv")
 
 covid_data <- read_csv(csv_path)
 ```
@@ -110,17 +80,17 @@ glimpse(covid_data)
 
 ### Reading .xlsx files
 
-
-We are going to use a new package `readxl` to read another
-common data file type: '.xlsx' excel files. We will do
-something similar to before but we will pick the excel file path.
+Many files you'll encounter in public health come as Excel spreadsheets.
+We use `readxl` to read them the same way we read CSVs.
 
 ```{r}
-# our libraries above are still at play - no need to call again
+#| eval: false
+
+# our libraries above are still at play — no need to call them again
 
 library(readxl)
 
-xlsx_path <- path("data/covid-2022.xlsx")
+xlsx_path <- path("data/your-file.xlsx")
 covid_data <- read_excel(xlsx_path)
 
 covid_data
@@ -133,8 +103,7 @@ covid_data
 With our `covid_data` still in memory we are going to write it back
 to our computer as a file.
 
-It is easy to write .csv's user `readr`, .xlsx requires another package
-`writexl`
+Writing .csv files uses `readr`; writing .xlsx requires the `writexl` package.
 
 ```{r}
 
@@ -169,11 +138,9 @@ dir_ls(
 )
 ```
 
-
-The new files are there, but we already have that data.  We are going
+The new files are there, but we already have that data. We are going
 to select *only* the file paths for our new files using `fs` and
 then delete them from our space.
-
 
 ```{r}
 
