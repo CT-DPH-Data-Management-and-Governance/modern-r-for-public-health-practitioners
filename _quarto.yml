@@ -35,6 +35,7 @@ book:
     - part: "Working with real data"
       chapters:
         - chapters/01-working-with-real-data/index.qmd
+        - chapters/01-working-with-real-data/project.qmd
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
     - part: "Security Basics"
@@ -43,6 +44,8 @@ book:
     - part: "Further Reading"
       chapters:
         - chapters/further-reading/index.qmd
+        - chapters/further-reading/excel-files.qmd
+        - chapters/further-reading/writing-files.qmd
   page-navigation: true
 
 

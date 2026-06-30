@@ -34,7 +34,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/project.html" rel="next">
+<link href="../../chapters/01-working-with-real-data/index.html" rel="next">
 <link href="../../chapters/00-orientation/preface.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -141,12 +141,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Intro</span></span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -161,7 +155,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/01-working-with-real-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Ready for working with files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Loading Your First Dataset</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/01-working-with-real-data/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A First Look at Hartford</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -210,6 +210,18 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/excel-files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/writing-files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -222,20 +234,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-big-idea" id="toc-the-big-idea" class="nav-link active" data-scroll-target="#the-big-idea"><span class="header-section-number">1.1</span> The big idea</a>
+  <li><a href="#why-r" id="toc-why-r" class="nav-link active" data-scroll-target="#why-r"><span class="header-section-number">1.1</span> Why R</a></li>
+  <li><a href="#how-this-works" id="toc-how-this-works" class="nav-link" data-scroll-target="#how-this-works"><span class="header-section-number">1.2</span> How this works</a></li>
+  <li><a href="#the-arc" id="toc-the-arc" class="nav-link" data-scroll-target="#the-arc"><span class="header-section-number">1.3</span> The arc</a></li>
+  <li><a href="#how-to-use-this-site" id="toc-how-to-use-this-site" class="nav-link" data-scroll-target="#how-to-use-this-site"><span class="header-section-number">1.4</span> How to use this site</a></li>
+  <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start"><span class="header-section-number">1.5</span> Before you start</a></li>
+  <li><a href="#what-youll-need" id="toc-what-youll-need" class="nav-link" data-scroll-target="#what-youll-need"><span class="header-section-number">1.6</span> What you’ll need</a></li>
+  <li><a href="#the-scenario" id="toc-the-scenario" class="nav-link" data-scroll-target="#the-scenario"><span class="header-section-number">1.7</span> The scenario</a>
   <ul class="collapse">
-  <li><a href="#why-r" id="toc-why-r" class="nav-link" data-scroll-target="#why-r"><span class="header-section-number">1.1.1</span> Why R</a></li>
-  <li><a href="#the-setup" id="toc-the-setup" class="nav-link" data-scroll-target="#the-setup"><span class="header-section-number">1.1.2</span> The Setup</a></li>
+  <li><a href="#folder-structure" id="toc-folder-structure" class="nav-link" data-scroll-target="#folder-structure"><span class="header-section-number">1.7.1</span> Folder Structure</a></li>
+  <li><a href="#open-the-project-in-your-ide" id="toc-open-the-project-in-your-ide" class="nav-link" data-scroll-target="#open-the-project-in-your-ide"><span class="header-section-number">1.7.2</span> Open the Project in Your IDE</a></li>
+  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data"><span class="header-section-number">1.7.3</span> Getting the Data</a></li>
+  <li><a href="#diving-in" id="toc-diving-in" class="nav-link" data-scroll-target="#diving-in"><span class="header-section-number">1.7.4</span> Diving In</a></li>
   </ul></li>
-  <li><a href="#the-arc" id="toc-the-arc" class="nav-link" data-scroll-target="#the-arc"><span class="header-section-number">1.2</span> The arc</a></li>
-  <li><a href="#how-to-use-this-site" id="toc-how-to-use-this-site" class="nav-link" data-scroll-target="#how-to-use-this-site"><span class="header-section-number">1.3</span> How to use this site</a></li>
-  <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start"><span class="header-section-number">1.4</span> Before you start</a></li>
-  <li><a href="#what-youll-need" id="toc-what-youll-need" class="nav-link" data-scroll-target="#what-youll-need"><span class="header-section-number">1.5</span> What you’ll need</a></li>
-  <li><a href="#adopting-the-project-mindset" id="toc-adopting-the-project-mindset" class="nav-link" data-scroll-target="#adopting-the-project-mindset"><span class="header-section-number">1.6</span> Adopting the Project Mindset</a>
-  <ul class="collapse">
-  <li><a href="#the-mental-model" id="toc-the-mental-model" class="nav-link" data-scroll-target="#the-mental-model"><span class="header-section-number">1.6.1</span> The Mental Model</a></li>
-  </ul></li>
-  <li><a href="#project-inroduction" id="toc-project-inroduction" class="nav-link" data-scroll-target="#project-inroduction"><span class="header-section-number">1.7</span> Project Inroduction</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -261,22 +272,56 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This course is not about teaching you epidemiology. It’s about giving you the R fluency to apply what you already know.</p>
-<section id="the-big-idea" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="the-big-idea"><span class="header-section-number">1.1</span> The big idea</h2>
-<section id="why-r" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="why-r"><span class="header-section-number">1.1.1</span> Why R</h3>
-<p>…</p>
+<p>Public health work is converging on R. This chapter gets your workspace ready so chapter 1 can start with code.</p>
+<section id="why-r" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="why-r"><span class="header-section-number">1.1</span> Why R</h2>
+<p>If your agency runs SAS, you already know the core loop: read data in, reshape it, summarize it, output it. R does the same thing. The difference is everything around that loop.</p>
+<p><strong>Free.</strong> No license. No seat-count negotiation with procurement. No renewal cycle. R runs on a laptop, a server, or a cloud VM — same tool, same code.</p>
+<p><strong>Analysis lives in a script.</strong> Every step is recorded. Six months later you run the same file and get the same answer. When the Commissioner asks “where did this number come from,” you show the code.</p>
+<p><strong>Reports update themselves.</strong> Quarto — the tool this book is built with — embeds code directly in a document. Change a number upstream and the table in the PDF changes with it. No more copy-pasting from Excel into Word.</p>
+<p><strong>The public health ecosystem is here.</strong> CDC, state health departments, and academic epi groups publish R code. Reading it — and writing it — is a basic competency the field is converging on.</p>
+<p><strong>The tidyverse maps to what you already know.</strong> SAS DATA steps and PROC steps have direct equivalents:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>SAS</th>
+<th>R (tidyverse)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DATA step</code> with <code>WHERE</code></td>
+<td><code>filter()</code></td>
+</tr>
+<tr class="even">
+<td>New variable in <code>DATA step</code></td>
+<td><code>mutate()</code></td>
+</tr>
+<tr class="odd">
+<td><code>PROC MEANS</code> / <code>PROC FREQ</code></td>
+<td><code>summarise()</code> + <code>count()</code></td>
+</tr>
+<tr class="even">
+<td><code>BY</code> statement</td>
+<td><code>group_by()</code></td>
+</tr>
+<tr class="odd">
+<td><code>PROC SORT</code></td>
+<td><code>arrange()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Syntax changes. Mental model mostly doesn’t.</p>
 </section>
-<section id="the-setup" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="the-setup"><span class="header-section-number">1.1.2</span> The Setup</h3>
-<p>We will dive straight into a data analysis project and with every chapter will we iteratively polish our analysis until at the very end we have something that could be confidently deployed in day to day use.</p>
-<p>To get the most out of the lessons users should code along with the examples.</p>
+<section id="how-this-works" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="how-this-works"><span class="header-section-number">1.2</span> How this works</h2>
+<p>Every chapter builds on one analysis: a COVID-19 briefing for a Connecticut health commissioner. You start with a raw CSV and an empty folder. Chapter by chapter the analysis gains new capabilities — until at the end you have a self-updating report that anyone on your team could run.</p>
+<p>Each chapter introduces exactly one new skill. The skill earns its place by solving a real problem in the analysis — not as an exercise, but as a genuine improvement to what you built before.</p>
+<p>Code along. Every code block in this book is meant to be run, not just read. Open R before you start each chapter and keep it open.</p>
+<p>One thing to know about R before you start: unlike SAS, R is interactive. When you run code, results appear immediately in your session. Objects — datasets, plots, numbers — live in memory and you can inspect them at any time. Think of it less like submitting a batch job and more like a conversation with your data.</p>
 </section>
-</section>
-<section id="the-arc" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="the-arc"><span class="header-section-number">1.2</span> The arc</h2>
-<p>WIP - PLACEHOLDER</p>
+<section id="the-arc" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="the-arc"><span class="header-section-number">1.3</span> The arc</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 21%">
@@ -344,46 +389,155 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="how-to-use-this-site" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="how-to-use-this-site"><span class="header-section-number">1.3</span> How to use this site</h2>
-<p>Work through modules in order. Each one has:</p>
+<section id="how-to-use-this-site" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="how-to-use-this-site"><span class="header-section-number">1.4</span> How to use this site</h2>
+<p>Work through chapters in order. Each one has:</p>
 <ul>
-<li><strong>Overview</strong> — what you’ll build, why it matters, and the SAS concepts it remaps</li>
 <li><strong>Lesson</strong> — a runnable, narrated <code>.qmd</code> file you execute yourself</li>
 <li><strong>Exercises</strong> — 3–5 scaffolded problems with explicit “done when” checks</li>
 <li><strong>Solutions</strong> — available after you’ve tried on your own</li>
 </ul>
 </section>
-<section id="before-you-start" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="before-you-start"><span class="header-section-number">1.4</span> Before you start</h2>
+<section id="before-you-start" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="before-you-start"><span class="header-section-number">1.5</span> Before you start</h2>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Start here:
+<span class="screen-reader-only">Tip</span>Install these before chapter 1
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis posuere ligula sit amet lacinia. Duis dignissim pellentesque magna, rhoncus congue sapien finibus mollis. Ut eu sem laoreet, vehicula ipsum in, convallis erat. Vestibulum magna sem, blandit pulvinar augue sit amet, auctor malesuada sapien. Nullam faucibus leo eget eros hendrerit, non laoreet ipsum lacinia. Curabitur cursus diam elit, non tempus ante volutpat a. Quisque hendrerit blandit purus non fringilla. Integer sit amet elit viverra ante dapibus semper. Vestibulum viverra rutrum enim, at luctus enim posuere eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+<ul>
+<li><strong>R</strong> (≥ 4.3): <a href="https://www.r-project.org">r-project.org</a></li>
+<li><strong>RStudio</strong> or <strong>Positron</strong>: either works; Positron is newer and supports R and Python side-by-side</li>
+<li><strong>Quarto</strong>: <a href="https://quarto.org/docs/get-started/">quarto.org</a></li>
+</ul>
+<p>If you run into install problems, the Posit community forums are the fastest place to get unstuck.</p>
 </div>
 </div>
 </section>
-<section id="what-youll-need" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="what-youll-need"><span class="header-section-number">1.5</span> What you’ll need</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis posuere ligula sit amet lacinia. Duis dignissim pellentesque magna, rhoncus congue sapien finibus mollis. Ut eu sem laoreet, vehicula ipsum in, convallis erat. Vestibulum magna sem, blandit pulvinar augue sit amet, auctor malesuada sapien. Nullam faucibus leo eget eros hendrerit, non laoreet ipsum lacinia. Curabitur cursus diam elit, non tempus ante volutpat a. Quisque hendrerit blandit purus non fringilla. Integer sit amet elit viverra ante dapibus semper. Vestibulum viverra rutrum enim, at luctus enim posuere eu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+<section id="what-youll-need" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="what-youll-need"><span class="header-section-number">1.6</span> What you’ll need</h2>
+<ul>
+<li>A computer where you can install software</li>
+<li>R, Quarto, and an IDE (see above)</li>
+<li>An internet connection to download the dataset</li>
+<li>No prior programming experience required</li>
+</ul>
 </section>
-<section id="adopting-the-project-mindset" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="adopting-the-project-mindset"><span class="header-section-number">1.6</span> Adopting the Project Mindset</h2>
-<section id="the-mental-model" class="level3" data-number="1.6.1">
-<h3 data-number="1.6.1" class="anchored" data-anchor-id="the-mental-model"><span class="header-section-number">1.6.1</span> The Mental Model</h3>
+<section id="the-scenario" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="the-scenario"><span class="header-section-number">1.7</span> The scenario</h2>
+<p>It’s spring of 2020 and you are working as an analyst for the Connecticut Department of Public Health’s Pandemic Incident Command. You are tasked with preparing a briefing for the Commissioner so that they can in turn brief the governor on the current situation.</p>
+<p>The first standing question is this: <strong>Is it getting worse in Hartford, or not?</strong></p>
+<p>Today we are going to answer that question, click by click. Slowly we will build up our R knowledge and reduce friction until we have an analysis we can share with others.</p>
+<section id="folder-structure" class="level3" data-number="1.7.1">
+<h3 data-number="1.7.1" class="anchored" data-anchor-id="folder-structure"><span class="header-section-number">1.7.1</span> Folder Structure</h3>
+<p>It is good practice to stick with a common folder layout for each of your projects. Different programming languages have different conventions but many layouts are very similar. This reduces the cognitive load for yourself and others when navigating larger projects. There are tools for creating, saving, and sharing project templates, but for now we will do this by hand.</p>
+<ol type="1">
+<li>Create a new folder called <code>covid-briefing</code> wherever you keep projects.</li>
+<li>Inside it, create these folders one at a time:
+<ul>
+<li><code>data</code></li>
+<li><code>R</code></li>
+<li><code>scripts</code></li>
+<li><code>outputs</code></li>
+<li><code>docs</code></li>
+</ul></li>
+<li>Inside <code>data</code>, create two more folders: <code>raw</code> and <code>processed</code>.</li>
+<li>Inside <code>outputs</code>, create two more folders: <code>figures</code> and <code>tables</code>.</li>
+</ol>
+<p>At the end you should have a folder structure that looks like this:</p>
+<pre><code>covid-briefing/
+├── data/
+│   ├── raw/
+│   │   └── ct_covid_by_town_2026-06-30.csv   ← you'll add this shortly
+│   └── processed/
+├── R/
+├── scripts/
+├── outputs/
+│   ├── figures/
+│   └── tables/
+└── docs/</code></pre>
+<p><strong>Why these specific folders?</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Folder</th>
+<th>Purpose</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data/raw</code></td>
+<td>Exactly what you downloaded</td>
+<td>Never edit a file in here.</td>
+</tr>
+<tr class="even">
+<td><code>data/processed</code></td>
+<td>Cleaned data you can trust</td>
+<td>Always regenerable from <code>raw</code> + a script</td>
+</tr>
+<tr class="odd">
+<td><code>R</code></td>
+<td>Reusable functions</td>
+<td>Empty today — used once you stop copy-pasting</td>
+</tr>
+<tr class="even">
+<td><code>scripts</code></td>
+<td>Numbered analysis steps</td>
+<td><code>01_</code>, <code>02_</code>, … so the order is obvious</td>
+</tr>
+<tr class="odd">
+<td><code>outputs/figures</code></td>
+<td>Plots</td>
+<td>Never hand-edited; always regenerated</td>
+</tr>
+<tr class="even">
+<td><code>outputs/tables</code></td>
+<td>Summary CSVs etc…</td>
+<td>Same rule as figures</td>
+</tr>
+<tr class="odd">
+<td><code>docs</code></td>
+<td>Reports</td>
+<td>Empty today — used when you build the briefing doc</td>
+</tr>
+</tbody>
+</table>
 </section>
+<section id="open-the-project-in-your-ide" class="level3" data-number="1.7.2">
+<h3 data-number="1.7.2" class="anchored" data-anchor-id="open-the-project-in-your-ide"><span class="header-section-number">1.7.2</span> Open the Project in Your IDE</h3>
+<p>Once the folders exist, open the project in RStudio or Positron so that every path you write in code is relative to <code>covid-briefing/</code>, not to your Desktop or Downloads folder.</p>
+<p><strong>RStudio:</strong> File → New Project → Existing Directory → select <code>covid-briefing</code> → Create Project.</p>
+<p><strong>Positron:</strong> File → Open Folder → select <code>covid-briefing</code>.</p>
+<p>Either way, the IDE will reopen with <code>covid-briefing</code> as your working directory. This matters throughout the rest of the book.</p>
 </section>
-<section id="project-inroduction" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="project-inroduction"><span class="header-section-number">1.7</span> Project Inroduction</h2>
+<section id="getting-the-data" class="level3" data-number="1.7.3">
+<h3 data-number="1.7.3" class="anchored" data-anchor-id="getting-the-data"><span class="header-section-number">1.7.3</span> Getting the Data</h3>
+<ol type="1">
+<li>Go to the dataset page: <code>https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx</code></li>
+<li>Click <strong>Export → CSV</strong> to download it.</li>
+<li>Move the downloaded file into <code>data/raw/</code>.</li>
+<li>Rename it to include the date you downloaded it, e.g.: <code>ct_covid_by_town_2026-06-30.csv</code></li>
+</ol>
+<p>The date stamp matters more than it looks like it should. This dataset is revised after the fact — Connecticut DPH updates prior dates as new reports come in. Stamping the filename is how you’ll later be able to say “this analysis used the data <em>as it existed on this date,</em>” which is exactly the kind of question a Commissioner will ask you.</p>
+<p>From this point forward: <strong>never open this file and edit it by hand.</strong> If something about it needs to change, that change happens in a script, not in the file itself.</p>
+</section>
+<section id="diving-in" class="level3" data-number="1.7.4">
+<h3 data-number="1.7.4" class="anchored" data-anchor-id="diving-in"><span class="header-section-number">1.7.4</span> Diving In</h3>
+<p>Workspace is ready, data is in <code>data/raw/</code>. Next chapter: write your first R code.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -794,8 +948,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/project.html" class="pagination-link" aria-label="Project Intro">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Project Intro</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/01-working-with-real-data/index.html" class="pagination-link" aria-label="Loading Your First Dataset">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Loading Your First Dataset</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
