@@ -1,32 +1,48 @@
-# modern-r-for-public-health-practitioners
+# Modern R for Public Health Practitioners
 
-A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.
+A project-based course for public health practitioners (epidemiologists, SAS users) who want to become confident R users by building a COVID-19 CT data report that grows with every chapter.
 
-## Usage
+Hosted: <https://ct-dph-data-management-and-governance.github.io/modern-r-for-public-health-practitioners/>
+
+## Structure
+
+| Chapter | Topic |
+|---|---|
+| 00 — Orientation | Mindset, RStudio/Positron setup, folder structure, data download |
+| 01 — Working with Real Data | `readr`, `dplyr`, `fs`; load and inspect the CT COVID-19 dataset |
+| APIs & Functions | Pulling data from SODA/open data APIs |
+| Security Basics | Managing secrets and credentials |
+| Further Reading | Excel files, writing files |
+
+Readers **code along in their own local project** (`covid-briefing/`) — no cloning required.
+
+## Development Setup
 
 ### Prerequisites
 
-Install [Quarto](https://quarto.org/docs/get-started/) before proceeding.
+- [R](https://cran.r-project.org/)
+- [Quarto](https://quarto.org/docs/get-started/)
+
+### Restore R packages
+
+```r
+renv::restore()
+```
 
 ### PDF rendering (TinyTeX)
-
-Quarto renders this book to PDF via lualatex. Install TinyTeX through Quarto to get a user-owned TeX distribution that does not require root:
 
 ```bash
 quarto install tinytex
 ```
 
-This installs TinyTeX into `~/.TinyTeX`. Missing LaTeX packages are then auto-installed during render without needing system permissions.
+Installs TinyTeX into `~/.TinyTeX`. Missing LaTeX packages auto-install during render.
 
-### Render the book
-
-```bash
-quarto render
-```
-
-Output lands in `docs/`. To render only the PDF or only the HTML:
+## Render
 
 ```bash
-quarto render --to pdf
-quarto render --to html
+quarto render              # full book → docs/
+quarto render --to html    # HTML only
+quarto render --to pdf     # PDF only
 ```
+
+Output lands in `docs/`. The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
