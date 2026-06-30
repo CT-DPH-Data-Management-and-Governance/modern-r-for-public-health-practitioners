@@ -1,7 +1,0 @@
----
-title: "Adopting an R Project Mindset"
----
-
-
-## The Mental Model
-

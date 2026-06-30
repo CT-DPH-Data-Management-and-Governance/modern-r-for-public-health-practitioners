@@ -1,0 +1,15 @@
+{
+  "hash": "0077b0cbb7ab836d2bdefddb07d94a7b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Writing Data Files\"\n---\n\nOnce you have cleaned or summarized data, you will want to write it back out.\nThis chapter covers the most common output formats.\n\n## CSV\n\n`write_csv()` from `readr` is the default for analysis outputs that feed into\nother scripts or tools.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(readr)\nlibrary(here)\n\noutput_path <- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)\n```\n:::\n\n\n## Checking and cleaning up with `fs`\n\n`fs` lets you inspect and manage files from inside R — useful for verifying\nthat a write succeeded or cleaning up intermediate files.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles <- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)\n```\n:::\n\n\n## Parquet\n\nParquet is a compressed columnar format that reads and writes much faster\nthan CSV for large datasets. It is a better default than CSV once your\ndata exceeds a few hundred thousand rows.\n\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(\"arrow\")\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(arrow)\nlibrary(here)\n\noutput_path <- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data <- read_parquet(output_path)\n```\n:::\n\n\nParquet files are not human-readable in a text editor, but they are\ninteroperable — Python, Spark, DuckDB, and most modern data tools can\nread the same file.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,75 @@
+---
+title: "Writing Data Files"
+---
+
+Once you have cleaned or summarized data, you will want to write it back out.
+This chapter covers the most common output formats.
+
+## CSV
+
+`write_csv()` from `readr` is the default for analysis outputs that feed into
+other scripts or tools.
+
+```{r}
+#| eval: false
+
+library(readr)
+library(here)
+
+output_path <- here("data", "processed", "ct_covid_clean.csv")
+
+write_csv(your_data, file = output_path)
+```
+
+## Checking and cleaning up with `fs`
+
+`fs` lets you inspect and manage files from inside R — useful for verifying
+that a write succeeded or cleaning up intermediate files.
+
+```{r}
+#| eval: false
+
+library(fs)
+library(here)
+
+# list everything in a folder
+dir_ls(path = here("data", "processed"))
+
+# check whether specific files exist
+files <- dir_ls(path = here("data"), glob = "*my-new-file*")
+file_exists(files)
+
+# delete files
+file_delete(files)
+file_exists(files)
+```
+
+## Parquet
+
+Parquet is a compressed columnar format that reads and writes much faster
+than CSV for large datasets. It is a better default than CSV once your
+data exceeds a few hundred thousand rows.
+
+```{r}
+#| eval: false
+
+install.packages("arrow")
+```
+
+```{r}
+#| eval: false
+
+library(arrow)
+library(here)
+
+output_path <- here("data", "processed", "ct_covid_clean.parquet")
+
+write_parquet(your_data, sink = output_path)
+
+# reading it back
+your_data <- read_parquet(output_path)
+```
+
+Parquet files are not human-readable in a text editor, but they are
+interoperable — Python, Spark, DuckDB, and most modern data tools can
+read the same file.

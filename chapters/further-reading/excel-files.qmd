@@ -1,0 +1,81 @@
+---
+title: "Working with Excel Files"
+---
+
+Excel files are everywhere in public health. This chapter covers reading and
+writing `.xlsx` files using `readxl` and `writexl`.
+
+## Installing the packages
+
+```{r}
+#| eval: false
+
+install.packages(c(
+  "readxl",  # for reading .xlsx files
+  "writexl"  # for writing .xlsx files
+))
+```
+
+## Reading `.xlsx` files
+
+`readxl` reads Excel files the same way `readr` reads CSVs. Use `here()` to
+build the path so it works both interactively and during render.
+
+```{r}
+#| eval: false
+
+library(readxl)
+library(here)
+
+xlsx_path <- here("data", "raw", "your-file.xlsx")
+your_data <- read_excel(xlsx_path)
+
+your_data
+```
+
+If your workbook has multiple sheets, use the `sheet` argument:
+
+```{r}
+#| eval: false
+
+your_data <- read_excel(xlsx_path, sheet = "Sheet2")
+
+# or by position
+your_data <- read_excel(xlsx_path, sheet = 2)
+```
+
+## Writing `.xlsx` files
+
+`writexl` writes a data frame to an Excel file with no Java dependency
+(unlike `openxlsx`).
+
+```{r}
+#| eval: false
+
+library(writexl)
+library(here)
+
+output_path <- here("data", "my-output.xlsx")
+
+write_xlsx(your_data, path = output_path)
+```
+
+To write multiple sheets in one workbook, pass a named list:
+
+```{r}
+#| eval: false
+
+write_xlsx(
+  list(
+    cases  = cases_data,
+    deaths = deaths_data
+  ),
+  path = output_path
+)
+```
+
+## When to use CSV vs Excel
+
+Prefer CSV for anything that feeds into analysis — it is plain text, version-control
+friendly, and readable by every tool. Use Excel output when the end recipient
+is a stakeholder who will open the file directly in Excel and expects formatting.

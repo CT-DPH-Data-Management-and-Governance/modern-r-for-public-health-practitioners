@@ -1,0 +1,45 @@
+name: Content Suggestion
+description: Unclear explanations, missing context, suggested improvements, or new exercises
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for anything content-related: confusing passages, missing explanations, ideas for new exercises, or topics you wish were covered.
+
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter / section
+      placeholder: "e.g. Chapter 00, section 'Folder structure'"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of suggestion
+      options:
+        - Unclear explanation — hard to follow
+        - Missing context — assumed knowledge I don't have
+        - New exercise or example
+        - Topic not covered
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the suggestion
+      description: What's confusing, missing, or could be improved?
+    validations:
+      required: true
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Your background (optional)
+      description: Helps calibrate the explanation level — e.g. "SAS user, no R experience"
+    validations:
+      required: false

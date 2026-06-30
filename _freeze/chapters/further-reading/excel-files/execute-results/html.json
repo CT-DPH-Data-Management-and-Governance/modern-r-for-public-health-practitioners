@@ -1,0 +1,15 @@
+{
+  "hash": "296e841d53e46b17558ec0d546071f20",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Working with Excel Files\"\n---\n\nExcel files are everywhere in public health. This chapter covers reading and\nwriting `.xlsx` files using `readxl` and `writexl`.\n\n## Installing the packages\n\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))\n```\n:::\n\n\n## Reading `.xlsx` files\n\n`readxl` reads Excel files the same way `readr` reads CSVs. Use `here()` to\nbuild the path so it works both interactively and during render.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path <- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data <- read_excel(xlsx_path)\n\nyour_data\n```\n:::\n\n\nIf your workbook has multiple sheets, use the `sheet` argument:\n\n\n::: {.cell}\n\n```{.r .cell-code}\nyour_data <- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data <- read_excel(xlsx_path, sheet = 2)\n```\n:::\n\n\n## Writing `.xlsx` files\n\n`writexl` writes a data frame to an Excel file with no Java dependency\n(unlike `openxlsx`).\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(writexl)\nlibrary(here)\n\noutput_path <- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n```\n:::\n\n\nTo write multiple sheets in one workbook, pass a named list:\n\n\n::: {.cell}\n\n```{.r .cell-code}\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)\n```\n:::\n\n\n## When to use CSV vs Excel\n\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control\nfriendly, and readable by every tool. Use Excel output when the end recipient\nis a stakeholder who will open the file directly in Excel and expects formatting.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

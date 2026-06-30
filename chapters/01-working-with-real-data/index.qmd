@@ -1,0 +1,114 @@
+---
+title: "Loading Your First Dataset"
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+library(here)
+.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+```
+
+Your workspace is set up and your raw data is sitting in `data/raw/`.
+Time to write your first R code.
+
+## Packages
+
+R ships with a base set of tools. On top of that, the community has built
+thousands of *packages* — collections of ready-made code you can install
+and use without writing everything yourself. These are distributed through
+**CRAN** (the Comprehensive R Archive Network), R's official package
+repository.
+
+The family of packages we'll lean on most is called the **tidyverse** —
+a curated set of tools that share a common design and work well together.
+We'll introduce them one at a time. This chapter uses three of them plus
+a few helpers for reading, writing, and navigating files.
+
+### Installing Packages
+
+```{r}
+#| label: install-packages
+#| eval: false
+
+# Run this once to install the packages onto your computer.
+install.packages(c(
+  "dplyr", # for manipulating data
+  "readr", # for reading common data files
+  "fs", # for working with files and paths
+  "here" # for building paths that work everywhere
+))
+```
+
+## Reading Data Files
+
+### Reading our Comma Delimited File (.csv)
+
+We are going to do a few things here:
+
+1. Load the packages we need into our session.
+2. Build a path to our data file and save it as `csv_path`.
+3. Read the data into our session and save it as `covid_data`.
+
+```{r}
+#| label: setup-libraries
+
+library(dplyr)
+library(readr)
+library(fs)
+library(here)
+```
+
+### Paths and `here()`
+
+Before reading the file, a word on paths — because this is where R trips
+people up early.
+
+When you run code interactively, R looks for files starting from your project
+root (wherever your `.Rproj` file lives). When Quarto *renders* a document,
+it shifts the working directory to wherever the `.qmd` file lives. These
+locations are often different, which is why a path that works in your console
+can fail during render, or vice versa.
+
+`here()` from the `here` package fixes this. It detects your project root
+and always builds paths from there, regardless of how or where the code runs.
+Use it instead of `path()` whenever you are building paths to data files.
+
+```{r}
+#| eval: false
+
+# here() takes folder names as separate arguments.
+# It joins them with the correct separator for your OS.
+csv_path <- here("data", "raw", "ct_covid_by_town_2026-06-30.csv")
+
+covid_data <- read_csv(csv_path)
+```
+
+```{r}
+#| include: false
+
+csv_path <- fs::path(.chapter_data, "ct-covid-by-town-2026-06-30.csv")
+covid_data <- read_csv(csv_path)
+```
+
+We have our data saved into our session — now let's look at it.
+
+```{r}
+# taking a look at the top few rows
+head(covid_data)
+```
+
+```{r}
+# glimpse from dplyr
+glimpse(covid_data)
+```
+
+
+::: {.callout-note}
+Working with Excel files (`.xlsx`) is covered in [Working with Excel Files](../further-reading/excel-files.qmd).
+:::
+
+::: {.callout-note}
+Writing data to files — CSV, parquet, and others — is covered in
+[Writing Data Files](../further-reading/writing-files.qmd).
+:::

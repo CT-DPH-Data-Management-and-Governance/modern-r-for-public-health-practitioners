@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by buidling a report that grows with every chapter.">
 
-<title>5&nbsp; Working with APIs and Functions – Modern R for Public Health Practitioners</title>
+<title>4&nbsp; Working with APIs and Functions – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -70,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../chapters/apis-functions/project.html" rel="next">
-<link href="../../chapters/working-with-real-data/reading-comma-delimited-files.html" rel="prev">
+<link href="../../chapters/01-working-with-real-data/project.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-a006f442bb2576b0215d31d46213bbfe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-16d416cc1026f4d67c5752f2a15b15f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/working-with-real-data/index.html">Working with real data</a></li><li class="breadcrumb-item"><a href="../../chapters/apis-functions/index.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/01-working-with-real-data/index.html">Working with real data</a></li><li class="breadcrumb-item"><a href="../../chapters/apis-functions/index.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../preface.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -172,14 +172,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/orientation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Adopting an R Project Mindset</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/orientation/introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">How to use this book</span></span></a>
+  <a href="../../chapters/00-orientation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span></a>
   </div>
 </li>
       </ul>
@@ -195,26 +189,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/working-with-real-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Ready for working with files</span></span></a>
+  <a href="../../chapters/01-working-with-real-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Loading Your First Dataset</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/working-with-real-data/reading-comma-delimited-files.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading Comma Delimited Files</span></span></a>
+  <a href="../../chapters/01-working-with-real-data/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A First Look at Hartford</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
   </div>
 </li>
       </ul>
@@ -231,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
   </div>
 </li>
       </ul>
@@ -248,7 +242,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/excel-files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/writing-files.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
   </div>
 </li>
       </ul>
@@ -263,28 +269,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-an-api" id="toc-what-is-an-api" class="nav-link active" data-scroll-target="#what-is-an-api"><span class="header-section-number">5.1</span> What is an API!?</a></li>
-  <li><a href="#working-with-httr2" id="toc-working-with-httr2" class="nav-link" data-scroll-target="#working-with-httr2"><span class="header-section-number">5.2</span> Working with <code>httr2</code></a>
+  <li><a href="#what-is-an-api" id="toc-what-is-an-api" class="nav-link active" data-scroll-target="#what-is-an-api"><span class="header-section-number">4.1</span> What is an API!?</a></li>
+  <li><a href="#working-with-httr2" id="toc-working-with-httr2" class="nav-link" data-scroll-target="#working-with-httr2"><span class="header-section-number">4.2</span> Working with <code>httr2</code></a>
   <ul class="collapse">
-  <li><a href="#httr2-requests-and-responses" id="toc-httr2-requests-and-responses" class="nav-link" data-scroll-target="#httr2-requests-and-responses"><span class="header-section-number">5.2.1</span> <code>httr2</code> requests and responses</a></li>
-  <li><a href="#extracting-data-from-responses" id="toc-extracting-data-from-responses" class="nav-link" data-scroll-target="#extracting-data-from-responses"><span class="header-section-number">5.2.2</span> Extracting data from responses</a></li>
+  <li><a href="#httr2-requests-and-responses" id="toc-httr2-requests-and-responses" class="nav-link" data-scroll-target="#httr2-requests-and-responses"><span class="header-section-number">4.2.1</span> <code>httr2</code> requests and responses</a></li>
+  <li><a href="#extracting-data-from-responses" id="toc-extracting-data-from-responses" class="nav-link" data-scroll-target="#extracting-data-from-responses"><span class="header-section-number">4.2.2</span> Extracting data from responses</a></li>
   </ul></li>
-  <li><a href="#extracting-all-data" id="toc-extracting-all-data" class="nav-link" data-scroll-target="#extracting-all-data"><span class="header-section-number">5.3</span> Extracting <em>all</em> data</a>
+  <li><a href="#extracting-all-data" id="toc-extracting-all-data" class="nav-link" data-scroll-target="#extracting-all-data"><span class="header-section-number">4.3</span> Extracting <em>all</em> data</a>
   <ul class="collapse">
-  <li><a href="#modifying-the-limit-and-offset" id="toc-modifying-the-limit-and-offset" class="nav-link" data-scroll-target="#modifying-the-limit-and-offset"><span class="header-section-number">5.3.1</span> Modifying the limit and offset</a></li>
-  <li><a href="#using-httr2" id="toc-using-httr2" class="nav-link" data-scroll-target="#using-httr2"><span class="header-section-number">5.3.2</span> Using httr2</a></li>
-  <li><a href="#all-the-data-everywhere-all-at-once" id="toc-all-the-data-everywhere-all-at-once" class="nav-link" data-scroll-target="#all-the-data-everywhere-all-at-once"><span class="header-section-number">5.3.3</span> All the data everywhere, all at once</a></li>
+  <li><a href="#modifying-the-limit-and-offset" id="toc-modifying-the-limit-and-offset" class="nav-link" data-scroll-target="#modifying-the-limit-and-offset"><span class="header-section-number">4.3.1</span> Modifying the limit and offset</a></li>
+  <li><a href="#using-httr2" id="toc-using-httr2" class="nav-link" data-scroll-target="#using-httr2"><span class="header-section-number">4.3.2</span> Using httr2</a></li>
+  <li><a href="#all-the-data-everywhere-all-at-once" id="toc-all-the-data-everywhere-all-at-once" class="nav-link" data-scroll-target="#all-the-data-everywhere-all-at-once"><span class="header-section-number">4.3.3</span> All the data everywhere, all at once</a></li>
   </ul></li>
-  <li><a href="#functions-crash-course" id="toc-functions-crash-course" class="nav-link" data-scroll-target="#functions-crash-course"><span class="header-section-number">5.4</span> Functions crash course</a></li>
+  <li><a href="#functions-crash-course" id="toc-functions-crash-course" class="nav-link" data-scroll-target="#functions-crash-course"><span class="header-section-number">4.4</span> Functions crash course</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/apis-functions/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/working-with-real-data/index.html">Working with real data</a></li><li class="breadcrumb-item"><a href="../../chapters/apis-functions/index.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/01-working-with-real-data/index.html">Working with real data</a></li><li class="breadcrumb-item"><a href="../../chapters/apis-functions/index.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></h1>
 </div>
 
 
@@ -301,12 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="what-is-an-api" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="what-is-an-api"><span class="header-section-number">5.1</span> What is an API!?</h2>
+<section id="what-is-an-api" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="what-is-an-api"><span class="header-section-number">4.1</span> What is an API!?</h2>
 <p>To put it simply, An API<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or <strong>application programming interface</strong> can be thought of in part as another tool in the user’s tool belt to <em>programmatically</em> interact and often extract data without having to manually download data. No one needs to lift their mouse and search through a webpage and click download. This is a simple, yet powerful concept that extend to many areas of data work and beyond. I encourage users to read up on and develop their API skills beyond what is presented in our coursework.</p>
 </section>
-<section id="working-with-httr2" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="working-with-httr2"><span class="header-section-number">5.2</span> Working with <code>httr2</code></h2>
+<section id="working-with-httr2" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="working-with-httr2"><span class="header-section-number">4.2</span> Working with <code>httr2</code></h2>
 <p>We will be working with <a href="https://httr2.r-lib.org/articles/httr2.html"><code>httr2</code></a> as our package of choice for API work. Often, specific APIs will have their own packages for working with them, it is often better to use those, but we cannot cover them all, and not every API has its own package. <code>httr2</code> will always be here for us, and if users can understand <code>httr2</code> then picking up the other more specific packages will become even easier.</p>
 <p>Remember our Covid-19 pandemic dataset? Before we would navigate to that website and download the datafile, or perhaps rely on the snippet of data provided in this course. No more - we are far too busy for that kind of work. From here on out we will be using the API, and in the future when users encounter data they want to incorporate into their analyses - it is almost always better to use the API.</p>
 <p>Install <code>httr2</code> like we would any other package.</p>
@@ -318,8 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="sc">|&gt;</span> <span class="fu">suppressPackageStartupMessages</span>() <span class="co"># this silences dplyr messages when loading the package</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="httr2-requests-and-responses" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="httr2-requests-and-responses"><span class="header-section-number">5.2.1</span> <code>httr2</code> requests and responses</h3>
+<section id="httr2-requests-and-responses" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="httr2-requests-and-responses"><span class="header-section-number">4.2.1</span> <code>httr2</code> requests and responses</h3>
 <p>Recall our <a href="https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data">pandemic data’s landing page</a> - notice what pops up when you click the ‘Export’ button in the top right of the webpage. The popup has ‘Download file’ defaulting to ‘Export format’ of csv. However, right next to it is ‘API endpoint’ - click that and notice the ‘Data format’ switches to ‘JSON’. Below that you may notice that there is a ‘Version’ toggle for either ‘SODA3’ or ‘SODA2’. For now, select ‘SODA2’ and copy the url provided, it should look like this: <a href="https://data.ct.gov/resource/28fr-iqnx.json">https://data.ct.gov/resource/28fr-iqnx.json</a> now that we have our url or <strong>endpoint</strong> as they are often called let’s hop into the code.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save our url into an object so we don't have to type it out everywhere</span></span>
@@ -345,8 +351,8 @@ Body: In memory (412447 bytes)</code></pre>
 </div>
 </div>
 </section>
-<section id="extracting-data-from-responses" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="extracting-data-from-responses"><span class="header-section-number">5.2.2</span> Extracting data from responses</h3>
+<section id="extracting-data-from-responses" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="extracting-data-from-responses"><span class="header-section-number">4.2.2</span> Extracting data from responses</h3>
 <p>We have a response - now where is our data? We need to pull it out of the body of the response and then convert it into an R dataframe.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_odp_data <span class="ot">&lt;-</span></span>
@@ -393,8 +399,8 @@ Note
 </div>
 </section>
 </section>
-<section id="extracting-all-data" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="extracting-all-data"><span class="header-section-number">5.3</span> Extracting <em>all</em> data</h2>
+<section id="extracting-all-data" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="extracting-all-data"><span class="header-section-number">4.3</span> Extracting <em>all</em> data</h2>
 <p>We’re going to have to do a little leg work here to get <em>all</em> the data, and then I am going to show you how you can package this all up so you can reuse it over and over again.</p>
 <p>First, users need to understand what the limit and offset are and how they can leverage those to get the data they expect.</p>
 <ul>
@@ -408,8 +414,8 @@ Note
 </ul></li>
 </ul>
 <p>These two parameters can be used in conjunction to, for example, grab the first 1000 rows of a dataset, and then grab the next 1000 and so on and so forth until all data is had.</p>
-<section id="modifying-the-limit-and-offset" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="modifying-the-limit-and-offset"><span class="header-section-number">5.3.1</span> Modifying the limit and offset</h3>
+<section id="modifying-the-limit-and-offset" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="modifying-the-limit-and-offset"><span class="header-section-number">4.3.1</span> Modifying the limit and offset</h3>
 <p>So modifying the limit and offset is all well in good, but how do we actually go about changing those values? Remember our endpoint url? Thankfully these are parameters that can be tacked on to the end of the url.</p>
 <p>If for whatever reason we wanted the 10th row, and <em>only</em> the 10th row of our dataset we can modify our url to look like this:</p>
 <p><a href="https://data.ct.gov/resource/28fr-iqnx.json?$limit=1&amp;$offset=9"><code>https://data.ct.gov/resource/28fr-iqnx.json?$limit=1&amp;$offset=9</code></a></p>
@@ -448,8 +454,8 @@ Note
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Does that match our original single item we had before?</p>
 </section>
-<section id="using-httr2" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="using-httr2"><span class="header-section-number">5.3.2</span> Using httr2</h3>
+<section id="using-httr2" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="using-httr2"><span class="header-section-number">4.3.2</span> Using httr2</h3>
 <p>No one wants to modify urls by hand, and we’re still clicking through everything, time to use <code>httr2</code> to do the heavy lifting.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We're going to grab first 5000 rows, 1000 rows at a time.</span></span>
@@ -516,8 +522,8 @@ Note
 </div>
 </div>
 </section>
-<section id="all-the-data-everywhere-all-at-once" class="level3" data-number="5.3.3">
-<h3 data-number="5.3.3" class="anchored" data-anchor-id="all-the-data-everywhere-all-at-once"><span class="header-section-number">5.3.3</span> All the data everywhere, all at once</h3>
+<section id="all-the-data-everywhere-all-at-once" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="all-the-data-everywhere-all-at-once"><span class="header-section-number">4.3.3</span> All the data everywhere, all at once</h3>
 <p>Wait - weren’t we promised all the data!? Fair point, how do we grab that data if we don’t know how many rows there are? At time of writing there are 102245 rows in this dataset, but let’s pretend we do not know that, and often that is the case.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bump this up to 10k rows per request and 10k offset each times</span></span>
@@ -575,8 +581,8 @@ Warning
 </div>
 </section>
 </section>
-<section id="functions-crash-course" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="functions-crash-course"><span class="header-section-number">5.4</span> Functions crash course</h2>
+<section id="functions-crash-course" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="functions-crash-course"><span class="header-section-number">4.4</span> Functions crash course</h2>
 <p>By now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The <code>httr2</code> documentation has a wonderful section on <a href="https://httr2.r-lib.org/articles/wrapping-apis.html#secret-management">wrapping apis</a> into useful functions that I will encourage users to read.</p>
 <p>We will take much of the logic and code discussed in that document and apply it to our usecases.</p>
 <p>Up to this point users will be using functions all over the place in R. Now we are going to write out own using the <code>function()</code> function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.</p>
@@ -676,7 +682,7 @@ Tip
 <p>From here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…</p>
 </div>
 </div>
-<p>Users who checked out the <code>httr2</code> documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See <a href="../secrets/index.html#sec-secrets" class="quarto-xref"><span>Section 7.2</span></a> for those details if you wish skip ahead now.</p>
+<p>Users who checked out the <code>httr2</code> documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See <a href="../secrets/index.html#sec-secrets" class="quarto-xref"><span>Section 6.2</span></a> for those details if you wish skip ahead now.</p>
 
 
 </section>
@@ -1090,13 +1096,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/working-with-real-data/reading-comma-delimited-files.html" class="pagination-link" aria-label="Reading Comma Delimited Files">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reading Comma Delimited Files</span></span>
+      <a href="../../chapters/01-working-with-real-data/project.html" class="pagination-link" aria-label="A First Look at Hartford">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A First Look at Hartford</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/apis-functions/project.html" class="pagination-link" aria-label="Implementing APIs into our Analysis">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
