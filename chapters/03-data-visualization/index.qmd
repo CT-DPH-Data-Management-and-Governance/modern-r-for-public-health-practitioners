@@ -1,0 +1,22 @@
+---
+title: Plotting with `ggplot2`
+---
+
+## Introduction  to `ggplot2`
+
+...
+
+### Grammar of Graphics
+
+... building plot up like a layered cake...
+
+### Syntatic Differences
+
+## Mapping with `ggplot2`
+
+
+### Choropleths
+
+
+
+... link to a leaflet/mapview section etc...

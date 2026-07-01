@@ -38,6 +38,9 @@ book:
         - chapters/01-working-with-real-data/project.qmd
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
+    - part: "Data Visualization"
+      chapters:
+        - chapters/03-data-visualization/index.qmd
     - part: "Security Basics"
       chapters:
         - chapters/secrets/index.qmd
