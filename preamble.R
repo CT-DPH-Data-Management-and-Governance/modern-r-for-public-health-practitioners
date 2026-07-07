@@ -1,83 +1,3 @@
-```{r setup-themes, echo=FALSE}
-library(ggplot2)
-
-# color lists
-
-list_old_sha_colors <-
-  dplyr::lst(
-    lightblue = "#61B5CC",
-    blue = "#3866A0",
-    darkblue = "#214066",
-    gray = "#7B8B98",
-    yellowgreen = "#B8C349",
-    orange = "#E39B3B",
-    purple = "#47205B"
-  )
-
-list_ct_primary_colors <-
-  dplyr::lst(
-    primary = "#3371E7",
-    primary_shade1 = "#00214D",
-    primary_shade2 = "#003D9C",
-    primary_shade3 = "#7094F5",
-    primary_shade4 = "#C6D4FB"
-  )
-
-list_ct_secondary_colors <-
-  dplyr::lst(
-    secondary = "#F27124",
-    secondary_shade = "#FAAA19"
-  )
-
-list_ct_tertiary_colors <-
-  dplyr::lst(
-    tertiary = "#D8343E",
-    tertiary_shade = "#94343E"
-  )
-
-list_color_hex_codes <-
-  dplyr::lst(
-    list_old_sha_colors,
-    list_ct_primary_colors,
-    list_ct_secondary_colors,
-    list_ct_tertiary_colors
-  )
-
-# custom ct themes
-
-# for vertical plots
-theme_ct_vertical <- function() {
-  ggplot2::theme_classic() +
-    ggplot2::theme(
-      axis.line.y = element_blank(),
-      axis.ticks.y = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title = element_text(face = "bold", family = "Poppins")
-    )
-}
-
-# for sideways like horizontal plots
-theme_ct_horizontal <- function() {
-  ggplot2::theme_classic() +
-    ggplot2::theme(
-      axis.line.x = element_blank(),
-      axis.ticks.y = element_blank(),
-      axis.ticks.x = element_blank(),
-      axis.title = element_text(face = "bold", family = "Poppins")
-    )
-}
-
-# text
-
-theme_poppins_bold_all <- function() {
-  ggplot2::theme(
-    text = element_text(family = "Poppins", face = "bold")
-  )
-}
-```
-
-
-```{r setup-workspace, echo=FALSE}
 #' Create a Modern R Project Scaffold
 #'
 #' Builds a standard directory structure for a data analysis project,
@@ -102,7 +22,6 @@ theme_poppins_bold_all <- function() {
 #'
 #' @export
 create_project_scaffold <- function(base_path = ".", project_name = NULL) {
-
   rlang::check_installed("fs", reason = "to create the project scaffold")
   rlang::check_installed("cli", reason = "to print scaffold progress")
 
@@ -138,13 +57,13 @@ create_project_scaffold <- function(base_path = ".", project_name = NULL) {
   # --- Define the directory tree --------------------------------------------
 
   project_dirs <- c(
-    "data/raw",        # Treat raw data as read-only
-    "data/processed",  # Cleaned, intermediate data ready for modeling/viz
-    "R",               # Custom R functions (modular code)
-    "scripts",         # Analysis scripts (e.g., 01_clean.R, 02_eda.R)
+    "data/raw", # Treat raw data as read-only
+    "data/processed", # Cleaned, intermediate data ready for modeling/viz
+    "R", # Custom R functions (modular code)
+    "scripts", # Analysis scripts (e.g., 01_clean.R, 02_eda.R)
     "outputs/figures", # Generated plots
-    "outputs/tables",  # Generated data summaries/CSVs
-    "docs"             # Quarto/RMarkdown reports and documentation
+    "outputs/tables", # Generated data summaries/CSVs
+    "docs" # Quarto/RMarkdown reports and documentation
   )
 
   full_dirs <- fs::path(base_path_abs, project_dirs)
@@ -223,4 +142,3 @@ create_project_scaffold <- function(base_path = ".", project_name = NULL) {
 
   invisible(c(full_dirs, readme_path))
 }
-```
