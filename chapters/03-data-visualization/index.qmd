@@ -359,8 +359,9 @@ adds matching columns from the **right** table (`y`). Where there's no
 match, the new columns are filled with `NA`. Think of it as: "give me
 all the towns, and bring in any COVID numbers that line up."
 
-We cover joins in detail in a later chapter — [see Further
-Reading](further-reading/index.qmd) for the full guide.
+We cover joins in more detail back in [Further
+Reading](../01-working-with-real-data/further-reading.qmd) if you want
+the full guide.
 :::
 
 ```{r}

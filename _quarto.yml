@@ -36,6 +36,7 @@ book:
       chapters:
         - chapters/01-working-with-real-data/index.qmd
         - chapters/01-working-with-real-data/project.qmd
+        - chapters/01-working-with-real-data/further-reading.qmd
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
     - part: "Data Visualization"
