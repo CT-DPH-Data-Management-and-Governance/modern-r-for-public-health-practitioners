@@ -158,8 +158,35 @@ those in turn.
 ### Title, axis labels, and theme
 
 `labs()` replaces the automatic labels from column names and adds a
-title. `theme_ct_vertical()` (defined in `preamble.Rmd`) removes the
-y-axis line and tick marks for a cleaner look.
+title. We use custom CT DPH theme functions to give our plots a clean
+look — a quick reference lives in the callout below.
+
+::: {.callout-note}
+## CT DPH custom themes
+
+To save time and typing, we will be using CT-DPH specific themes
+that are saved inside of functions.
+
+| Function | What it does |
+|---|---|
+| `theme_ct_vertical()` | Removes the y-axis line and tick marks; use for vertical plots. |
+| `theme_ct_horizontal()` | Removes the x-axis line and tick marks; use for wide/horizontal plots. |
+| `theme_poppins_bold_all()` | Sets Poppins, bold face, everywhere in the plot. |
+
+And palettes of named CT DPH brand colors:
+
+| Function | Colors |
+|---|---|
+| `list_ct_primary_colors()` | `primary`, `primary_shade1` … `primary_shade4` |
+| `list_ct_secondary_colors()` | `secondary`, `secondary_shade` |
+| `list_ct_tertiary_colors()` | `tertiary`, `tertiary_shade` |
+
+These come from the CT DPH brand guide — **use the variables, not
+hex literals**, so the brand can change in one place. `list_color_hex_codes()`
+exposes everything as a flat list. See
+[Further Reading](../further-reading/index.qmd) for the full list, code
+snippets, and tips on plugging colors into `ggplot2` scales.
+:::
 
 ```{r}
 #| label: intro-annotated
