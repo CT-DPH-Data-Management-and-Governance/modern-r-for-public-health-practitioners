@@ -184,17 +184,7 @@ ggplot(
 `x = NULL` removes the x-axis label entirely — the title is enough, and
 everyone reading this knows it shows dates.
 
-::: {.callout-tip}
-## Keyboard shortcut
 
-| Shortcut | What it does |
-|---|---|
-| `Ctrl+Shift+M` | Insert the pipe `|>` |
-| `Ctrl+Shift+C/Cmd+Shift+C` | Copy the ggplot code to clipboard |
-| `Ctrl+Enter/Cmd+Return` | Run the current line or code chunk |
-
-Learn them early — you will use them on every line you write.
-:::
 
 ### Adding color
 
@@ -341,7 +331,7 @@ Now join the COVID data to the map by town name and map `fill` to the
 case rate:
 
 ```{r}
-#| label: choropleth-fill
+#| label: choropleth-data
 
 # Summarize cases by town on the latest date
 latest_date <- max(covid_data$`Last update date`, na.rm = TRUE)
@@ -359,6 +349,22 @@ town_cases <-
 # Join COVID data to spatial data
 ct_bounded <- ct_towns |>
   left_join(town_cases, by = join_by(NAME == name))
+```
+
+::: {.callout-tip}
+## What just happened: `left_join` explained
+
+`left_join(x, y, by)` keeps every row from the **left** table (`x`) and
+adds matching columns from the **right** table (`y`). Where there's no
+match, the new columns are filled with `NA`. Think of it as: "give me
+all the towns, and bring in any COVID numbers that line up."
+
+We cover joins in detail in a later chapter — [see Further
+Reading](further-reading/index.qmd) for the full guide.
+:::
+
+```{r}
+#| label: choropleth-fill
 
 # Choropleth: gray for towns without data, blue gradient for those with
 ggplot() +
@@ -393,7 +399,6 @@ ggplot() +
     plot.subtitle = element_text(size = 10, color = "gray50"),
     legend.position = "right"
   )
-```
 
 The choropleth tells at a glance which towns carry the heaviest burden.
 Towns without data (suppressed for small sample sizes) appear gray.
