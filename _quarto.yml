@@ -42,13 +42,13 @@ book:
       chapters:
         - chapters/03-data-visualization/index.qmd
         - chapters/03-data-visualization/mapview-leaflet.qmd
-        - chapters/03-data-visualization/further-reading/index.qmd
     - part: "Security Basics"
       chapters:
         - chapters/secrets/index.qmd
     - part: "Further Reading"
       chapters:
         - chapters/further-reading/index.qmd
+        - chapters/further-reading/joins.qmd
         - chapters/further-reading/excel-files.qmd
         - chapters/further-reading/writing-files.qmd
   page-navigation: true
