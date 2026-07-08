@@ -1,0 +1,120 @@
+---
+title: "Joins"
+---
+
+The choropleth section used `left_join()` to attach COVID case data to
+town boundaries. That's one of six join verbs `dplyr` gives you — each
+answers a different question about how two tables relate. This page
+walks through all six using the same shape of data: a `towns` table
+(the "left" table, like `ct_towns`) and a `cases` table (the "right"
+table, like `town_cases`).
+
+```{r}
+#| label: joins-setup
+library(dplyr)
+
+towns <- tibble::tibble(
+  name = c("Hartford", "New Haven", "Bridgeport", "Norwalk"),
+  county = c("Hartford", "New Haven", "Fairfield", "Fairfield")
+)
+
+cases <- tibble::tibble(
+  name = c("Hartford", "New Haven", "Stamford"),
+  case_rate = c(412, 388, 355)
+)
+```
+
+`towns` has four rows, `cases` has three, and only two names
+(`Hartford`, `New Haven`) appear in both. `Norwalk` has no case data.
+`Stamford` has case data but isn't in `towns`. That mismatch is exactly
+what makes joins interesting — each verb handles it differently.
+
+## `left_join()`: keep everything on the left
+
+```{r}
+#| label: left-join
+towns |>
+  left_join(cases, by = "name")
+```
+
+Every row from `towns` survives. Where `cases` has no matching `name`
+(Norwalk), `case_rate` comes back `NA`. `Stamford` never appears — it
+wasn't in the left table to begin with. This is what the choropleth
+uses: keep all 169 CT towns, fill in case data where it exists, show
+gray for the rest.
+
+## `right_join()`: keep everything on the right
+
+```{r}
+#| label: right-join
+towns |>
+  right_join(cases, by = "name")
+```
+
+The mirror image. Every row from `cases` survives, including
+`Stamford`, which now shows `NA` for `county`. Norwalk drops out
+entirely since it's not in `cases`. In practice, `right_join(x, y)` is
+the same as `left_join(y, x)` with the columns reordered — most people
+just pick whichever table they name first and use `left_join()`.
+
+## `inner_join()`: keep only matches
+
+```{r}
+#| label: inner-join
+towns |>
+  inner_join(cases, by = "name")
+```
+
+Only rows present in **both** tables survive: Hartford and New Haven.
+No `NA`s, because everything left in the result has a match on both
+sides. Use this when a row without a match is meaningless for what
+you're calculating — e.g., a rate that requires both a population and
+a case count.
+
+## `full_join()`: keep everything from both
+
+```{r}
+#| label: full-join
+towns |>
+  full_join(cases, by = "name")
+```
+
+Nothing is dropped. Norwalk keeps its row with `case_rate` as `NA`;
+Stamford keeps its row with `county` as `NA`. Use this when you want a
+complete picture of every name that shows up anywhere, gaps and all.
+
+## `semi_join()`: filter, don't add columns
+
+```{r}
+#| label: semi-join
+towns |>
+  semi_join(cases, by = "name")
+```
+
+`semi_join()` keeps rows from `towns` that **have** a match in `cases`
+— but it never adds `cases`' columns. The result has only `name` and
+`county`. Think of it as a filter, not a join: "give me the towns that
+also appear in my case data."
+
+## `anti_join()`: the opposite filter
+
+```{r}
+#| label: anti-join
+towns |>
+  anti_join(cases, by = "name")
+```
+
+The inverse of `semi_join()`: keep rows from `towns` that have **no**
+match in `cases`. This is the fastest way to answer "which towns are
+missing case data?" — exactly the gray towns in the choropleth.
+
+::: {.callout-tip}
+## Picking the right join
+
+- Need every row from your main table, filled in where possible? →
+  `left_join()`
+- Need only rows that exist on both sides? → `inner_join()`
+- Need every row from either side, gaps and all? → `full_join()`
+- Just need to filter one table by presence in another, without
+  adding columns? → `semi_join()` / `anti_join()`
+:::

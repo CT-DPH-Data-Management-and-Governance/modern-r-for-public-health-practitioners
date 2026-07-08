@@ -18,3 +18,66 @@ testing123
 - [Quarto.org](https://quarto.org/)
 
 - [httr2 documentation](https://httr2.r-lib.org/index.html)
+
+## Custom themes and color palettes
+
+The book ships three ggplot2 theme helpers and several named color
+palettes in `preamble-themes.R`. Each chapter sources this file at the
+top so the functions are available throughout.
+
+### Theme functions
+
+| Function | What it does | Use when… |
+|---|---|---|
+| `theme_ct_vertical()` | Removes the y-axis line, y-axis tick marks and x-axis tick marks. Sets axis titles to bold Poppins. | Vertical / tall plots (time series, vertical bars) |
+| `theme_ct_horizontal()` | Removes the x-axis line, x-axis tick marks and y-axis tick marks. Sets axis titles to bold Poppins. | Horizontal / wide plots (horizontal bars, side-by-side comparisons) |
+| `theme_poppins_bold_all()` | Sets every bit of text in the plot to bold Poppins. | When you want a uniform, no-nonsense look across all elements |
+
+Theme functions stack — call them with `+` like any other ggplot2 layer.
+Later themes fill gaps left by earlier ones, so the ordering matters
+only when they overlap.
+
+### Color palettes
+
+| Function | Colors returned |
+|---|---|
+| `list_ct_primary_colors()` | `primary` (#3371E7), `primary_shade1` (#00214D), `primary_shade2` (#003D9C), `primary_shade3` (#7094F5), `primary_shade4` (#C6D4FB) |
+| `list_ct_secondary_colors()` | `secondary` (#F27124), `secondary_shade` (#FAAA19) |
+| `list_ct_tertiary_colors()` | `tertiary` (#D8343E), `tertiary_shade` (#94343E) |
+| `list_old_sha_colors()` | Legacy SHA palette — use only for backward-compat with older reports |
+| `list_color_hex_codes()` | Nested list of all palettes above (flat list of named hex values) |
+
+**Always use the variables, not hex literals.** If the brand updates its
+palette, a single change to `preamble-themes.R` propagates to every
+plot.
+
+To pick one or two named colors inside a scale, slice the returned list:
+
+```{r}
+#| label: palette-example
+library(ggplot2)
+source(file.path(here::here(), "preamble-themes.R"))
+
+ggplot() +
+  geom_col(aes(x = factor(1:2), y = c(15, 25),
+               fill = factor(c("New Cases", "New Cases"))),
+           position = "dodge") +
+  scale_fill_manual(
+    values = list_ct_primary_colors[c("primary_shade1", "primary_shade3")]
+  ) +
+  theme_poppins_bold_all() +
+  theme_ct_vertical()
+```
+
+## Interactive Maps
+
+::: {.callout-tip}
+## Want to go further with `leaflet`?
+
+The data visualization chapter gets you comfortable with `mapview` for
+quick looks and `leaflet` basics like `addTiles()`, `addPolygons()`,
+`addMarkers()`, and `colorBin()` for choropleths. There's more under
+the hood once you're ready for it — layer controls with `addLayers()`,
+juggling coordinate and data bindings, and wiring maps up to Shiny for
+interactivity. A deeper dive into all of that is coming soon.
+:::
