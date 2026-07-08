@@ -48,10 +48,7 @@ book:
     - part: "Further Reading"
       chapters:
         - chapters/further-reading/index.qmd
-<<<<<<< HEAD
         - chapters/further-reading/joins.qmd
-=======
->>>>>>> main
         - chapters/further-reading/excel-files.qmd
         - chapters/further-reading/writing-files.qmd
   page-navigation: true
