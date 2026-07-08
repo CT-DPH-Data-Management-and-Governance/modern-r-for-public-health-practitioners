@@ -65,6 +65,7 @@ Before reading the file, a word on paths — because this is where R trips
 people up early.
 
 When you run code interactively, R looks for files starting from your project
+<<<<<<< HEAD
 root (wherever your `.Rproj` file lives or the root of the folder you opened 
 your with your IDE). 
 Often you will users will find themselves referencing files in various places
@@ -77,6 +78,16 @@ which is why using paths relative to the project root  is so important.
 a user's project can be less dependant on *only them*. It detects your project 
 root and always builds paths from there, regardless of how or where the code 
 runs. Use it instead of `path()` whenever you are building paths to data files.
+=======
+root (wherever your `.Rproj` file lives). When Quarto *renders* a document,
+it shifts the working directory to wherever the `.qmd` file lives. These
+locations are often different, which is why a path that works in your console
+can fail during render, or vice versa.
+
+`here()` from the `here` package fixes this. It detects your project root
+and always builds paths from there, regardless of how or where the code runs.
+Use it instead of `path()` whenever you are building paths to data files.
+>>>>>>> main
 
 ```{r}
 #| eval: false

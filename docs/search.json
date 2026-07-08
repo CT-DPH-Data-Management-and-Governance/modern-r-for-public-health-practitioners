@@ -164,7 +164,11 @@
     "href": "chapters/01-working-with-real-data/index.html#reading-data-files",
     "title": "2  Loading Your First Dataset",
     "section": "2.2 Reading Data Files",
+<<<<<<< HEAD
     "text": "2.2 Reading Data Files\n\n2.2.1 Reading our Comma Delimited File (.csv)\nWe are going to do a few things here:\n\nLoad the packages we need into our session.\nBuild a path to our data file and save it as csv_path.\nRead the data into our session and save it as covid_data.\n\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(fs)\nlibrary(here)\n\n\n\n2.2.2 Paths and here()\nBefore reading the file, a word on paths — because this is where R trips people up early.\nWhen you run code interactively, R looks for files starting from your project root (wherever your .Rproj file lives or the root of the folder you opened your with your IDE). Often you will users will find themselves referencing files in various places that are not in the root of their project. Hardcoding out a file path like /home/my-username/folder-that-only-i-have/r-file.R makes this project tied only to that user’s computer. That is not ideal, which is why using paths relative to the project root is so important.\nhere() from the here package is one tool for working with paths so that a user’s project can be less dependant on only them. It detects your project root and always builds paths from there, regardless of how or where the code runs. Use it instead of path() whenever you are building paths to data files.\n\n# here() takes folder names as separate arguments.\n# It joins them with the correct separator for your OS.\ncsv_path &lt;- here(\"data\", \"raw\", \"ct_covid_by_town_2026-06-30.csv\")\n\ncovid_data &lt;- read_csv(csv_path)\n\nWe have our data saved into our session — now let’s look at it.\n\n# taking a look at the top few rows\nhead(covid_data)\n\n# A tibble: 6 × 16\n  `Last update date` `Town number` Town         `Total cases` `Confirmed cases`\n  &lt;chr&gt;                      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;\n1 06/24/2022                     1 Andover                514               439\n2 06/24/2022                     2 Ansonia               4911              4222\n3 06/24/2022                     3 Ashford                744               671\n4 06/24/2022                     4 Avon                  3030              2773\n5 06/24/2022                     5 Barkhamsted            527               490\n6 06/24/2022                     6 Beacon Falls          1306              1163\n# ℹ 11 more variables: `Probable cases` &lt;dbl&gt;, `Case rate` &lt;dbl&gt;,\n#   `Total deaths` &lt;dbl&gt;, `Confirmed deaths` &lt;dbl&gt;, `Probable deaths` &lt;dbl&gt;,\n#   `People tested` &lt;dbl&gt;, `Rate tested per 100k` &lt;dbl&gt;,\n#   `Number of tests` &lt;dbl&gt;, `Number of positives` &lt;dbl&gt;,\n#   `Number of negatives` &lt;dbl&gt;, `Number of indeterminates` &lt;dbl&gt;\n\n\n\n# glimpse from dplyr\nglimpse(covid_data)\n\nRows: 102,245\nColumns: 16\n$ `Last update date`         &lt;chr&gt; \"06/24/2022\", \"06/24/2022\", \"06/24/2022\", \"…\n$ `Town number`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, …\n$ Town                       &lt;chr&gt; \"Andover\", \"Ansonia\", \"Ashford\", \"Avon\", \"B…\n$ `Total cases`              &lt;dbl&gt; 514, 4911, 744, 3030, 527, 1306, 4098, 991,…\n$ `Confirmed cases`          &lt;dbl&gt; 439, 4222, 671, 2773, 490, 1163, 3751, 901,…\n$ `Probable cases`           &lt;dbl&gt; 75, 689, 73, 257, 37, 143, 347, 90, 745, 91…\n$ `Case rate`                &lt;dbl&gt; 15884, 26327, 17485, 16579, 14615, 20990, 2…\n$ `Total deaths`             &lt;dbl&gt; 6, 49, 5, 81, 8, 11, 52, 4, 71, 3, 136, 5, …\n$ `Confirmed deaths`         &lt;dbl&gt; 4, 39, 4, 65, 7, 11, 45, 3, 56, 2, 116, 4, …\n$ `Probable deaths`          &lt;dbl&gt; 2, 10, 1, 16, 1, 0, 7, 1, 15, 1, 20, 1, 0, …\n$ `People tested`            &lt;dbl&gt; 2442, 16305, 3398, 17103, 2698, 4909, 16527…\n$ `Rate tested per 100k`     &lt;dbl&gt; 75464, 87408, 79859, 93582, 74820, 78897, 8…\n$ `Number of tests`          &lt;dbl&gt; 9378, 77023, 13168, 74898, 11013, 23227, 75…\n$ `Number of positives`      &lt;dbl&gt; 590, 6048, 896, 3563, 621, 1591, 4960, 1211…\n$ `Number of negatives`      &lt;dbl&gt; 8780, 70818, 12259, 71253, 10378, 21591, 70…\n$ `Number of indeterminates` &lt;dbl&gt; 8, 157, 13, 82, 14, 45, 83, 31, 84, 22, 201…\n\n\n\n\n\n\n\n\nNote\n\n\n\nWorking with Excel files (.xlsx) is covered in Working with Excel Files.\n\n\n\n\n\n\n\n\nNote\n\n\n\nWriting data to files — CSV, parquet, and others — is covered in Writing Data Files.",
+=======
+    "text": "2.2 Reading Data Files\n\n2.2.1 Reading our Comma Delimited File (.csv)\nWe are going to do a few things here:\n\nLoad the packages we need into our session.\nBuild a path to our data file and save it as csv_path.\nRead the data into our session and save it as covid_data.\n\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(fs)\nlibrary(here)\n\n\n\n2.2.2 Paths and here()\nBefore reading the file, a word on paths — because this is where R trips people up early.\nWhen you run code interactively, R looks for files starting from your project root (wherever your .Rproj file lives). When Quarto renders a document, it shifts the working directory to wherever the .qmd file lives. These locations are often different, which is why a path that works in your console can fail during render, or vice versa.\nhere() from the here package fixes this. It detects your project root and always builds paths from there, regardless of how or where the code runs. Use it instead of path() whenever you are building paths to data files.\n\n# here() takes folder names as separate arguments.\n# It joins them with the correct separator for your OS.\ncsv_path &lt;- here(\"data\", \"raw\", \"ct_covid_by_town_2026-06-30.csv\")\n\ncovid_data &lt;- read_csv(csv_path)\n\nWe have our data saved into our session — now let’s look at it.\n\n# taking a look at the top few rows\nhead(covid_data)\n\n# A tibble: 6 × 16\n  `Last update date` `Town number` Town         `Total cases` `Confirmed cases`\n  &lt;chr&gt;                      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;\n1 06/24/2022                     1 Andover                514               439\n2 06/24/2022                     2 Ansonia               4911              4222\n3 06/24/2022                     3 Ashford                744               671\n4 06/24/2022                     4 Avon                  3030              2773\n5 06/24/2022                     5 Barkhamsted            527               490\n6 06/24/2022                     6 Beacon Falls          1306              1163\n# ℹ 11 more variables: `Probable cases` &lt;dbl&gt;, `Case rate` &lt;dbl&gt;,\n#   `Total deaths` &lt;dbl&gt;, `Confirmed deaths` &lt;dbl&gt;, `Probable deaths` &lt;dbl&gt;,\n#   `People tested` &lt;dbl&gt;, `Rate tested per 100k` &lt;dbl&gt;,\n#   `Number of tests` &lt;dbl&gt;, `Number of positives` &lt;dbl&gt;,\n#   `Number of negatives` &lt;dbl&gt;, `Number of indeterminates` &lt;dbl&gt;\n\n\n\n# glimpse from dplyr\nglimpse(covid_data)\n\nRows: 102,245\nColumns: 16\n$ `Last update date`         &lt;chr&gt; \"06/24/2022\", \"06/24/2022\", \"06/24/2022\", \"…\n$ `Town number`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, …\n$ Town                       &lt;chr&gt; \"Andover\", \"Ansonia\", \"Ashford\", \"Avon\", \"B…\n$ `Total cases`              &lt;dbl&gt; 514, 4911, 744, 3030, 527, 1306, 4098, 991,…\n$ `Confirmed cases`          &lt;dbl&gt; 439, 4222, 671, 2773, 490, 1163, 3751, 901,…\n$ `Probable cases`           &lt;dbl&gt; 75, 689, 73, 257, 37, 143, 347, 90, 745, 91…\n$ `Case rate`                &lt;dbl&gt; 15884, 26327, 17485, 16579, 14615, 20990, 2…\n$ `Total deaths`             &lt;dbl&gt; 6, 49, 5, 81, 8, 11, 52, 4, 71, 3, 136, 5, …\n$ `Confirmed deaths`         &lt;dbl&gt; 4, 39, 4, 65, 7, 11, 45, 3, 56, 2, 116, 4, …\n$ `Probable deaths`          &lt;dbl&gt; 2, 10, 1, 16, 1, 0, 7, 1, 15, 1, 20, 1, 0, …\n$ `People tested`            &lt;dbl&gt; 2442, 16305, 3398, 17103, 2698, 4909, 16527…\n$ `Rate tested per 100k`     &lt;dbl&gt; 75464, 87408, 79859, 93582, 74820, 78897, 8…\n$ `Number of tests`          &lt;dbl&gt; 9378, 77023, 13168, 74898, 11013, 23227, 75…\n$ `Number of positives`      &lt;dbl&gt; 590, 6048, 896, 3563, 621, 1591, 4960, 1211…\n$ `Number of negatives`      &lt;dbl&gt; 8780, 70818, 12259, 71253, 10378, 21591, 70…\n$ `Number of indeterminates` &lt;dbl&gt; 8, 157, 13, 82, 14, 45, 83, 31, 84, 22, 201…\n\n\n\n\n\n\n\n\nNote\n\n\n\nWorking with Excel files (.xlsx) is covered in Working with Excel Files.\n\n\n\n\n\n\n\n\nNote\n\n\n\nWriting data to files — CSV, parquet, and others — is covered in Writing Data Files.",
+>>>>>>> main
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Loading Your First Dataset</span>"
@@ -256,6 +260,7 @@
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>A First Look at Hartford</span>"
+<<<<<<< HEAD
     ]
   },
   {
@@ -267,6 +272,8 @@
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>A First Look at Hartford</span>"
+=======
+>>>>>>> main
     ]
   },
   {
@@ -307,7 +314,11 @@
     "href": "chapters/apis-functions/index.html#functions-crash-course",
     "title": "4  Working with APIs and Functions",
     "section": "4.4 Functions crash course",
+<<<<<<< HEAD
     "text": "4.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 8.2 for those details if you wish skip ahead now.",
+=======
+    "text": "4.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 6.2 for those details if you wish skip ahead now.",
+>>>>>>> main
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
@@ -333,6 +344,7 @@
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Implementing APIs into our Analysis</span>"
+<<<<<<< HEAD
     ]
   },
   {
@@ -432,55 +444,93 @@
     "crumbs": [
       "Data Visualization",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Maps: mapview & leaflet</span>"
+=======
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/secrets/index.html",
     "href": "chapters/secrets/index.html",
+<<<<<<< HEAD
     "title": "8  Managing Secrets",
     "section": "",
     "text": "8.1 What are Secrets\nSecrets are…",
     "crumbs": [
       "Security Basics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Managing Secrets</span>"
+=======
+    "title": "6  Managing Secrets",
+    "section": "",
+    "text": "6.1 What are Secrets\nSecrets are…",
+    "crumbs": [
+      "Security Basics",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Managing Secrets</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/secrets/index.html#sec-secrets",
     "href": "chapters/secrets/index.html#sec-secrets",
+<<<<<<< HEAD
     "title": "8  Managing Secrets",
     "section": "8.2 Keeping secrets secretly",
     "text": "8.2 Keeping secrets secretly\nSecrets are…",
     "crumbs": [
       "Security Basics",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Managing Secrets</span>"
+=======
+    "title": "6  Managing Secrets",
+    "section": "6.2 Keeping secrets secretly",
+    "text": "6.2 Keeping secrets secretly\nSecrets are…",
+    "crumbs": [
+      "Security Basics",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Managing Secrets</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html",
     "href": "chapters/further-reading/index.html",
+<<<<<<< HEAD
     "title": "9  Resources",
     "section": "",
     "text": "9.1 Recommended Books\ntesting123",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
+=======
+    "title": "7  Resources",
+    "section": "",
+    "text": "7.1 Recommended Books\ntesting123",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html#recommended-books",
     "href": "chapters/further-reading/index.html#recommended-books",
+<<<<<<< HEAD
     "title": "9  Resources",
+=======
+    "title": "7  Resources",
+>>>>>>> main
     "section": "",
     "text": "R for Data Science 2nd Edition\n\nOne of the authors, Hadley Wickham, is the creator of the tidyverse and this is a wonderful resource for learning analytics in R. Don’t let the Data Science in the title intimidate, there is rich info in this for R users of all skill levels.",
     "crumbs": [
       "Further Reading",
+<<<<<<< HEAD
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
+=======
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html#recommended-websites",
     "href": "chapters/further-reading/index.html#recommended-websites",
+<<<<<<< HEAD
     "title": "9  Resources",
     "section": "9.2 Recommended Websites",
     "text": "9.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
@@ -575,83 +625,154 @@
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
+=======
+    "title": "7  Resources",
+    "section": "7.2 Recommended Websites",
+    "text": "7.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html",
     "href": "chapters/further-reading/excel-files.html",
+<<<<<<< HEAD
     "title": "11  Working with Excel Files",
     "section": "",
     "text": "11.1 Installing the packages\nExcel files are everywhere in public health. This chapter covers reading and writing .xlsx files using readxl and writexl.\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
+=======
+    "title": "8  Working with Excel Files",
+    "section": "",
+    "text": "8.1 Installing the packages\nExcel files are everywhere in public health. This chapter covers reading and writing .xlsx files using readxl and writexl.\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#reading-.xlsx-files",
     "href": "chapters/further-reading/excel-files.html#reading-.xlsx-files",
+<<<<<<< HEAD
     "title": "11  Working with Excel Files",
     "section": "11.2 Reading .xlsx files",
     "text": "11.2 Reading .xlsx files\nreadxl reads Excel files the same way readr reads CSVs. Use here() to build the path so it works both interactively and during render.\n\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path &lt;- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data &lt;- read_excel(xlsx_path)\n\nyour_data\n\nIf your workbook has multiple sheets, use the sheet argument:\n\nyour_data &lt;- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data &lt;- read_excel(xlsx_path, sheet = 2)",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
+=======
+    "title": "8  Working with Excel Files",
+    "section": "8.2 Reading .xlsx files",
+    "text": "8.2 Reading .xlsx files\nreadxl reads Excel files the same way readr reads CSVs. Use here() to build the path so it works both interactively and during render.\n\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path &lt;- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data &lt;- read_excel(xlsx_path)\n\nyour_data\n\nIf your workbook has multiple sheets, use the sheet argument:\n\nyour_data &lt;- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data &lt;- read_excel(xlsx_path, sheet = 2)",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#writing-.xlsx-files",
     "href": "chapters/further-reading/excel-files.html#writing-.xlsx-files",
+<<<<<<< HEAD
     "title": "11  Working with Excel Files",
     "section": "11.3 Writing .xlsx files",
     "text": "11.3 Writing .xlsx files\nwritexl writes a data frame to an Excel file with no Java dependency (unlike openxlsx).\n\nlibrary(writexl)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n\nTo write multiple sheets in one workbook, pass a named list:\n\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
+=======
+    "title": "8  Working with Excel Files",
+    "section": "8.3 Writing .xlsx files",
+    "text": "8.3 Writing .xlsx files\nwritexl writes a data frame to an Excel file with no Java dependency (unlike openxlsx).\n\nlibrary(writexl)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n\nTo write multiple sheets in one workbook, pass a named list:\n\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#when-to-use-csv-vs-excel",
     "href": "chapters/further-reading/excel-files.html#when-to-use-csv-vs-excel",
+<<<<<<< HEAD
     "title": "11  Working with Excel Files",
     "section": "11.4 When to use CSV vs Excel",
     "text": "11.4 When to use CSV vs Excel\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control friendly, and readable by every tool. Use Excel output when the end recipient is a stakeholder who will open the file directly in Excel and expects formatting.",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
+=======
+    "title": "8  Working with Excel Files",
+    "section": "8.4 When to use CSV vs Excel",
+    "text": "8.4 When to use CSV vs Excel\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control friendly, and readable by every tool. Use Excel output when the end recipient is a stakeholder who will open the file directly in Excel and expects formatting.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html",
     "href": "chapters/further-reading/writing-files.html",
+<<<<<<< HEAD
     "title": "12  Writing Data Files",
     "section": "",
     "text": "12.1 CSV\nOnce you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.\nwrite_csv() from readr is the default for analysis outputs that feed into other scripts or tools.\nlibrary(readr)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Writing Data Files</span>"
+=======
+    "title": "9  Writing Data Files",
+    "section": "",
+    "text": "9.1 CSV\nOnce you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.\nwrite_csv() from readr is the default for analysis outputs that feed into other scripts or tools.\nlibrary(readr)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html#checking-and-cleaning-up-with-fs",
     "href": "chapters/further-reading/writing-files.html#checking-and-cleaning-up-with-fs",
+<<<<<<< HEAD
     "title": "12  Writing Data Files",
     "section": "12.2 Checking and cleaning up with fs",
     "text": "12.2 Checking and cleaning up with fs\nfs lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.\n\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles &lt;- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Writing Data Files</span>"
+=======
+    "title": "9  Writing Data Files",
+    "section": "9.2 Checking and cleaning up with fs",
+    "text": "9.2 Checking and cleaning up with fs\nfs lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.\n\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles &lt;- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+>>>>>>> main
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html#parquet",
     "href": "chapters/further-reading/writing-files.html#parquet",
+<<<<<<< HEAD
     "title": "12  Writing Data Files",
     "section": "12.3 Parquet",
     "text": "12.3 Parquet\nParquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.\n\ninstall.packages(\"arrow\")\n\n\nlibrary(arrow)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data &lt;- read_parquet(output_path)\n\nParquet files are not human-readable in a text editor, but they are interoperable — Python, Spark, DuckDB, and most modern data tools can read the same file.",
     "crumbs": [
       "Further Reading",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>Writing Data Files</span>"
+=======
+    "title": "9  Writing Data Files",
+    "section": "9.3 Parquet",
+    "text": "9.3 Parquet\nParquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.\n\ninstall.packages(\"arrow\")\n\n\nlibrary(arrow)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data &lt;- read_parquet(output_path)\n\nParquet files are not human-readable in a text editor, but they are interoperable — Python, Spark, DuckDB, and most modern data tools can read the same file.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+>>>>>>> main
     ]
   }
 ]

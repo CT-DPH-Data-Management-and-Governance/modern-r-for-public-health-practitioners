@@ -224,6 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+<<<<<<< HEAD
   <a href="../../chapters/03-data-visualization/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
   </div>
@@ -232,6 +233,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../chapters/03-data-visualization/mapview-leaflet.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
+=======
+  <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+>>>>>>> main
   </div>
 </li>
       </ul>
@@ -265,6 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
+<<<<<<< HEAD
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
@@ -272,18 +278,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/joins.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+=======
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+>>>>>>> main
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/excel-files.html" class="sidebar-item-text sidebar-link">
+<<<<<<< HEAD
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+=======
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+>>>>>>> main
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/writing-files.html" class="sidebar-item-text sidebar-link">
+<<<<<<< HEAD
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+=======
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+>>>>>>> main
   </div>
 </li>
       </ul>
@@ -370,8 +387,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="paths-and-here" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="paths-and-here"><span class="header-section-number">2.2.2</span> Paths and <code>here()</code></h3>
 <p>Before reading the file, a word on paths — because this is where R trips people up early.</p>
+<<<<<<< HEAD
 <p>When you run code interactively, R looks for files starting from your project root (wherever your <code>.Rproj</code> file lives or the root of the folder you opened your with your IDE). Often you will users will find themselves referencing files in various places that are not in the root of their project. Hardcoding out a file path like <code>/home/my-username/folder-that-only-i-have/r-file.R</code> makes this project tied only to that user’s computer. That is not ideal, which is why using paths relative to the project root is so important.</p>
 <p><code>here()</code> from the <code>here</code> package is one tool for working with paths so that a user’s project can be less dependant on <em>only them</em>. It detects your project root and always builds paths from there, regardless of how or where the code runs. Use it instead of <code>path()</code> whenever you are building paths to data files.</p>
+=======
+<p>When you run code interactively, R looks for files starting from your project root (wherever your <code>.Rproj</code> file lives). When Quarto <em>renders</em> a document, it shifts the working directory to wherever the <code>.qmd</code> file lives. These locations are often different, which is why a path that works in your console can fail during render, or vice versa.</p>
+<p><code>here()</code> from the <code>here</code> package fixes this. It detects your project root and always builds paths from there, regardless of how or where the code runs. Use it instead of <code>path()</code> whenever you are building paths to data files.</p>
+>>>>>>> main
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># here() takes folder names as separate arguments.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># It joins them with the correct separator for your OS.</span></span>
