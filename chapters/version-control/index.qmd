@@ -1,0 +1,199 @@
+---
+title: "Version Control, Gently"
+---
+
+You have a project folder with a script and a data file in it. Right now,
+the only history of that project is whatever you remember. This chapter
+fixes that.
+
+This is a **gentle** introduction — just enough to work safely day to day.
+A deeper dive (branches, remotes, collaborating with a team on GitHub) comes
+later in the book. For now: what git is, why it matters, how to install it,
+enough command line to drive it, and the everyday workflow.
+
+## What Git Is
+
+Git is a tool that saves snapshots of a folder over time, on purpose, with
+a note attached to each one.
+
+If you've ever used "Track Changes" in Word, or kept files named
+`report_v1.docx`, `report_v2.docx`, `report_FINAL.docx`,
+`report_FINAL_really.docx` — you've already felt the problem git solves.
+Instead of guessing which version is current, git keeps every saved
+snapshot, labeled, in order, forever. You choose when to save a snapshot
+(that's called a **commit**), and you write a short note explaining why.
+
+A few terms you'll see everywhere:
+
+| Term | Meaning |
+|---|---|
+| **Repository** (repo) | A project folder that git is tracking |
+| **Commit** | A saved snapshot of the whole folder, plus a message |
+| **Staging** | Choosing *which* changes go into the next commit |
+| **History** | The full list of commits, oldest to newest |
+
+## Why It's Important
+
+**It's an audit trail.** Every commit records what changed, when, and why.
+When someone asks "where did this number come from," you don't just show
+the script — you show exactly which version of the script produced it.
+
+**It's a safety net.** Made a change that broke everything? Every previous
+commit is still there. You can always get back to a version that worked.
+
+**It's how modern teams share code.** Emailing zip files back and forth
+doesn't scale past one person. Git — paired with a hosting service like
+GitHub — is how public health teams, CDC, and academic epi groups actually
+collaborate on code today.
+
+**It's expected of you.** Increasingly, "can you share your analysis" means
+"can you share your repo." Knowing the basics is table stakes, not extra
+credit.
+
+## Installing Git
+
+::: {.callout-tip}
+## Install git before continuing
+
+- **Windows:** download and run the installer from
+  [git-scm.com](https://git-scm.com/downloads). Accept the defaults.
+- **macOS:** open Terminal and run `git --version`. If it isn't already
+  installed, macOS will prompt you to install the Xcode Command Line Tools —
+  accept that.
+- **Linux:** use your package manager, e.g. `sudo apt install git` (Debian/Ubuntu)
+  or `sudo dnf install git` (Fedora).
+:::
+
+Once installed, confirm it worked:
+
+```bash
+git --version
+```
+
+You should see something like `git version 2.43.0`. Exact number doesn't
+matter — any reasonably recent version is fine.
+
+One-time setup, so your commits are labeled with your name:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+## Intro to the Command Line
+
+Git's full power lives on the command line. RStudio and Positron both have
+a **Terminal** tab/pane (next to the Console) — that's a command line
+sitting right inside your IDE. Open it now; you'll use it for the rest of
+this chapter.
+
+A few commands you'll lean on, regardless of operating system:
+
+| Command | What it does |
+|---|---|
+| `pwd` | Print working directory — where am I right now? |
+| `ls` (`dir` on Windows) | List files in the current folder |
+| `cd folder-name` | Change directory — move into `folder-name` |
+| `cd ..` | Move up one level |
+
+The terminal always has a **current location**, same idea as `here()` from
+chapter 1 but for the shell instead of R. Before running git commands,
+make sure you're inside your project folder:
+
+```bash
+cd covid-briefing
+pwd
+```
+
+## The Happy Path Workflow
+
+This is the loop you'll repeat, day in and day out. Five steps.
+
+### 1. Turn a folder into a repository — once
+
+Inside `covid-briefing/`:
+
+```bash
+git init
+```
+
+This creates a hidden `.git` folder. That's git's database — all your
+history lives there. You only run `git init` once per project.
+
+### 2. Check what's changed
+
+```bash
+git status
+```
+
+This is your most-used git command. It tells you what's new, what's
+modified, and what git isn't tracking yet. Run it constantly — it never
+changes anything, it only reports.
+
+### 3. Stage the changes you want to save
+
+```bash
+git add scripts/01_import.R
+```
+
+Staging means "include this file in the *next* commit." You can stage one
+file, several, or everything:
+
+```bash
+git add .
+```
+
+`git add .` stages every changed file in the current folder and below. Fine
+for now — the difference between staging some files versus all of them
+matters more once you're working with others, which is a further-reading
+topic.
+
+### 4. Commit — save the snapshot
+
+```bash
+git commit -m "Import raw COVID data and inspect structure"
+```
+
+The `-m` flag attaches your message right there. Write it like you're
+telling a colleague what you did and why — future you *is* that colleague.
+
+### 5. Review the history
+
+```bash
+git log
+```
+
+This lists every commit: who, when, and the message. `git log --oneline`
+gives you a compact one-line-per-commit view once your history grows.
+
+::: {.callout-note}
+## The mental model
+
+Three places your work can live: the **working directory** (files on
+disk, as you're editing them), the **staging area** (what you've marked
+for the next commit with `git add`), and the **repository** (committed
+history, safe in `.git`). `git status` tells you what's in each. `git add`
+moves changes to staging. `git commit` moves staging into history.
+:::
+
+### Putting it together
+
+A normal working session looks like this:
+
+```bash
+git status               # see what changed
+git add data/processed/  # stage the files you want to save
+git status                # confirm what's staged
+git commit -m "Clean town names and drop test rows"
+git log --oneline         # confirm it landed
+```
+
+Repeat that loop every time you reach a working, meaningful checkpoint —
+not just at the end of the day. Small, frequent commits with clear
+messages are worth far more later than one giant commit called "updates."
+
+::: {.callout-note}
+This chapter stops at your local history. Sharing that history with
+others — remotes, GitHub, branches, pull requests — gets its own deep
+dive later in the book.
+:::

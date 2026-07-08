@@ -296,7 +296,7 @@
     "href": "chapters/apis-functions/index.html#functions-crash-course",
     "title": "4  Working with APIs and Functions",
     "section": "4.4 Functions crash course",
-    "text": "4.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 6.2 for those details if you wish skip ahead now.",
+    "text": "4.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 7.2 for those details if you wish skip ahead now.",
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
@@ -325,135 +325,201 @@
     ]
   },
   {
+    "objectID": "chapters/version-control/index.html",
+    "href": "chapters/version-control/index.html",
+    "title": "6  Version Control, Gently",
+    "section": "",
+    "text": "6.1 What Git Is\nYou have a project folder with a script and a data file in it. Right now, the only history of that project is whatever you remember. This chapter fixes that.\nThis is a gentle introduction — just enough to work safely day to day. A deeper dive (branches, remotes, collaborating with a team on GitHub) comes later in the book. For now: what git is, why it matters, how to install it, enough command line to drive it, and the everyday workflow.\nGit is a tool that saves snapshots of a folder over time, on purpose, with a note attached to each one.\nIf you’ve ever used “Track Changes” in Word, or kept files named report_v1.docx, report_v2.docx, report_FINAL.docx, report_FINAL_really.docx — you’ve already felt the problem git solves. Instead of guessing which version is current, git keeps every saved snapshot, labeled, in order, forever. You choose when to save a snapshot (that’s called a commit), and you write a short note explaining why.\nA few terms you’ll see everywhere:",
+    "crumbs": [
+      "Version Control",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Version Control, Gently</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/version-control/index.html#what-git-is",
+    "href": "chapters/version-control/index.html#what-git-is",
+    "title": "6  Version Control, Gently",
+    "section": "",
+    "text": "Term\nMeaning\n\n\n\n\nRepository (repo)\nA project folder that git is tracking\n\n\nCommit\nA saved snapshot of the whole folder, plus a message\n\n\nStaging\nChoosing which changes go into the next commit\n\n\nHistory\nThe full list of commits, oldest to newest",
+    "crumbs": [
+      "Version Control",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Version Control, Gently</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/version-control/index.html#why-its-important",
+    "href": "chapters/version-control/index.html#why-its-important",
+    "title": "6  Version Control, Gently",
+    "section": "6.2 Why It’s Important",
+    "text": "6.2 Why It’s Important\nIt’s an audit trail. Every commit records what changed, when, and why. When someone asks “where did this number come from,” you don’t just show the script — you show exactly which version of the script produced it.\nIt’s a safety net. Made a change that broke everything? Every previous commit is still there. You can always get back to a version that worked.\nIt’s how modern teams share code. Emailing zip files back and forth doesn’t scale past one person. Git — paired with a hosting service like GitHub — is how public health teams, CDC, and academic epi groups actually collaborate on code today.\nIt’s expected of you. Increasingly, “can you share your analysis” means “can you share your repo.” Knowing the basics is table stakes, not extra credit.",
+    "crumbs": [
+      "Version Control",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Version Control, Gently</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/version-control/index.html#installing-git",
+    "href": "chapters/version-control/index.html#installing-git",
+    "title": "6  Version Control, Gently",
+    "section": "6.3 Installing Git",
+    "text": "6.3 Installing Git\n\n\n\n\n\n\nTipInstall git before continuing\n\n\n\n\nWindows: download and run the installer from git-scm.com. Accept the defaults.\nmacOS: open Terminal and run git --version. If it isn’t already installed, macOS will prompt you to install the Xcode Command Line Tools — accept that.\nLinux: use your package manager, e.g. sudo apt install git (Debian/Ubuntu) or sudo dnf install git (Fedora).\n\n\n\nOnce installed, confirm it worked:\ngit --version\nYou should see something like git version 2.43.0. Exact number doesn’t matter — any reasonably recent version is fine.\nOne-time setup, so your commits are labeled with your name:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"",
+    "crumbs": [
+      "Version Control",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Version Control, Gently</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/version-control/index.html#intro-to-the-command-line",
+    "href": "chapters/version-control/index.html#intro-to-the-command-line",
+    "title": "6  Version Control, Gently",
+    "section": "6.4 Intro to the Command Line",
+    "text": "6.4 Intro to the Command Line\nGit’s full power lives on the command line. RStudio and Positron both have a Terminal tab/pane (next to the Console) — that’s a command line sitting right inside your IDE. Open it now; you’ll use it for the rest of this chapter.\nA few commands you’ll lean on, regardless of operating system:\n\n\n\nCommand\nWhat it does\n\n\n\n\npwd\nPrint working directory — where am I right now?\n\n\nls (dir on Windows)\nList files in the current folder\n\n\ncd folder-name\nChange directory — move into folder-name\n\n\ncd ..\nMove up one level\n\n\n\nThe terminal always has a current location, same idea as here() from chapter 1 but for the shell instead of R. Before running git commands, make sure you’re inside your project folder:\ncd covid-briefing\npwd",
+    "crumbs": [
+      "Version Control",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Version Control, Gently</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/version-control/index.html#the-happy-path-workflow",
+    "href": "chapters/version-control/index.html#the-happy-path-workflow",
+    "title": "6  Version Control, Gently",
+    "section": "6.5 The Happy Path Workflow",
+    "text": "6.5 The Happy Path Workflow\nThis is the loop you’ll repeat, day in and day out. Five steps.\n\n6.5.1 1. Turn a folder into a repository — once\nInside covid-briefing/:\ngit init\nThis creates a hidden .git folder. That’s git’s database — all your history lives there. You only run git init once per project.\n\n\n6.5.2 2. Check what’s changed\ngit status\nThis is your most-used git command. It tells you what’s new, what’s modified, and what git isn’t tracking yet. Run it constantly — it never changes anything, it only reports.\n\n\n6.5.3 3. Stage the changes you want to save\ngit add scripts/01_import.R\nStaging means “include this file in the next commit.” You can stage one file, several, or everything:\ngit add .\ngit add . stages every changed file in the current folder and below. Fine for now — the difference between staging some files versus all of them matters more once you’re working with others, which is a further-reading topic.\n\n\n6.5.4 4. Commit — save the snapshot\ngit commit -m \"Import raw COVID data and inspect structure\"\nThe -m flag attaches your message right there. Write it like you’re telling a colleague what you did and why — future you is that colleague.\n\n\n6.5.5 5. Review the history\ngit log\nThis lists every commit: who, when, and the message. git log --oneline gives you a compact one-line-per-commit view once your history grows.\n\n\n\n\n\n\nNoteThe mental model\n\n\n\nThree places your work can live: the working directory (files on disk, as you’re editing them), the staging area (what you’ve marked for the next commit with git add), and the repository (committed history, safe in .git). git status tells you what’s in each. git add moves changes to staging. git commit moves staging into history.\n\n\n\n\n6.5.6 Putting it together\nA normal working session looks like this:\ngit status               # see what changed\ngit add data/processed/  # stage the files you want to save\ngit status                # confirm what's staged\ngit commit -m \"Clean town names and drop test rows\"\ngit log --oneline         # confirm it landed\nRepeat that loop every time you reach a working, meaningful checkpoint — not just at the end of the day. Small, frequent commits with clear messages are worth far more later than one giant commit called “updates.”\n\n\n\n\n\n\nNote\n\n\n\nThis chapter stops at your local history. Sharing that history with others — remotes, GitHub, branches, pull requests — gets its own deep dive later in the book.",
+    "crumbs": [
+      "Version Control",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Version Control, Gently</span>"
+    ]
+  },
+  {
     "objectID": "chapters/secrets/index.html",
     "href": "chapters/secrets/index.html",
-    "title": "6  Managing Secrets",
+    "title": "7  Managing Secrets",
     "section": "",
-    "text": "6.1 What are Secrets\nSecrets are…",
+    "text": "7.1 What are Secrets\nSecrets are…",
     "crumbs": [
       "Security Basics",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Managing Secrets</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Managing Secrets</span>"
     ]
   },
   {
     "objectID": "chapters/secrets/index.html#sec-secrets",
     "href": "chapters/secrets/index.html#sec-secrets",
-    "title": "6  Managing Secrets",
-    "section": "6.2 Keeping secrets secretly",
-    "text": "6.2 Keeping secrets secretly\nSecrets are…",
+    "title": "7  Managing Secrets",
+    "section": "7.2 Keeping secrets secretly",
+    "text": "7.2 Keeping secrets secretly\nSecrets are…",
     "crumbs": [
       "Security Basics",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Managing Secrets</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Managing Secrets</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html",
     "href": "chapters/further-reading/index.html",
-    "title": "7  Resources",
+    "title": "8  Resources",
     "section": "",
-    "text": "7.1 Recommended Books\ntesting123",
+    "text": "8.1 Recommended Books\ntesting123",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html#recommended-books",
     "href": "chapters/further-reading/index.html#recommended-books",
-    "title": "7  Resources",
+    "title": "8  Resources",
     "section": "",
     "text": "R for Data Science 2nd Edition\n\nOne of the authors, Hadley Wickham, is the creator of the tidyverse and this is a wonderful resource for learning analytics in R. Don’t let the Data Science in the title intimidate, there is rich info in this for R users of all skill levels.",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html#recommended-websites",
     "href": "chapters/further-reading/index.html#recommended-websites",
-    "title": "7  Resources",
-    "section": "7.2 Recommended Websites",
-    "text": "7.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
+    "title": "8  Resources",
+    "section": "8.2 Recommended Websites",
+    "text": "8.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html",
     "href": "chapters/further-reading/excel-files.html",
-    "title": "8  Working with Excel Files",
+    "title": "9  Working with Excel Files",
     "section": "",
-    "text": "8.1 Installing the packages\nExcel files are everywhere in public health. This chapter covers reading and writing .xlsx files using readxl and writexl.\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))",
+    "text": "9.1 Installing the packages\nExcel files are everywhere in public health. This chapter covers reading and writing .xlsx files using readxl and writexl.\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#reading-.xlsx-files",
     "href": "chapters/further-reading/excel-files.html#reading-.xlsx-files",
-    "title": "8  Working with Excel Files",
-    "section": "8.2 Reading .xlsx files",
-    "text": "8.2 Reading .xlsx files\nreadxl reads Excel files the same way readr reads CSVs. Use here() to build the path so it works both interactively and during render.\n\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path &lt;- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data &lt;- read_excel(xlsx_path)\n\nyour_data\n\nIf your workbook has multiple sheets, use the sheet argument:\n\nyour_data &lt;- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data &lt;- read_excel(xlsx_path, sheet = 2)",
+    "title": "9  Working with Excel Files",
+    "section": "9.2 Reading .xlsx files",
+    "text": "9.2 Reading .xlsx files\nreadxl reads Excel files the same way readr reads CSVs. Use here() to build the path so it works both interactively and during render.\n\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path &lt;- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data &lt;- read_excel(xlsx_path)\n\nyour_data\n\nIf your workbook has multiple sheets, use the sheet argument:\n\nyour_data &lt;- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data &lt;- read_excel(xlsx_path, sheet = 2)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#writing-.xlsx-files",
     "href": "chapters/further-reading/excel-files.html#writing-.xlsx-files",
-    "title": "8  Working with Excel Files",
-    "section": "8.3 Writing .xlsx files",
-    "text": "8.3 Writing .xlsx files\nwritexl writes a data frame to an Excel file with no Java dependency (unlike openxlsx).\n\nlibrary(writexl)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n\nTo write multiple sheets in one workbook, pass a named list:\n\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)",
+    "title": "9  Working with Excel Files",
+    "section": "9.3 Writing .xlsx files",
+    "text": "9.3 Writing .xlsx files\nwritexl writes a data frame to an Excel file with no Java dependency (unlike openxlsx).\n\nlibrary(writexl)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n\nTo write multiple sheets in one workbook, pass a named list:\n\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#when-to-use-csv-vs-excel",
     "href": "chapters/further-reading/excel-files.html#when-to-use-csv-vs-excel",
-    "title": "8  Working with Excel Files",
-    "section": "8.4 When to use CSV vs Excel",
-    "text": "8.4 When to use CSV vs Excel\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control friendly, and readable by every tool. Use Excel output when the end recipient is a stakeholder who will open the file directly in Excel and expects formatting.",
+    "title": "9  Working with Excel Files",
+    "section": "9.4 When to use CSV vs Excel",
+    "text": "9.4 When to use CSV vs Excel\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control friendly, and readable by every tool. Use Excel output when the end recipient is a stakeholder who will open the file directly in Excel and expects formatting.",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html",
     "href": "chapters/further-reading/writing-files.html",
-    "title": "9  Writing Data Files",
+    "title": "10  Writing Data Files",
     "section": "",
-    "text": "9.1 CSV\nOnce you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.\nwrite_csv() from readr is the default for analysis outputs that feed into other scripts or tools.\nlibrary(readr)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)",
+    "text": "10.1 CSV\nOnce you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.\nwrite_csv() from readr is the default for analysis outputs that feed into other scripts or tools.\nlibrary(readr)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Writing Data Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html#checking-and-cleaning-up-with-fs",
     "href": "chapters/further-reading/writing-files.html#checking-and-cleaning-up-with-fs",
-    "title": "9  Writing Data Files",
-    "section": "9.2 Checking and cleaning up with fs",
-    "text": "9.2 Checking and cleaning up with fs\nfs lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.\n\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles &lt;- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)",
+    "title": "10  Writing Data Files",
+    "section": "10.2 Checking and cleaning up with fs",
+    "text": "10.2 Checking and cleaning up with fs\nfs lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.\n\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles &lt;- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Writing Data Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html#parquet",
     "href": "chapters/further-reading/writing-files.html#parquet",
-    "title": "9  Writing Data Files",
-    "section": "9.3 Parquet",
-    "text": "9.3 Parquet\nParquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.\n\ninstall.packages(\"arrow\")\n\n\nlibrary(arrow)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data &lt;- read_parquet(output_path)\n\nParquet files are not human-readable in a text editor, but they are interoperable — Python, Spark, DuckDB, and most modern data tools can read the same file.",
+    "title": "10  Writing Data Files",
+    "section": "10.3 Parquet",
+    "text": "10.3 Parquet\nParquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.\n\ninstall.packages(\"arrow\")\n\n\nlibrary(arrow)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data &lt;- read_parquet(output_path)\n\nParquet files are not human-readable in a text editor, but they are interoperable — Python, Spark, DuckDB, and most modern data tools can read the same file.",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Writing Data Files</span>"
     ]
   }
 ]
