@@ -1,0 +1,262 @@
+---
+title: "Interactive Maps: mapview & leaflet"
+---
+
+```{r}
+#| label: ml-setup
+#| include: false
+source(here::here("preamble-themes.R"))
+
+library(here)
+library(readr)
+library(dplyr)
+library(sf)
+library(tigris)
+library(leaflet)
+library(mapview)
+
+.chapter_data <- here::here("chapters", "03-data-visualization", "data")
+
+covid_data <- read_csv(fs::path(
+  .chapter_data,
+  "ct-covid-by-town-2026-06-30.csv"
+))
+
+# Fetch CT town boundaries
+ct_towns <-
+  county_subdivisions(
+    state = "09",
+    cb = TRUE,
+    progress_bar = FALSE
+  )
+
+# Summarize cases by town on the latest date
+latest_date <- max(covid_data$`Last update date`, na.rm = TRUE)
+
+town_cases <-
+  covid_data |>
+  filter(`Last update date` == latest_date) |>
+  select(
+    Town = Town,
+    case_rate = `Case rate`,
+    total_cases = `Total cases`
+  ) |>
+  rename(name = Town)
+
+# Join COVID data to spatial data
+ct_bounded <- ct_towns |>
+  left_join(town_cases, by = join_by(NAME == name))
+```
+
+The choropleth in the last section is built for a slide — you export it
+once, drop it into a deck, and it doesn't change again until the next
+briefing. That's exactly what a static `ggplot2` map is for.
+
+Not every audience gets a slide, though. A web-facing report, an
+internal dashboard, or an email to a colleague who wants to click around
+the map themselves calls for something the reader can zoom, pan, and
+hover over. That's an **interactive map**, and R gives you two ways to
+build one: `mapview` for a fast look, and `leaflet` for a map you build
+and control piece by piece.
+
+Install both once:
+
+```{r}
+#| eval: false
+install.packages(c("leaflet", "mapview"))
+```
+
+## The fast way: `mapview`
+
+```{r}
+#| label: mapview-quick
+mapview(ct_bounded, zcol = "case_rate")
+```
+
+One line. `mapview()` looks at `ct_bounded`, sees it's spatial data,
+and automatically:
+
+- picks a basemap and drops your polygons on top of it
+- colors each town by the `case_rate` column, since you named it in `zcol`
+- builds a legend for that column
+- wires up hover and click popups showing every attribute column
+
+That's the trade-off: zero setup, but you don't control any of it.
+Use `mapview()` while you're exploring a dataset at your desk — checking
+that a join worked, spotting an outlier town, eyeballing a spatial
+pattern. When you need a specific popup, a specific color ramp, or a
+specific basemap for a report someone else will read, reach for
+`leaflet` instead.
+
+## The deliberate way: `leaflet`
+
+`leaflet` builds a map the same way `ggplot2` builds a plot — one piece
+at a time. Where `ggplot2` chains layers with `+`, `leaflet` chains them
+with the pipe. Read a `leaflet` chain the same way you read a `ggplot2`
+chain: each step adds one thing to the map.
+
+```{r}
+#| label: leaflet-basic
+leaflet(ct_bounded) |>
+  addTiles() |>
+  addPolygons()
+```
+
+Three steps:
+
+1. `leaflet(ct_bounded)` starts the map and supplies the data — like
+   `ggplot(data = ...)`.
+2. `addTiles()` adds the basemap (streets, place names) from
+   OpenStreetMap.
+3. `addPolygons()` draws the town boundaries on top of it.
+
+Right now every town is the same flat blue and tells you nothing. Let's
+add the pieces one at a time: popups, then color.
+
+### Adding popups
+
+A popup is text that appears when someone clicks (or hovers over, with
+`highlightOptions`) a polygon. Build the text yourself with `paste0()`,
+one string per town, then pass the whole vector to `addPolygons()`:
+
+```{r}
+#| label: leaflet-popups
+town_popup <- paste0(
+  "<strong>", ct_bounded$NAME, "</strong><br/>",
+  "Case rate: ", round(ct_bounded$case_rate, 1), " per 100,000<br/>",
+  "Total cases: ", ct_bounded$total_cases
+)
+
+leaflet(ct_bounded) |>
+  addTiles() |>
+  addPolygons(popup = town_popup)
+```
+
+`town_popup` is a plain character vector, one entry per row of
+`ct_bounded` — same length, same order. `<strong>` and `<br/>` are HTML
+tags; `leaflet` popups render as HTML, so you can bold text and break
+lines the same way you would on a web page.
+
+### Coloring by case rate
+
+`colorBin()` turns a numeric column into a small palette function —
+give it bin breaks and colors, and it hands back a function that maps
+any value in that range to a color. Build the ramp from the CT DPH
+primary palette so the map matches every other plot in this book:
+
+```{r}
+#| label: leaflet-color
+case_rate_palette <- colorBin(
+  palette = c(
+    list_ct_primary_colors$primary_shade4,
+    list_ct_primary_colors$primary_shade3,
+    list_ct_primary_colors$primary,
+    list_ct_primary_colors$primary_shade2,
+    list_ct_primary_colors$primary_shade1
+  ),
+  domain = ct_bounded$case_rate,
+  bins = 5,
+  na.color = "gray95"
+)
+
+ct_case_map <-
+  leaflet(ct_bounded) |>
+  addTiles() |>
+  addPolygons(
+    fillColor = ~ case_rate_palette(case_rate),
+    fillOpacity = 0.8,
+    color = "white",
+    weight = 1,
+    popup = town_popup
+  ) |>
+  addLegend(
+    pal = case_rate_palette,
+    values = ~case_rate,
+    title = "Case Rate<br/>(per 100,000)",
+    position = "bottomright"
+  )
+
+ct_case_map
+```
+
+`primary_shade4` (the lightest blue) anchors the low end of the ramp,
+`primary_shade1` (the darkest) anchors the high end — light means
+fewer cases, dark means more, same logic as `scale_fill_gradient2()`
+in the static choropleth. `~case_rate_palette(case_rate)` uses `leaflet`'s
+formula syntax to say "run this function on the `case_rate` column of
+the data I gave `leaflet()` at the start" — it plays the same role
+`aes(fill = case_rate)` played earlier.
+
+::: {.callout-tip}
+Because we built `case_rate_palette` from `list_ct_primary_colors`
+instead of hardcoded hex codes, if the CT DPH brand colors ever change,
+updating `preamble-themes.R` updates this map too.
+:::
+
+## Marking a single town
+
+You've already met Hartford — [the daily new-case line chart earlier in
+this chapter](index.qmd#from-dots-to-a-line) walked through its case
+counts day by day. A choropleth shows every town at once, but sometimes
+you want to point a reader at one town in particular. `addMarkers()`
+drops a pin at a specific coordinate on top of the map you already
+built:
+
+```{r}
+#| label: hartford-marker
+ct_case_map |>
+  addMarkers(
+    lng = -72.6734,
+    lat = 41.7658,
+    popup = "Hartford — click here to see the daily new-case trend for this town."
+  )
+```
+
+Piping `addMarkers()` onto `ct_case_map` adds the pin without rebuilding
+the choropleth underneath it — the same "keep adding layers" habit
+you've been using since the first `ggplot2` scatter plot.
+
+## Saving and exporting
+
+An interactive map only stays interactive where something can run
+JavaScript — a rendered HTML report, a Shiny app, a browser. Paste it
+into a Word document or a PDF and it becomes a flat image anyway, so
+`mapview::mapshot()` lets you export either format depending on where
+the map is going.
+
+Save the fully interactive version as its own HTML file — useful when
+you want to embed it in a Quarto HTML report with an `<iframe>`, or
+email it to someone who can open it and click around themselves:
+
+```{r}
+#| label: mapshot-html
+#| eval: false
+mapshot(
+  ct_case_map,
+  url = here("chapters", "03-data-visualization", "maps", "ct-case-rate-map.html")
+)
+```
+
+Save a static snapshot as PNG when the destination can't run
+JavaScript at all — a slide deck, a printed briefing, a PDF report:
+
+```{r}
+#| label: mapshot-png
+#| eval: false
+mapshot(
+  ct_case_map,
+  file = here("chapters", "03-data-visualization", "maps", "ct-case-rate-map.png")
+)
+```
+
+Rule of thumb: if the report renders to HTML and the reader is looking
+at a screen, keep the map interactive. If it renders to PDF, Word, or
+a printed page, export a PNG instead.
+
+::: {.callout-note}
+This section covered enough `leaflet` to build a colored, clickable
+choropleth. `leaflet` can also layer multiple datasets, add custom
+basemaps, cluster hundreds of markers, and respond to clicks with
+Shiny — Further Reading has a deeper dive into `leaflet` waiting for
+when you need it.
+:::

@@ -164,7 +164,7 @@
     "href": "chapters/01-working-with-real-data/index.html#reading-data-files",
     "title": "2  Loading Your First Dataset",
     "section": "2.2 Reading Data Files",
-    "text": "2.2 Reading Data Files\n\n2.2.1 Reading our Comma Delimited File (.csv)\nWe are going to do a few things here:\n\nLoad the packages we need into our session.\nBuild a path to our data file and save it as csv_path.\nRead the data into our session and save it as covid_data.\n\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(fs)\nlibrary(here)\n\n\n\n2.2.2 Paths and here()\nBefore reading the file, a word on paths — because this is where R trips people up early.\nWhen you run code interactively, R looks for files starting from your project root (wherever your .Rproj file lives). When Quarto renders a document, it shifts the working directory to wherever the .qmd file lives. These locations are often different, which is why a path that works in your console can fail during render, or vice versa.\nhere() from the here package fixes this. It detects your project root and always builds paths from there, regardless of how or where the code runs. Use it instead of path() whenever you are building paths to data files.\n\n# here() takes folder names as separate arguments.\n# It joins them with the correct separator for your OS.\ncsv_path &lt;- here(\"data\", \"raw\", \"ct_covid_by_town_2026-06-30.csv\")\n\ncovid_data &lt;- read_csv(csv_path)\n\nWe have our data saved into our session — now let’s look at it.\n\n# taking a look at the top few rows\nhead(covid_data)\n\n# A tibble: 6 × 16\n  `Last update date` `Town number` Town         `Total cases` `Confirmed cases`\n  &lt;chr&gt;                      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;\n1 06/24/2022                     1 Andover                514               439\n2 06/24/2022                     2 Ansonia               4911              4222\n3 06/24/2022                     3 Ashford                744               671\n4 06/24/2022                     4 Avon                  3030              2773\n5 06/24/2022                     5 Barkhamsted            527               490\n6 06/24/2022                     6 Beacon Falls          1306              1163\n# ℹ 11 more variables: `Probable cases` &lt;dbl&gt;, `Case rate` &lt;dbl&gt;,\n#   `Total deaths` &lt;dbl&gt;, `Confirmed deaths` &lt;dbl&gt;, `Probable deaths` &lt;dbl&gt;,\n#   `People tested` &lt;dbl&gt;, `Rate tested per 100k` &lt;dbl&gt;,\n#   `Number of tests` &lt;dbl&gt;, `Number of positives` &lt;dbl&gt;,\n#   `Number of negatives` &lt;dbl&gt;, `Number of indeterminates` &lt;dbl&gt;\n\n\n\n# glimpse from dplyr\nglimpse(covid_data)\n\nRows: 102,245\nColumns: 16\n$ `Last update date`         &lt;chr&gt; \"06/24/2022\", \"06/24/2022\", \"06/24/2022\", \"…\n$ `Town number`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, …\n$ Town                       &lt;chr&gt; \"Andover\", \"Ansonia\", \"Ashford\", \"Avon\", \"B…\n$ `Total cases`              &lt;dbl&gt; 514, 4911, 744, 3030, 527, 1306, 4098, 991,…\n$ `Confirmed cases`          &lt;dbl&gt; 439, 4222, 671, 2773, 490, 1163, 3751, 901,…\n$ `Probable cases`           &lt;dbl&gt; 75, 689, 73, 257, 37, 143, 347, 90, 745, 91…\n$ `Case rate`                &lt;dbl&gt; 15884, 26327, 17485, 16579, 14615, 20990, 2…\n$ `Total deaths`             &lt;dbl&gt; 6, 49, 5, 81, 8, 11, 52, 4, 71, 3, 136, 5, …\n$ `Confirmed deaths`         &lt;dbl&gt; 4, 39, 4, 65, 7, 11, 45, 3, 56, 2, 116, 4, …\n$ `Probable deaths`          &lt;dbl&gt; 2, 10, 1, 16, 1, 0, 7, 1, 15, 1, 20, 1, 0, …\n$ `People tested`            &lt;dbl&gt; 2442, 16305, 3398, 17103, 2698, 4909, 16527…\n$ `Rate tested per 100k`     &lt;dbl&gt; 75464, 87408, 79859, 93582, 74820, 78897, 8…\n$ `Number of tests`          &lt;dbl&gt; 9378, 77023, 13168, 74898, 11013, 23227, 75…\n$ `Number of positives`      &lt;dbl&gt; 590, 6048, 896, 3563, 621, 1591, 4960, 1211…\n$ `Number of negatives`      &lt;dbl&gt; 8780, 70818, 12259, 71253, 10378, 21591, 70…\n$ `Number of indeterminates` &lt;dbl&gt; 8, 157, 13, 82, 14, 45, 83, 31, 84, 22, 201…\n\n\n\n\n\n\n\n\nNote\n\n\n\nWorking with Excel files (.xlsx) is covered in Working with Excel Files.\n\n\n\n\n\n\n\n\nNote\n\n\n\nWriting data to files — CSV, parquet, and others — is covered in Writing Data Files.",
+    "text": "2.2 Reading Data Files\n\n2.2.1 Reading our Comma Delimited File (.csv)\nWe are going to do a few things here:\n\nLoad the packages we need into our session.\nBuild a path to our data file and save it as csv_path.\nRead the data into our session and save it as covid_data.\n\n\nlibrary(dplyr)\nlibrary(readr)\nlibrary(fs)\nlibrary(here)\n\n\n\n2.2.2 Paths and here()\nBefore reading the file, a word on paths — because this is where R trips people up early.\nWhen you run code interactively, R looks for files starting from your project root (wherever your .Rproj file lives or the root of the folder you opened your with your IDE). Often you will users will find themselves referencing files in various places that are not in the root of their project. Hardcoding out a file path like /home/my-username/folder-that-only-i-have/r-file.R makes this project tied only to that user’s computer. That is not ideal, which is why using paths relative to the project root is so important.\nhere() from the here package is one tool for working with paths so that a user’s project can be less dependant on only them. It detects your project root and always builds paths from there, regardless of how or where the code runs. Use it instead of path() whenever you are building paths to data files.\n\n# here() takes folder names as separate arguments.\n# It joins them with the correct separator for your OS.\ncsv_path &lt;- here(\"data\", \"raw\", \"ct_covid_by_town_2026-06-30.csv\")\n\ncovid_data &lt;- read_csv(csv_path)\n\nWe have our data saved into our session — now let’s look at it.\n\n# taking a look at the top few rows\nhead(covid_data)\n\n# A tibble: 6 × 16\n  `Last update date` `Town number` Town         `Total cases` `Confirmed cases`\n  &lt;chr&gt;                      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;             &lt;dbl&gt;\n1 06/24/2022                     1 Andover                514               439\n2 06/24/2022                     2 Ansonia               4911              4222\n3 06/24/2022                     3 Ashford                744               671\n4 06/24/2022                     4 Avon                  3030              2773\n5 06/24/2022                     5 Barkhamsted            527               490\n6 06/24/2022                     6 Beacon Falls          1306              1163\n# ℹ 11 more variables: `Probable cases` &lt;dbl&gt;, `Case rate` &lt;dbl&gt;,\n#   `Total deaths` &lt;dbl&gt;, `Confirmed deaths` &lt;dbl&gt;, `Probable deaths` &lt;dbl&gt;,\n#   `People tested` &lt;dbl&gt;, `Rate tested per 100k` &lt;dbl&gt;,\n#   `Number of tests` &lt;dbl&gt;, `Number of positives` &lt;dbl&gt;,\n#   `Number of negatives` &lt;dbl&gt;, `Number of indeterminates` &lt;dbl&gt;\n\n\n\n# glimpse from dplyr\nglimpse(covid_data)\n\nRows: 102,245\nColumns: 16\n$ `Last update date`         &lt;chr&gt; \"06/24/2022\", \"06/24/2022\", \"06/24/2022\", \"…\n$ `Town number`              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, …\n$ Town                       &lt;chr&gt; \"Andover\", \"Ansonia\", \"Ashford\", \"Avon\", \"B…\n$ `Total cases`              &lt;dbl&gt; 514, 4911, 744, 3030, 527, 1306, 4098, 991,…\n$ `Confirmed cases`          &lt;dbl&gt; 439, 4222, 671, 2773, 490, 1163, 3751, 901,…\n$ `Probable cases`           &lt;dbl&gt; 75, 689, 73, 257, 37, 143, 347, 90, 745, 91…\n$ `Case rate`                &lt;dbl&gt; 15884, 26327, 17485, 16579, 14615, 20990, 2…\n$ `Total deaths`             &lt;dbl&gt; 6, 49, 5, 81, 8, 11, 52, 4, 71, 3, 136, 5, …\n$ `Confirmed deaths`         &lt;dbl&gt; 4, 39, 4, 65, 7, 11, 45, 3, 56, 2, 116, 4, …\n$ `Probable deaths`          &lt;dbl&gt; 2, 10, 1, 16, 1, 0, 7, 1, 15, 1, 20, 1, 0, …\n$ `People tested`            &lt;dbl&gt; 2442, 16305, 3398, 17103, 2698, 4909, 16527…\n$ `Rate tested per 100k`     &lt;dbl&gt; 75464, 87408, 79859, 93582, 74820, 78897, 8…\n$ `Number of tests`          &lt;dbl&gt; 9378, 77023, 13168, 74898, 11013, 23227, 75…\n$ `Number of positives`      &lt;dbl&gt; 590, 6048, 896, 3563, 621, 1591, 4960, 1211…\n$ `Number of negatives`      &lt;dbl&gt; 8780, 70818, 12259, 71253, 10378, 21591, 70…\n$ `Number of indeterminates` &lt;dbl&gt; 8, 157, 13, 82, 14, 45, 83, 31, 84, 22, 201…\n\n\n\n\n\n\n\n\nNote\n\n\n\nWorking with Excel files (.xlsx) is covered in Working with Excel Files.\n\n\n\n\n\n\n\n\nNote\n\n\n\nWriting data to files — CSV, parquet, and others — is covered in Writing Data Files.",
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Loading Your First Dataset</span>"
@@ -259,6 +259,17 @@
     ]
   },
   {
+    "objectID": "chapters/01-working-with-real-data/project.html#saving-our-data-artifact",
+    "href": "chapters/01-working-with-real-data/project.html#saving-our-data-artifact",
+    "title": "3  A First Look at Hartford",
+    "section": "3.9 Saving our data artifact",
+    "text": "3.9 Saving our data artifact\nImagine that these hartford data was the end goal - now would be the time to save the data in memory to a file in our data/processed/ folder.\n\n# write_csv(...)",
+    "crumbs": [
+      "Working with real data",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>A First Look at Hartford</span>"
+    ]
+  },
+  {
     "objectID": "chapters/apis-functions/index.html",
     "href": "chapters/apis-functions/index.html",
     "title": "4  Working with APIs and Functions",
@@ -296,7 +307,7 @@
     "href": "chapters/apis-functions/index.html#functions-crash-course",
     "title": "4  Working with APIs and Functions",
     "section": "4.4 Functions crash course",
-    "text": "4.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 6.2 for those details if you wish skip ahead now.",
+    "text": "4.4 Functions crash course\nBy now users may have noticed that we’ve written the same or similar chain of request and response a few times now. Let us tidy this up into something we can reuse over and over - a function! The httr2 documentation has a wonderful section on wrapping apis into useful functions that I will encourage users to read.\nWe will take much of the logic and code discussed in that document and apply it to our usecases.\nUp to this point users will be using functions all over the place in R. Now we are going to write out own using the function() function to encapsulate our logic. We will do this time and time again. We create our function by providing the inputs it expects, and then perform the actions we want it to do with those inputs. Good functions typically will do one thing or step really well, and have a descriptive name. It is usually good to create and chain a few smaller functions instead of having one massive function.\nLet’s start by creating a function that reduces the amount of repetitive typing we need to do, smooths over some API rough edges and finally returns all the data.\nTake one more look at our endpoint: https://data.ct.gov/resource/28fr-iqnx.json. Notice anything? If we’re always using the Open Data Portal, the domain (data.ct.gov) is always going to be the same. There is always going to be a ‘/resource/’ section and always a ‘.json’. The only real part that is going to change is the resource id (often called a four by four on this portal). So that is probably a good target for input from users.\n\n# our function will be called fetch all data\nfetch_all_data &lt;-\n  function(resource, rows = 10000) {\n    # Fetch all data from the provided resource id for the CT Open Data Portal\n    #\n    # resource: string - Required portal \"four by four\" in the format 'xxxx-xxxx'\n    # rows: numeric - Number of rows of data to fetch one response at a time.\n    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.\n    # Returns: A tibble\n\n    # handle the resource from the user\n\n    base &lt;- \"https://data.ct.gov/resource\"\n\n    # create the first request\n    req &lt;-\n      request(base) |&gt;\n      req_url_path_append(resource) |&gt; #appened the user provided 4x4 to the base url\n      req_url_query(\n        `$limit` = rows, # use the default rows=10000 or what ever the user provided\n        `$offset` = 0 # start with the first row\n      )\n\n    # perform the request and then with each request increment the offset by `rows`\n    resps &lt;-\n      req_perform_iterative(\n        req,\n        progress = FALSE,\n        next_req = iterate_with_offset(\n          param_name = \"$offset\",\n          start = 0,\n          offset = rows # use the default rows=10000 or what ever the user provided\n        )\n      )\n\n    # convert the response objects from the API to a tibble of data\n    # for each response from the API grab the json body, convert to an R list\n    # and then squash all that into a singular tibble\n    data &lt;-\n      resps |&gt;\n      resps_data(\n        \\(resp) {\n          resp |&gt;\n            resp_body_json() |&gt;\n            bind_rows()\n        }\n      )\n\n    return(data)\n  }\n\nWe wrote our function, now let us take it for a spin. Our resource ID was 28fr-iqnx.\n\nresource &lt;- \"28fr-iqnx\"\ncovid_data &lt;- fetch_all_data(resource = resource)\n\ncovid_data\n\n# A tibble: 102,245 × 16\n   lastupdatedate          town_no town        towntotalcases townconfirmedcases\n   &lt;chr&gt;                   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;          &lt;chr&gt;             \n 1 2022-06-24T00:00:00.000 1       Andover     514            439               \n 2 2022-06-24T00:00:00.000 2       Ansonia     4911           4222              \n 3 2022-06-24T00:00:00.000 3       Ashford     744            671               \n 4 2022-06-24T00:00:00.000 4       Avon        3030           2773              \n 5 2022-06-24T00:00:00.000 5       Barkhamsted 527            490               \n 6 2022-06-24T00:00:00.000 6       Beacon Fal… 1306           1163              \n 7 2022-06-24T00:00:00.000 7       Berlin      4098           3751              \n 8 2022-06-24T00:00:00.000 8       Bethany     991            901               \n 9 2022-06-24T00:00:00.000 9       Bethel      4090           3345              \n10 2022-06-24T00:00:00.000 10      Bethlehem   620            529               \n# ℹ 102,235 more rows\n# ℹ 11 more variables: townprobablecases &lt;chr&gt;, towncaserate &lt;chr&gt;,\n#   towntotaldeaths &lt;chr&gt;, townconfirmeddeaths &lt;chr&gt;, townprobabledeaths &lt;chr&gt;,\n#   peopletested &lt;chr&gt;, ratetested100k &lt;chr&gt;, numberoftests &lt;chr&gt;,\n#   numberofpositives &lt;chr&gt;, numberofnegatives &lt;chr&gt;,\n#   numberofindeterminates &lt;chr&gt;\n\n\nIf this was your first function, congratulations!\n\n\n\n\n\n\nTip\n\n\n\nFrom here users can go in many different directions. Some tips to consider: - It would be a good idea to check the user input to make sure it is valid - Handling errors gracefully would be a good next stop - remember the issue may not be on the user’s end, the portal could be having issues etc…\n\n\nUsers who checked out the httr2 documentation may have noticed that the authors went through great lengths to discuss secrets and api keys. Since the API key is sort of a nice to have for this public API we will be discussing those later on. See Section 8.2 for those details if you wish skip ahead now.",
     "crumbs": [
       "Working with real data",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Working with APIs and Functions</span>"
@@ -325,135 +336,322 @@
     ]
   },
   {
+    "objectID": "chapters/03-data-visualization/index.html",
+    "href": "chapters/03-data-visualization/index.html",
+    "title": "6  Visualizing Your Data",
+    "section": "",
+    "text": "6.1 Installing ggplot2\nEarlier we filtered Hartford’s data down to a single tidy tibble. You looked at the rows in your console and we moved on. This is great for getting a feel for the data, but it doesn’t necessarily make it easy to get a feel for how the data change over time.\nThis chapter teaches you how to turn that tibble into a plot that tells the story to someone else — the Commissioner, a journalist, a colleague who doesn’t want to open a CSV.\nggplot2 gives you a grammar — a language for describing what you want the plot to show and it handles the drawing.\nBefore this chapter can work, install the package once.\ninstall.packages(\"ggplot2\")\n\n# You'll also install extra packages later in this chapter for\n# mapping and choropleths.\ninstall.packages(c(\"tigris\", \"sf\", \"mapview\"))\nLoad ggplot2 along with the packages you’ve used so far:\nlibrary(ggplot2)",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizing Your Data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/index.html#building-a-plot-layer-by-layer",
+    "href": "chapters/03-data-visualization/index.html#building-a-plot-layer-by-layer",
+    "title": "6  Visualizing Your Data",
+    "section": "6.2 Building a plot layer by layer",
+    "text": "6.2 Building a plot layer by layer\n\n6.2.1 The Grammar of Graphics\nggplot2 is built on a principle called the Grammar of Graphics. It says every plot is made of layers, each adding something to the picture:\n\n\n\n\n\n\n\n\nLayer\nWhat it does\nExample\n\n\n\n\nData\nThe tibble to plot\nhartford\n\n\nAesthetic mapping\nWhich columns go on which axis, or to color, size, etc.\nx = date, y = new_positives\n\n\nGeometric object\nThe shape of the marks\ndots, lines, bars, areas\n\n\nTheme\nNon-data ink: fonts, backgrounds, axis styling\nremoval of grid lines, different fonts\n\n\n\nThink of it like making a tiered cake. Data are at the bottom - the biggest layer on which everything is built on top of. Aesthetics are next, and then geometry and finally theme is the the very top. ggplot2 code is more or less written in layers, and it is a helpful mental model that will aid you when you reach for ggplot2 for data story telling.\n\n\n6.2.2 Your first plot: a scatter plot\nWe’ll start with the scatter plot.\n\nggplot(\n  data = hartford,\n  mapping = aes(\n    x = date,\n    y = new_positives\n  )\n) +\n  geom_point()\n\n\n\n\n\n\n\n\nWe take our data, our aesthetic and our geometry and we’re already telling stories with those 3 things.\nLet’s read them back:\n\nggplot() starts the plot, supplies the data and the aesthetic mapping (aes) that says “date goes on the x-axis and new_positives goes on the y-axis”.\n+ geom_point() adds the layer of dots. The + is what joins layers in ggplot2 — always with a space before and after the +.\nEvery geometry layer inherits the data and aesthetics from ggplot() unless you override them inside aes() for that specific layer.\n\nThe default ggplot2 output works well for internal work, but a briefing needs something cleaner. Let’s build on that first plot.\n\n\n6.2.3 From dots to a line\nOur data is a time-series: date on the x-axis, values on the y-axis. A line makes the trend easier to read.\n\nggplot(\n  data = hartford,\n  mapping = aes(\n    x = date,\n    y = new_positives\n  )\n) +\n  geom_line()\n\n\n\n\n\n\n\n\nWith changing nothing else but the geometry we were able to change the type of plot. This is handy for trying many different kinds of plots with the same data or running different subsets of data through the same geometry to make plots for multiple reports.\nThis plot still has the default theme’s gray background and the default axis labels read like column names. We’ll work through each of those and make it more presentable.\n\n\n6.2.4 Title, axis labels, and theme\nlabs() replaces the automatic labels from column names and adds a title. We use custom CT DPH theme functions to give our plots a clean look — a quick reference lives in the callout below.\n\n\n\n\n\n\nNoteCT DPH custom themes\n\n\n\nTo save time and typing, we will be using CT-DPH specific themes that are saved inside of functions.\n\n\n\n\n\n\n\nFunction\nWhat it does\n\n\n\n\ntheme_ct_vertical()\nRemoves the y-axis line and tick marks; use for vertical plots.\n\n\ntheme_ct_horizontal()\nRemoves the x-axis line and tick marks; use for wide/horizontal plots.\n\n\ntheme_poppins_bold_all()\nSets Poppins, bold face, everywhere in the plot.\n\n\n\nAnd palettes of named CT DPH brand colors:\n\n\n\n\n\n\n\nFunction\nColors\n\n\n\n\nlist_ct_primary_colors()\nprimary, primary_shade1 … primary_shade4\n\n\nlist_ct_secondary_colors()\nsecondary, secondary_shade\n\n\nlist_ct_tertiary_colors()\ntertiary, tertiary_shade\n\n\n\nThese come from the CT DPH brand guide - use the variables, not hex literals, so the branding can change in one place. Further Reading for the full list, code snippets, and tips on plugging colors into ggplot2 scales.\n\n\n\n# you can also pipe your data into a plot!\n\nhartford |&gt;\n  ggplot(\n    mapping = aes(\n      x = date,\n      y = new_positives\n    )\n  ) +\n  geom_point() +\n  geom_line() + # you can add multiple geometries together\n  labs(\n    title = \"New COVID-19 Cases — Hartford\",\n    subtitle = \"Daily count from report to report (Jun–Jul 2026)\",\n    x = NULL, # use NULL or an empty string \"\" to remove the x axis title\n    y = \"New Cases on Each Date\"\n  ) +\n  theme_ct_vertical()\n\n\n\n\n\n\n\n\nx = NULL removes the x-axis label entirely — the title is enough, and everyone reading this knows it shows dates.\n\n\n6.2.5 Adding color\nThe default plot line uses the first color in the ggplot2 palette. In public health work you probably want a specific color or branding from your organization.\nMap the color aesthetic to a string (a color name) to tint both points and line:\n\nggplot(data = hartford, mapping = aes(x = date, y = new_positives)) +\n  geom_point(color = \"#3371E7\", size = 2, alpha = 0.1) + # alpha sets the transperancy\n  geom_line(color = \"#3371E7\", linewidth = 0.5) +\n  labs(\n    title = \"New COVID-19 Cases — Hartford\",\n    subtitle = \"Daily count from report to report (Jun–Jul 2026)\",\n    x = NULL,\n    y = \"New Cases on Each Date\",\n    caption = 'Data as of 2026'\n  ) +\n  theme_ct_vertical() +\n  theme_poppins_bold_all() +\n  theme(\n    #inside of theme we can interact with specific plot elements and sub-elements\n    plot.title = element_text(face = \"bold\", size = 14),\n    plot.subtitle = element_text(size = 10, color = \"gray50\")\n  )\n\n\n\n\n\n\n\n\nTwo things to notice:\n\ncolor = \"#3371E7\" is set outside aes() because it’s a fixed value, not a column. Inside aes(), R would try to map the literal word “#3371E7” to a legend. You rarely want that.\ntheme_poppins_bold_all() brings the Poppins font everywhere, but we still tweak plot.title and plot.subtitle separately for sizes. Theme layers stack — later ones fill gaps left by earlier ones.\n\nThat last plot is the kind of thing you’d paste directly into a briefing slide. You built it piece by piece, and each piece does one thing.\n\n\n6.2.6 Saving the plot\nWhen you’re happy with a plot, save it to outputs/figures/:\n\nggsave(\n  here(\"outputs\", \"figures\", \"hartford_new_cases.png\"),\n  width = 7,\n  height = 4,\n  dpi = 300\n)\n\nggsave() saves the last plot you rendered. No need to name it explicitly — just call it immediately after running the plot.",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizing Your Data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/index.html#aesthetic-mapping",
+    "href": "chapters/03-data-visualization/index.html#aesthetic-mapping",
+    "title": "6  Visualizing Your Data",
+    "section": "6.3 Aesthetic mapping",
+    "text": "6.3 Aesthetic mapping\nSo far you’ve been setting the position of the plot (x and y axis). ggplot2 also maps aesthetics to other properties:\n\n\n\n\n\n\n\n\nAesthetic\nWhat it controls\nAccepts\n\n\n\n\nx, y\nPosition on the axes\nnumeric, date, character\n\n\ncolor\nStroke/border color of points and line\ncolumn name or fixed color\n\n\nfill\nFill color of bars, areas\ncolumn name or fixed color\n\n\nsize\nSize of points or line thickness\ncolumn name or fixed size\n\n\nshape\nPoint shape (0–24 different shapes)\ncolumn name or fixed shape\n\n\nalpha\nTransparency (0 = invisible, 1 = opaque)\ncolumn name or fixed value\n\n\nlinetype\nDashed, dotted, etc.\ncolumn name or fixed value\n\n\n\nWhen you put a column name inside aes(), ggplot2 creates a legend that tells the reader which values map to which colors, sizes, shapes etc. When you set one outside aes(), the value is fixed and no legend is generated.\nTo see it in action, add a second line to the same plot — one for total_cases (cumulative) — by mapping y to a column:\n\n#TODO - I don't like this, maybe use deaths or something\nggplot(data = hartford, mapping = aes(x = date)) +\n  geom_line(aes(y = new_positives, color = \"New Cases\"), linewidth = 1) +\n  geom_line(aes(y = total_cases, color = \"Cumulative Cases\"), linewidth = 1) +\n  scale_color_manual(\n    name = \"Metric\",\n    values = c(\"New Cases\" = \"#F27124\", \"Cumulative Cases\" = \"#3371E7\")\n  ) +\n  labs(\n    title = \"New Cases vs. Cumulative Cases — Hartford\",\n    y = \"Count\",\n    color = \"Metric\"\n  ) +\n  theme_ct_vertical() +\n  theme_poppins_bold_all()",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizing Your Data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/index.html#choropleth-maps",
+    "href": "chapters/03-data-visualization/index.html#choropleth-maps",
+    "title": "6  Visualizing Your Data",
+    "section": "6.4 Choropleth maps",
+    "text": "6.4 Choropleth maps\nA scatter plot shows change over time. A map shows change across space. For a state-level briefing, the Commissioner might want to see case counts across all the towns at once.\nThe tigris package fetches official boundary files from the Census Bureau. In our case, we want town boundaries for Connecticut:\n\nlibrary(tigris)\nlibrary(sf)\n\n# Fetch CT town boundaries\nct_towns &lt;-\n  county_subdivisions(\n    state = \"09\",\n    cb = TRUE,\n    progress_bar = FALSE\n  )\n\n# Show just the outlines on a blank canvas\nct_towns |&gt;\n  ggplot() +\n  geom_sf(fill = \"gray95\", color = \"black\", linewidth = 0.1) +\n  theme_void() # use this for a blank background\n\n\n\n\n\n\n\n\nRemember our cake analogy? This is our basemap that we will use to layer additional features on top of.\nThat’s Connecticut’s 169 towns — just outlines. geom_sf() draws spatial data (the sf geometry column). The rest follows the same pattern as every other ggplot2 plot: ggplot() + geom_sf() + labs() + theme().\n\n6.4.1 Coloring towns by case rate\nNow join the COVID data to the map by town name and map fill to the case rate:\n\n# Summarize cases by town on the latest date\nlatest_date &lt;- max(covid_data$`Last update date`, na.rm = TRUE)\n\ntown_cases &lt;-\n  covid_data |&gt;\n  filter(`Last update date` == latest_date) |&gt;\n  select(\n    Town = Town,\n    case_rate = `Case rate`,\n    total_cases = `Total cases`\n  ) |&gt;\n  rename(name = Town)\n\n# Join COVID data to spatial data\nct_bounded &lt;-\n  ct_towns |&gt;\n  left_join(town_cases, by = join_by(NAME == name))\n\n\n\n\n\n\n\nTipWhat just happened: left_join explained\n\n\n\nleft_join(x, y, by) keeps every row from the left table (x) and adds matching columns from the right table (y). Where there’s no match, the new columns are filled with NA. Think of it as: “give me all the towns, and bring in any COVID numbers that line up.”\nWe cover joins in detail in a later chapter — see Further Reading for the full guide.\n\n\n\n# Choropleth: gray for towns without data, blue gradient for those with\n# TODO: clean up the data\nggplot() +\n  geom_sf(\n    data = ct_bounded[is.na(ct_bounded$case_rate), ],\n    fill = \"gray95\",\n    color = \"white\",\n    linewidth = 0.1\n  ) +\n  geom_sf(\n    data = ct_bounded[!is.na(ct_bounded$case_rate), ],\n    mapping = aes(fill = case_rate),\n    color = \"white\",\n    linewidth = 0.1\n  ) +\n  scale_fill_gradient2(\n    low = \"#C6D4FB\",\n    mid = \"#7094F5\",\n    high = \"#00214D\",\n    midpoint = mean(ct_bounded$case_rate, na.rm = TRUE),\n    na.value = \"gray95\",\n    name = \"Case Rate\\n(per 100,000)\"\n  ) +\n  labs(\n    title = \"COVID-19 Case Rate by Town\",\n    subtitle = paste(\"As of\", latest_date),\n    fill = NULL\n  ) +\n  theme_void() +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 14),\n    plot.subtitle = element_text(size = 10, color = \"gray50\"),\n    legend.position = \"right\"\n  )\n\n\n\n\n\n\n\n\nThe choropleth tells at a glance which towns carry the heaviest burden. Towns without data (suppressed for small sample sizes) appear gray.\n\n\n\n\n\n\nNote\n\n\n\ngeom_sf() replaces geom_point(), geom_line(), and others when your data is spatial. It reads the geometry column automatically and draws polygons, lines, or points based on the geometry type.\n\n\n\n\n\n\n\n\nNote\n\n\n\nThis chapter gave you the foundations of ggplot2 and a taste of spatial visualization. The next chapters add tables (gt), Quarto report-building, functions, and API fetching — the full arc from raw data to self-updating report.",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Visualizing Your Data</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/mapview-leaflet.html",
+    "href": "chapters/03-data-visualization/mapview-leaflet.html",
+    "title": "7  Interactive Maps: mapview & leaflet",
+    "section": "",
+    "text": "7.1 The fast way: mapview\nThe choropleth in the last section is built for a slide — you export it once, drop it into a deck, and it doesn’t change again until the next briefing. That’s exactly what a static ggplot2 map is for.\nNot every audience gets a slide, though. A web-facing report, an internal dashboard, or an email to a colleague who wants to click around the map themselves calls for something the reader can zoom, pan, and hover over. That’s an interactive map, and R gives you two ways to build one: mapview for a fast look, and leaflet for a map you build and control piece by piece.\nInstall both once:\nmapview(ct_bounded, zcol = \"case_rate\")\nOne line. mapview() looks at ct_bounded, sees it’s spatial data, and automatically:\nThat’s the trade-off: zero setup, but you don’t control any of it. Use mapview() while you’re exploring a dataset at your desk — checking that a join worked, spotting an outlier town, eyeballing a spatial pattern. When you need a specific popup, a specific color ramp, or a specific basemap for a report someone else will read, reach for leaflet instead.",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Maps: mapview & leaflet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/mapview-leaflet.html#the-fast-way-mapview",
+    "href": "chapters/03-data-visualization/mapview-leaflet.html#the-fast-way-mapview",
+    "title": "7  Interactive Maps: mapview & leaflet",
+    "section": "",
+    "text": "picks a basemap and drops your polygons on top of it\ncolors each town by the case_rate column, since you named it in zcol\nbuilds a legend for that column\nwires up hover and click popups showing every attribute column",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Maps: mapview & leaflet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/mapview-leaflet.html#the-deliberate-way-leaflet",
+    "href": "chapters/03-data-visualization/mapview-leaflet.html#the-deliberate-way-leaflet",
+    "title": "7  Interactive Maps: mapview & leaflet",
+    "section": "7.2 The deliberate way: leaflet",
+    "text": "7.2 The deliberate way: leaflet\nleaflet builds a map the same way ggplot2 builds a plot — one piece at a time. Where ggplot2 chains layers with +, leaflet chains them with the pipe. Read a leaflet chain the same way you read a ggplot2 chain: each step adds one thing to the map.\n\nleaflet(ct_bounded) |&gt;\n  addTiles() |&gt;\n  addPolygons()\n\n\n\n\n\nThree steps:\n\nleaflet(ct_bounded) starts the map and supplies the data — like ggplot(data = ...).\naddTiles() adds the basemap (streets, place names) from OpenStreetMap.\naddPolygons() draws the town boundaries on top of it.\n\nRight now every town is the same flat blue and tells you nothing. Let’s add the pieces one at a time: popups, then color.\n\n7.2.1 Adding popups\nA popup is text that appears when someone clicks (or hovers over, with highlightOptions) a polygon. Build the text yourself with paste0(), one string per town, then pass the whole vector to addPolygons():\n\ntown_popup &lt;- paste0(\n  \"&lt;strong&gt;\", ct_bounded$NAME, \"&lt;/strong&gt;&lt;br/&gt;\",\n  \"Case rate: \", round(ct_bounded$case_rate, 1), \" per 100,000&lt;br/&gt;\",\n  \"Total cases: \", ct_bounded$total_cases\n)\n\nleaflet(ct_bounded) |&gt;\n  addTiles() |&gt;\n  addPolygons(popup = town_popup)\n\n\n\n\n\ntown_popup is a plain character vector, one entry per row of ct_bounded — same length, same order. &lt;strong&gt; and &lt;br/&gt; are HTML tags; leaflet popups render as HTML, so you can bold text and break lines the same way you would on a web page.\n\n\n7.2.2 Coloring by case rate\ncolorBin() turns a numeric column into a small palette function — give it bin breaks and colors, and it hands back a function that maps any value in that range to a color. Build the ramp from the CT DPH primary palette so the map matches every other plot in this book:\n\ncase_rate_palette &lt;- colorBin(\n  palette = c(\n    list_ct_primary_colors$primary_shade4,\n    list_ct_primary_colors$primary_shade3,\n    list_ct_primary_colors$primary,\n    list_ct_primary_colors$primary_shade2,\n    list_ct_primary_colors$primary_shade1\n  ),\n  domain = ct_bounded$case_rate,\n  bins = 5,\n  na.color = \"gray95\"\n)\n\nct_case_map &lt;-\n  leaflet(ct_bounded) |&gt;\n  addTiles() |&gt;\n  addPolygons(\n    fillColor = ~ case_rate_palette(case_rate),\n    fillOpacity = 0.8,\n    color = \"white\",\n    weight = 1,\n    popup = town_popup\n  ) |&gt;\n  addLegend(\n    pal = case_rate_palette,\n    values = ~case_rate,\n    title = \"Case Rate&lt;br/&gt;(per 100,000)\",\n    position = \"bottomright\"\n  )\n\nct_case_map\n\n\n\n\n\nprimary_shade4 (the lightest blue) anchors the low end of the ramp, primary_shade1 (the darkest) anchors the high end — light means fewer cases, dark means more, same logic as scale_fill_gradient2() in the static choropleth. ~case_rate_palette(case_rate) uses leaflet’s formula syntax to say “run this function on the case_rate column of the data I gave leaflet() at the start” — it plays the same role aes(fill = case_rate) played earlier.\n\n\n\n\n\n\nTip\n\n\n\nBecause we built case_rate_palette from list_ct_primary_colors instead of hardcoded hex codes, if the CT DPH brand colors ever change, updating preamble-themes.R updates this map too.",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Maps: mapview & leaflet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/mapview-leaflet.html#marking-a-single-town",
+    "href": "chapters/03-data-visualization/mapview-leaflet.html#marking-a-single-town",
+    "title": "7  Interactive Maps: mapview & leaflet",
+    "section": "7.3 Marking a single town",
+    "text": "7.3 Marking a single town\nYou’ve already met Hartford — the daily new-case line chart earlier in this chapter walked through its case counts day by day. A choropleth shows every town at once, but sometimes you want to point a reader at one town in particular. addMarkers() drops a pin at a specific coordinate on top of the map you already built:\n\nct_case_map |&gt;\n  addMarkers(\n    lng = -72.6734,\n    lat = 41.7658,\n    popup = \"Hartford — click here to see the daily new-case trend for this town.\"\n  )\n\n\n\n\n\nPiping addMarkers() onto ct_case_map adds the pin without rebuilding the choropleth underneath it — the same “keep adding layers” habit you’ve been using since the first ggplot2 scatter plot.",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Maps: mapview & leaflet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/03-data-visualization/mapview-leaflet.html#saving-and-exporting",
+    "href": "chapters/03-data-visualization/mapview-leaflet.html#saving-and-exporting",
+    "title": "7  Interactive Maps: mapview & leaflet",
+    "section": "7.4 Saving and exporting",
+    "text": "7.4 Saving and exporting\nAn interactive map only stays interactive where something can run JavaScript — a rendered HTML report, a Shiny app, a browser. Paste it into a Word document or a PDF and it becomes a flat image anyway, so mapview::mapshot() lets you export either format depending on where the map is going.\nSave the fully interactive version as its own HTML file — useful when you want to embed it in a Quarto HTML report with an &lt;iframe&gt;, or email it to someone who can open it and click around themselves:\n\nmapshot(\n  ct_case_map,\n  url = here(\"chapters\", \"03-data-visualization\", \"maps\", \"ct-case-rate-map.html\")\n)\n\nSave a static snapshot as PNG when the destination can’t run JavaScript at all — a slide deck, a printed briefing, a PDF report:\n\nmapshot(\n  ct_case_map,\n  file = here(\"chapters\", \"03-data-visualization\", \"maps\", \"ct-case-rate-map.png\")\n)\n\nRule of thumb: if the report renders to HTML and the reader is looking at a screen, keep the map interactive. If it renders to PDF, Word, or a printed page, export a PNG instead.\n\n\n\n\n\n\nNote\n\n\n\nThis section covered enough leaflet to build a colored, clickable choropleth. leaflet can also layer multiple datasets, add custom basemaps, cluster hundreds of markers, and respond to clicks with Shiny — Further Reading has a deeper dive into leaflet waiting for when you need it.",
+    "crumbs": [
+      "Data Visualization",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Interactive Maps: mapview & leaflet</span>"
+    ]
+  },
+  {
     "objectID": "chapters/secrets/index.html",
     "href": "chapters/secrets/index.html",
-    "title": "6  Managing Secrets",
+    "title": "8  Managing Secrets",
     "section": "",
-    "text": "6.1 What are Secrets\nSecrets are…",
+    "text": "8.1 What are Secrets\nSecrets are…",
     "crumbs": [
       "Security Basics",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Managing Secrets</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Managing Secrets</span>"
     ]
   },
   {
     "objectID": "chapters/secrets/index.html#sec-secrets",
     "href": "chapters/secrets/index.html#sec-secrets",
-    "title": "6  Managing Secrets",
-    "section": "6.2 Keeping secrets secretly",
-    "text": "6.2 Keeping secrets secretly\nSecrets are…",
+    "title": "8  Managing Secrets",
+    "section": "8.2 Keeping secrets secretly",
+    "text": "8.2 Keeping secrets secretly\nSecrets are…",
     "crumbs": [
       "Security Basics",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Managing Secrets</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Managing Secrets</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html",
     "href": "chapters/further-reading/index.html",
-    "title": "7  Resources",
+    "title": "9  Resources",
     "section": "",
-    "text": "7.1 Recommended Books\ntesting123",
+    "text": "9.1 Recommended Books\ntesting123",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html#recommended-books",
     "href": "chapters/further-reading/index.html#recommended-books",
-    "title": "7  Resources",
+    "title": "9  Resources",
     "section": "",
     "text": "R for Data Science 2nd Edition\n\nOne of the authors, Hadley Wickham, is the creator of the tidyverse and this is a wonderful resource for learning analytics in R. Don’t let the Data Science in the title intimidate, there is rich info in this for R users of all skill levels.",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/index.html#recommended-websites",
     "href": "chapters/further-reading/index.html#recommended-websites",
-    "title": "7  Resources",
-    "section": "7.2 Recommended Websites",
-    "text": "7.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
+    "title": "9  Resources",
+    "section": "9.2 Recommended Websites",
+    "text": "9.2 Recommended Websites\n\nQuarto.org\nhttr2 documentation",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/index.html#custom-themes-and-color-palettes",
+    "href": "chapters/further-reading/index.html#custom-themes-and-color-palettes",
+    "title": "9  Resources",
+    "section": "9.3 Custom themes and color palettes",
+    "text": "9.3 Custom themes and color palettes\nThe book ships three ggplot2 theme helpers and several named color palettes in preamble-themes.R. Each chapter sources this file at the top so the functions are available throughout.\n\n9.3.1 Theme functions\n\n\n\n\n\n\n\n\nFunction\nWhat it does\nUse when…\n\n\n\n\ntheme_ct_vertical()\nRemoves the y-axis line, y-axis tick marks and x-axis tick marks. Sets axis titles to bold Poppins.\nVertical / tall plots (time series, vertical bars)\n\n\ntheme_ct_horizontal()\nRemoves the x-axis line, x-axis tick marks and y-axis tick marks. Sets axis titles to bold Poppins.\nHorizontal / wide plots (horizontal bars, side-by-side comparisons)\n\n\ntheme_poppins_bold_all()\nSets every bit of text in the plot to bold Poppins.\nWhen you want a uniform, no-nonsense look across all elements\n\n\n\nTheme functions stack — call them with + like any other ggplot2 layer. Later themes fill gaps left by earlier ones, so the ordering matters only when they overlap.\n\n\n9.3.2 Color palettes\n\n\n\n\n\n\n\nFunction\nColors returned\n\n\n\n\nlist_ct_primary_colors()\nprimary (#3371E7), primary_shade1 (#00214D), primary_shade2 (#003D9C), primary_shade3 (#7094F5), primary_shade4 (#C6D4FB)\n\n\nlist_ct_secondary_colors()\nsecondary (#F27124), secondary_shade (#FAAA19)\n\n\nlist_ct_tertiary_colors()\ntertiary (#D8343E), tertiary_shade (#94343E)\n\n\nlist_old_sha_colors()\nLegacy SHA palette — use only for backward-compat with older reports\n\n\nlist_color_hex_codes()\nNested list of all palettes above (flat list of named hex values)\n\n\n\nAlways use the variables, not hex literals. If the brand updates its palette, a single change to preamble-themes.R propagates to every plot.\nTo pick one or two named colors inside a scale, slice the returned list:\n\nlibrary(ggplot2)\nsource(file.path(here::here(), \"preamble-themes.R\"))\n\nggplot() +\n  geom_col(aes(x = factor(1:2), y = c(15, 25),\n               fill = factor(c(\"New Cases\", \"New Cases\"))),\n           position = \"dodge\") +\n  scale_fill_manual(\n    values = list_ct_primary_colors[c(\"primary_shade1\", \"primary_shade3\")]\n  ) +\n  theme_poppins_bold_all() +\n  theme_ct_vertical()",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/index.html#interactive-maps",
+    "href": "chapters/further-reading/index.html#interactive-maps",
+    "title": "9  Resources",
+    "section": "9.4 Interactive Maps",
+    "text": "9.4 Interactive Maps\n\n\n\n\n\n\nTipWant to go further with leaflet?\n\n\n\nThe data visualization chapter gets you comfortable with mapview for quick looks and leaflet basics like addTiles(), addPolygons(), addMarkers(), and colorBin() for choropleths. There’s more under the hood once you’re ready for it — layer controls with addLayers(), juggling coordinate and data bindings, and wiring maps up to Shiny for interactivity. A deeper dive into all of that is coming soon.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/joins.html",
+    "href": "chapters/further-reading/joins.html",
+    "title": "10  Joins",
+    "section": "",
+    "text": "10.1 left_join(): keep everything on the left\nThe choropleth section used left_join() to attach COVID case data to town boundaries. That’s one of six join verbs dplyr gives you — each answers a different question about how two tables relate. This page walks through all six using the same shape of data: a towns table (the “left” table, like ct_towns) and a cases table (the “right” table, like town_cases).\ntowns has four rows, cases has three, and only two names (Hartford, New Haven) appear in both. Norwalk has no case data. Stamford has case data but isn’t in towns. That mismatch is exactly what makes joins interesting — each verb handles it differently.\ntowns |&gt;\n  left_join(cases, by = \"name\")\n\n# A tibble: 4 × 3\n  name       county    case_rate\n  &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;\n1 Hartford   Hartford        412\n2 New Haven  New Haven       388\n3 Bridgeport Fairfield        NA\n4 Norwalk    Fairfield        NA\nEvery row from towns survives. Where cases has no matching name (Norwalk), case_rate comes back NA. Stamford never appears — it wasn’t in the left table to begin with. This is what the choropleth uses: keep all 169 CT towns, fill in case data where it exists, show gray for the rest.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/joins.html#right_join-keep-everything-on-the-right",
+    "href": "chapters/further-reading/joins.html#right_join-keep-everything-on-the-right",
+    "title": "10  Joins",
+    "section": "10.2 right_join(): keep everything on the right",
+    "text": "10.2 right_join(): keep everything on the right\n\ntowns |&gt;\n  right_join(cases, by = \"name\")\n\n# A tibble: 3 × 3\n  name      county    case_rate\n  &lt;chr&gt;     &lt;chr&gt;         &lt;dbl&gt;\n1 Hartford  Hartford        412\n2 New Haven New Haven       388\n3 Stamford  &lt;NA&gt;            355\n\n\nThe mirror image. Every row from cases survives, including Stamford, which now shows NA for county. Norwalk drops out entirely since it’s not in cases. In practice, right_join(x, y) is the same as left_join(y, x) with the columns reordered — most people just pick whichever table they name first and use left_join().",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/joins.html#inner_join-keep-only-matches",
+    "href": "chapters/further-reading/joins.html#inner_join-keep-only-matches",
+    "title": "10  Joins",
+    "section": "10.3 inner_join(): keep only matches",
+    "text": "10.3 inner_join(): keep only matches\n\ntowns |&gt;\n  inner_join(cases, by = \"name\")\n\n# A tibble: 2 × 3\n  name      county    case_rate\n  &lt;chr&gt;     &lt;chr&gt;         &lt;dbl&gt;\n1 Hartford  Hartford        412\n2 New Haven New Haven       388\n\n\nOnly rows present in both tables survive: Hartford and New Haven. No NAs, because everything left in the result has a match on both sides. Use this when a row without a match is meaningless for what you’re calculating — e.g., a rate that requires both a population and a case count.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/joins.html#full_join-keep-everything-from-both",
+    "href": "chapters/further-reading/joins.html#full_join-keep-everything-from-both",
+    "title": "10  Joins",
+    "section": "10.4 full_join(): keep everything from both",
+    "text": "10.4 full_join(): keep everything from both\n\ntowns |&gt;\n  full_join(cases, by = \"name\")\n\n# A tibble: 5 × 3\n  name       county    case_rate\n  &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;\n1 Hartford   Hartford        412\n2 New Haven  New Haven       388\n3 Bridgeport Fairfield        NA\n4 Norwalk    Fairfield        NA\n5 Stamford   &lt;NA&gt;            355\n\n\nNothing is dropped. Norwalk keeps its row with case_rate as NA; Stamford keeps its row with county as NA. Use this when you want a complete picture of every name that shows up anywhere, gaps and all.",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/joins.html#semi_join-filter-dont-add-columns",
+    "href": "chapters/further-reading/joins.html#semi_join-filter-dont-add-columns",
+    "title": "10  Joins",
+    "section": "10.5 semi_join(): filter, don’t add columns",
+    "text": "10.5 semi_join(): filter, don’t add columns\n\ntowns |&gt;\n  semi_join(cases, by = \"name\")\n\n# A tibble: 2 × 2\n  name      county   \n  &lt;chr&gt;     &lt;chr&gt;    \n1 Hartford  Hartford \n2 New Haven New Haven\n\n\nsemi_join() keeps rows from towns that have a match in cases — but it never adds cases’ columns. The result has only name and county. Think of it as a filter, not a join: “give me the towns that also appear in my case data.”",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/further-reading/joins.html#anti_join-the-opposite-filter",
+    "href": "chapters/further-reading/joins.html#anti_join-the-opposite-filter",
+    "title": "10  Joins",
+    "section": "10.6 anti_join(): the opposite filter",
+    "text": "10.6 anti_join(): the opposite filter\n\ntowns |&gt;\n  anti_join(cases, by = \"name\")\n\n# A tibble: 2 × 2\n  name       county   \n  &lt;chr&gt;      &lt;chr&gt;    \n1 Bridgeport Fairfield\n2 Norwalk    Fairfield\n\n\nThe inverse of semi_join(): keep rows from towns that have no match in cases. This is the fastest way to answer “which towns are missing case data?” — exactly the gray towns in the choropleth.\n\n\n\n\n\n\nTipPicking the right join\n\n\n\n\nNeed every row from your main table, filled in where possible? → left_join()\nNeed only rows that exist on both sides? → inner_join()\nNeed every row from either side, gaps and all? → full_join()\nJust need to filter one table by presence in another, without adding columns? → semi_join() / anti_join()",
+    "crumbs": [
+      "Further Reading",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Joins</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html",
     "href": "chapters/further-reading/excel-files.html",
-    "title": "8  Working with Excel Files",
+    "title": "11  Working with Excel Files",
     "section": "",
-    "text": "8.1 Installing the packages\nExcel files are everywhere in public health. This chapter covers reading and writing .xlsx files using readxl and writexl.\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))",
+    "text": "11.1 Installing the packages\nExcel files are everywhere in public health. This chapter covers reading and writing .xlsx files using readxl and writexl.\ninstall.packages(c(\n  \"readxl\",  # for reading .xlsx files\n  \"writexl\"  # for writing .xlsx files\n))",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#reading-.xlsx-files",
     "href": "chapters/further-reading/excel-files.html#reading-.xlsx-files",
-    "title": "8  Working with Excel Files",
-    "section": "8.2 Reading .xlsx files",
-    "text": "8.2 Reading .xlsx files\nreadxl reads Excel files the same way readr reads CSVs. Use here() to build the path so it works both interactively and during render.\n\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path &lt;- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data &lt;- read_excel(xlsx_path)\n\nyour_data\n\nIf your workbook has multiple sheets, use the sheet argument:\n\nyour_data &lt;- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data &lt;- read_excel(xlsx_path, sheet = 2)",
+    "title": "11  Working with Excel Files",
+    "section": "11.2 Reading .xlsx files",
+    "text": "11.2 Reading .xlsx files\nreadxl reads Excel files the same way readr reads CSVs. Use here() to build the path so it works both interactively and during render.\n\nlibrary(readxl)\nlibrary(here)\n\nxlsx_path &lt;- here(\"data\", \"raw\", \"your-file.xlsx\")\nyour_data &lt;- read_excel(xlsx_path)\n\nyour_data\n\nIf your workbook has multiple sheets, use the sheet argument:\n\nyour_data &lt;- read_excel(xlsx_path, sheet = \"Sheet2\")\n\n# or by position\nyour_data &lt;- read_excel(xlsx_path, sheet = 2)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#writing-.xlsx-files",
     "href": "chapters/further-reading/excel-files.html#writing-.xlsx-files",
-    "title": "8  Working with Excel Files",
-    "section": "8.3 Writing .xlsx files",
-    "text": "8.3 Writing .xlsx files\nwritexl writes a data frame to an Excel file with no Java dependency (unlike openxlsx).\n\nlibrary(writexl)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n\nTo write multiple sheets in one workbook, pass a named list:\n\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)",
+    "title": "11  Working with Excel Files",
+    "section": "11.3 Writing .xlsx files",
+    "text": "11.3 Writing .xlsx files\nwritexl writes a data frame to an Excel file with no Java dependency (unlike openxlsx).\n\nlibrary(writexl)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"my-output.xlsx\")\n\nwrite_xlsx(your_data, path = output_path)\n\nTo write multiple sheets in one workbook, pass a named list:\n\nwrite_xlsx(\n  list(\n    cases  = cases_data,\n    deaths = deaths_data\n  ),\n  path = output_path\n)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/excel-files.html#when-to-use-csv-vs-excel",
     "href": "chapters/further-reading/excel-files.html#when-to-use-csv-vs-excel",
-    "title": "8  Working with Excel Files",
-    "section": "8.4 When to use CSV vs Excel",
-    "text": "8.4 When to use CSV vs Excel\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control friendly, and readable by every tool. Use Excel output when the end recipient is a stakeholder who will open the file directly in Excel and expects formatting.",
+    "title": "11  Working with Excel Files",
+    "section": "11.4 When to use CSV vs Excel",
+    "text": "11.4 When to use CSV vs Excel\nPrefer CSV for anything that feeds into analysis — it is plain text, version-control friendly, and readable by every tool. Use Excel output when the end recipient is a stakeholder who will open the file directly in Excel and expects formatting.",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Working with Excel Files</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Working with Excel Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html",
     "href": "chapters/further-reading/writing-files.html",
-    "title": "9  Writing Data Files",
+    "title": "12  Writing Data Files",
     "section": "",
-    "text": "9.1 CSV\nOnce you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.\nwrite_csv() from readr is the default for analysis outputs that feed into other scripts or tools.\nlibrary(readr)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)",
+    "text": "12.1 CSV\nOnce you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.\nwrite_csv() from readr is the default for analysis outputs that feed into other scripts or tools.\nlibrary(readr)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.csv\")\n\nwrite_csv(your_data, file = output_path)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Writing Data Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html#checking-and-cleaning-up-with-fs",
     "href": "chapters/further-reading/writing-files.html#checking-and-cleaning-up-with-fs",
-    "title": "9  Writing Data Files",
-    "section": "9.2 Checking and cleaning up with fs",
-    "text": "9.2 Checking and cleaning up with fs\nfs lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.\n\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles &lt;- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)",
+    "title": "12  Writing Data Files",
+    "section": "12.2 Checking and cleaning up with fs",
+    "text": "12.2 Checking and cleaning up with fs\nfs lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.\n\nlibrary(fs)\nlibrary(here)\n\n# list everything in a folder\ndir_ls(path = here(\"data\", \"processed\"))\n\n# check whether specific files exist\nfiles &lt;- dir_ls(path = here(\"data\"), glob = \"*my-new-file*\")\nfile_exists(files)\n\n# delete files\nfile_delete(files)\nfile_exists(files)",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Writing Data Files</span>"
     ]
   },
   {
     "objectID": "chapters/further-reading/writing-files.html#parquet",
     "href": "chapters/further-reading/writing-files.html#parquet",
-    "title": "9  Writing Data Files",
-    "section": "9.3 Parquet",
-    "text": "9.3 Parquet\nParquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.\n\ninstall.packages(\"arrow\")\n\n\nlibrary(arrow)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data &lt;- read_parquet(output_path)\n\nParquet files are not human-readable in a text editor, but they are interoperable — Python, Spark, DuckDB, and most modern data tools can read the same file.",
+    "title": "12  Writing Data Files",
+    "section": "12.3 Parquet",
+    "text": "12.3 Parquet\nParquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.\n\ninstall.packages(\"arrow\")\n\n\nlibrary(arrow)\nlibrary(here)\n\noutput_path &lt;- here(\"data\", \"processed\", \"ct_covid_clean.parquet\")\n\nwrite_parquet(your_data, sink = output_path)\n\n# reading it back\nyour_data &lt;- read_parquet(output_path)\n\nParquet files are not human-readable in a text editor, but they are interoperable — Python, Spark, DuckDB, and most modern data tools can read the same file.",
     "crumbs": [
       "Further Reading",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Writing Data Files</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Writing Data Files</span>"
     ]
   }
 ]

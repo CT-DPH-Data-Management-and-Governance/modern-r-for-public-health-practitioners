@@ -1,0 +1,70 @@
+# CT DPH ggplot2 themes — sourced from preamble.Rmd
+# Plain R file so chapters can `source()` this without Quarto chunk parsing issues
+
+theme_ct_vertical <- function() {
+  ggplot2::theme_classic() +
+    ggplot2::theme(
+      axis.line.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title = element_text(face = "bold", family = "Poppins")
+    )
+}
+
+theme_ct_horizontal <- function() {
+  ggplot2::theme_classic() +
+    ggplot2::theme(
+      axis.line.x = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.title = element_text(face = "bold", family = "Poppins")
+    )
+}
+
+theme_poppins_bold_all <- function() {
+  ggplot2::theme(
+    text = element_text(family = "Poppins", face = "bold")
+  )
+}
+
+# color lists
+
+list_old_sha_colors <-
+  dplyr::lst(
+    lightblue = "#61B5CC",
+    blue = "#3866A0",
+    darkblue = "#214066",
+    gray = "#7B8B98",
+    yellowgreen = "#B8C349",
+    orange = "#E39B3B",
+    purple = "#47205B"
+  )
+
+list_ct_primary_colors <-
+  dplyr::lst(
+    primary = "#3371E7",
+    primary_shade1 = "#00214D",
+    primary_shade2 = "#003D9C",
+    primary_shade3 = "#7094F5",
+    primary_shade4 = "#C6D4FB"
+  )
+
+list_ct_secondary_colors <-
+  dplyr::lst(
+    secondary = "#F27124",
+    secondary_shade = "#FAAA19"
+  )
+
+list_ct_tertiary_colors <-
+  dplyr::lst(
+    tertiary = "#D8343E",
+    tertiary_shade = "#94343E"
+  )
+
+list_color_hex_codes <-
+  dplyr::lst(
+    list_old_sha_colors,
+    list_ct_primary_colors,
+    list_ct_secondary_colors,
+    list_ct_tertiary_colors
+  )

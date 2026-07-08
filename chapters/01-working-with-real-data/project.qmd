@@ -175,3 +175,12 @@ and scoped to the question.
 Note that `total_cases` is cumulative: it only goes up. `new_positives`
 is the count of new positive tests reported for that date — that is the
 number to watch when asking whether things are getting worse.
+
+## Saving our data artifact
+
+Imagine that these hartford data was the end goal - now would be the time
+to save the data in memory to a file in our `data/processed/` folder.
+
+```{r}
+# write_csv(...)
+```
