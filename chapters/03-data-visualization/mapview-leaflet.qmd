@@ -1,16 +1,13 @@
 ---
 title: "Interactive Maps: mapview & leaflet"
+packages: [mapview, leaflet]
 ---
-
-::: {.callout-note appearance="minimal"}
-**Packages covered in this chapter:** [mapview](https://r-spatial.github.io/mapview/),
-[leaflet](https://rstudio.github.io/leaflet/)
-:::
 
 ```{r}
 #| label: ml-setup
 #| include: false
 source(here::here("preamble-themes.R"))
+source(here::here("preamble-packages.R"))
 
 library(here)
 library(readr)
@@ -51,6 +48,13 @@ town_cases <-
 # Join COVID data to spatial data
 ct_bounded <- ct_towns |>
   left_join(town_cases, by = join_by(NAME == name))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
 ```
 
 The choropleth in the last section is built for a slide — you export it

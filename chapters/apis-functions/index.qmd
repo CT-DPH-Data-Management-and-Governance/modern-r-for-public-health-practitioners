@@ -1,10 +1,20 @@
 ---
 title: Working with APIs and Functions
+packages: [httr2]
 ---
 
-::: {.callout-note appearance="minimal"}
-**Packages covered in this chapter:** [httr2](https://httr2.r-lib.org/)
-:::
+```{r}
+#| label: chapter-root
+#| include: false
+source(here::here("preamble-packages.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
 
 ## What is an API!?
 
