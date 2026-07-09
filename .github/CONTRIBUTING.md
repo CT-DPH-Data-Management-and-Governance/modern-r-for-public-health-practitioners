@@ -29,6 +29,62 @@ Output lands in `docs/`. If render succeeds, you're good.
 - `preamble.Rmd` holds shared R setup (color palettes, ggplot themes, scaffold function)
 - After editing, render and check `docs/` output before submitting
 
+### Package headers (`preamble-packages.R`)
+
+Every chapter/project `.qmd` shows a "packages covered" callout at the top,
+built from `preamble-packages.R`. Two pieces live there:
+
+- `package_doc_urls` — lookup of package name → docs URL
+- `packages_used_callout()` — renders the callout from a chapter's YAML `packages:` field
+
+**Adding a package for the first time:** add one entry to `package_doc_urls`
+in `preamble-packages.R`:
+
+```r
+package_doc_urls <- list(
+  ...
+  yourpkg = "https://yourpkg.docs.url/"
+)
+```
+
+If you skip this, the callout still works — it falls back to
+`https://cran.r-project.org/package=<name>` — but prefer linking the
+package's own docs site when one exists.
+
+**Setting up a new chapter or project `.qmd`:** put this at the top, right
+after the YAML frontmatter, which must declare a `packages:` field listing
+every package the chapter uses (the callout is generated from that field,
+not from your code chunks):
+
+```yaml
+---
+title: "Your Chapter Title"
+packages: [pkg1, pkg2]
+---
+```
+
+Then a setup chunk and the callout chunk:
+
+```r
+#| label: chapter-root
+#| include: false
+library(here)
+source(here::here("preamble-packages.R"))
+```
+
+```r
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+- Chapters that build plots also `source(here::here("preamble-themes.R"))`
+  in the same setup chunk (see `chapters/03-data-visualization/`)
+- `packages_used_callout()` takes an optional `label` arg (default
+  `"this part"`) if you want the callout text to read differently, e.g.
+  `packages_used_callout(rmarkdown::metadata$packages, label = "this chapter")`
+
 ## Code style
 
 - Tidyverse only — no base R in chapter code (see `CLAUDE.md` for rationale)
