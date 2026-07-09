@@ -36,11 +36,11 @@ book:
       chapters:
         - chapters/01-working-with-real-data/index.qmd
         - chapters/01-working-with-real-data/project.qmd
+        - chapters/02-cleaning-data/index.qmd
+    - part: "Intermediate R: Automating the Manual Steps"
+      chapters:
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
-    - part: "Cleaning Data"
-      chapters:
-        - chapters/02-cleaning-data/index.qmd
     - part: "Data Visualization"
       chapters:
         - chapters/03-data-visualization/index.qmd
