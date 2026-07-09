@@ -1,19 +1,22 @@
 ---
 title: "Loading Your First Dataset"
+packages: [dplyr, readr, fs, here]
 ---
 
 ```{r}
 #| label: chapter-root
 #| include: false
 library(here)
+source(here::here("preamble-packages.R"))
 .chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
 ```
 
-::: {.callout-note appearance="minimal"}
-**Packages covered in this chapter:** [dplyr](https://dplyr.tidyverse.org/),
-[readr](https://readr.tidyverse.org/), [fs](https://fs.r-lib.org/),
-[here](https://here.r-lib.org/)
-:::
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
 
 Your workspace is set up and your raw data is sitting in `data/raw/`.
 Time to write your first R code.
