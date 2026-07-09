@@ -8,6 +8,11 @@ title: "Visualizing Your Data"
 source(here::here("preamble-themes.R"))
 ```
 
+::: {.callout-note appearance="minimal"}
+**Packages covered in this chapter:** [ggplot2](https://ggplot2.tidyverse.org/),
+[sf](https://r-spatial.github.io/sf/), [tigris](https://github.com/walkerke/tigris)
+:::
+
 ```{r}
 #| label: chapter-root
 #| include: false
