@@ -1,11 +1,13 @@
 ---
 title: "Interactive Maps: mapview & leaflet"
+packages: [mapview, leaflet]
 ---
 
 ```{r}
 #| label: ml-setup
 #| include: false
 source(here::here("preamble-themes.R"))
+source(here::here("preamble-packages.R"))
 
 library(here)
 library(readr)
@@ -46,6 +48,13 @@ town_cases <-
 # Join COVID data to spatial data
 ct_bounded <- ct_towns |>
   left_join(town_cases, by = join_by(NAME == name))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
 ```
 
 The choropleth in the last section is built for a slide — you export it
@@ -122,9 +131,14 @@ one string per town, then pass the whole vector to `addPolygons()`:
 ```{r}
 #| label: leaflet-popups
 town_popup <- paste0(
-  "<strong>", ct_bounded$NAME, "</strong><br/>",
-  "Case rate: ", round(ct_bounded$case_rate, 1), " per 100,000<br/>",
-  "Total cases: ", ct_bounded$total_cases
+  "<strong>",
+  ct_bounded$NAME,
+  "</strong><br/>",
+  "Case rate: ",
+  round(ct_bounded$case_rate, 1),
+  " per 100,000<br/>",
+  "Total cases: ",
+  ct_bounded$total_cases
 )
 
 leaflet(ct_bounded) |>
@@ -233,7 +247,12 @@ email it to someone who can open it and click around themselves:
 #| eval: false
 mapshot(
   ct_case_map,
-  url = here("chapters", "03-data-visualization", "maps", "ct-case-rate-map.html")
+  url = here(
+    "chapters",
+    "03-data-visualization",
+    "maps",
+    "ct-case-rate-map.html"
+  )
 )
 ```
 
@@ -245,7 +264,12 @@ JavaScript at all — a slide deck, a printed briefing, a PDF report:
 #| eval: false
 mapshot(
   ct_case_map,
-  file = here("chapters", "03-data-visualization", "maps", "ct-case-rate-map.png")
+  file = here(
+    "chapters",
+    "03-data-visualization",
+    "maps",
+    "ct-case-rate-map.png"
+  )
 )
 ```
 

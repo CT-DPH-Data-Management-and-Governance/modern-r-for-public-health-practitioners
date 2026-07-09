@@ -2,13 +2,23 @@
 
 This is the website for the Connecticut Department of Public Health's
 Data Management, Analytics, and Governance (DMAG) R training for
-public health practitioners.
+public health practitioners both at DPH and beyond.
 
 ## Special Thanks
 
- - Gary Archambault and the rest of the DMAG team
- - Mukhtar Mohamed
- - Sydney Jones
+ - The DMAG team, who without their help this book would not exist!
+    - Gary Archambault
+    - Jack King
+    - Michael Schneider
+    - and the rest of my wonderful teammates
+ - My amazing DPH Colleages who contributed feedback, materials and use cases:
+    - Mukhtar Mohamed
+    - Sydney Jones
+    - Denise Ortiz
+    - Sue Petit
+    - Amanda Durante
+    - Meghan Maloney
+
 
 
 ## About the Author

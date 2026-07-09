@@ -1,0 +1,74 @@
+---
+title: "Cleaning Data"
+packages: [janitor, tidyr, stringr, lubridate]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+library(here)
+source(here::here("preamble-packages.R"))
+.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+Real data is rarely clean. Column names are inconsistent, values need
+reshaping, text fields need tidying up, and dates need parsing before
+they're ready for analysis. This chapter covers four packages that
+handle the bulk of that work.
+
+## Installing Packages
+
+```{r}
+#| label: install-packages
+#| eval: false
+
+install.packages(c(
+  "janitor", # for cleaning names and basic data cleaning
+  "tidyr", # for reshaping data
+  "stringr", # for working with text
+  "lubridate" # for working with dates
+))
+```
+
+```{r}
+#| label: setup-libraries
+
+library(dplyr)
+library(readr)
+library(here)
+library(janitor)
+library(tidyr)
+library(stringr)
+library(lubridate)
+```
+
+```{r}
+#| label: load-data
+#| include: false
+
+csv_path <- fs::path(.chapter_data, "ct-covid-by-town-2026-06-30.csv")
+covid_data <- read_csv(csv_path)
+```
+
+## `janitor`
+
+TODO: clean_names(), tabyl(), get_dupes(), other janitor basics.
+
+## `tidyr`
+
+TODO: pivot_longer(), pivot_wider(), drop_na()/replace_na(), separate/unite.
+
+## `stringr`
+
+TODO: str_detect(), str_replace(), str_trim(), str_to_title() and friends.
+
+## `lubridate`
+
+TODO: ymd(), as_date(), wday(), floor_date() and other date parsing basics.

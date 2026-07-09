@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Keeps the actions used in .github/workflows/lint.yml pinned to current
+  # versions (actions/checkout, r-lib/actions, quarto-dev/quarto-actions,
+  # extractions/setup-just). No renv/CRAN ecosystem — Dependabot doesn't
+  # support R package manifests.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"

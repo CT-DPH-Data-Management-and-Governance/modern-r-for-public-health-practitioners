@@ -1,6 +1,5 @@
 project:
   type: book
-  output-dir: docs
 
 book:
   title: "Modern R for Public Health Practitioners"
@@ -21,9 +20,9 @@ book:
 
   page-footer:
     left: |
-      This is a proof of concept.
+      [Connecticut Department of Public Health](https://portal.ct.gov/dph)
     right: |
-      This is a proof of concept.
+      Made with [Quarto](https://quarto.org) and [GitHub](https://github.com).
 
 
   chapters:
@@ -36,6 +35,13 @@ book:
       chapters:
         - chapters/01-working-with-real-data/index.qmd
         - chapters/01-working-with-real-data/project.qmd
+        - chapters/02-cleaning-data/index.qmd
+    - part: "Data Visualization"
+      chapters:
+        - chapters/03-data-visualization/index.qmd
+        - chapters/03-data-visualization/mapview-leaflet.qmd
+    - part: "Intermediate R: Automating the Manual Steps"
+      chapters:
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
     - part: "Data Visualization"
@@ -59,14 +65,14 @@ format:
     theme:
       light: [cosmo, theme-ctdph.scss]
     code-copy: true
-  pdf:
-    documentclass: scrreprt
+
 
 execute:
   freeze: auto
   echo: true
   warning: false
   message: false
+
 
 
 
