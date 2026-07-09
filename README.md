@@ -48,3 +48,7 @@ quarto render --to pdf     # PDF only
 ```
 
 Output lands in `docs/`. The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
+
+## Contributing
+
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for how to contribute, chapter conventions, and the package header setup.
