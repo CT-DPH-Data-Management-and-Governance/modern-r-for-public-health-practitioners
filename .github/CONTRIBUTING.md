@@ -14,7 +14,8 @@ Thanks for helping make this book better. Contributions welcome from all skill l
 1. Fork and clone the repo
 2. Install [Quarto](https://quarto.org/docs/get-started/)
 3. Open R and run `renv::restore()` to install packages
-4. Render to verify your setup:
+4. (Optional) Install [just](https://github.com/casey/just) and [air](https://posit-dev.github.io/air/) — the repo ships a `justfile` with render/format/lint recipes, see below
+5. Render to verify your setup:
 
 ```bash
 quarto render
@@ -28,6 +29,17 @@ Output lands in `docs/`. If render succeeds, you're good.
 - `_quarto.yml` controls chapter order and book config
 - `preamble.Rmd` holds shared R setup (color palettes, ggplot themes, scaffold function)
 - After editing, render and check `docs/` output before submitting
+
+### Using the justfile
+
+Run `just --list` for the full set of recipes. Before opening a PR:
+
+```bash
+just fmt        # format R code with air
+just lint        # fmt-check + yaml-lint + a no-execute render check
+```
+
+`just fmt` runs `air format .`; if you don't have `just` installed, `air format .` and `quarto render` directly work the same.
 
 ### Package headers (`preamble-packages.R`)
 
@@ -90,6 +102,7 @@ packages_used_callout(rmarkdown::metadata$packages)
 - Tidyverse only — no base R in chapter code (see `CLAUDE.md` for rationale)
 - Packages: `readr`, `dplyr`, `fs`, `readxl`, `writexl` — stick to what chapters already use unless there's a strong reason
 - Keep examples grounded in the CT COVID-19 dataset (`ct-covid-by-town-2026-06-30.csv`)
+- Format R code with `air format .` (or `just fmt`) before submitting
 
 ## Pull requests
 

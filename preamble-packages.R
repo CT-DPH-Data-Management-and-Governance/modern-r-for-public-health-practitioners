@@ -29,14 +29,21 @@ package_doc_urls <- list(
 #'   `rmarkdown::metadata$packages`.
 #' @param label Text describing the scope of the callout, e.g. "this part".
 packages_used_callout <- function(pkgs, label = "this part") {
-  links <- vapply(pkgs, function(p) {
-    url <- package_doc_urls[[p]]
-    if (is.null(url)) url <- paste0("https://cran.r-project.org/package=", p)
-    sprintf("[%s](%s)", p, url)
-  }, character(1))
+  links <- vapply(
+    pkgs,
+    function(p) {
+      url <- package_doc_urls[[p]]
+      if (is.null(url)) {
+        url <- paste0("https://cran.r-project.org/package=", p)
+      }
+      sprintf("[%s](%s)", p, url)
+    },
+    character(1)
+  )
 
   cat(sprintf(
     '::: {.callout-note appearance="minimal"}\n**Packages covered in %s:** %s\n:::\n',
-    label, paste(links, collapse = ", ")
+    label,
+    paste(links, collapse = ", ")
   ))
 }

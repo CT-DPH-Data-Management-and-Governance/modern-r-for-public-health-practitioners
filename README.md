@@ -24,6 +24,8 @@ Readers **code along in their own local project** (`covid-briefing/`) — no clo
 
 - [R](https://cran.r-project.org/)
 - [Quarto](https://quarto.org/docs/get-started/)
+- [just](https://github.com/casey/just) (optional) — command runner for the recipes below
+- [air](https://posit-dev.github.io/air/) (optional) — R formatter used by `just fmt`
 
 ### Restore R packages
 
@@ -48,6 +50,21 @@ quarto render --to pdf     # PDF only
 ```
 
 Output lands in `docs/`. The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
+
+## Common commands (`just`)
+
+A `justfile` wraps the commands above plus formatting and linting. Run `just --list` to see everything.
+
+```bash
+just render       # quarto render
+just render-html  # quarto render --to html
+just render-dry   # quick syntax/frontmatter check, no code execution
+just fmt           # format R code with air
+just fmt-check      # check formatting without writing (CI-style)
+just yaml-lint       # lint _quarto.yml and issue templates
+just lint             # fmt-check + yaml-lint + render-dry, all at once
+just todos             # list active TODO markers in chapters/
+```
 
 ## Contributing
 
