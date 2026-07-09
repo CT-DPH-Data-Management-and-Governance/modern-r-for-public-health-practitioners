@@ -44,10 +44,6 @@ book:
       chapters:
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
-    - part: "Data Visualization"
-      chapters:
-        - chapters/03-data-visualization/index.qmd
-        - chapters/03-data-visualization/mapview-leaflet.qmd
     - part: "Security Basics"
       chapters:
         - chapters/secrets/index.qmd
