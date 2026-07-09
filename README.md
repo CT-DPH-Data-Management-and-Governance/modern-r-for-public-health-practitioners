@@ -23,7 +23,7 @@ Readers **code along in their own local project** (`covid-briefing/`) — no clo
 ### Prerequisites
 
 - [R](https://cran.r-project.org/)
-- [Quarto](https://quarto.org/docs/get-started/)
+- [Quarto](https://quarto.org/docs/get-started/) (optional, but highly recommended) — lets you render and preview locally before opening a PR. The live site is built and published automatically by `.github/workflows/publish.yml` on every push to `main`, so Quarto isn't strictly required to contribute, just to check your work first.
 - [just](https://github.com/casey/just) (optional) — command runner for the recipes below
 - [air](https://posit-dev.github.io/air/) (optional) — R formatter used by `just fmt`
 
@@ -50,6 +50,12 @@ quarto render --to pdf     # PDF only
 ```
 
 Output lands in `docs/`. The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
+
+Local render is for previewing your changes. The published site is rendered and deployed by CI (see below), not from your local `docs/` output.
+
+## Publishing
+
+`.github/workflows/publish.yml` renders the book with Quarto and publishes it to the `gh-pages` branch on every push to `main`. You don't need to run this yourself — it's how the [hosted site](https://ct-dph-data-management-and-governance.github.io/modern-r-for-public-health-practitioners/) stays in sync with `main`.
 
 ## Common commands (`just`)
 

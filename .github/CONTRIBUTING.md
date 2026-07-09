@@ -12,7 +12,7 @@ Thanks for helping make this book better. Contributions welcome from all skill l
 ## Setup
 
 1. Fork and clone the repo
-2. Install [Quarto](https://quarto.org/docs/get-started/)
+2. Install [Quarto](https://quarto.org/docs/get-started/) — optional, but highly recommended so you can render and preview locally. `.github/workflows/publish.yml` renders and publishes the live site automatically on push to `main`, so Quarto isn't required just to open a PR, only to check your work before submitting one.
 3. Open R and run `renv::restore()` to install packages
 4. (Optional) Install [just](https://github.com/casey/just) and [air](https://posit-dev.github.io/air/) — the repo ships a `justfile` with render/format/lint recipes, see below
 5. Render to verify your setup:
@@ -44,6 +44,8 @@ just lint        # fmt-check + yaml-lint + a no-execute render check
 ### CI
 
 `.github/workflows/lint.yml` runs `just fmt-check`, `just yaml-lint`, and `just render-dry` on every push/PR to `dev` and `main`. These are informational only — every step is `continue-on-error`, so nothing here blocks a merge. A flagged step just means something's worth a look before or after merging.
+
+`.github/workflows/publish.yml` is separate — it renders the book and publishes it to `gh-pages` on push to `main`. That's the one that actually ships the live site; you don't run it yourself.
 
 ### Package headers (`preamble-packages.R`)
 
