@@ -16,7 +16,8 @@ package_doc_urls <- list(
   httr2 = "https://httr2.r-lib.org/",
   janitor = "https://sfirke.github.io/janitor/",
   tidyr = "https://tidyr.tidyverse.org/",
-  stringr = "https://stringr.tidyverse.org/"
+  stringr = "https://stringr.tidyverse.org/",
+  lubridate = "https://lubridate.tidyverse.org/"
 )
 
 #' Render a "packages covered" callout from a chapter's YAML `packages:` field.
