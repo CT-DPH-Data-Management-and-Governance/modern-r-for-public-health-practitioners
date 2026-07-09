@@ -13,7 +13,10 @@ package_doc_urls <- list(
   tigris = "https://github.com/walkerke/tigris",
   leaflet = "https://rstudio.github.io/leaflet/",
   mapview = "https://r-spatial.github.io/mapview/",
-  httr2 = "https://httr2.r-lib.org/"
+  httr2 = "https://httr2.r-lib.org/",
+  janitor = "https://sfirke.github.io/janitor/",
+  tidyr = "https://tidyr.tidyverse.org/",
+  stringr = "https://stringr.tidyverse.org/"
 )
 
 #' Render a "packages covered" callout from a chapter's YAML `packages:` field.
