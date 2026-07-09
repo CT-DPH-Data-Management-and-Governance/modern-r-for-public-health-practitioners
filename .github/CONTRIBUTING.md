@@ -41,6 +41,10 @@ just lint        # fmt-check + yaml-lint + a no-execute render check
 
 `just fmt` runs `air format .`; if you don't have `just` installed, `air format .` and `quarto render` directly work the same.
 
+### CI
+
+`.github/workflows/lint.yml` runs `just fmt-check`, `just yaml-lint`, and `just render-dry` on every push/PR to `dev` and `main`. These are informational only — every step is `continue-on-error`, so nothing here blocks a merge. A flagged step just means something's worth a look before or after merging.
+
 ### Package headers (`preamble-packages.R`)
 
 Every chapter/project `.qmd` shows a "packages covered" callout at the top,
