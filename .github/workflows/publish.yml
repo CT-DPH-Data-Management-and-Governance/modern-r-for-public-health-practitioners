@@ -16,7 +16,6 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        env: ${{ secrets.GITHUB_TOKEN }}
         with:
           tinytex: true
 
