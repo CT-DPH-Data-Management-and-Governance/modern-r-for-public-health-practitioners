@@ -54,7 +54,7 @@ theme_ct_vertical <- function() {
       axis.line.y = element_blank(),
       axis.ticks.y = element_blank(),
       axis.ticks.x = element_blank(),
-      axis.title = element_text(face = "bold", family = "Poppins")
+      axis.title = element_text(face = "bold") #, family = "Poppins")
     )
 }
 
@@ -64,12 +64,12 @@ theme_ct_horizontal <- function() {
       axis.line.x = element_blank(),
       axis.ticks.y = element_blank(),
       axis.ticks.x = element_blank(),
-      axis.title = element_text(face = "bold", family = "Poppins")
+      axis.title = element_text(face = "bold") #, family = "Poppins")
     )
 }
 
 theme_poppins_bold_all <- function() {
   ggplot2::theme(
-    text = element_text(family = "Poppins", face = "bold")
+    text = element_text(face = "bold") #, family = "Poppins", )
   )
 }
