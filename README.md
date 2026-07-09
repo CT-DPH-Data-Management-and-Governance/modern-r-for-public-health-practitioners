@@ -11,8 +11,8 @@ Hosted: <https://ct-dph-data-management-and-governance.github.io/modern-r-for-pu
 | 00 — Orientation | Mindset, RStudio/Positron setup, folder structure, data download |
 | 01 — Working with Real Data | `readr`, `dplyr`, `fs`; load and inspect the CT COVID-19 dataset |
 | Cleaning Data | `janitor`, `tidyr`, `stringr`, `lubridate`; tidy names, reshape, and parse dates |
-| Intermediate R: Automating the Manual Steps | `httr2`; pulling data from SODA/open data APIs and writing functions |
 | Data Visualization | `ggplot2`, `sf`, `tigris`, `leaflet`, `mapview`; static and interactive maps |
+| Intermediate R: Automating the Manual Steps | `httr2`; pulling data from SODA/open data APIs and writing functions |
 | Security Basics | Managing secrets and credentials |
 | Further Reading | Joins, Excel files, writing files |
 
