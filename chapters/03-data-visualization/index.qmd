@@ -1,11 +1,20 @@
 ---
 title: "Visualizing Your Data"
+packages: [ggplot2, sf, tigris]
 ---
 
 ```{r}
 #| label: setup-themes
 #| include: false
 source(here::here("preamble-themes.R"))
+source(here::here("preamble-packages.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
 ```
 
 ```{r}

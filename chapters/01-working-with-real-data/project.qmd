@@ -175,7 +175,6 @@ and scoped to the question.
 Note that `total_cases` is cumulative: it only goes up. `new_positives`
 is the count of new positive tests reported for that date — that is the
 number to watch when asking whether things are getting worse.
-<<<<<<< HEAD
 
 ## Saving our data artifact
 
@@ -185,5 +184,9 @@ to save the data in memory to a file in our `data/processed/` folder.
 ```{r}
 # write_csv(...)
 ```
-=======
->>>>>>> main
+
+::: {.callout-note}
+Want to compare against a reference? See
+[`project-snapshots/after-ch-01`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-01)
+on GitHub for the `scripts/` this chapter should leave you with.
+:::

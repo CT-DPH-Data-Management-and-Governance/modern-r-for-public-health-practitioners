@@ -10,9 +10,11 @@ Hosted: <https://ct-dph-data-management-and-governance.github.io/modern-r-for-pu
 |---|---|
 | 00 — Orientation | Mindset, RStudio/Positron setup, folder structure, data download |
 | 01 — Working with Real Data | `readr`, `dplyr`, `fs`; load and inspect the CT COVID-19 dataset |
-| APIs & Functions | Pulling data from SODA/open data APIs |
+| Cleaning Data | `janitor`, `tidyr`, `stringr`, `lubridate`; tidy names, reshape, and parse dates |
+| Data Visualization | `ggplot2`, `sf`, `tigris`, `leaflet`, `mapview`; static and interactive maps |
+| Intermediate R: Automating the Manual Steps | `httr2`; pulling data from SODA/open data APIs and writing functions |
 | Security Basics | Managing secrets and credentials |
-| Further Reading | Excel files, writing files |
+| Further Reading | Joins, Excel files, writing files |
 
 Readers **code along in their own local project** (`covid-briefing/`) — no cloning required.
 
@@ -46,3 +48,7 @@ quarto render --to pdf     # PDF only
 ```
 
 Output lands in `docs/`. The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
+
+## Contributing
+
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for how to contribute, chapter conventions, and the package header setup.

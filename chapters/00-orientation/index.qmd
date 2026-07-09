@@ -171,6 +171,12 @@ From this point forward: **never open this file and edit it by hand.** If
 something about it needs to change, that change happens in a script, not in
 the file itself.
 
+::: {.callout-note}
+Want to check your folder structure against a reference? See
+[`project-snapshots/after-ch-00`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-00)
+on GitHub for what `covid-briefing/` should look like at this point.
+:::
+
 ### Diving In
 
 Workspace is ready, data is in `data/raw/`. Next chapter: write your first R code.
