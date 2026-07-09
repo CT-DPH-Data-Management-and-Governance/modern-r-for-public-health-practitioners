@@ -21,9 +21,9 @@ book:
 
   page-footer:
     left: |
-      This is a proof of concept.
+      [Connecticut Department of Public Health](https://portal.ct.gov/dph)
     right: |
-      This is a proof of concept.
+      Made with [Quarto](https://quarto.org) and [GitHub](https://github.com).
 
 
   chapters:
