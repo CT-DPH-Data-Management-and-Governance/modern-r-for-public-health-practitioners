@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by buidling a report that grows with every chapter.">
 
-<title>13&nbsp; Writing Data Files – Modern R for Public Health Practitioners</title>
+<title>15&nbsp; Writing Data Files – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-16d416cc1026f4d67c5752f2a15b15f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b8374de3cc97b70cb80b3e51e6241be7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/writing-files.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Writing Data Files</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/writing-files.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Writing Data Files</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -255,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Security Basics</span></a>
+ <span class="menu-text">Data Visualization</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -263,8 +263,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+  <a href="../../chapters/03-data-visualization/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/03-data-visualization/mapview-leaflet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
   </div>
 </li>
       </ul>
@@ -272,7 +278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Further Reading</span></a>
+ <span class="menu-text">Security Basics</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -280,26 +286,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Further Reading</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/joins.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/excel-files.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/writing-files.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
   </div>
 </li>
       </ul>
@@ -314,18 +337,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#csv" id="toc-csv" class="nav-link active" data-scroll-target="#csv"><span class="header-section-number">13.1</span> CSV</a></li>
-  <li><a href="#checking-and-cleaning-up-with-fs" id="toc-checking-and-cleaning-up-with-fs" class="nav-link" data-scroll-target="#checking-and-cleaning-up-with-fs"><span class="header-section-number">13.2</span> Checking and cleaning up with <code>fs</code></a></li>
-  <li><a href="#parquet" id="toc-parquet" class="nav-link" data-scroll-target="#parquet"><span class="header-section-number">13.3</span> Parquet</a></li>
+  <li><a href="#csv" id="toc-csv" class="nav-link active" data-scroll-target="#csv"><span class="header-section-number">15.1</span> CSV</a></li>
+  <li><a href="#checking-and-cleaning-up-with-fs" id="toc-checking-and-cleaning-up-with-fs" class="nav-link" data-scroll-target="#checking-and-cleaning-up-with-fs"><span class="header-section-number">15.2</span> Checking and cleaning up with <code>fs</code></a></li>
+  <li><a href="#parquet" id="toc-parquet" class="nav-link" data-scroll-target="#parquet"><span class="header-section-number">15.3</span> Parquet</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/further-reading/writing-files.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/writing-files.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Writing Data Files</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/writing-files.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Writing Data Files</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Writing Data Files</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Writing Data Files</span></h1>
 </div>
 
 
@@ -343,8 +366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Once you have cleaned or summarized data, you will want to write it back out. This chapter covers the most common output formats.</p>
-<section id="csv" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="csv"><span class="header-section-number">13.1</span> CSV</h2>
+<section id="csv" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="csv"><span class="header-section-number">15.1</span> CSV</h2>
 <p><code>write_csv()</code> from <code>readr</code> is the default for analysis outputs that feed into other scripts or tools.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
@@ -355,8 +378,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(your_data, <span class="at">file =</span> output_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="checking-and-cleaning-up-with-fs" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="checking-and-cleaning-up-with-fs"><span class="header-section-number">13.2</span> Checking and cleaning up with <code>fs</code></h2>
+<section id="checking-and-cleaning-up-with-fs" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="checking-and-cleaning-up-with-fs"><span class="header-section-number">15.2</span> Checking and cleaning up with <code>fs</code></h2>
 <p><code>fs</code> lets you inspect and manage files from inside R — useful for verifying that a write succeeded or cleaning up intermediate files.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fs)</span>
@@ -374,8 +397,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">file_exists</span>(files)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="parquet" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="parquet"><span class="header-section-number">13.3</span> Parquet</h2>
+<section id="parquet" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="parquet"><span class="header-section-number">15.3</span> Parquet</h2>
 <p>Parquet is a compressed columnar format that reads and writes much faster than CSV for large datasets. It is a better default than CSV once your data exceeds a few hundred thousand rows.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"arrow"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -800,7 +823,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/further-reading/excel-files.html" class="pagination-link" aria-label="Working with Excel Files">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
