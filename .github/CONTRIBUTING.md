@@ -21,14 +21,14 @@ Thanks for helping make this book better. Contributions welcome from all skill l
 quarto render
 ```
 
-Output lands in `docs/`. If render succeeds, you're good.
+Output lands in `_book/` (gitignored, local preview only). If render succeeds, you're good.
 
 ## Making changes
 
 - Book source lives in `chapters/` — one folder per chapter, `index.qmd` is the main file
 - `_quarto.yml` controls chapter order and book config
 - `preamble.Rmd` holds shared R setup (color palettes, ggplot themes, scaffold function)
-- After editing, render and check `docs/` output before submitting
+- After editing, render and check `_book/` output before submitting
 
 ### Using the justfile
 

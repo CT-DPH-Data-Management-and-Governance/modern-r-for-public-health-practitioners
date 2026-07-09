@@ -44,14 +44,12 @@ Installs TinyTeX into `~/.TinyTeX`. Missing LaTeX packages auto-install during r
 ## Render
 
 ```bash
-quarto render              # full book → docs/
+quarto render              # full book → _book/
 quarto render --to html    # HTML only
 quarto render --to pdf     # PDF only
 ```
 
-Output lands in `docs/`. The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
-
-Local render is for previewing your changes. The published site is rendered and deployed by CI (see below), not from your local `docs/` output.
+Output lands in `_book/` (gitignored, local preview only). The repo uses `execute: freeze: auto` — code chunks only re-run when source changes. To force re-execution, delete the relevant entry in `_freeze/` or pass `--execute`.
 
 ## Publishing
 

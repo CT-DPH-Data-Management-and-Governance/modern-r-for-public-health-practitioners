@@ -52,4 +52,4 @@ todos:
 
 # Remove rendered output and frozen execution cache (forces full re-render)
 clean:
-    rm -rf docs _freeze
+    rm -rf _book _freeze
