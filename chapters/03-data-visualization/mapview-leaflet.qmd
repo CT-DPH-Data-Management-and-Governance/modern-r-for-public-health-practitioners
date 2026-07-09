@@ -2,6 +2,11 @@
 title: "Interactive Maps: mapview & leaflet"
 ---
 
+::: {.callout-note appearance="minimal"}
+**Packages covered in this chapter:** [mapview](https://r-spatial.github.io/mapview/),
+[leaflet](https://rstudio.github.io/leaflet/)
+:::
+
 ```{r}
 #| label: ml-setup
 #| include: false
