@@ -2,6 +2,9 @@
 title: Working with APIs and Functions
 ---
 
+::: {.callout-note appearance="minimal"}
+**Packages covered in this chapter:** [httr2](https://httr2.r-lib.org/)
+:::
 
 ## What is an API!?
 
