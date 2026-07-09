@@ -25,7 +25,7 @@ jobs:
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
 
       - name: Install air
         run: |
