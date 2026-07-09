@@ -131,9 +131,14 @@ one string per town, then pass the whole vector to `addPolygons()`:
 ```{r}
 #| label: leaflet-popups
 town_popup <- paste0(
-  "<strong>", ct_bounded$NAME, "</strong><br/>",
-  "Case rate: ", round(ct_bounded$case_rate, 1), " per 100,000<br/>",
-  "Total cases: ", ct_bounded$total_cases
+  "<strong>",
+  ct_bounded$NAME,
+  "</strong><br/>",
+  "Case rate: ",
+  round(ct_bounded$case_rate, 1),
+  " per 100,000<br/>",
+  "Total cases: ",
+  ct_bounded$total_cases
 )
 
 leaflet(ct_bounded) |>
@@ -242,7 +247,12 @@ email it to someone who can open it and click around themselves:
 #| eval: false
 mapshot(
   ct_case_map,
-  url = here("chapters", "03-data-visualization", "maps", "ct-case-rate-map.html")
+  url = here(
+    "chapters",
+    "03-data-visualization",
+    "maps",
+    "ct-case-rate-map.html"
+  )
 )
 ```
 
@@ -254,7 +264,12 @@ JavaScript at all — a slide deck, a printed briefing, a PDF report:
 #| eval: false
 mapshot(
   ct_case_map,
-  file = here("chapters", "03-data-visualization", "maps", "ct-case-rate-map.png")
+  file = here(
+    "chapters",
+    "03-data-visualization",
+    "maps",
+    "ct-case-rate-map.png"
+  )
 )
 ```
 
