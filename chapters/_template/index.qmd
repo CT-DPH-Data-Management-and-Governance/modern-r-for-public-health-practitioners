@@ -1,0 +1,28 @@
+---
+title: "Chapter Title Here"
+packages: [pkg1, pkg2]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+# If this chapter does data viz, also source preamble-themes.R here.
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+```{r}
+#| label: load-data
+#| include: false
+
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
+```
+
+<!-- TODO: chapter content -->
