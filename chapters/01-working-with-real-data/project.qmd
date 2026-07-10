@@ -6,7 +6,7 @@ title: "A First Look at Hartford"
 #| label: project-root
 #| include: false
 library(here)
-.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+source(here::here("preamble-data.R"))
 ```
 
 The scenario question from chapter 0: **Is it getting worse in Hartford?**
@@ -32,13 +32,9 @@ covid_data <- read_csv(here("data", "raw", "ct_covid_by_town_2026-06-30.csv"))
 
 library(dplyr)
 library(readr)
-library(fs)
 library(here)
 
-covid_data <- read_csv(fs::path(
-  .chapter_data,
-  "ct-covid-by-town-2026-06-30.csv"
-))
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 ```
 
 ## The pipe

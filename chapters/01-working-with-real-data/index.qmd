@@ -8,7 +8,7 @@ packages: [dplyr, readr, fs, here]
 #| include: false
 library(here)
 source(here::here("preamble-packages.R"))
-.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+source(here::here("preamble-data.R"))
 ```
 
 ```{r}
@@ -99,8 +99,7 @@ covid_data <- read_csv(csv_path)
 ```{r}
 #| include: false
 
-csv_path <- fs::path(.chapter_data, "ct-covid-by-town-2026-06-30.csv")
-covid_data <- read_csv(csv_path)
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 ```
 
 We have our data saved into our session — now let's look at it.

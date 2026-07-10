@@ -8,6 +8,7 @@ packages: [ggplot2, sf, tigris]
 #| include: false
 source(here::here("preamble-themes.R"))
 source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
 ```
 
 ```{r}
@@ -26,12 +27,7 @@ library(dplyr)
 library(ggplot2)
 library(sf)
 
-.chapter_data <- here::here("chapters", "03-data-visualization", "data")
-
-covid_data <- read_csv(fs::path(
-  .chapter_data,
-  "ct-covid-by-town-2026-06-30.csv"
-))
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 
 hartford <-
   covid_data |>
