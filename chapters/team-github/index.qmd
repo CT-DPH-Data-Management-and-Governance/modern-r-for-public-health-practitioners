@@ -1,0 +1,26 @@
+---
+title: "Working with a Team on GitHub"
+---
+
+The previous chapter covered local history — commits on your own machine.
+This chapter picks up where that leaves off: sharing that history with
+other people.
+
+## Remotes and GitHub
+
+TODO: what a remote is, `git clone`, `git push`/`git pull`, connecting a
+local repo to GitHub.
+
+## Pull Requests
+
+TODO: opening a PR off a branch (branches covered in the previous
+chapter), requesting review, addressing feedback, merging.
+
+## Code Review Basics
+
+TODO: what to look for as a reviewer, how to leave a useful comment,
+responding to review as the author.
+
+## Handling Conflicts
+
+TODO: what a merge conflict looks like, how to resolve one without panic.

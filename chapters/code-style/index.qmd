@@ -1,0 +1,25 @@
+---
+title: "Code Style & Formatting"
+---
+
+Code is read far more often than it's written. This chapter covers habits
+that make your R code easier for others — and future you — to follow.
+
+## Why Style Matters
+
+TODO: consistency as a courtesy to readers, style as a diff-noise reducer.
+
+## Naming Conventions
+
+TODO: `snake_case` vs `camelCase`, naming variables/functions for what they
+hold or do, avoiding cryptic abbreviations.
+
+## Automated Formatting
+
+TODO: `styler`/`air` (already used in this repo's own justfile), running a
+formatter before committing so style never becomes a manual review comment.
+
+## The Tidyverse Style Guide
+
+TODO: pointer to <https://style.tidyverse.org/> as the reference this book
+follows.
