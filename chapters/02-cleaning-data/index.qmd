@@ -8,7 +8,7 @@ packages: [janitor, tidyr, stringr, lubridate]
 #| include: false
 library(here)
 source(here::here("preamble-packages.R"))
-.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+source(here::here("preamble-data.R"))
 ```
 
 ```{r}
@@ -53,11 +53,140 @@ library(lubridate)
 #| label: load-data
 #| include: false
 
-csv_path <- fs::path(.chapter_data, "ct-covid-by-town-2026-06-30.csv")
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
+```
+
+
+## Common Data Cleaning Patterns
+
+Data come in all shapes and sizes, and it is difficult to come up with a
+single approach that will fit every situation. However, there are some common
+patterns that show up frequently in public health data. This chapter will cover 
+some of the most common data cleaning tasks and the R packages that can help 
+you accomplish them.
+
+
+```{r}
+#| label: loading-data
+#| eval: false
+
+# load up our raw data
+csv_path <- here("data", "raw", "ct_covid_by_town_2026-06-30.csv")
 covid_data <- read_csv(csv_path)
 ```
 
-## `janitor`
+### Working with Names
+
+By now users may have noticed that the column names in our `covid_data` 
+are not very easy to work with. They contain spaces and mixed case that
+are difficult to reference due to R's case-sensitive nature.  Other data
+may have special characters, punctuation or exta white space in the names of
+their columns. 
+
+The `janitor` package has a function called `clean_names()` 
+that can help with this. It will convert column names to lower case, replace 
+spaces with underscores, and remove special characters. This makes it much 
+easier to work with the data in R. Users can easily recreate this
+functionality from scratch, but `clean_names()` is a convenient and 
+well-tested function that saves time and effort and is such an easy package
+to recommend.
+
+
+Recall the names of our `covid_data`: 
+
+```{r}
+#subset of the names
+names(covid_data) |> head(5)
+```
+
+```{r}
+#| label: clean-names-janitor
+
+covid_data_clean <-
+  covid_data |>
+  clean_names()
+
+names(covid_data_clean) |> head(5)
+```
+
+A single function call - it is that simple.  `janitor` package has
+a lot of other useful functions for cleaning, and even presenting data in a 
+more readable format.  We'll cover some of those later, but I encourage users
+to explore the package documentation in the package callout.
+
+
+### Working with Dates
+
+Earlier in the book we covered `readr`'s parsing functions for reading in 
+dates. `readr` is great, but there is a package whose only job is to
+work with dates and it makes incredibly ergonomical and intuitive.
+
+Users may have noticed that the `last_update_date` column in our 
+`covid_data_clean` is not considered a date in R, but rather a 
+character string. If users are not going to be manipulating the dates, 
+this is not a problem. However, if users want to do any date math, such as 
+calculating the number of days between two dates, or filtering for dates 
+within a certain range, they will need to convert the
+character string to a date object. 
+
+Take a look at `last_update_date`:
+
+```{r}
+covid_data_clean |>
+  select(last_update_date) |> # select ONLY this column
+  slice(1:5) # slice the first 5 rows - kind of like head()
+```
+
+I don't know about you, but I can never remember the date format jargon that
+is common in many date parsing functions, and with lubridate you don't have 
+to.  Those dates look like the month, then the day and then the year.
+
+
+We will tell lubridate that the date is in the month-day-year format by 
+using its `mdy()` function and it handles the rest.
+
+```{r}
+
+# we are going to change the character string to a date and then save the changes
+# back to itself
+
+covid_data_clean <-
+  covid_data_clean |>
+  mutate(last_update_date = mdy(last_update_date)) # mutate for manipulating columns
+
+covid_data_clean |>
+  select(last_update_date) |>
+  slice(1:5)
+```
+
+
+Did you catch the `<date>` below the column name in the output? It is a date 
+now and can be seen in R's standard date format.  We can now do date 
+operations on this column.
+
+We can do simple things like this...
+
+```{r}
+# how many days are in the dataset?
+max(covid_data_clean$last_update_date) - min(covid_data_clean$last_update_date)
+```
+
+or more complex things like this...
+
+```{r}
+# average total deaths per calendar week - demonstration purposes only
+
+covid_data_clean |>
+  group_by(week = floor_date(last_update_date, "week")) |> # here we are using lubridate's floor_date() to round down to the nearest week
+  summarise(avg_total_deaths = mean(total_deaths, na.rm = TRUE)) |> # here we are using dplyr's summarise() to calculate the average total deaths per week
+  slice(1:5)
+```
+
+It is important to keep in mind what folks want to do with these data
+and then clean them in a manner that will make it easier to do those things.  
+
+
+
 
 TODO: clean_names(), tabyl(), get_dupes(), other janitor basics.
 
