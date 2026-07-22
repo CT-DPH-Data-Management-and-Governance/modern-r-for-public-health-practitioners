@@ -154,8 +154,7 @@ directory. This matters throughout the rest of the book.
 
 ### Getting the Data
 
-1. Go to the dataset page:
-   `https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx`
+1. Go to the Open Data dataset page: [Covid 19 Tests, Cases and Deaths by Town ARCHIVE](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data)
 2. Click **Export → CSV** to download it.
 3. Move the downloaded file into `data/raw/`.
 4. Rename it to include the date you downloaded it, e.g.:

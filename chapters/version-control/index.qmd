@@ -1,5 +1,5 @@
 ---
-title: "Version Control, Gently"
+title: "Version Control"
 ---
 
 You have a project folder with a script and a data file in it. Right now,
