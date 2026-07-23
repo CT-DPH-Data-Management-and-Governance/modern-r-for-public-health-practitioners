@@ -192,6 +192,53 @@ TODO: clean_names(), tabyl(), get_dupes(), other janitor basics.
 
 ## `tidyr`
 
+`tidyr` is a wonderful package for creating and reshaping [tidy data](https://tidyr.tidyverse.org/articles/tidy-data.html).
+
+Pivoting data is a common usecase for `tidyr`. Our `covid_data_clean` dataset
+as-is, is probably fine for most usecases.  However, it was not uncommon for 
+similar data to be presented in a wider format during the pandemic. Let's
+purposely un-tidy our data by making it wide and use the town names 
+as the column names, something that should be a value in the data. We will
+then take our wide 'messy' data and make it tidy again in a longer format.
+
+### Wider
+
+`pivot_wider()` is a function that takes a longer dataset and makes it wider.  
+
+```{r}
+wide <-
+  covid_data_clean |>
+  pivot_wider(
+    id_cols = last_update_date, # this helps uniquely identifies each row in the dataset
+    names_from = town, # think to yourself, "what do I want to use as the new column names?"
+    values_from = total_cases, # think to yourself, "what do I want to use as the values in the new columns?"
+    names_prefix = "cases_"
+  ) |>
+  clean_names()
+
+wide |>
+  head()
+```
+
+Goodness -  that is a lot of columns!
+
+Now let's take that wide dataset and make it long again.
+
+```{r}
+long <-
+  wide |>
+  pivot_longer(
+    cols = !last_update_date, # pivot everyhing BUT last_update_date.  Folks can all use a helper: starts_with("cases_")
+    names_to = "town", # this is the name of the new column that will contain the town names
+    values_to = "total_cases" # this is the name of the new column that will contain the total cases
+  )
+
+long |>
+  head()
+```
+
+
+
 TODO: pivot_longer(), pivot_wider(), drop_na()/replace_na(), separate/unite.
 
 ## `stringr`
