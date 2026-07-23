@@ -241,7 +241,9 @@ long |>
 
 TODO: pivot_longer(), pivot_wider(), drop_na()/replace_na(), separate/unite.
 
-## `stringr`
+## `stringr` and `glue`
+
+
 
 TODO: str_detect(), str_replace(), str_trim(), str_to_title() and friends.
 
