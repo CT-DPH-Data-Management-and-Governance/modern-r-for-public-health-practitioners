@@ -36,16 +36,21 @@ book:
         - chapters/01-working-with-real-data/index.qmd
         - chapters/01-working-with-real-data/project.qmd
         - chapters/02-cleaning-data/index.qmd
+        - chapters/02-cleaning-data/project.qmd
+    - part: "Data Visualization"
+      chapters:
+        - chapters/03-data-visualization/index.qmd
+        - chapters/03-data-visualization/mapview-leaflet.qmd
+        - chapters/03-data-visualization/project.qmd
+    - part: "Checkpoint"
+      chapters:
+        - chapters/04-project-checkin/index.qmd
     - part: "Managing Code"
       chapters:
         - chapters/version-control/index.qmd
         - chapters/team-github/index.qmd
         - chapters/code-style/index.qmd
         - chapters/documenting-work/index.qmd
-    - part: "Data Visualization"
-      chapters:
-        - chapters/03-data-visualization/index.qmd
-        - chapters/03-data-visualization/mapview-leaflet.qmd
     - part: "Intermediate R: Automating the Manual Steps"
       chapters:
         - chapters/apis-functions/index.qmd
