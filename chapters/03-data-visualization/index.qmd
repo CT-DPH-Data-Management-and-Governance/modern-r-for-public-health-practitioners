@@ -26,20 +26,26 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(sf)
+library(janitor)
+library(lubridate)
 
 covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 
-hartford <-
+covid_clean <-
   covid_data |>
-  filter(Town == "Hartford") |>
+  clean_names() |>
+  mutate(last_update_date = mdy(last_update_date))
+
+hartford <-
+  covid_clean |>
+  filter(town == "Hartford") |>
   select(
-    date = `Last update date`,
-    new_positives = `Number of positives`,
-    total_cases = `Total cases`,
-    total_deaths = `Total deaths`
+    date = last_update_date,
+    total_cases,
+    total_deaths
   ) |>
-  mutate(date = parse_date(date, format = "%m/%d/%Y")) |>
-  arrange(date)
+  arrange(date) |>
+  mutate(new_cases = total_cases - lag(total_cases))
 ```
 
 
@@ -66,7 +72,7 @@ install.packages("ggplot2")
 
 # You'll also install extra packages later in this chapter for
 # mapping and choropleths.
-install.packages(c("tigris", "sf", "mapview"))
+install.packages(c("tigris", "sf"))
 ```
 
 Load `ggplot2` along with the packages you've used so far:
@@ -87,7 +93,7 @@ picture:
 | Layer | What it does | Example |
 |-------|-------------|---------|
 | **Data** | The tibble to plot | `hartford` |
-| **Aesthetic mapping** | Which columns go on which axis, or to color, size, etc. | `x = date, y = new_positives` |
+| **Aesthetic mapping** | Which columns go on which axis, or to color, size, etc. | `x = date, y = new_cases` |
 | **Geometric object** | The shape of the marks | dots, lines, bars, areas |
 | **Theme** | Non-data ink: fonts, backgrounds, axis styling | removal of grid lines, different fonts |
 
@@ -96,6 +102,14 @@ layer on which everything is built on top of. Aesthetics are next, and then
 geometry and finally theme is the the very top. `ggplot2` code is more or
 less written in layers, and it is a helpful mental model that will aid you
 when you reach for `ggplot2` for data story telling.
+
+::: {.callout-note}
+`new_cases` is the day-over-day change in `total_cases` — computed with
+`lag()` back in the chapter-root setup, not a column that came in the
+raw file. Chapter 1's project has the full explanation, including why
+this number can come out negative on a day the state revises an
+earlier total.
+:::
 
 ### Your first plot: a scatter plot
 
@@ -107,7 +121,7 @@ ggplot(
   data = hartford,
   mapping = aes(
     x = date,
-    y = new_positives
+    y = new_cases
   )
 ) +
   geom_point()
@@ -120,7 +134,7 @@ Let's read them back:
 
 1. `ggplot()` starts the plot, supplies the data and the *aesthetic
    mapping* (`aes`) that says "`date` goes on the x-axis and
-   `new_positives` goes on the y-axis".
+   `new_cases` goes on the y-axis".
 2. `+ geom_point()` adds the layer of dots. The `+` is what joins
    layers in `ggplot2` — always with a space before and after the `+`.
 3. Every geometry layer inherits the data and aesthetics from `ggplot()`
@@ -140,7 +154,7 @@ ggplot(
   data = hartford,
   mapping = aes(
     x = date,
-    y = new_positives
+    y = new_cases
   )
 ) +
   geom_line()
@@ -196,7 +210,7 @@ hartford |>
   ggplot(
     mapping = aes(
       x = date,
-      y = new_positives
+      y = new_cases
     )
   ) +
   geom_point() +
@@ -225,7 +239,7 @@ and line:
 
 ```{r}
 #| label: intro-colored
-ggplot(data = hartford, mapping = aes(x = date, y = new_positives)) +
+ggplot(data = hartford, mapping = aes(x = date, y = new_cases)) +
   geom_point(color = "#3371E7", size = 2, alpha = 0.1) + # alpha sets the transperancy
   geom_line(color = "#3371E7", linewidth = 0.5) +
   labs(
@@ -299,9 +313,8 @@ To see it in action, add a second line to the same plot — one for
 
 ```{r}
 #| label: aesthetic-mapping
-#TODO - I don't like this, maybe use deaths or something
 ggplot(data = hartford, mapping = aes(x = date)) +
-  geom_line(aes(y = new_positives, color = "New Cases"), linewidth = 1) +
+  geom_line(aes(y = new_cases, color = "New Cases"), linewidth = 1) +
   geom_line(aes(y = total_cases, color = "Cumulative Cases"), linewidth = 1) +
   scale_color_manual(
     name = "Metric",
@@ -364,22 +377,17 @@ case rate:
 #| label: choropleth-data
 
 # Summarize cases by town on the latest date
-latest_date <- max(covid_data$`Last update date`, na.rm = TRUE)
+latest_date <- max(covid_clean$last_update_date, na.rm = TRUE)
 
 town_cases <-
-  covid_data |>
-  filter(`Last update date` == latest_date) |>
-  select(
-    Town = Town,
-    case_rate = `Case rate`,
-    total_cases = `Total cases`
-  ) |>
-  rename(name = Town)
+  covid_clean |>
+  filter(last_update_date == latest_date) |>
+  select(town, case_rate, total_cases)
 
 # Join COVID data to spatial data
 ct_bounded <-
   ct_towns |>
-  left_join(town_cases, by = join_by(NAME == name))
+  left_join(town_cases, by = join_by(NAME == town))
 ```
 
 ::: {.callout-tip}
@@ -398,7 +406,6 @@ Reading](../further-reading/joins.qmd) for the full guide.
 #| label: choropleth-fill
 
 # Choropleth: gray for towns without data, blue gradient for those with
-# TODO: clean up the data
 ggplot() +
   geom_sf(
     data = ct_bounded[is.na(ct_bounded$case_rate), ],
@@ -445,7 +452,7 @@ draws polygons, lines, or points based on the geometry type.
 
 ::: {.callout-note}
 This chapter gave you the foundations of `ggplot2` and a taste of
-spatial visualization. The next chapters add tables (`gt`), Quarto
-report-building, functions, and API fetching — the full arc from raw
-data to self-updating report.
+spatial visualization. Next up is a quick checkpoint pulling everything
+together so far, then Managing Code, and eventually functions and API
+fetching — the full arc from raw data to self-updating report.
 :::

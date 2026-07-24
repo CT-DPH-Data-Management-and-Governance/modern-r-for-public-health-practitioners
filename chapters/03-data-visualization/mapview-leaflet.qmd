@@ -13,12 +13,19 @@ source(here::here("preamble-data.R"))
 library(here)
 library(readr)
 library(dplyr)
+library(janitor)
+library(lubridate)
 library(sf)
 library(tigris)
 library(leaflet)
 library(mapview)
 
 covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
+
+covid_clean <-
+  covid_data |>
+  clean_names() |>
+  mutate(last_update_date = mdy(last_update_date))
 
 # Fetch CT town boundaries
 ct_towns <-
@@ -29,21 +36,16 @@ ct_towns <-
   )
 
 # Summarize cases by town on the latest date
-latest_date <- max(covid_data$`Last update date`, na.rm = TRUE)
+latest_date <- max(covid_clean$last_update_date, na.rm = TRUE)
 
 town_cases <-
-  covid_data |>
-  filter(`Last update date` == latest_date) |>
-  select(
-    Town = Town,
-    case_rate = `Case rate`,
-    total_cases = `Total cases`
-  ) |>
-  rename(name = Town)
+  covid_clean |>
+  filter(last_update_date == latest_date) |>
+  select(town, case_rate, total_cases)
 
 # Join COVID data to spatial data
 ct_bounded <- ct_towns |>
-  left_join(town_cases, by = join_by(NAME == name))
+  left_join(town_cases, by = join_by(NAME == town))
 ```
 
 ```{r}
@@ -218,7 +220,7 @@ ct_case_map |>
   addMarkers(
     lng = -72.6734,
     lat = 41.7658,
-    popup = "Hartford — click here to see the daily new-case trend for this town."
+    popup = "Hartford — see the daily new-case trend for this town earlier in this chapter."
   )
 ```
 
