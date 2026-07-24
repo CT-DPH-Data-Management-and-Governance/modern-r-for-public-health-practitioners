@@ -8,7 +8,7 @@ book:
   date: "06/22/2026"
   description: >
     A project-based course for public health practitioners who
-    want to become confident R users by buidling a report
+    want to become confident R users by building a report
     that grows with every chapter.
 
   search: true
@@ -26,7 +26,7 @@ book:
 
 
   chapters:
-    - index.qmd 
+    - index.qmd
     - chapters/00-orientation/preface.qmd
     - part: "Introduction and Process"
       chapters:
@@ -48,9 +48,10 @@ book:
     - part: "Managing Code"
       chapters:
         - chapters/version-control/index.qmd
-        - chapters/team-github/index.qmd
-        - chapters/code-style/index.qmd
-        - chapters/documenting-work/index.qmd
+        # Drafts — unwired until they have real content beyond TODOs.
+        # - chapters/team-github/index.qmd
+        # - chapters/code-style/index.qmd
+        # - chapters/documenting-work/index.qmd
     - part: "Intermediate R: Automating the Manual Steps"
       chapters:
         - chapters/apis-functions/index.qmd
@@ -79,7 +80,3 @@ execute:
   echo: true
   warning: false
   message: false
-
-
-
-
