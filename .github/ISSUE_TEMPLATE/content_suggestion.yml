@@ -40,6 +40,6 @@ body:
     id: background
     attributes:
       label: Your background (optional)
-      description: Helps calibrate the explanation level — e.g. "SAS user, no R experience"
+      description: "Helps calibrate the explanation level e.g. SAS user, no R experience"
     validations:
       required: false
