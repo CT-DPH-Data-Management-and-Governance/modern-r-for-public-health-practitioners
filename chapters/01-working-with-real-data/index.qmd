@@ -123,3 +123,22 @@ Working with Excel files (`.xlsx`) is covered in [Working with Excel Files](../f
 Writing data to files — CSV, parquet, and others — is covered in
 [Writing Data Files](../further-reading/writing-files.qmd).
 :::
+
+### Why build Paths?
+
+Building paths makes your code more more robust and shareable with others -
+but why go through the trouble for a single path? Setting aside what
+we discussed earlier about hardcoding paths, this is a good habit
+to build because these paths can become a springboard for more advanced
+workflows. Programming analytic workflows is often about building small 
+habits and muscle memory that eventually compound into rigourous analytic 
+practices that can then be used elsewhere. That path you built? Now that
+can become a lever you can pull to read in multiple files all across a
+project, or even across multiple projects. 
+
+This small habit is about more than a path, it is about breaking down a 
+problem into smaller pieces, and leaving little bread crumbs for future you 
+and teammates. The goal may be the insights at the end of your analysis, but 
+if done well, you can take your analysis on the road and offer up insights
+inside of your organization and beyond.  This is the power of reproducible
+research and analytics.
