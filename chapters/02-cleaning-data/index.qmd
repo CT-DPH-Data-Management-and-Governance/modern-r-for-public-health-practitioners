@@ -1,6 +1,6 @@
 ---
 title: "Cleaning Data"
-packages: [janitor, tidyr, stringr, lubridate]
+packages: [janitor, tidyr, stringr, lubridate, glue]
 ---
 
 ```{r}
@@ -33,6 +33,7 @@ install.packages(c(
   "janitor", # for cleaning names and basic data cleaning
   "tidyr", # for reshaping data
   "stringr", # for working with text
+  "glue", # for string interpolation
   "lubridate" # for working with dates
 ))
 ```
@@ -47,6 +48,7 @@ library(janitor)
 library(tidyr)
 library(stringr)
 library(lubridate)
+library(glue)
 ```
 
 ```{r}
@@ -77,19 +79,18 @@ covid_data <- read_csv(csv_path)
 
 ### Working with Names
 
-By now users may have noticed that the column names in our `covid_data` 
-are not very easy to work with. They contain spaces and mixed case that
-are difficult to reference due to R's case-sensitive nature.  Other data
-may have special characters, punctuation or exta white space in the names of
-their columns. 
+By now you've probably noticed that the column names in our `covid_data`
+aren't very easy to work with. They contain spaces and mixed case that
+are difficult to reference due to R's case-sensitive nature. Other data
+may have special characters, punctuation, or extra white space in the
+names of their columns.
 
-The `janitor` package has a function called `clean_names()` 
-that can help with this. It will convert column names to lower case, replace 
-spaces with underscores, and remove special characters. This makes it much 
-easier to work with the data in R. Users can easily recreate this
-functionality from scratch, but `clean_names()` is a convenient and 
-well-tested function that saves time and effort and is such an easy package
-to recommend.
+The `janitor` package has a function called `clean_names()`
+that can help with this. It will convert column names to lower case, replace
+spaces with underscores, and remove special characters. This makes it much
+easier to work with the data in R. You could recreate this functionality
+from scratch, but `clean_names()` is a convenient and well-tested function
+that saves time and effort and is such an easy package to recommend.
 
 
 Recall the names of our `covid_data`: 
@@ -102,17 +103,17 @@ names(covid_data) |> head(5)
 ```{r}
 #| label: clean-names-janitor
 
-covid_data_clean <-
+covid_clean <-
   covid_data |>
   clean_names()
 
-names(covid_data_clean) |> head(5)
+names(covid_clean) |> head(5)
 ```
 
-A single function call - it is that simple.  `janitor` package has
-a lot of other useful functions for cleaning, and even presenting data in a 
-more readable format.  We'll cover some of those later, but I encourage users
-to explore the package documentation in the package callout.
+A single function call - it is that simple. The `janitor` package has
+a lot of other useful functions for cleaning, and even presenting data in a
+more readable format. We'll cover some of those later, but it's worth
+exploring the package documentation in the callout above too.
 
 
 ### Working with Dates
@@ -121,25 +122,25 @@ Earlier in the book we covered `readr`'s parsing functions for reading in
 dates. `readr` is great, but there is a package whose only job is to
 work with dates and it makes incredibly ergonomical and intuitive.
 
-Users may have noticed that the `last_update_date` column in our 
-`covid_data_clean` is not considered a date in R, but rather a 
-character string. If users are not going to be manipulating the dates, 
-this is not a problem. However, if users want to do any date math, such as 
-calculating the number of days between two dates, or filtering for dates 
-within a certain range, they will need to convert the
-character string to a date object. 
+You may have noticed that the `last_update_date` column in our
+`covid_clean` isn't considered a date in R, but rather a
+character string. If you're not going to be manipulating the dates,
+this isn't a problem. However, if you want to do any date math - such as
+calculating the number of days between two dates, or filtering for dates
+within a certain range - you'll need to convert the
+character string to a date object.
 
 Take a look at `last_update_date`:
 
 ```{r}
-covid_data_clean |>
+covid_clean |>
   select(last_update_date) |> # select ONLY this column
   slice(1:5) # slice the first 5 rows - kind of like head()
 ```
 
-I don't know about you, but I can never remember the date format jargon that
-is common in many date parsing functions, and with lubridate you don't have 
-to.  Those dates look like the month, then the day and then the year.
+Date format jargon is easy to lose track of, and with `lubridate` you
+don't have to remember it. Those dates look like the month, then the
+day, then the year.
 
 
 We will tell lubridate that the date is in the month-day-year format by 
@@ -150,11 +151,11 @@ using its `mdy()` function and it handles the rest.
 # we are going to change the character string to a date and then save the changes
 # back to itself
 
-covid_data_clean <-
-  covid_data_clean |>
+covid_clean <-
+  covid_clean |>
   mutate(last_update_date = mdy(last_update_date)) # mutate for manipulating columns
 
-covid_data_clean |>
+covid_clean |>
   select(last_update_date) |>
   slice(1:5)
 ```
@@ -168,7 +169,7 @@ We can do simple things like this...
 
 ```{r}
 # how many days are in the dataset?
-max(covid_data_clean$last_update_date) - min(covid_data_clean$last_update_date)
+max(covid_clean$last_update_date) - min(covid_clean$last_update_date)
 ```
 
 or more complex things like this...
@@ -176,25 +177,20 @@ or more complex things like this...
 ```{r}
 # average total deaths per calendar week - demonstration purposes only
 
-covid_data_clean |>
+covid_clean |>
   group_by(week = floor_date(last_update_date, "week")) |> # here we are using lubridate's floor_date() to round down to the nearest week
   summarise(avg_total_deaths = mean(total_deaths, na.rm = TRUE)) |> # here we are using dplyr's summarise() to calculate the average total deaths per week
   slice(1:5)
 ```
 
 It is important to keep in mind what folks want to do with these data
-and then clean them in a manner that will make it easier to do those things.  
-
-
-
-
-TODO: clean_names(), tabyl(), get_dupes(), other janitor basics.
+and then clean them in a manner that will make it easier to do those things.
 
 ## `tidyr`
 
 `tidyr` is a wonderful package for creating and reshaping [tidy data](https://tidyr.tidyverse.org/articles/tidy-data.html).
 
-Pivoting data is a common usecase for `tidyr`. Our `covid_data_clean` dataset
+Pivoting data is a common usecase for `tidyr`. Our `covid_clean` dataset
 as-is, is probably fine for most usecases.  However, it was not uncommon for 
 similar data to be presented in a wider format during the pandemic. Let's
 purposely un-tidy our data by making it wide and use the town names 
@@ -207,7 +203,7 @@ then take our wide 'messy' data and make it tidy again in a longer format.
 
 ```{r}
 wide <-
-  covid_data_clean |>
+  covid_clean |>
   pivot_wider(
     id_cols = last_update_date, # this helps uniquely identifies each row in the dataset
     names_from = town, # think to yourself, "what do I want to use as the new column names?"
@@ -239,14 +235,258 @@ long |>
 
 
 
-TODO: pivot_longer(), pivot_wider(), drop_na()/replace_na(), separate/unite.
+### Handling missing values with `drop_na()` and `replace_na()`
+
+Not every column was filled in from day one. Early in the pandemic, CT
+DPH hadn't started splitting cases into confirmed vs. probable yet -
+`confirmed_cases` and `probable_cases` are `NA` for the earliest
+reports.
+
+```{r}
+covid_clean |>
+  summarise(missing_confirmed = sum(is.na(confirmed_cases)))
+```
+
+That's a real gap, not a typo, and you have two honest ways to handle
+it depending on what comes next.
+
+`drop_na()` removes rows missing a given column - use it when an
+analysis genuinely needs the confirmed/probable breakdown and rows
+without it can't contribute:
+
+```{r}
+covid_clean |>
+  drop_na(confirmed_cases) |>
+  nrow()
+```
+
+`replace_na()` keeps every row and fills the gap with a value you
+choose:
+
+```{r}
+covid_clean |>
+  replace_na(list(confirmed_cases = 0, probable_cases = 0)) |>
+  select(last_update_date, confirmed_cases, probable_cases) |>
+  head()
+```
+
+::: {.callout-warning}
+Filling `NA` with `0` says "this was measured, and the answer was
+zero." That's not what happened here - the confirmed/probable split
+simply wasn't being tracked yet. Replacing with `0` would make early
+2020 look like it had zero confirmed cases, which is misleading in a
+public health report. `drop_na()` or leaving the `NA` in place is
+usually the more honest choice; only reach for `replace_na()` when
+missing genuinely does mean the same thing as zero (or whatever value
+you're filling in with).
+:::
+
+### Splitting and combining columns with `separate()` and `unite()`
+
+Sometimes several pieces of information need to travel together in one
+column - a "2026-06" style label for grouping by month, for example.
+`unite()` glues columns together with a separator:
+
+```{r}
+dates_split <-
+  covid_clean |>
+  mutate(
+    report_year = year(last_update_date),
+    report_month = month(last_update_date)
+  ) |>
+  select(last_update_date, report_year, report_month) |>
+  distinct()
+
+dates_united <-
+  dates_split |>
+  unite(col = "year_month", report_year, report_month, sep = "-", remove = FALSE)
+
+dates_united |>
+  head()
+```
+
+`separate()` does the reverse - split one column into several using a
+separator to know where to break it apart:
+
+```{r}
+dates_united |>
+  select(last_update_date, year_month) |>
+  separate(col = year_month, into = c("year", "month"), sep = "-") |>
+  head()
+```
+
+Just like the wide/long round trip earlier, `unite()` and `separate()`
+are inverses of each other - whichever shape a report or a join needs,
+the other function gets you back.
 
 ## `stringr` and `glue`
 
+Public health data is full of free text - town names, facility names,
+notes fields, category labels typed by different people at different
+times. `stringr` gives you consistent functions for detecting,
+replacing, and reshaping that text. `glue` turns data into sentences,
+useful for report text, labels, and messages that need to fill in with
+real values from your dataset instead of being copy-pasted by hand.
 
+### Detecting patterns with `str_detect()`
 
-TODO: str_detect(), str_replace(), str_trim(), str_to_title() and friends.
+`str_detect()` returns `TRUE`/`FALSE` for whether a pattern appears in
+each string. Use it inside `filter()` to keep only rows that match.
+
+```{r}
+#| label: str-detect
+covid_clean |>
+  distinct(town) |>
+  filter(str_detect(town, "New"))
+```
+
+That caught more than towns actually named "New Something" -
+`Newington` and `Newtown` matched too, because `str_detect()` looks for
+the pattern anywhere in the string. Anchor the pattern to the start
+with `^` and require a space after "New" to match only the compound
+names:
+
+```{r}
+#| label: str-detect-anchored
+covid_clean |>
+  distinct(town) |>
+  filter(str_detect(town, "^New "))
+```
+
+### Changing case with `str_to_title()` and friends
+
+Data entered by hand rarely agrees on case. `str_to_upper()`,
+`str_to_lower()`, and `str_to_title()` normalize it:
+
+```{r}
+#| label: str-case
+"HARTFORD" |> str_to_title()
+"hartford" |> str_to_upper()
+"Hartford" |> str_to_lower()
+```
+
+Reach for `str_to_title()` when preparing labels for a plot or report
+where you want consistent, presentable capitalization no matter how the
+value happened to be stored.
+
+### Trimming whitespace with `str_trim()`
+
+Stray leading or trailing whitespace is invisible in a viewer but
+breaks joins and comparisons. `str_trim()` removes it:
+
+```{r}
+#| label: str-trim
+"  Hartford   " |> str_trim()
+```
+
+If a `filter()` or a join isn't matching rows you know should match,
+whitespace like this is one of the first things worth checking.
+
+### Replacing values with `str_replace()`
+
+`str_replace()` swaps the first match of a pattern; `str_replace_all()`
+swaps every match. Both take the same three arguments: the string, the
+pattern to find, and the replacement.
+
+```{r}
+#| label: str-replace
+covid_clean |>
+  distinct(town) |>
+  filter(str_detect(town, "^New ")) |>
+  mutate(short_name = str_replace(town, "^New ", "N. "))
+```
+
+### Building sentences with `glue()`
+
+`glue()` interpolates R values directly into a string. Wrap any
+expression in `{}` and it is evaluated and inserted in place:
+
+```{r}
+#| label: glue-basic
+town_name <- "Hartford"
+
+case_count <-
+  covid_clean |>
+  filter(town == town_name, last_update_date == max(last_update_date)) |>
+  pull(total_cases)
+
+glue("As of the latest report, {town_name} had {case_count} total cases.")
+```
+
+`glue()` also works row-by-row against a data frame column, which is
+the more common way you'll use it in practice:
+
+```{r}
+#| label: glue-vectorized
+covid_clean |>
+  filter(last_update_date == max(last_update_date)) |>
+  slice(1:3) |>
+  mutate(
+    summary = glue("{town}: {total_cases} total cases, {total_deaths} deaths")
+  ) |>
+  pull(summary)
+```
+
+This is the kind of line that goes straight into an automated report -
+no manually copying numbers into a sentence, and no risk of a stale
+number left over from last week's version.
 
 ## `lubridate`
 
-TODO: ymd(), as_date(), wday(), floor_date() and other date parsing basics.
+Earlier in this chapter you used `mdy()` to parse `last_update_date`
+and `floor_date()` to group rows by week. `lubridate` has a parsing
+function for every common date order - the function name spells out
+the order of year (`y`), month (`m`), and day (`d`) that it expects in
+the string:
+
+```{r}
+#| label: lubridate-family
+ymd("2026-06-30")
+mdy("06/30/2026")
+dmy("30-06-2026")
+```
+
+Pick whichever one matches the order used in your source data - no
+format string, no `strptime` codes to look up.
+
+### Converting to dates with `as_date()`
+
+Sometimes a column is already a date-*time* (`POSIXct`), with hours,
+minutes, and seconds attached, but the analysis only needs the
+calendar date. `as_date()` truncates it:
+
+```{r}
+#| label: as-date
+now() # a datetime, with a time attached
+now() |> as_date() # a calendar date, time dropped
+```
+
+### Pulling out the day of the week with `wday()`
+
+CT DPH published new case counts on a schedule, and gaps or slowdowns
+in reporting often line up with weekends. `wday()` extracts the day of
+the week from a date, and `label = TRUE` gives you a readable name
+instead of a number:
+
+```{r}
+#| label: wday-demo
+covid_clean |>
+  distinct(last_update_date) |>
+  mutate(day_of_week = wday(last_update_date, label = TRUE)) |>
+  count(day_of_week)
+```
+
+That count is a quick way to check whether report dates cluster on
+certain days of the week - useful for spotting reporting cadence, or
+gaps, before you build anything downstream that assumes daily data.
+
+::: {.callout-tip}
+## The `lubridate` family, at a glance
+
+| Function | What it does |
+|---|---|
+| `ymd()`, `mdy()`, `dmy()` | Parse a character string into a date, given the order of year/month/day |
+| `as_date()` | Convert a datetime (`POSIXct`) down to a calendar date |
+| `wday(x, label = TRUE)` | Extract the day of the week as a name |
+| `floor_date(x, "week")` | Round a date down to the start of its week (covered earlier in this chapter) |
+:::
