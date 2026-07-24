@@ -40,18 +40,19 @@ One thing to know about R before you start: unlike SAS, R is interactive. When y
 
 ## The arc
 
-| Chapter | What you build | The new skill |
+| Part | What you build | The new skill |
 |--------|---------------|---------------|
-| **0 — Orientation** | Your first rendered R analysis | R mindset; the SAS→R Rosetta stone |
-| **1 — Import** | A real CT dataset + data profile | `readr`; inspect before you trust |
-| **2 — Wrangling** | A clean, joined, analysis-ready dataset | tidyverse `DATA`-step verbs; joins |
-| **3 — Descriptive epi** | Publication-quality tables | `gt`; counts, rates, CIs |
-| **4 — Visualization** | Trend charts + a CT choropleth map | `ggplot2`; `sf` + `tigris` |
-| **5 — Quarto report** | Leadership-ready report v1 | Quarto; findings before methods |
-| **6 — Functions** | One template, any county or year | Functions; Quarto params |
-| **7 — API** | A self-fetching, live-data report | SODA API; SoQL; fallback caching |
-| **8 — Reproducibility** | Published GitHub Pages capstone | `renv`; `here`; GitHub Pages |
-| **9 — Automation** *(stretch)* | Scheduled re-render | GitHub Actions; handoff |
+| **Orientation** | Your project folder + first rendered analysis | R mindset; the SAS→R Rosetta stone |
+| **Working with Real Data** | A clean, tidy, analysis-ready dataset | `readr`; `janitor`, `tidyr`, `stringr`, `lubridate`, `glue` |
+| **Data Visualization** | Trend charts + a CT choropleth, static and interactive | `ggplot2`; `sf` + `tigris`; `leaflet`/`mapview` |
+| **Checkpoint** | A one-paragraph status report, built from everything so far | Nothing new — just pulling the pieces together |
+| **Managing Code** | A version-controlled, documented project | git; code style; documentation |
+| **Intermediate R** | One template that works for any town | Functions; the state's open-data API |
+| **Security Basics** | Credentials that never live in your script | Environment variables; `keyring` |
+
+Further Reading picks up deeper dives — joins, Excel files, writing data
+out — whenever a chapter needs one and you want more than the quick
+version.
 
 ## How to use this site
 
