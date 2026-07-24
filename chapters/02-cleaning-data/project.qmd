@@ -1,0 +1,197 @@
+---
+title: "Cleaning the Full Report"
+---
+
+```{r}
+#| label: project-root
+#| include: false
+library(here)
+source(here::here("preamble-data.R"))
+```
+
+The Commissioner liked the Hartford briefing. The next ask: **stop
+picking one town by hand and clean the whole report properly**, so any
+town's numbers can be pulled on demand without redoing the work.
+
+## Setup
+
+```{r}
+#| eval: false
+
+library(dplyr)
+library(readr)
+library(here)
+library(janitor)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(glue)
+
+covid_data <- read_csv(here("data", "raw", "ct_covid_by_town_2026-06-30.csv"))
+```
+
+```{r}
+#| label: setup-exec
+#| include: false
+
+library(dplyr)
+library(readr)
+library(here)
+library(janitor)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(glue)
+
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
+```
+
+## Step 1 — Clean every column name at once
+
+Chapter 1 renamed a handful of columns by hand with `select()`. That
+works for one town and four columns; it does not scale to every column
+in the dataset. `clean_names()` fixes all of them in a single call.
+
+```{r}
+covid_clean <-
+  covid_data |>
+  clean_names()
+
+names(covid_clean)
+```
+
+## Step 2 — Parse the date once, for every row
+
+```{r}
+covid_clean <-
+  covid_clean |>
+  mutate(last_update_date = mdy(last_update_date))
+
+covid_clean |>
+  select(last_update_date) |>
+  slice(1:3)
+```
+
+## Step 3 — Guard the town names with `stringr`
+
+The town names in this file are already tidy, but a report that gets
+re-downloaded every week shouldn't depend on that staying true.
+Trimming whitespace and standardizing case costs nothing when the data
+is already clean, and saves a debugging session the week it isn't.
+
+```{r}
+covid_clean <-
+  covid_clean |>
+  mutate(town = town |> str_trim() |> str_to_title())
+```
+
+## Step 4 — Daily new cases, for every town
+
+Chapter 1's caveat about "as reported" data applies here at full scale.
+`total_cases` is cumulative, so a daily new-case number means computing
+`total_cases - lag(total_cases)` again — but this time across 169
+towns at once, which means grouping by `town` first. Without the
+`group_by()`, `lag()` would subtract the last row of one town from the
+first row of the next.
+
+```{r}
+covid_clean <-
+  covid_clean |>
+  arrange(town, last_update_date) |>
+  group_by(town) |>
+  mutate(new_cases = total_cases - lag(total_cases)) |>
+  ungroup()
+```
+
+Same reporting caveat as before applies here too — a revised total can
+still make `new_cases` negative for a town on a given day. That's the
+data, not a bug in this pipeline.
+
+## Step 5 — Scope to the latest report
+
+```{r}
+latest_date <- max(covid_clean$last_update_date)
+
+this_week <-
+  covid_clean |>
+  filter(last_update_date == latest_date)
+
+nrow(this_week)
+```
+
+## Step 6 — Generate a one-line summary per town with `glue`
+
+This is the payoff. Instead of a Commissioner asking "what about
+Stamford?" and someone re-running a filter by hand, every town already
+has a ready-made sentence.
+
+```{r}
+town_lines <-
+  this_week |>
+  mutate(
+    line = glue(
+      "{town}: {total_cases} total cases ({new_cases} new), {total_deaths} deaths"
+    )
+  ) |>
+  select(town, line)
+
+town_lines |>
+  filter(town %in% c("Hartford", "New Haven", "Bridgeport")) |>
+  pull(line)
+```
+
+## Step 7 — A weekly trend appendix with `tidyr`
+
+The Commissioner also wants to see the trend, not just the latest
+snapshot, for the state's largest cities. `floor_date()` groups rows
+into weeks, and `pivot_wider()` lays those weeks out as columns — a
+compact table that reads left-to-right like a trend line.
+
+```{r}
+cities_of_interest <- c("Hartford", "New Haven", "Bridgeport", "Stamford", "Waterbury")
+
+weekly_trend <-
+  covid_clean |>
+  filter(town %in% cities_of_interest) |>
+  mutate(week = floor_date(last_update_date, "week")) |>
+  group_by(town, week) |>
+  summarise(avg_new_cases = mean(new_cases, na.rm = TRUE), .groups = "drop")
+
+weekly_trend |>
+  pivot_wider(
+    names_from = week,
+    values_from = avg_new_cases,
+    names_prefix = "week_of_"
+  ) |>
+  clean_names()
+```
+
+## Putting it together
+
+Each step above modified `covid_clean` and saved it back. Written as
+one pipeline, the whole cleaning pass is:
+
+```{r}
+#| eval: false
+
+covid_clean <-
+  covid_data |>
+  clean_names() |>
+  mutate(
+    last_update_date = mdy(last_update_date),
+    town = town |> str_trim() |> str_to_title()
+  ) |>
+  arrange(town, last_update_date) |>
+  group_by(town) |>
+  mutate(new_cases = total_cases - lag(total_cases)) |>
+  ungroup()
+```
+
+## Saving our data artifact
+
+```{r}
+# write_csv(covid_clean, here("data", "processed", "covid_clean.csv"))
+```
+
+Every future chapter can now start from `covid_clean` instead of
+re-deriving it — one clean pass, reused everywhere.
