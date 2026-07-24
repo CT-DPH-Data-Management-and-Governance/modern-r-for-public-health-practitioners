@@ -46,9 +46,12 @@ doesn't scale past one person. Git — paired with a hosting service like
 GitHub — is how public health teams, CDC, and academic epi groups actually
 collaborate on code today.
 
-**It's expected of you.** Increasingly, "can you share your analysis" means
-"can you share your repo." Knowing the basics is table stakes, not extra
-credit.
+**It catches the honest mistakes.** A filter that quietly drops a few
+towns, a column overwritten by accident, a formula copied one row short —
+these hide easily in a file that only ever gets edited in place, with
+nothing kept of what it looked like an hour ago. With git, "wait, when
+did this change, and what did it look like before" stops being a
+guessing game and becomes a `git log` and a diff.
 
 ## Installing Git
 
