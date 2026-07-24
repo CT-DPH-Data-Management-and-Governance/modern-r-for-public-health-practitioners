@@ -1,0 +1,180 @@
+---
+title: "Checkpoint: Where the Project Stands"
+packages: [fs, glue]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+library(here)
+library(dplyr)
+library(readr)
+library(janitor)
+library(lubridate)
+library(glue)
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+No new package today, no new geometry or verb to learn. This far in,
+it's worth stopping to combine everything you've built so far into one
+thing the Commissioner could actually read.
+
+## The arc so far
+
+| Part | Question it answered | What it left in `covid-briefing/` |
+|---|---|---|
+| 00 — Orientation | Why R, and how is the project folder organized? | The scaffold itself, and `data/raw/` with the CT COVID CSV |
+| 01 — Working with Real Data | How do I read, inspect, and trust this file? | A Hartford-only tibble, filtered and column-renamed by hand |
+| 02 — Cleaning Data | How do I fix names, dates, and messy text? | `covid_clean` — every column name fixed, dates parsed, town names trimmed and title-cased |
+| 03 — Data Visualization | How do I show this to someone who won't open a CSV? | A trend chart and a statewide map, saved to `outputs/figures/` |
+
+Each chapter's project picked up exactly where the last one left off.
+That's on purpose — a real analysis rarely restarts from scratch every
+time a new technique gets introduced.
+
+## This week's briefing summary
+
+Charts are great for a slide deck, but sometimes the Commissioner just
+wants the numbers in a sentence, right now, before the meeting starts.
+That's today's artifact: a short status paragraph built entirely from
+skills you already have — `dplyr` to find the numbers, `lubridate` to
+know which date counts as "now", and `glue` to turn it into English.
+
+```{r}
+#| label: status-setup
+#| include: false
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
+
+covid_clean <-
+  covid_data |>
+  clean_names() |>
+  mutate(last_update_date = mdy(last_update_date))
+```
+
+```{r}
+#| label: status-numbers
+latest_date <- max(covid_clean$last_update_date)
+days_of_data <- as.numeric(latest_date - min(covid_clean$last_update_date))
+
+statewide_latest <-
+  covid_clean |>
+  filter(last_update_date == latest_date) |>
+  summarise(
+    total_cases = sum(total_cases, na.rm = TRUE),
+    total_deaths = sum(total_deaths, na.rm = TRUE)
+  )
+
+hartford_latest <-
+  covid_clean |>
+  filter(town == "Hartford", last_update_date == latest_date) |>
+  select(total_cases, total_deaths)
+```
+
+```{r}
+#| label: status-summary
+briefing_summary <- glue(
+  "Status as of {latest_date} ({days_of_data} days of data collected):\n",
+  "Statewide: {format(statewide_latest$total_cases, big.mark = ',')} total cases, ",
+  "{format(statewide_latest$total_deaths, big.mark = ',')} total deaths.\n",
+  "Hartford: {format(hartford_latest$total_cases, big.mark = ',')} total cases, ",
+  "{format(hartford_latest$total_deaths, big.mark = ',')} total deaths."
+)
+
+briefing_summary
+```
+
+Four lines of code, no new concepts, and a paragraph that's actually
+correct as of whatever the latest date in the file happens to be —
+because it's computed, not typed in by hand.
+
+### Saving the checkpoint artifact
+
+```{r}
+#| label: save-summary
+#| eval: false
+write_lines(
+  briefing_summary,
+  here("outputs", "tables", "briefing_summary.txt")
+)
+```
+
+That text file is this checkpoint's deliverable, the same way a chart
+was chapter 3's — a small, real thing that lives in the project folder
+and didn't exist before today.
+
+## What your project folder should look like now
+
+```{r}
+#| eval: false
+fs::dir_tree(here::here(), recurse = 2)
+```
+
+If you've been following along in your own `covid-briefing/` project,
+you should see something close to this:
+
+```
+covid-briefing/
+├── data/
+│   ├── raw/
+│   │   └── ct_covid_by_town_2026-06-30.csv
+│   └── processed/
+│       └── covid_clean.csv        # if you uncommented the write_csv() in ch. 2
+├── R/
+├── scripts/
+├── outputs/
+│   ├── figures/
+│   │   ├── hartford_new_cases.png
+│   │   ├── hartford_vs_state_trend.png
+│   │   └── statewide_case_rate_map.png
+│   └── tables/
+│       └── briefing_summary.txt
+└── docs/
+```
+
+If your folder looks different, that's fine — the point isn't to match
+this tree exactly, it's to notice that the folder is *filling up with
+real artifacts* instead of staying empty. That's what progress looks
+like in a data project: not lines of code, but files someone else could
+open and use.
+
+## What's still manual
+
+Being honest about the current state of things:
+
+- Every chapter's project re-runs the cleaning steps by hand, from the
+  top, in a `.qmd` file. Nothing here is a function you could call
+  twice.
+- The raw CSV is a snapshot someone downloaded once. Nothing fetches
+  new data automatically.
+- "Hartford" and the current date are typed directly into the code.
+  Asking about a different town means editing the script, not passing
+  an argument.
+- There's no history of any of this yet — if you overwrite a file by
+  accident, it's just gone.
+
+None of that is a problem yet — it's normal for a project this size.
+It becomes a problem the day someone asks for the same briefing next
+week, for a different town, without you sitting at the keyboard.
+
+## What's next
+
+The parts ahead exist to close exactly those gaps:
+
+- **Managing Code** — version control, code style, and documentation,
+  so this project can be shared, reviewed, and trusted by someone
+  other than you.
+- **Intermediate R: Automating the Manual Steps** — turning repeated
+  code into functions, and pulling fresh data straight from the state's
+  API instead of re-downloading a CSV by hand.
+
+The scenario hasn't changed: the Commissioner still wants to know if
+it's getting worse in Hartford. What changes from here is how much of
+the answer you have to rebuild yourself every time someone asks.
