@@ -61,9 +61,13 @@ without writing an intermediate dataset between each one.
 
 | Shortcut | What it does |
 |---|---|
-| `Ctrl+Shift+M` | Insert the pipe `|>` |
+| `Ctrl+Shift+M` | Insert the native pipe, once you turn that option on |
 | `Ctrl+Enter` | Run the current line or selection |
 | `Ctrl+Shift+Enter` | Run the entire current chunk |
+
+Out of the box that shortcut inserts the older `%>%` pipe. Flip it in
+Tools → Global Options → Code → Editing → "Use native pipe operator" and
+you'll get `|>` like the rest of this book.
 
 Learn all three early — you will use them on every line you write.
 :::

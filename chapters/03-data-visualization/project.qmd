@@ -119,7 +119,7 @@ ggplot(
   scale_color_manual(
     name = NULL,
     values = c(
-      "Hartford" = list_ct_primary_colors$primary,
+      "Hartford" = "#3371E7",
       "Statewide Average" = "gray50"
     )
   ) +
@@ -129,8 +129,7 @@ ggplot(
     x = NULL,
     y = "New Cases"
   ) +
-  theme_ct_vertical() +
-  theme_poppins_bold_all()
+  theme_classic()
 ```
 
 If Hartford's line rides above the statewide average, that's the
@@ -261,3 +260,9 @@ table chapter 2 handed you. That's the pattern this book is building
 toward: clean once, reuse everywhere, and let each chapter's new skill
 turn that clean data into something a person outside R can actually
 read.
+
+::: {.callout-note}
+Want to compare against a reference? See
+[`project-snapshots/after-ch-03`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-03)
+on GitHub for the `scripts/` this chapter should leave you with.
+:::

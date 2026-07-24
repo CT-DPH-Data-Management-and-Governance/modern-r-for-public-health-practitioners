@@ -133,7 +133,7 @@ covid-briefing/
 │   ├── figures/
 │   │   ├── hartford_new_cases.png
 │   │   ├── hartford_vs_state_trend.png
-│   │   └── statewide_case_rate_map.png
+│   │   └── statewide_positivity_map.png
 │   └── tables/
 │       └── briefing_summary.txt
 └── docs/
@@ -168,9 +168,9 @@ week, for a different town, without you sitting at the keyboard.
 
 The parts ahead exist to close exactly those gaps:
 
-- **Managing Code** — version control, code style, and documentation,
-  so this project can be shared, reviewed, and trusted by someone
-  other than you.
+- **Managing Code** — version control, so every change to this
+  project is recorded, reversible, and explainable to someone other
+  than you.
 - **Intermediate R: Automating the Manual Steps** — turning repeated
   code into functions, and pulling fresh data straight from the state's
   API instead of re-downloading a CSV by hand.
@@ -178,3 +178,11 @@ The parts ahead exist to close exactly those gaps:
 The scenario hasn't changed: the Commissioner still wants to know if
 it's getting worse in Hartford. What changes from here is how much of
 the answer you have to rebuild yourself every time someone asks.
+
+::: {.callout-note}
+Want to compare against a reference? See
+[`project-snapshots/after-ch-04`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-04)
+on GitHub for the full set of `scripts/` the book has produced so far —
+run them in order, 01 through 06, and the empty folders fill in with real
+artifacts.
+:::

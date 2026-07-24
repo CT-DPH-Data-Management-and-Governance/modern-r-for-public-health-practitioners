@@ -46,7 +46,7 @@ One thing to know about R before you start: unlike SAS, R is interactive. When y
 | **Working with Real Data** | A clean, tidy, analysis-ready dataset | `readr`; `janitor`, `tidyr`, `stringr`, `lubridate`, `glue` |
 | **Data Visualization** | Trend charts + a CT choropleth, static and interactive | `ggplot2`; `sf` + `tigris`; `leaflet`/`mapview` |
 | **Checkpoint** | A one-paragraph status report, built from everything so far | Nothing new — just pulling the pieces together |
-| **Managing Code** | A version-controlled, documented project | git; code style; documentation |
+| **Managing Code** | A project with real, reviewable history | git: commits, history, branches |
 | **Intermediate R** | One template that works for any town | Functions; the state's open-data API |
 | **Security Basics** | Credentials that never live in your script | Environment variables; `keyring` |
 
@@ -58,9 +58,15 @@ version.
 
 Work through chapters in order. Each one has:
 
-- **Lesson** — a runnable, narrated `.qmd` file you execute yourself
-- **Exercises** — 3–5 scaffolded problems with explicit "done when" checks
-- **Solutions** — available after you've tried on your own
+- **Lesson** (`index.qmd`) — a narrated, runnable walkthrough of the new
+  ideas, with code you type out yourself as you read
+- **Project** (`project.qmd`) — on the main arc chapters, a shorter pass
+  that puts the lesson to work on the running COVID briefing and leaves
+  something real in your `covid-briefing/` folder
+
+Read the lesson first, then do the project. The project picks up where
+the last one left off, so skipping one will leave you missing a file the
+next one expects.
 
 ## Before you start
 
@@ -83,7 +89,7 @@ If you run into install problems, the Posit community forums are the fastest pla
 
 ## The scenario
 
-It's spring of 2020 and you are working as an analyst for
+The pandemic is in full swing and you are working as an analyst for
 the Connecticut Department of Public Health's Pandemic Incident Command.
 You are tasked with preparing a briefing for the Commissioner so that they
 can in turn brief the governor on the current situation.

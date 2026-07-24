@@ -1,6 +1,6 @@
 ---
 title: "Cleaning Data"
-packages: [janitor, tidyr, stringr, lubridate, glue]
+packages: [janitor, lubridate, tidyr, stringr, glue]
 ---
 
 ```{r}
@@ -59,8 +59,6 @@ covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 ```
 
 
-## Common Data Cleaning Patterns
-
 Data come in all shapes and sizes, and it is difficult to come up with a
 single approach that will fit every situation. However, there are some common
 patterns that show up frequently in public health data. This chapter will cover 
@@ -77,7 +75,7 @@ csv_path <- here("data", "raw", "ct_covid_by_town_2026-06-30.csv")
 covid_data <- read_csv(csv_path)
 ```
 
-### Working with Names
+## `janitor`
 
 By now you've probably noticed that the column names in our `covid_data`
 aren't very easy to work with. They contain spaces and mixed case that
@@ -115,6 +113,8 @@ a lot of other useful functions for cleaning, and even presenting data in a
 more readable format. We'll cover some of those later, but it's worth
 exploring the package documentation in the callout above too.
 
+
+## `lubridate`
 
 ### Working with Dates
 
@@ -183,8 +183,65 @@ covid_clean |>
   slice(1:5)
 ```
 
+`mdy()` isn't the only parser in the family. `lubridate` has a parsing
+function for every common date order - the function name spells out
+the order of year (`y`), month (`m`), and day (`d`) that it expects in
+the string:
+
+```{r}
+#| label: lubridate-family
+ymd("2026-06-30")
+mdy("06/30/2026")
+dmy("30-06-2026")
+```
+
+Pick whichever one matches the order used in your source data - no
+format string, no `strptime` codes to look up.
+
 It is important to keep in mind what folks want to do with these data
 and then clean them in a manner that will make it easier to do those things.
+
+### Converting to dates with `as_date()`
+
+Sometimes a column is already a date-*time* (`POSIXct`), with hours,
+minutes, and seconds attached, but the analysis only needs the
+calendar date. `as_date()` truncates it:
+
+```{r}
+#| label: as-date
+now() # a datetime, with a time attached
+now() |> as_date() # a calendar date, time dropped
+```
+
+### Pulling out the day of the week with `wday()`
+
+CT DPH published new case counts on a schedule, and gaps or slowdowns
+in reporting often line up with weekends. `wday()` extracts the day of
+the week from a date, and `label = TRUE` gives you a readable name
+instead of a number:
+
+```{r}
+#| label: wday-demo
+covid_clean |>
+  distinct(last_update_date) |>
+  mutate(day_of_week = wday(last_update_date, label = TRUE)) |>
+  count(day_of_week)
+```
+
+That count is a quick way to check whether report dates cluster on
+certain days of the week - useful for spotting reporting cadence, or
+gaps, before you build anything downstream that assumes daily data.
+
+::: {.callout-tip}
+## The `lubridate` family, at a glance
+
+| Function | What it does |
+|---|---|
+| `ymd()`, `mdy()`, `dmy()` | Parse a character string into a date, given the order of year/month/day |
+| `as_date()` | Convert a datetime (`POSIXct`) down to a calendar date |
+| `wday(x, label = TRUE)` | Extract the day of the week as a name |
+| `floor_date(x, "week")` | Round a date down to the start of its week |
+:::
 
 ## `tidyr`
 
@@ -197,15 +254,15 @@ purposely un-tidy our data by making it wide and use the town names
 as the column names, something that should be a value in the data. We will
 then take our wide 'messy' data and make it tidy again in a longer format.
 
-### Wider
+### Reshaping with `pivot_wider()` and `pivot_longer()`
 
-`pivot_wider()` is a function that takes a longer dataset and makes it wider.  
+`pivot_wider()` takes a longer dataset and makes it wider.
 
 ```{r}
 wide <-
   covid_clean |>
   pivot_wider(
-    id_cols = last_update_date, # this helps uniquely identifies each row in the dataset
+    id_cols = last_update_date, # this uniquely identifies each row in the dataset
     names_from = town, # think to yourself, "what do I want to use as the new column names?"
     values_from = total_cases, # think to yourself, "what do I want to use as the values in the new columns?"
     names_prefix = "cases_"
@@ -216,7 +273,7 @@ wide |>
   head()
 ```
 
-Goodness -  that is a lot of columns!
+Goodness - that is a lot of columns!
 
 Now let's take that wide dataset and make it long again.
 
@@ -224,7 +281,7 @@ Now let's take that wide dataset and make it long again.
 long <-
   wide |>
   pivot_longer(
-    cols = !last_update_date, # pivot everyhing BUT last_update_date.  Folks can all use a helper: starts_with("cases_")
+    cols = !last_update_date, # pivot everything BUT last_update_date. You can also use a helper: starts_with("cases_")
     names_to = "town", # this is the name of the new column that will contain the town names
     values_to = "total_cases" # this is the name of the new column that will contain the total cases
   )
@@ -430,63 +487,3 @@ covid_clean |>
 This is the kind of line that goes straight into an automated report -
 no manually copying numbers into a sentence, and no risk of a stale
 number left over from last week's version.
-
-## `lubridate`
-
-Earlier in this chapter you used `mdy()` to parse `last_update_date`
-and `floor_date()` to group rows by week. `lubridate` has a parsing
-function for every common date order - the function name spells out
-the order of year (`y`), month (`m`), and day (`d`) that it expects in
-the string:
-
-```{r}
-#| label: lubridate-family
-ymd("2026-06-30")
-mdy("06/30/2026")
-dmy("30-06-2026")
-```
-
-Pick whichever one matches the order used in your source data - no
-format string, no `strptime` codes to look up.
-
-### Converting to dates with `as_date()`
-
-Sometimes a column is already a date-*time* (`POSIXct`), with hours,
-minutes, and seconds attached, but the analysis only needs the
-calendar date. `as_date()` truncates it:
-
-```{r}
-#| label: as-date
-now() # a datetime, with a time attached
-now() |> as_date() # a calendar date, time dropped
-```
-
-### Pulling out the day of the week with `wday()`
-
-CT DPH published new case counts on a schedule, and gaps or slowdowns
-in reporting often line up with weekends. `wday()` extracts the day of
-the week from a date, and `label = TRUE` gives you a readable name
-instead of a number:
-
-```{r}
-#| label: wday-demo
-covid_clean |>
-  distinct(last_update_date) |>
-  mutate(day_of_week = wday(last_update_date, label = TRUE)) |>
-  count(day_of_week)
-```
-
-That count is a quick way to check whether report dates cluster on
-certain days of the week - useful for spotting reporting cadence, or
-gaps, before you build anything downstream that assumes daily data.
-
-::: {.callout-tip}
-## The `lubridate` family, at a glance
-
-| Function | What it does |
-|---|---|
-| `ymd()`, `mdy()`, `dmy()` | Parse a character string into a date, given the order of year/month/day |
-| `as_date()` | Convert a datetime (`POSIXct`) down to a calendar date |
-| `wday(x, label = TRUE)` | Extract the day of the week as a name |
-| `floor_date(x, "week")` | Round a date down to the start of its week (covered earlier in this chapter) |
-:::

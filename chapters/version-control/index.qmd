@@ -7,9 +7,10 @@ the only history of that project is whatever you remember. This chapter
 fixes that.
 
 This is a **gentle** introduction — just enough to work safely day to day.
-A deeper dive (branches, remotes, collaborating with a team on GitHub) comes
-later in the book. For now: what git is, why it matters, how to install it,
-enough command line to drive it, and the everyday workflow.
+Remotes and collaborating with a team on GitHub are worth exploring once
+this part feels comfortable, but they're beyond what we cover here. For
+now: what git is, why it matters, how to install it, enough command line
+to drive it, the everyday workflow, and branches.
 
 ## What Git Is
 
@@ -197,13 +198,108 @@ messages are worth far more later than one giant commit called "updates."
 
 ## Branches
 
-TODO: what a branch is (a separate line of history off `main`), why you'd
-want one (trying something without touching working code), `git branch`,
-`git switch`/`git checkout -b`, switching back, basic merge back into
-`main`.
+So far your commits have piled up in a single line, one after another, on
+a branch called `main`. That's the default name git gives the line of
+history you start with.
+
+A **branch** is a second line of history that splits off from `main`. You
+commit onto the branch instead of onto `main`, so `main` sits exactly
+where it was — still working, still the version you'd hand to someone —
+while you experiment somewhere else.
+
+Here's the concrete case. Your `covid-briefing/` project already produces
+a choropleth of case rate by town, and that map went out in last week's
+briefing. Now you want to see whether test positivity tells a better
+story. That means rewriting a chunk of the plotting script, and you have
+no idea yet if it'll work out. You don't want the version that produced
+last week's map to be in pieces on your disk while you find out.
+
+So put the experiment on a branch:
+
+```bash
+git switch -c try-positivity-map
+```
+
+The `-c` means "create." That one command makes the branch and moves you
+onto it. From here, every commit you make lands on
+`try-positivity-map` and `main` stays untouched.
 
 ::: {.callout-note}
-This chapter stops at your local history. Sharing that history with
-others — remotes, GitHub, pull requests — gets its own deep dive in the
-next chapter.
+## `git checkout -b` does the same thing
+
+Older tutorials and most StackOverflow answers use
+`git checkout -b try-positivity-map`. It's the same operation.
+`git switch` is the newer, narrower command — `checkout` does several
+unrelated jobs, which is exactly why it confused people for years. Use
+`switch`; recognize `checkout -b` when you see it.
+:::
+
+To see what branches exist and which one you're on:
+
+```bash
+git branch
+```
+
+The current branch is marked with a `*`. `git status` tells you too, on
+its first line.
+
+Work on the branch exactly the way you already know — edit, `git add`,
+`git commit`. When you want to look at the old version again:
+
+```bash
+git switch main
+```
+
+::: {.callout-important}
+## Your files on disk actually change
+
+This surprises everyone the first time. Switching branches rewrites the
+contents of your project folder to match that branch. Open the plotting
+script after `git switch main` and the positivity code is *gone* — it's
+back on `try-positivity-map`, safe, but not on disk right now. Switch
+back and it returns.
+
+Git isn't losing your work. The folder is just showing you one branch at
+a time. Commit before you switch, and nothing goes missing.
+:::
+
+Say the positivity map turns out better and you want it to become the
+real version. Go to `main` and merge the branch in:
+
+```bash
+git switch main
+git merge try-positivity-map
+```
+
+`main` now contains the branch's commits. The experiment graduated.
+
+Once it's merged, the branch has served its purpose and you can clean it
+up:
+
+```bash
+git branch -d try-positivity-map
+```
+
+The lowercase `-d` only deletes branches that have already been merged,
+so it won't quietly throw away work you haven't brought over yet.
+
+| Command | What it does |
+|---|---|
+| `git switch -c name` | Create a branch and move onto it |
+| `git branch` | List branches, `*` marks the current one |
+| `git switch main` | Go back to `main` |
+| `git merge name` | Bring `name`'s commits into the current branch |
+| `git branch -d name` | Delete a branch you've already merged |
+
+One thing you'll eventually hit: if two branches changed the *same lines*
+of the *same file*, git can't decide which version wins and asks you to
+sort it out. That's a **merge conflict**. Working alone on one branch at a
+time, you'll rarely see one — and resolving them is a topic for when you
+start sharing work with other people.
+
+::: {.callout-note}
+This chapter stops at your local history, and local history is genuinely
+enough to work safely on your own — snapshots, an audit trail, and room
+to experiment. When you're ready to share your work or collaborate with
+colleagues, pushing your repository to GitHub is the natural next step.
 :::

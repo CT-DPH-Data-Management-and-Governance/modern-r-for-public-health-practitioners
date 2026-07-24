@@ -153,18 +153,18 @@ lines the same way you would on a web page.
 
 `colorBin()` turns a numeric column into a small palette function —
 give it bin breaks and colors, and it hands back a function that maps
-any value in that range to a color. Build the ramp from the CT DPH
-primary palette so the map matches every other plot in this book:
+any value in that range to a color. Build the ramp light-to-dark so
+the map reads the same way the static choropleth did:
 
 ```{r}
 #| label: leaflet-color
 case_rate_palette <- colorBin(
   palette = c(
-    list_ct_primary_colors$primary_shade4,
-    list_ct_primary_colors$primary_shade3,
-    list_ct_primary_colors$primary,
-    list_ct_primary_colors$primary_shade2,
-    list_ct_primary_colors$primary_shade1
+    "#C6D4FB", # lightest
+    "#7094F5",
+    "#3371E7",
+    "#003D9C",
+    "#00214D" # darkest
   ),
   domain = ct_bounded$case_rate,
   bins = 5,
@@ -191,18 +191,19 @@ ct_case_map <-
 ct_case_map
 ```
 
-`primary_shade4` (the lightest blue) anchors the low end of the ramp,
-`primary_shade1` (the darkest) anchors the high end — light means
-fewer cases, dark means more, same logic as `scale_fill_gradient2()`
-in the static choropleth. `~case_rate_palette(case_rate)` uses `leaflet`'s
-formula syntax to say "run this function on the `case_rate` column of
-the data I gave `leaflet()` at the start" — it plays the same role
-`aes(fill = case_rate)` played earlier.
+The lightest blue anchors the low end of the ramp and the darkest
+anchors the high end — light means fewer cases, dark means more, same
+logic as `scale_fill_gradient2()` in the static choropleth.
+`~case_rate_palette(case_rate)` uses `leaflet`'s formula syntax to say
+"run this function on the `case_rate` column of the data I gave
+`leaflet()` at the start" — it plays the same role `aes(fill =
+case_rate)` played earlier.
 
 ::: {.callout-tip}
-Because we built `case_rate_palette` from `list_ct_primary_colors`
-instead of hardcoded hex codes, if the CT DPH brand colors ever change,
-updating `preamble-themes.R` updates this map too.
+Five hex codes repeated across a dozen plots is five chances to fat-finger
+one. Once you're reusing the same ramp, pull the colors into a named
+object at the top of your script and refer to that instead — change the
+palette in one place, every plot follows.
 :::
 
 ## Marking a single town

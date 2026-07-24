@@ -11,7 +11,7 @@ public health practitioners both at DPH and beyond.
     - Jack King
     - Michael Schneider
     - and the rest of my wonderful teammates
- - My amazing DPH Colleages who contributed feedback, materials and use cases:
+ - My amazing DPH colleagues who contributed feedback, materials and use cases:
     - Mukhtar Mohamed
     - Sydney Jones
     - Denise Ortiz

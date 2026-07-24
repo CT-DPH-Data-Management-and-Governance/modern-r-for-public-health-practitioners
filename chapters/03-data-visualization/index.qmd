@@ -58,8 +58,8 @@ This chapter teaches you how to turn that tibble into a plot that tells
 the story to someone else — the Commissioner, a journalist, a colleague
 who doesn't want to open a CSV.
 
-`ggplot2` gives you a grammar — a language for describing *what* you want the 
-plot to show         and it handles the drawing.
+`ggplot2` gives you a grammar — a language for describing *what* you
+want the plot to show, and it handles the drawing.
 
 ## Installing `ggplot2`
 
@@ -172,33 +172,39 @@ more presentable.
 ### Title, axis labels, and theme
 
 `labs()` replaces the automatic labels from column names and adds a
-title. We use custom CT DPH theme functions to give our plots a clean
-look — a quick reference lives in the callout below.
+title. A **theme** handles everything that isn't data — background,
+gridlines, fonts, axis styling. `ggplot2` ships with several, and
+`theme_classic()` gets us out of the default gray box and onto
+something closer to what a briefing slide wants.
+
+::: {.callout-tip}
+## Themes that come with `ggplot2`
+
+You don't have to build a look from scratch. Try swapping these into
+any plot in this chapter and watch what changes:
+
+| Theme | What you get |
+|---|---|
+| `theme_classic()` | White background, axis lines, no gridlines |
+| `theme_minimal()` | No background, light gridlines, no axis lines |
+| `theme_bw()` | White background with a full grid and a border |
+| `theme_void()` | Nothing but the data — useful for maps |
+
+Themes stack with `+` like any other layer, and a later `theme()` call
+overrides whatever an earlier theme set.
+:::
 
 ::: {.callout-note}
-## CT DPH custom themes
+## If you work at CT DPH
 
-To save time and typing, we will be using CT-DPH specific themes
-that are saved inside of functions.
-
-| Function | What it does |
-|---|---|
-| `theme_ct_vertical()` | Removes the y-axis line and tick marks; use for vertical plots. |
-| `theme_ct_horizontal()` | Removes the x-axis line and tick marks; use for wide/horizontal plots. |
-| `theme_poppins_bold_all()` | Sets Poppins, bold face, everywhere in the plot. |
-
-And palettes of named CT DPH brand colors:
-
-| Function | Colors |
-|---|---|
-| `list_ct_primary_colors()` | `primary`, `primary_shade1` … `primary_shade4` |
-| `list_ct_secondary_colors()` | `secondary`, `secondary_shade` |
-| `list_ct_tertiary_colors()` | `tertiary`, `tertiary_shade` |
-
-These come from the CT DPH brand guide - **use the variables, not
-hex literals**, so the branding can change in one place. 
-[Further Reading](../further-reading/index.qmd) for the full list, code
-snippets, and tips on plugging colors into `ggplot2` scales.
+This book renders its own figures with a small set of brand helpers —
+`theme_ct_vertical()`, `theme_ct_horizontal()`, and named palettes like
+`list_ct_primary_colors` — so everything matches the DPH brand guide.
+They aren't part of `ggplot2` and you don't need them to follow along;
+the chapter code uses stock themes and plain hex codes so it runs
+anywhere. If you do have access to them, [Further
+Reading](../further-reading/index.qmd) has the full list and how to
+plug the palettes into `ggplot2` scales.
 :::
 
 ```{r}
@@ -217,11 +223,11 @@ hartford |>
   geom_line() + # you can add multiple geometries together
   labs(
     title = "New COVID-19 Cases — Hartford",
-    subtitle = "Daily count from report to report (Jun–Jul 2026)",
+    subtitle = "Daily count from report to report",
     x = NULL, # use NULL or an empty string "" to remove the x axis title
     y = "New Cases on Each Date"
   ) +
-  theme_ct_vertical()
+  theme_classic()
 ```
 
 `x = NULL` removes the x-axis label entirely — the title is enough, and
@@ -244,13 +250,12 @@ ggplot(data = hartford, mapping = aes(x = date, y = new_cases)) +
   geom_line(color = "#3371E7", linewidth = 0.5) +
   labs(
     title = "New COVID-19 Cases — Hartford",
-    subtitle = "Daily count from report to report (Jun–Jul 2026)",
+    subtitle = "Daily count from report to report",
     x = NULL,
     y = "New Cases on Each Date",
-    caption = 'Data as of 2026'
+    caption = "Source: CT DPH COVID-19 open data"
   ) +
-  theme_ct_vertical() +
-  theme_poppins_bold_all() +
+  theme_classic() +
   theme(
     #inside of theme we can interact with specific plot elements and sub-elements
     plot.title = element_text(face = "bold", size = 14),
@@ -263,9 +268,10 @@ Two things to notice:
 1. `color = "#3371E7"` is set **outside** `aes()` because it's a fixed
    value, not a column. Inside `aes()`, R would try to map the literal
    word "#3371E7" to a legend. You rarely want that.
-2. `theme_poppins_bold_all()` brings the Poppins font everywhere, but
-   we still tweak `plot.title` and `plot.subtitle` separately for sizes.
-   Theme layers stack — later ones fill gaps left by earlier ones.
+2. `theme_classic()` sets the overall look, then the `theme()` call
+   after it adjusts two specific pieces. Theme layers stack, and the
+   later one wins wherever they overlap — so reach for a ready-made
+   theme first and only hand-tune what's left.
 
 That last plot is the kind of thing you'd paste directly into a briefing
 slide. You built it piece by piece, and each piece does one thing.
@@ -325,8 +331,7 @@ ggplot(data = hartford, mapping = aes(x = date)) +
     y = "Count",
     color = "Metric"
   ) +
-  theme_ct_vertical() +
-  theme_poppins_bold_all()
+  theme_classic()
 ```
 
 

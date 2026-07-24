@@ -16,5 +16,21 @@ duplicated here. This keeps snapshots small and diffable as the book grows.
   code yet.
 - `after-ch-01/` — state after Ch. 1 (working with real data): adds
   `scripts/01_load_and_inspect.R` and `scripts/02_hartford_first_look.R`.
+- `after-ch-02/` — state after Ch. 2 (cleaning data): adds
+  `scripts/03_clean_full_report.R`, which writes
+  `data/processed/covid_clean.csv`.
+- `after-ch-03/` — state after Ch. 3 (data visualization): adds
+  `scripts/04_hartford_trend_plot.R` and `scripts/05_briefing_charts.R`.
+- `after-ch-04/` — state after Ch. 4 (checkpoint): adds
+  `scripts/06_briefing_summary.R`.
 - New chapters add a new `after-ch-NN/` folder, carrying forward the previous
   chapter's scripts plus whatever that chapter introduces.
+
+## Keeping these in step
+
+The scripts here mirror each chapter's "Putting it together" pipeline. When
+you change a pipeline in a chapter, change the matching script — a snapshot
+that drifts from the book is worse than no snapshot at all.
+
+Scripts from chapter 2 onward read `data/processed/covid_clean.csv` instead
+of re-deriving the cleaning pass, the same way the chapters do.

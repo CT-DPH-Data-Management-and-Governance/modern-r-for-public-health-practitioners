@@ -1,6 +1,6 @@
 ---
 title: "Loading Your First Dataset"
-packages: [dplyr, readr, fs, here]
+packages: [dplyr, readr, here]
 ---
 
 ```{r}
@@ -31,8 +31,8 @@ repository.
 
 The family of packages we'll lean on most is called the **tidyverse** —
 a curated set of tools that share a common design and work well together.
-We'll introduce them one at a time. This chapter uses three of them plus
-a few helpers for reading, writing, and navigating files.
+We'll introduce them one at a time. This chapter uses two of them plus
+one helper for building file paths.
 
 ### Installing Packages
 
@@ -44,7 +44,6 @@ a few helpers for reading, writing, and navigating files.
 install.packages(c(
   "dplyr", # for manipulating data
   "readr", # for reading common data files
-  "fs", # for working with files and paths
   "here" # for building paths that work everywhere
 ))
 ```
@@ -64,7 +63,6 @@ We are going to do a few things here:
 
 library(dplyr)
 library(readr)
-library(fs)
 library(here)
 ```
 
@@ -84,7 +82,10 @@ relative to the project root matters.
 
 `here()` from the `here` package fixes both problems. It detects your project
 root and always builds paths from there, regardless of how or where the code
-runs. Use it instead of `path()` whenever you are building paths to data files.
+runs. Reach for it any time you're building a path to a data file, instead of
+pasting in a full path from your own machine or typing a relative path like
+`"data/raw/file.csv"` that quietly breaks the moment your working directory
+isn't where you assumed it was.
 
 ```{r}
 #| eval: false

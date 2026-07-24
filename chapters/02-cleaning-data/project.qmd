@@ -195,3 +195,9 @@ covid_clean <-
 
 Every future chapter can now start from `covid_clean` instead of
 re-deriving it — one clean pass, reused everywhere.
+
+::: {.callout-note}
+Want to compare against a reference? See
+[`project-snapshots/after-ch-02`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-02)
+on GitHub for the `scripts/` this chapter should leave you with.
+:::
