@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>7&nbsp; Describing and Testing – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -37,8 +72,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/data-analysis/modeling.html" rel="next">
+<link href="../../chapters/building-a-dataset/index.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/data-analysis/describing-and-testing.html">Data Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/data-analysis/describing-and-testing.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -200,16 +235,16 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Data Analysis</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-analysis/describing-and-testing.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/data-analysis/describing-and-testing.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></span></a>
   </div>
 </li>
@@ -415,17 +450,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#getting-set-up" id="toc-getting-set-up" class="nav-link active" data-scroll-target="#getting-set-up"><span class="header-section-number">7.1</span> Getting set up</a></li>
+  <li><a href="#section-1-describing-what-you-have" id="toc-section-1-describing-what-you-have" class="nav-link" data-scroll-target="#section-1-describing-what-you-have"><span class="header-section-number">7.2</span> Section 1 — Describing what you have</a></li>
+  <li><a href="#section-2-cross-tabulation-with-a-statistical-test" id="toc-section-2-cross-tabulation-with-a-statistical-test" class="nav-link" data-scroll-target="#section-2-cross-tabulation-with-a-statistical-test"><span class="header-section-number">7.3</span> Section 2 — Cross-tabulation with a statistical test</a>
+  <ul class="collapse">
+  <li><a href="#when-cells-are-small-fishers-exact-test" id="toc-when-cells-are-small-fishers-exact-test" class="nav-link" data-scroll-target="#when-cells-are-small-fishers-exact-test"><span class="header-section-number">7.3.1</span> When cells are small: Fisher’s exact test</a></li>
+  </ul></li>
+  <li><a href="#section-3-testing-a-trend-in-proportions" id="toc-section-3-testing-a-trend-in-proportions" class="nav-link" data-scroll-target="#section-3-testing-a-trend-in-proportions"><span class="header-section-number">7.4</span> Section 3 — Testing a trend in proportions</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up"><span class="header-section-number">7.5</span> Wrap-up</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/data-analysis/describing-and-testing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/data-analysis/describing-and-testing.html">Data Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/data-analysis/describing-and-testing.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></h1>
 </div>
 
 
@@ -442,23 +483,231 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages covered in this part:</strong> <a href="https://dplyr.tidyverse.org/">dplyr</a>, <a href="https://sfirke.github.io/janitor/">janitor</a></p>
+</div>
+</div>
+</div>
+<p>You built a line-list in the last chapter — one row per case, with an age, a set of dates, and outcome flags. Now we get to <em>ask questions of it</em>. This chapter is the everyday inferential toolkit: describe what’s in the data, cross-tabulate one variable against another, and run the handful of statistical tests that answer “is this pattern real, or could it be chance?”</p>
+<p>If you’re coming from SAS, this is <code>PROC FREQ</code> and <code>PROC MEANS</code> territory — just tidier, and with the whole thing scriptable end to end.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>This analysis runs on fake data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Everything below runs on the <strong>synthetic</strong> line-list from the <a href="../../chapters/building-a-dataset/index.html">previous chapter</a>. The town names and case counts are real, but every age, sex, date, and outcome was randomly generated. The <em>shape</em> of the patterns is realistic — deaths really do skew older — but <strong>no row is a real person.</strong> Never report these numbers as real, and never let one of these tables walk out the door as if it described actual patients.</p>
+</div>
+</div>
+<section id="getting-set-up" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="getting-set-up"><span class="header-section-number">7.1</span> Getting set up</h2>
+<p>We’ll lean on two packages: <code>dplyr</code> for the summarising and <code>janitor</code> for the epi-friendly tables. In your own <code>covid-briefing/</code> project you’d start by reading the file you built:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"synthetic-covid-linelist.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then we recreate the <code>age_group</code> column from the previous chapter — most of the questions in this chapter are about how outcomes vary <em>across ages</em>, and a handful of ordered bands is far easier to tabulate than raw years:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>linelist <span class="ot">&lt;-</span> linelist <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      age <span class="sc">&lt;</span> <span class="dv">18</span> <span class="sc">~</span> <span class="st">"0-17"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      age <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">~</span> <span class="st">"18-49"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"50-64"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      age <span class="sc">&lt;</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"65-79"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>     <span class="sc">~</span> <span class="st">"80+"</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
+<section id="section-1-describing-what-you-have" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="section-1-describing-what-you-have"><span class="header-section-number">7.2</span> Section 1 — Describing what you have</h2>
+<p>Before any test, look at the data. The first question about almost any outcome is simply <em>how often did it happen?</em> — counts and percents.</p>
+<p><code>janitor::tabyl()</code> is the tool for that. Hand it a column and it returns a tidy table of counts and proportions; <code>adorn_pct_formatting()</code> turns the raw proportions into readable percentages. If you’ve reached for <code>PROC FREQ</code> in SAS, this is the same job.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(died) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> died     n percent
+   No 34316   97.4%
+  Yes   906    2.6%</code></pre>
+</div>
+</div>
+<p>That’s your case fatality snapshot: about 2.6% of cases in this line-list died. <code>tabyl()</code> is a data frame like any other, so it drops straight into a report or a <code>gt</code> table later without any wrestling.</p>
+<p>Counts answer “how many.” For a continuous variable like age you want the <em>shape</em> — where the middle sits and how far it spreads. <code>summarise()</code> gives you whichever statistics you name, and the classic epi move is to compute them <strong>split by outcome</strong> so you can compare. Here’s “does age differ between people who died and people who survived?”:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(died) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age   =</span> <span class="fu">round</span>(<span class="fu">mean</span>(age), <span class="dv">1</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_age    =</span> <span class="fu">min</span>(age),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_age    =</span> <span class="fu">max</span>(age)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 6
+  died      n mean_age median_age min_age max_age
+  &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 No    34316     41.4         41       0     100
+2 Yes     906     74.8         79       0     100</code></pre>
+</div>
+</div>
+<p>Read across the two rows and the story jumps out. Among the people who died, the mean age is about 74.8 and the median 79; among survivors the mean is 41.4 and the median 41. Deaths skew old — decades older, on average. The <code>mean</code> and <code>median</code> sitting close together within each group also tells you neither is being dragged around by a few extreme outliers.</p>
+<p>This one table is often the whole descriptive section of a briefing. But it also raises the obvious follow-up: we can <em>see</em> that deaths are older, but is the association between age and death strong enough to trust? That’s what the next section is for.</p>
+</section>
+<section id="section-2-cross-tabulation-with-a-statistical-test" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="section-2-cross-tabulation-with-a-statistical-test"><span class="header-section-number">7.3</span> Section 2 — Cross-tabulation with a statistical test</h2>
+<p>The natural next step is a <strong>two-way table</strong>: age group down the side, outcome across the top. <code>tabyl()</code> takes two variables and builds exactly that, and the <code>adorn_*</code> helpers layer on the pieces you want to see.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>linelist <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(age_group, died) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> age_group             No         Yes
+      0-17 99.9%  (4,598)  0.1%   (4)
+     18-49 99.5% (17,542)  0.5%  (85)
+     50-64 98.8%  (7,491)  1.2%  (88)
+     65-79 92.8%  (3,604)  7.2% (281)
+       80+ 70.7%  (1,081) 29.3% (448)
+     Total 97.4% (34,316)  2.6% (906)</code></pre>
+</div>
+</div>
+<p>There’s a lot packed into that pipe, so here’s what each adornment does:</p>
 <ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
+<li><code>adorn_totals("row")</code> adds a totals row across the bottom.</li>
+<li><code>adorn_percentages("row")</code> converts each cell to a <strong>row</strong> percentage — so each age group’s numbers add to 100% <em>across</em> its own row.</li>
+<li><code>adorn_pct_formatting()</code> formats those as percents.</li>
+<li><code>adorn_ns()</code> puts the raw counts back in, in parentheses, so you never lose sight of how many people each percentage rests on.</li>
 </ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+<p>Why row percents? Because the row is the age group, so the percentage in the <code>Yes</code> column is the <strong>case fatality rate within that age group</strong> — exactly the number an epidemiologist wants. Reading down that <code>Yes</code> column, the CFR climbs steadily: roughly 0.1% for 0–17, 0.5% for 18–49, 1.2% for 50–64, 7.2% for 65–79, and 29.3% for the 80+ group. Nearly three in ten of the oldest cases died. That’s the association from Section 1, now resolved group by group.</p>
+<p>Seeing a trend in a table and <em>establishing</em> it statistically are two different things. A <strong>chi-square test</strong> asks whether the association between age group and outcome could plausibly have arisen by chance if the two were actually unrelated.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>age_died <span class="ot">&lt;-</span> <span class="fu">table</span>(linelist<span class="sc">$</span>age_group, linelist<span class="sc">$</span>died)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(age_died)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  age_died
+X-squared = 5176.2, df = 4, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p><code>table()</code> builds the plain contingency table (chi-square wants counts, not percentages), and <code>chisq.test()</code> does the rest. The null hypothesis is that there is <strong>no association</strong> — that outcome doesn’t depend on age group. The test returns a huge X-squared statistic (around 5176) on 4 degrees of freedom and a p-value below 2.2e-16, which is R’s way of printing “smaller than I bother to show.” In plain terms: if age and death were truly unrelated, a table this lopsided would essentially never happen. We reject the null.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>A tiny p-value is not a big effect
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With this many cases, almost <em>any</em> association will come back “significant” — the p-value is partly a measure of your sample size. A huge <code>n</code> makes the test exquisitely sensitive, so it will flag even trivial differences. Don’t let a row of zeros after the decimal point fool you into thinking you’ve found something important. The <strong>effect size</strong> — the actual jump from 0.1% to 29.3% CFR you read off the cross-tab — is what makes this finding matter. The p-value only tells you it’s not noise; the percentages tell you it’s a big deal.</p>
+</div>
+</div>
+<section id="when-cells-are-small-fishers-exact-test" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="when-cells-are-small-fishers-exact-test"><span class="header-section-number">7.3.1</span> When cells are small: Fisher’s exact test</h3>
+<p>Chi-square relies on an <em>approximation</em> that gets shaky when the expected count in any cell is small — the usual rule of thumb is that no expected cell should drop below 5. That happens all the time when you slice down to a single small town or a rare outcome. <strong>Fisher’s exact test</strong> computes the exact probability instead of approximating it, so it stays honest on sparse tables.</p>
+<p>Let’s force the situation by looking at one small town, Hartland:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hartland <span class="ot">&lt;-</span> linelist <span class="sc">|&gt;</span> <span class="fu">filter</span>(town <span class="sc">==</span> <span class="st">"Hartland"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hartland<span class="sc">$</span>hospitalized, hartland<span class="sc">$</span>died)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     
+      No Yes
+  No  56   0
+  Yes  1   2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(<span class="fu">table</span>(hartland<span class="sc">$</span>hospitalized, hartland<span class="sc">$</span>died))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Fisher's Exact Test for Count Data
+
+data:  table(hartland$hospitalized, hartland$died)
+p-value = 0.001753
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 4.415925      Inf
+sample estimates:
+odds ratio 
+       Inf </code></pre>
+</div>
+</div>
+<p>Hartland has only 59 cases, and the <code>table()</code> shows why chi-square would struggle: the cells are thin and at least one is a flat zero. <code>fisher.test()</code> handles that without complaint and returns a p-value of about 0.0018 — strong evidence of an association between being hospitalized and dying, even in this tiny slice.</p>
+<p>The teaching point: <strong>reach for Fisher when the counts are small.</strong> If you run <code>chisq.test()</code> on a sparse table it’ll warn you that the approximation may be unreliable — that warning is your cue to switch. On small or zero-heavy tables, Fisher is the trustworthy choice.</p>
+</section>
+</section>
+<section id="section-3-testing-a-trend-in-proportions" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="section-3-testing-a-trend-in-proportions"><span class="header-section-number">7.4</span> Section 3 — Testing a trend in proportions</h2>
+<p>The stakeholder didn’t just ask “is there an association” — they asked about <strong>trends in proportions</strong>, like an outcome rising over time or across ordered categories. A plain chi-square treats the age groups as unordered labels; it would give the same answer if you shuffled them. But our age bands have a natural order, and the interesting claim is specifically that CFR <em>rises monotonically</em> from young to old.</p>
+<p>The <strong>test for trend in proportions</strong> (a Cochran–Armitage-style test) is built for that. It needs two things in order: the number of deaths in each group, and the number of cases in each group. We build those with a grouped <code>summarise()</code>, then <code>arrange()</code> to lock in the order:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cfr_by_age <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  linelist <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_group) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">deaths =</span> <span class="fu">sum</span>(died <span class="sc">==</span> <span class="st">"Yes"</span>), <span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(age_group)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>cfr_by_age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  age_group deaths     n
+  &lt;chr&gt;      &lt;int&gt; &lt;int&gt;
+1 0-17           4  4602
+2 18-49         85 17627
+3 50-64         88  7579
+4 65-79        281  3885
+5 80+          448  1529</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.trend.test</span>(cfr_by_age<span class="sc">$</span>deaths, cfr_by_age<span class="sc">$</span>n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared Test for Trend in Proportions
+
+data:  cfr_by_age$deaths out of cfr_by_age$n ,
+ using scores: 1 2 3 4 5
+X-squared = 2918.6, df = 1, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p><code>sum(died == "Yes")</code> counts the deaths in each group (a <code>TRUE</code>/<code>FALSE</code> vector sums to the number of <code>TRUE</code>s), and <code>n()</code> counts everyone. <code>prop.trend.test()</code> takes the deaths and the group sizes and asks: is there a <strong>directional</strong> trend in the proportion across these ordered groups?</p>
+<p>The result — X-squared around 2919 on 1 degree of freedom, p below 2.2e-16 — says yes, emphatically: CFR increases in a clear linear fashion across the age bands. Because this test uses the <em>ordering</em> of the groups, it’s a sharper instrument than a plain chi-square when the order is meaningful. It’s asking a more specific question (“does it trend?”) and so gives stronger evidence when the answer is yes.</p>
+<p>The same machinery answers the stakeholder’s “outcome by year” question directly: group by year instead of age band, feed the yearly death counts and case counts into <code>prop.trend.test()</code> <strong>in chronological order</strong>, and you’re testing whether the outcome trended up or down over time. Any ordered grouping — age bands, years, weeks of a wave — works the same way.</p>
+</section>
+<section id="wrap-up" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="wrap-up"><span class="header-section-number">7.5</span> Wrap-up</h2>
+<p>You can now do the three things that make up the bread-and-butter of case-level analysis: <strong>describe</strong> a line-list with counts and summaries, <strong>cross-tabulate</strong> two variables and test the association with chi-square or Fisher’s exact test, and <strong>test a trend</strong> across ordered groups. That’s the everyday inferential toolkit, and it’ll carry you through most routine surveillance questions.</p>
+<p>What it <em>won’t</em> do is untangle variables that move together. Older cases might also be more likely to be hospitalized, or to belong to a particular group — and these simple tests look at one relationship at a time. The next chapter, <strong>Modeling</strong>, is how you get <em>adjusted</em> effect estimates that hold age, sex, and the rest constant all at once.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Want this chapter’s work as a runnable script? See <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/line-list-practice"><code>project-snapshots/line-list-practice</code></a> on GitHub. <code>02_describe_and_test.R</code> is the script version of everything above — the tabyls, the chi-square, Fisher’s, and the trend test — ready to drop into your <code>scripts/</code> folder.</p>
+</div>
+</div>
 
 
 </section>
@@ -866,13 +1115,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/building-a-dataset/index.html" class="pagination-link" aria-label="Building a Dataset">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building a Dataset</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/data-analysis/modeling.html" class="pagination-link" aria-label="Modeling: Adjusted Effect Estimates">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1133,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/data-analysis/describing-and-testing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>

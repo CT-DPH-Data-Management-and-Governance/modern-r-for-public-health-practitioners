@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>20&nbsp; Reading Data: Formats and Gotchas – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -37,8 +72,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/further-reading/writing-files.html" rel="next">
+<link href="../../chapters/further-reading/excel-files.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/reading-data-gotchas.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Reading Data: Formats and Gotchas</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -326,13 +361,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
  <span class="menu-text">Further Reading</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
@@ -353,7 +388,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/further-reading/reading-data-gotchas.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/further-reading/reading-data-gotchas.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Reading Data: Formats and Gotchas</span></span></a>
   </div>
 </li>
@@ -415,17 +450,24 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#formats-at-a-glance" id="toc-formats-at-a-glance" class="nav-link active" data-scroll-target="#formats-at-a-glance"><span class="header-section-number">20.1</span> Formats at a glance</a></li>
+  <li><a href="#the-gotchas" id="toc-the-gotchas" class="nav-link" data-scroll-target="#the-gotchas"><span class="header-section-number">20.2</span> The gotchas</a>
+  <ul class="collapse">
+  <li><a href="#dates-read-in-as-text" id="toc-dates-read-in-as-text" class="nav-link" data-scroll-target="#dates-read-in-as-text"><span class="header-section-number">20.2.1</span> Dates read in as text</a></li>
+  <li><a href="#variable-column-names" id="toc-variable-column-names" class="nav-link" data-scroll-target="#variable-column-names"><span class="header-section-number">20.2.2</span> Variable (column) names</a></li>
+  <li><a href="#case-sensitivity-bites-twice" id="toc-case-sensitivity-bites-twice" class="nav-link" data-scroll-target="#case-sensitivity-bites-twice"><span class="header-section-number">20.2.3</span> Case sensitivity bites twice</a></li>
+  <li><a href="#blanks-empties-and-missing" id="toc-blanks-empties-and-missing" class="nav-link" data-scroll-target="#blanks-empties-and-missing"><span class="header-section-number">20.2.4</span> Blanks, empties, and “missing”</a></li>
+  </ul></li>
+  <li><a href="#this-list-will-grow" id="toc-this-list-will-grow" class="nav-link" data-scroll-target="#this-list-will-grow"><span class="header-section-number">20.3</span> This list will grow</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/further-reading/reading-data-gotchas.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/reading-data-gotchas.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Reading Data: Formats and Gotchas</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Reading Data: Formats and Gotchas</span></h1>
 </div>
 
 
@@ -442,23 +484,169 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
-</section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
+<p>Data shows up in a lot of shapes. A CSV emailed from a hospital, an Excel workbook from a lab, a Microsoft Access database that’s been passed around a program for a decade. R can read all of these, but a stakeholder’s very fair question is: <em>once it’s in R, does the data need reformatting, and does that depend on the file type?</em></p>
+<p>The short version: the file <em>type</em> changes <strong>how</strong> you read it — which package and function you reach for — but most of the cleanup headaches are the <strong>same</strong> no matter where the data came from. Dates come in as text, column names arrive messy, and blank cells mean different things to different systems. Those quirks follow the data around regardless of format.</p>
+<p>This page is the reference for those cross-cutting quirks. For the actual <em>how-to</em> of reading files, you’ve already seen it:</p>
 <ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
+<li><a href="../../chapters/01-working-with-real-data/index.html">Loading Your First Dataset</a> covers reading a <code>.csv</code> with <code>readr::read_csv()</code>.</li>
+<li><a href="../../chapters/further-reading/excel-files.html">Working with Excel Files</a> covers <code>.xlsx</code> with <code>readxl::read_excel()</code>.</li>
 </ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+<p>This page is about the <em>gotchas</em> that come after the read.</p>
+<section id="formats-at-a-glance" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="formats-at-a-glance"><span class="header-section-number">20.1</span> Formats at a glance</h2>
+<p>Here are the formats an epidemiologist meets most often, the function that reads each one, and the quirks that come with the territory.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Format</th>
+<th>Read it with</th>
+<th>Format-specific quirks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.csv</code> (comma-separated)</td>
+<td><code>readr::read_csv()</code></td>
+<td>Plain text, so there’s no stored notion of “this is a date” or “this is a number” — <code>readr</code> guesses column types from the values. Watch for commas <em>inside</em> fields, and for regional files that use <code>;</code> as the separator (<code>read_csv2()</code>).</td>
+</tr>
+<tr class="even">
+<td><code>.xlsx</code> / <code>.xls</code> (Excel)</td>
+<td><code>readxl::read_excel()</code></td>
+<td>Multiple sheets (use <code>sheet =</code>), merged cells, and title rows above the real header. Excel stores dates as <strong>serial numbers</strong> under the hood, which sometimes surface as numbers like <code>44927</code> instead of a date.</td>
+</tr>
+<tr class="odd">
+<td><code>.accdb</code> / <code>.mdb</code> (MS Access) / other databases</td>
+<td><code>DBI</code> + <code>odbc</code>, <strong>or</strong> export to CSV first</td>
+<td>Needs a database connector and a platform-specific driver — often Windows-only. See the note below.</td>
+</tr>
+</tbody>
+</table>
+<p>Databases deserve an honest note rather than a full tutorial. Reading directly from Microsoft Access (or SQL Server, or similar) means connecting to it with the <code>DBI</code> package plus a backend like <code>odbc</code>, and that in turn needs a database <em>driver</em> installed on your machine — which is frequently Windows-specific and not always something you can install yourself. The pragmatic path, and the one worth trying first, is to open the database and <strong>export the table you need to CSV</strong>, then read that CSV with the tools you already know. A fuller treatment of connecting to databases from R is a good candidate for a later chapter.</p>
+</section>
+<section id="the-gotchas" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="the-gotchas"><span class="header-section-number">20.2</span> The gotchas</h2>
+<section id="dates-read-in-as-text" class="level3" data-number="20.2.1">
+<h3 data-number="20.2.1" class="anchored" data-anchor-id="dates-read-in-as-text"><span class="header-section-number">20.2.1</span> Dates read in as text</h3>
+<p>This is the one that trips up almost everyone. Unless you tell it otherwise, R will read a column of dates as plain <strong>character</strong> text. A value like <code>06/30/2026</code> is just a string of characters as far as R is concerned — you can’t do date math on it, sort it chronologically, or filter a date range until it’s been <em>parsed</em> into a real date.</p>
+<p>Parsing is exactly what <a href="../../chapters/02-cleaning-data/index.html"><code>lubridate</code></a> is for. You tell it the order the pieces appear in — month, day, year — and it handles the rest:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mdy</span>(<span class="st">"06/30/2026"</span>) <span class="co"># month-day-year</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">"2026-06-30"</span>) <span class="co"># year-month-day</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>There’s no format string to memorize; the function name spells out the order. The <a href="../../chapters/02-cleaning-data/index.html">Cleaning Data chapter</a> walks through this on the real COVID dataset.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Excel’s date serial-number trap
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Excel doesn’t store dates as text at all — it stores them as a <strong>serial number</strong> counting days from an internal start date. Most of the time <code>readxl</code> converts these back to dates for you, but if a column has mixed content, or the cell was formatted oddly, dates can arrive in R as bare numbers like <code>44927</code>.</p>
+<p>If you open a “date” column and find integers around <code>40000</code>–<code>46000</code>, that’s almost certainly an Excel serial number. You can convert it back with <code>as.Date(44927, origin = "1899-12-30")</code>. When you spot this, it’s worth going back to the source workbook to confirm what those numbers are supposed to mean before trusting the conversion.</p>
+</div>
+</div>
+</section>
+<section id="variable-column-names" class="level3" data-number="20.2.2">
+<h3 data-number="20.2.2" class="anchored" data-anchor-id="variable-column-names"><span class="header-section-number">20.2.2</span> Variable (column) names</h3>
+<p>R is picky about names, and data files rarely respect its rules. A “clean” R name — what R calls a <em>syntactic</em> name — must:</p>
+<ul>
+<li><strong>not start with a number</strong> (<code>2020_cases</code> is illegal; <code>cases_2020</code> is fine),</li>
+<li><strong>contain no spaces</strong> (<code>Total Cases</code> breaks),</li>
+<li><strong>avoid most punctuation</strong> (<code>%</code>, <code>#</code>, <code>/</code>, <code>(</code> and friends are out; underscores and dots are allowed),</li>
+<li>and remember that names are <strong>case-sensitive</strong> (<code>Town</code> and <code>town</code> are two different things).</li>
+</ul>
+<p>R won’t refuse to <em>hold</em> a messy name — it just forces you to wrap it in backticks every single time you refer to it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a column literally named "Total Cases" with a space</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>covid_data <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Total Cases</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Typing backticks around every reference gets old fast. The fix is <code>janitor::clean_names()</code>, taught in the <a href="../../chapters/02-cleaning-data/index.html">Cleaning Data chapter</a>. It lowercases everything, swaps spaces for underscores, and strips the problem characters in one call:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(covid_data)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># "Total Cases" becomes total_cases, no backticks needed ever again</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>On length: R technically allows very long names, but keep them short and readable anyway. Some export formats and downstream tools quietly truncate long names, and a column called <code>n_confirmed</code> is easier to live with than <code>number_of_confirmed_cases_reported_this_week</code>.</p>
+</section>
+<section id="case-sensitivity-bites-twice" class="level3" data-number="20.2.3">
+<h3 data-number="20.2.3" class="anchored" data-anchor-id="case-sensitivity-bites-twice"><span class="header-section-number">20.2.3</span> Case sensitivity bites twice</h3>
+<p>Case sensitivity isn’t just a naming rule — it applies to the <strong>data values</strong> too. To R, <code>"Hartford"</code>, <code>"hartford"</code>, and <code>"HARTFORD"</code> are three different strings. That has two practical consequences:</p>
+<ul>
+<li><strong>Filtering</strong> silently misses rows. <code>filter(town == "hartford")</code> returns nothing if the data stores <code>"Hartford"</code>.</li>
+<li><strong>Joins</strong> silently drop matches. If one table has <code>"New Haven"</code> and another has <code>"NEW HAVEN"</code>, those rows won’t line up, and you may not notice the gap until your counts look wrong.</li>
+</ul>
+<p>The defense is to normalize case <em>before</em> you filter or join, using <code>stringr</code>’s case helpers (also from the <a href="../../chapters/02-cleaning-data/index.html">Cleaning Data chapter</a>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_lower</span>(<span class="st">"HARTFORD"</span>) <span class="co"># "hartford"  — good for matching</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_title</span>(<span class="st">"new haven"</span>) <span class="co"># "New Haven" — good for display</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A common pattern is to lowercase both sides of a join key so the match doesn’t depend on how each source happened to capitalize things.</p>
+</section>
+<section id="blanks-empties-and-missing" class="level3" data-number="20.2.4">
+<h3 data-number="20.2.4" class="anchored" data-anchor-id="blanks-empties-and-missing"><span class="header-section-number">20.2.4</span> Blanks, empties, and “missing”</h3>
+<p>An empty cell is more ambiguous than it looks, and different systems disagree on what it means. When R reads a file, a “missing” value might arrive as any of:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What’s in the file</th>
+<th>How R may see it</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>truly empty cell</td>
+<td><code>NA</code></td>
+<td>no value recorded</td>
+</tr>
+<tr class="even">
+<td>empty text <code>""</code></td>
+<td><code>""</code> (empty string)</td>
+<td>a value that happens to be blank text</td>
+</tr>
+<tr class="odd">
+<td>the literal text <code>NA</code>, <code>N/A</code>, <code>.</code>, <code>Unknown</code></td>
+<td>a character string</td>
+<td>a <em>placeholder</em> someone typed for missing</td>
+</tr>
+</tbody>
+</table>
+<p>That last row is the trap. If a source system writes <code>"N/A"</code> or <code>.</code> (a convention SAS users will recognize) into blank cells, R reads them as ordinary text, not as missing. A count of missing values will say zero, and any numeric column with <code>"N/A"</code> sprinkled in will refuse to be numeric at all.</p>
+<p><code>read_csv()</code> has an <code>na =</code> argument for exactly this — you list the strings that should be treated as missing:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># treat blanks, "NA", "N/A", and a lone "." all as missing</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  csv_path,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="fu">c</span>(<span class="st">""</span>, <span class="st">"NA"</span>, <span class="st">"N/A"</span>, <span class="st">"."</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Why fuss over blank-versus-<code>NA</code>? Because it changes your numbers. An empty string <code>""</code> is a real (if empty) value and gets <strong>counted</strong>; an <code>NA</code> does not. And functions like <code>mean()</code> and <code>sum()</code> return <code>NA</code> the moment a single <code>NA</code> is present unless you tell them to skip it with <code>na.rm = TRUE</code>. Getting the missing values labeled correctly up front is what makes counts, denominators, and <code>na.rm</code> behave the way you expect downstream. The <a href="../../chapters/02-cleaning-data/index.html">Cleaning Data chapter</a> covers what to do with <code>NA</code>s once they’re correctly identified (<code>drop_na()</code>, <code>replace_na()</code>).</p>
+</section>
+</section>
+<section id="this-list-will-grow" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="this-list-will-grow"><span class="header-section-number">20.3</span> This list will grow</h2>
+<p>These are the gotchas that come up again and again, across nearly every format an epidemiologist reads. As the book picks up more formats — databases, APIs, and other sources — new format-specific quirks will land here alongside them. The reassuring part is that the <em>core</em> cleanup — dates, names, case, and missing values — stays the same no matter how the data arrived.</p>
 
 
 </section>
@@ -866,13 +1054,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/further-reading/excel-files.html" class="pagination-link" aria-label="Working with Excel Files">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/further-reading/writing-files.html" class="pagination-link" aria-label="Writing Data Files">
+        <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1072,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/further-reading/reading-data-gotchas.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>

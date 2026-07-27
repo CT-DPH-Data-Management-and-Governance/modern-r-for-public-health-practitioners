@@ -2,21 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A project-based course for public health practitioners who want to become confident R users by buidling a report that grows with every chapter.">
+<meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
 <title>3&nbsp; A First Look at Hartford – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b8374de3cc97b70cb80b3e51e6241be7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-55df8ce663cc047543eef862d22f2715.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -163,13 +166,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Introduction and Process</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/00-orientation/index.html" class="sidebar-item-text sidebar-link">
@@ -205,125 +208,234 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning Data</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/02-cleaning-data/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cleaning the Full Report</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Building a Dataset</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/building-a-dataset/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building a Dataset</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/data-analysis/describing-and-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/data-analysis/modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Data Visualization</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/03-data-visualization/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/03-data-visualization/mapview-leaflet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/03-data-visualization/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Building This Week’s Briefing Deck</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Intermediate R: Automating the Manual Steps</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Checkpoint</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/04-project-checkin/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Managing Code</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Intermediate R: Automating the Manual Steps</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/03-data-visualization/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/03-data-visualization/mapview-leaflet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
  <span class="menu-text">Security Basics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
  <span class="menu-text">Further Reading</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/joins.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/excel-files.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/reading-data-gotchas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Reading Data: Formats and Gotchas</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/writing-files.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/epi-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Data Library</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/data-library/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Glossary</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/glossary/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
       </ul>
@@ -344,9 +456,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-2-select-and-rename-columns" id="toc-step-2-select-and-rename-columns" class="nav-link" data-scroll-target="#step-2-select-and-rename-columns"><span class="header-section-number">3.4</span> Step 2 — Select and rename columns</a></li>
   <li><a href="#step-3-parse-the-date" id="toc-step-3-parse-the-date" class="nav-link" data-scroll-target="#step-3-parse-the-date"><span class="header-section-number">3.5</span> Step 3 — Parse the date</a></li>
   <li><a href="#step-4-sort-by-date" id="toc-step-4-sort-by-date" class="nav-link" data-scroll-target="#step-4-sort-by-date"><span class="header-section-number">3.6</span> Step 4 — Sort by date</a></li>
-  <li><a href="#putting-it-together" id="toc-putting-it-together" class="nav-link" data-scroll-target="#putting-it-together"><span class="header-section-number">3.7</span> Putting it together</a></li>
-  <li><a href="#what-does-the-data-say" id="toc-what-does-the-data-say" class="nav-link" data-scroll-target="#what-does-the-data-say"><span class="header-section-number">3.8</span> What does the data say?</a></li>
-  <li><a href="#saving-our-data-artifact" id="toc-saving-our-data-artifact" class="nav-link" data-scroll-target="#saving-our-data-artifact"><span class="header-section-number">3.9</span> Saving our data artifact</a></li>
+  <li><a href="#step-5-computing-daily-new-cases" id="toc-step-5-computing-daily-new-cases" class="nav-link" data-scroll-target="#step-5-computing-daily-new-cases"><span class="header-section-number">3.7</span> Step 5 — Computing daily new cases</a></li>
+  <li><a href="#putting-it-together" id="toc-putting-it-together" class="nav-link" data-scroll-target="#putting-it-together"><span class="header-section-number">3.8</span> Putting it together</a></li>
+  <li><a href="#what-does-the-data-say" id="toc-what-does-the-data-say" class="nav-link" data-scroll-target="#what-does-the-data-say"><span class="header-section-number">3.9</span> What does the data say?</a></li>
+  <li><a href="#saving-our-data-artifact" id="toc-saving-our-data-artifact" class="nav-link" data-scroll-target="#saving-our-data-artifact"><span class="header-section-number">3.10</span> Saving our data artifact</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/01-working-with-real-data/project.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -408,6 +521,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Shortcut</th>
@@ -417,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><code>Ctrl+Shift+M</code></td>
-<td>Insert the pipe <code>|&gt;</code></td>
+<td>Insert the native pipe, once you turn that option on</td>
 </tr>
 <tr class="even">
 <td><code>Ctrl+Enter</code></td>
@@ -429,6 +546,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>Out of the box that shortcut inserts the older <code>%&gt;%</code> pipe. Flip it in Tools → Global Options → Code → Editing → “Use native pipe operator” and you’ll get <code>|&gt;</code> like the rest of this book.</p>
 <p>Learn all three early — you will use them on every line you write.</p>
 </div>
 </div>
@@ -457,20 +575,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="st">`</span><span class="at">Last update date</span><span class="st">`</span>,</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">town =</span> Town,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_positives =</span> <span class="st">`</span><span class="at">Number of positives</span><span class="st">`</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_cases =</span> <span class="st">`</span><span class="at">Total cases</span><span class="st">`</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_deaths =</span> <span class="st">`</span><span class="at">Total deaths</span><span class="st">`</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(hartford)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_cases =</span> <span class="st">`</span><span class="at">Total cases</span><span class="st">`</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_deaths =</span> <span class="st">`</span><span class="at">Total deaths</span><span class="st">`</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(hartford)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 605
-Columns: 5
-$ date          &lt;chr&gt; "06/24/2022", "06/23/2022", "06/22/2022", "06/21/2022", …
-$ town          &lt;chr&gt; "Hartford", "Hartford", "Hartford", "Hartford", "Hartfor…
-$ new_positives &lt;dbl&gt; 42545, 42519, 42499, 42467, 42451, 42383, 42345, 42327, …
-$ total_cases   &lt;dbl&gt; 33844, 33822, 33814, 33798, 33789, 33742, 33714, 33698, …
-$ total_deaths  &lt;dbl&gt; 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 4…</code></pre>
+Columns: 4
+$ date         &lt;chr&gt; "06/24/2022", "06/23/2022", "06/22/2022", "06/21/2022", "…
+$ town         &lt;chr&gt; "Hartford", "Hartford", "Hartford", "Hartford", "Hartford…
+$ total_cases  &lt;dbl&gt; 33844, 33822, 33814, 33798, 33789, 33742, 33714, 33698, 3…
+$ total_deaths &lt;dbl&gt; 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 41…</code></pre>
 </div>
 </div>
 </section>
@@ -491,12 +607,11 @@ $ total_deaths  &lt;dbl&gt; 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 41
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(hartford)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 605
-Columns: 5
-$ date          &lt;date&gt; 2022-06-24, 2022-06-23, 2022-06-22, 2022-06-21, 2022-06…
-$ town          &lt;chr&gt; "Hartford", "Hartford", "Hartford", "Hartford", "Hartfor…
-$ new_positives &lt;dbl&gt; 42545, 42519, 42499, 42467, 42451, 42383, 42345, 42327, …
-$ total_cases   &lt;dbl&gt; 33844, 33822, 33814, 33798, 33789, 33742, 33714, 33698, …
-$ total_deaths  &lt;dbl&gt; 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 4…</code></pre>
+Columns: 4
+$ date         &lt;date&gt; 2022-06-24, 2022-06-23, 2022-06-22, 2022-06-21, 2022-06-…
+$ town         &lt;chr&gt; "Hartford", "Hartford", "Hartford", "Hartford", "Hartford…
+$ total_cases  &lt;dbl&gt; 33844, 33822, 33814, 33798, 33789, 33742, 33714, 33698, 3…
+$ total_deaths &lt;dbl&gt; 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 41…</code></pre>
 </div>
 </div>
 </section>
@@ -510,68 +625,112 @@ $ total_deaths  &lt;dbl&gt; 417, 417, 417, 417, 417, 417, 417, 417, 417, 417, 41
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hartford)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  date       town     new_positives total_cases total_deaths
-  &lt;date&gt;     &lt;chr&gt;            &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
-1 2020-03-24 Hartford            NA          14            0
-2 2020-03-25 Hartford            NA          20            0
-3 2020-03-26 Hartford            NA          21            0
-4 2020-03-27 Hartford            NA          21            0
-5 2020-03-28 Hartford            NA          28            0
-6 2020-03-29 Hartford            NA          39            0</code></pre>
+<pre><code># A tibble: 6 × 4
+  date       town     total_cases total_deaths
+  &lt;date&gt;     &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;
+1 2020-03-24 Hartford          14            0
+2 2020-03-25 Hartford          20            0
+3 2020-03-26 Hartford          21            0
+4 2020-03-27 Hartford          21            0
+5 2020-03-28 Hartford          28            0
+6 2020-03-29 Hartford          39            0</code></pre>
 </div>
 </div>
 </section>
-<section id="putting-it-together" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="putting-it-together"><span class="header-section-number">3.7</span> Putting it together</h2>
-<p>Each step above modified <code>hartford</code> and saved it back. We can write that entire chain as one pipeline:</p>
+<section id="step-5-computing-daily-new-cases" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="step-5-computing-daily-new-cases"><span class="header-section-number">3.7</span> Step 5 — Computing daily new cases</h2>
+<p><code>total_cases</code> is a running total — it only ever goes up. To see whether things are getting <em>worse</em> day to day, we need the change between one report and the next, not the running total itself. <code>lag()</code> shifts a column down by one row, so <code>total_cases - lag(total_cases)</code> gives “today’s total minus yesterday’s total” — the daily new cases.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hartford <span class="ot">&lt;-</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  covid_data <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Town <span class="sc">==</span> <span class="st">"Hartford"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="st">`</span><span class="at">Last update date</span><span class="st">`</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">town =</span> Town,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">new_positives =</span> <span class="st">`</span><span class="at">Number of positives</span><span class="st">`</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_cases =</span> <span class="st">`</span><span class="at">Total cases</span><span class="st">`</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_deaths =</span> <span class="st">`</span><span class="at">Total deaths</span><span class="st">`</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">parse_date</span>(date, <span class="at">format =</span> <span class="st">"%m/%d/%Y"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="what-does-the-data-say" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="what-does-the-data-say"><span class="header-section-number">3.8</span> What does the data say?</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(hartford, <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  hartford <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_cases =</span> total_cases <span class="sc">-</span> <span class="fu">lag</span>(total_cases))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(hartford, <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 14 × 5
-   date       town     new_positives total_cases total_deaths
-   &lt;date&gt;     &lt;chr&gt;            &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
- 1 2022-06-07 Hartford         42099       33542          417
- 2 2022-06-08 Hartford         42126       33560          417
- 3 2022-06-09 Hartford         42154       33574          417
- 4 2022-06-10 Hartford         42185       33601          417
- 5 2022-06-13 Hartford         42255       33645          417
- 6 2022-06-14 Hartford         42286       33673          417
- 7 2022-06-15 Hartford         42327       33698          417
- 8 2022-06-16 Hartford         42345       33714          417
- 9 2022-06-17 Hartford         42383       33742          417
-10 2022-06-20 Hartford         42451       33789          417
-11 2022-06-21 Hartford         42467       33798          417
-12 2022-06-22 Hartford         42499       33814          417
-13 2022-06-23 Hartford         42519       33822          417
-14 2022-06-24 Hartford         42545       33844          417</code></pre>
+   date       town     total_cases total_deaths new_cases
+   &lt;date&gt;     &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+ 1 2022-06-07 Hartford       33542          417        20
+ 2 2022-06-08 Hartford       33560          417        18
+ 3 2022-06-09 Hartford       33574          417        14
+ 4 2022-06-10 Hartford       33601          417        27
+ 5 2022-06-13 Hartford       33645          417        44
+ 6 2022-06-14 Hartford       33673          417        28
+ 7 2022-06-15 Hartford       33698          417        25
+ 8 2022-06-16 Hartford       33714          417        16
+ 9 2022-06-17 Hartford       33742          417        28
+10 2022-06-20 Hartford       33789          417        47
+11 2022-06-21 Hartford       33798          417         9
+12 2022-06-22 Hartford       33814          417        16
+13 2022-06-23 Hartford       33822          417         8
+14 2022-06-24 Hartford       33844          417        22</code></pre>
 </div>
 </div>
-<p>Two weeks of Hartford data, with new daily positives and running totals. This is the foundation the briefing will be built on — clean, sorted, and scoped to the question.</p>
-<p>Note that <code>total_cases</code> is cumulative: it only goes up. <code>new_positives</code> is the count of new positive tests reported for that date — that is the number to watch when asking whether things are getting worse.</p>
+<p>The very first row has no “yesterday” to subtract, so <code>lag()</code> gives it <code>NA</code> there — expected, not a bug.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Handle “as reported” data with care
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>new_cases</code> here is only as good as the reporting behind it. Real pandemic data was reported in batches — weekends and holidays often showed artificially low counts followed by a backlog dump on the next business day, and health departments regularly went back and revised earlier totals as duplicate tests were removed or late results came in. That means <code>new_cases</code> can come out <em>negative</em> on a day when a correction lowered a previous total, even though nothing was actually “un-reported.” This wasn’t a quirk of this dataset specifically — it was one of the most persistent, genuinely frustrating problems in tracking COVID-19 nationally. It’s worth remembering any time “new cases” is computed by subtracting two “as of” snapshots instead of coming from a system that recorded each case on the day it actually happened.</p>
+</div>
+</div>
 </section>
-<section id="saving-our-data-artifact" class="level2" data-number="3.9">
-<h2 data-number="3.9" class="anchored" data-anchor-id="saving-our-data-artifact"><span class="header-section-number">3.9</span> Saving our data artifact</h2>
+<section id="putting-it-together" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="putting-it-together"><span class="header-section-number">3.8</span> Putting it together</h2>
+<p>Each step above modified <code>hartford</code> and saved it back. We can write that entire chain as one pipeline:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hartford <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  covid_data <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Town <span class="sc">==</span> <span class="st">"Hartford"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="st">`</span><span class="at">Last update date</span><span class="st">`</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">town =</span> Town,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_cases =</span> <span class="st">`</span><span class="at">Total cases</span><span class="st">`</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_deaths =</span> <span class="st">`</span><span class="at">Total deaths</span><span class="st">`</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">parse_date</span>(date, <span class="at">format =</span> <span class="st">"%m/%d/%Y"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_cases =</span> total_cases <span class="sc">-</span> <span class="fu">lag</span>(total_cases))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="what-does-the-data-say" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="what-does-the-data-say"><span class="header-section-number">3.9</span> What does the data say?</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(hartford, <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 5
+   date       town     total_cases total_deaths new_cases
+   &lt;date&gt;     &lt;chr&gt;          &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+ 1 2022-06-07 Hartford       33542          417        20
+ 2 2022-06-08 Hartford       33560          417        18
+ 3 2022-06-09 Hartford       33574          417        14
+ 4 2022-06-10 Hartford       33601          417        27
+ 5 2022-06-13 Hartford       33645          417        44
+ 6 2022-06-14 Hartford       33673          417        28
+ 7 2022-06-15 Hartford       33698          417        25
+ 8 2022-06-16 Hartford       33714          417        16
+ 9 2022-06-17 Hartford       33742          417        28
+10 2022-06-20 Hartford       33789          417        47
+11 2022-06-21 Hartford       33798          417         9
+12 2022-06-22 Hartford       33814          417        16
+13 2022-06-23 Hartford       33822          417         8
+14 2022-06-24 Hartford       33844          417        22</code></pre>
+</div>
+</div>
+<p>Two weeks of Hartford data, with daily new cases and running totals. This is the foundation the briefing will be built on — clean, sorted, and scoped to the question.</p>
+<p>Note that <code>total_cases</code> is cumulative: it only goes up. <code>new_cases</code> is the day-over-day change we just computed — that’s the number to watch when asking whether things are getting worse, with the reporting caveat above kept in mind.</p>
+</section>
+<section id="saving-our-data-artifact" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="saving-our-data-artifact"><span class="header-section-number">3.10</span> Saving our data artifact</h2>
 <p>Imagine that these hartford data was the end goal - now would be the time to save the data in memory to a file in our <code>data/processed/</code> folder.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(...)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(...)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">

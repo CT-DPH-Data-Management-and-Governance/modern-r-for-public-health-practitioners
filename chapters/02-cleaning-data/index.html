@@ -2,21 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A project-based course for public health practitioners who want to become confident R users by buidling a report that grows with every chapter.">
+<meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
 <title>4&nbsp; Cleaning Data – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -69,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/03-data-visualization/index.html" rel="next">
+<link href="../../chapters/02-cleaning-data/project.html" rel="next">
 <link href="../../chapters/01-working-with-real-data/project.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -77,10 +80,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b8374de3cc97b70cb80b3e51e6241be7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-55df8ce663cc047543eef862d22f2715.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -163,13 +166,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Introduction and Process</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/00-orientation/index.html" class="sidebar-item-text sidebar-link">
@@ -205,125 +208,234 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cleaning Data</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/02-cleaning-data/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cleaning the Full Report</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Building a Dataset</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/building-a-dataset/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Building a Dataset</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Data Analysis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/data-analysis/describing-and-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/data-analysis/modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Data Visualization</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/03-data-visualization/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/03-data-visualization/mapview-leaflet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/03-data-visualization/project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Building This Week’s Briefing Deck</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Intermediate R: Automating the Manual Steps</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Checkpoint</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/04-project-checkin/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Managing Code</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Intermediate R: Automating the Manual Steps</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/apis-functions/project.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Implementing APIs into our Analysis</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/03-data-visualization/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../chapters/03-data-visualization/mapview-leaflet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Interactive Maps: mapview &amp; leaflet</span></span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
  <span class="menu-text">Security Basics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/secrets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Managing Secrets</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
  <span class="menu-text">Further Reading</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/joins.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/excel-files.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Working with Excel Files</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/reading-data-gotchas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Reading Data: Formats and Gotchas</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/writing-files.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/further-reading/epi-packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Data Library</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/data-library/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">Glossary</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/glossary/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
       </ul>
@@ -340,9 +452,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#installing-packages" id="toc-installing-packages" class="nav-link active" data-scroll-target="#installing-packages"><span class="header-section-number">4.1</span> Installing Packages</a></li>
   <li><a href="#janitor" id="toc-janitor" class="nav-link" data-scroll-target="#janitor"><span class="header-section-number">4.2</span> <code>janitor</code></a></li>
-  <li><a href="#tidyr" id="toc-tidyr" class="nav-link" data-scroll-target="#tidyr"><span class="header-section-number">4.3</span> <code>tidyr</code></a></li>
-  <li><a href="#stringr" id="toc-stringr" class="nav-link" data-scroll-target="#stringr"><span class="header-section-number">4.4</span> <code>stringr</code></a></li>
-  <li><a href="#lubridate" id="toc-lubridate" class="nav-link" data-scroll-target="#lubridate"><span class="header-section-number">4.5</span> <code>lubridate</code></a></li>
+  <li><a href="#lubridate" id="toc-lubridate" class="nav-link" data-scroll-target="#lubridate"><span class="header-section-number">4.3</span> <code>lubridate</code></a>
+  <ul class="collapse">
+  <li><a href="#working-with-dates" id="toc-working-with-dates" class="nav-link" data-scroll-target="#working-with-dates"><span class="header-section-number">4.3.1</span> Working with Dates</a></li>
+  <li><a href="#converting-to-dates-with-as_date" id="toc-converting-to-dates-with-as_date" class="nav-link" data-scroll-target="#converting-to-dates-with-as_date"><span class="header-section-number">4.3.2</span> Converting to dates with <code>as_date()</code></a></li>
+  <li><a href="#pulling-out-the-day-of-the-week-with-wday" id="toc-pulling-out-the-day-of-the-week-with-wday" class="nav-link" data-scroll-target="#pulling-out-the-day-of-the-week-with-wday"><span class="header-section-number">4.3.3</span> Pulling out the day of the week with <code>wday()</code></a></li>
+  </ul></li>
+  <li><a href="#tidyr" id="toc-tidyr" class="nav-link" data-scroll-target="#tidyr"><span class="header-section-number">4.4</span> <code>tidyr</code></a>
+  <ul class="collapse">
+  <li><a href="#reshaping-with-pivot_wider-and-pivot_longer" id="toc-reshaping-with-pivot_wider-and-pivot_longer" class="nav-link" data-scroll-target="#reshaping-with-pivot_wider-and-pivot_longer"><span class="header-section-number">4.4.1</span> Reshaping with <code>pivot_wider()</code> and <code>pivot_longer()</code></a></li>
+  <li><a href="#handling-missing-values-with-drop_na-and-replace_na" id="toc-handling-missing-values-with-drop_na-and-replace_na" class="nav-link" data-scroll-target="#handling-missing-values-with-drop_na-and-replace_na"><span class="header-section-number">4.4.2</span> Handling missing values with <code>drop_na()</code> and <code>replace_na()</code></a></li>
+  <li><a href="#splitting-and-combining-columns-with-separate-and-unite" id="toc-splitting-and-combining-columns-with-separate-and-unite" class="nav-link" data-scroll-target="#splitting-and-combining-columns-with-separate-and-unite"><span class="header-section-number">4.4.3</span> Splitting and combining columns with <code>separate()</code> and <code>unite()</code></a></li>
+  </ul></li>
+  <li><a href="#stringr-and-glue" id="toc-stringr-and-glue" class="nav-link" data-scroll-target="#stringr-and-glue"><span class="header-section-number">4.5</span> <code>stringr</code> and <code>glue</code></a>
+  <ul class="collapse">
+  <li><a href="#detecting-patterns-with-str_detect" id="toc-detecting-patterns-with-str_detect" class="nav-link" data-scroll-target="#detecting-patterns-with-str_detect"><span class="header-section-number">4.5.1</span> Detecting patterns with <code>str_detect()</code></a></li>
+  <li><a href="#changing-case-with-str_to_title-and-friends" id="toc-changing-case-with-str_to_title-and-friends" class="nav-link" data-scroll-target="#changing-case-with-str_to_title-and-friends"><span class="header-section-number">4.5.2</span> Changing case with <code>str_to_title()</code> and friends</a></li>
+  <li><a href="#trimming-whitespace-with-str_trim" id="toc-trimming-whitespace-with-str_trim" class="nav-link" data-scroll-target="#trimming-whitespace-with-str_trim"><span class="header-section-number">4.5.3</span> Trimming whitespace with <code>str_trim()</code></a></li>
+  <li><a href="#replacing-values-with-str_replace" id="toc-replacing-values-with-str_replace" class="nav-link" data-scroll-target="#replacing-values-with-str_replace"><span class="header-section-number">4.5.4</span> Replacing values with <code>str_replace()</code></a></li>
+  <li><a href="#building-sentences-with-glue" id="toc-building-sentences-with-glue" class="nav-link" data-scroll-target="#building-sentences-with-glue"><span class="header-section-number">4.5.5</span> Building sentences with <code>glue()</code></a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/02-cleaning-data/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -374,7 +503,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p><strong>Packages covered in this part:</strong> <a href="https://sfirke.github.io/janitor/">janitor</a>, <a href="https://tidyr.tidyverse.org/">tidyr</a>, <a href="https://stringr.tidyverse.org/">stringr</a>, <a href="https://lubridate.tidyverse.org/">lubridate</a></p>
+<p><strong>Packages covered in this part:</strong> <a href="https://sfirke.github.io/janitor/">janitor</a>, <a href="https://lubridate.tidyverse.org/">lubridate</a>, <a href="https://tidyr.tidyverse.org/">tidyr</a>, <a href="https://stringr.tidyverse.org/">stringr</a>, <a href="https://glue.tidyverse.org/">glue</a></p>
 </div>
 </div>
 </div>
@@ -386,8 +515,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"janitor"</span>, <span class="co"># for cleaning names and basic data cleaning</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyr"</span>, <span class="co"># for reshaping data</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"stringr"</span>, <span class="co"># for working with text</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"lubridate"</span> <span class="co"># for working with dates</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"glue"</span>, <span class="co"># for string interpolation</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"lubridate"</span> <span class="co"># for working with dates</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -396,26 +526,517 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Data come in all shapes and sizes, and it is difficult to come up with a single approach that will fit every situation. However, there are some common patterns that show up frequently in public health data. This chapter will cover some of the most common data cleaning tasks and the R packages that can help you accomplish them.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load up our raw data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>csv_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"ct_covid_by_town_2026-06-30.csv"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(csv_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="janitor" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="janitor"><span class="header-section-number">4.2</span> <code>janitor</code></h2>
-<p>TODO: clean_names(), tabyl(), get_dupes(), other janitor basics.</p>
+<p>By now you’ve probably noticed that the column names in our <code>covid_data</code> aren’t very easy to work with. They contain spaces and mixed case that are difficult to reference due to R’s case-sensitive nature. Other data may have special characters, punctuation, or extra white space in the names of their columns.</p>
+<p>The <code>janitor</code> package has a function called <code>clean_names()</code> that can help with this. It will convert column names to lower case, replace spaces with underscores, and remove special characters. This makes it much easier to work with the data in R. You could recreate this functionality from scratch, but <code>clean_names()</code> is a convenient and well-tested function that saves time and effort and is such an easy package to recommend.</p>
+<p>Recall the names of our <code>covid_data</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#subset of the names</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(covid_data) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Last update date" "Town number"      "Town"             "Total cases"     
+[5] "Confirmed cases" </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="ot">&lt;-</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  covid_data <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(covid_clean) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "last_update_date" "town_number"      "town"             "total_cases"     
+[5] "confirmed_cases" </code></pre>
+</div>
+</div>
+<p>A single function call - it is that simple. The <code>janitor</code> package has a lot of other useful functions for cleaning, and even presenting data in a more readable format. We’ll cover some of those later, but it’s worth exploring the package documentation in the callout above too.</p>
 </section>
-<section id="tidyr" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="tidyr"><span class="header-section-number">4.3</span> <code>tidyr</code></h2>
-<p>TODO: pivot_longer(), pivot_wider(), drop_na()/replace_na(), separate/unite.</p>
+<section id="lubridate" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="lubridate"><span class="header-section-number">4.3</span> <code>lubridate</code></h2>
+<section id="working-with-dates" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="working-with-dates"><span class="header-section-number">4.3.1</span> Working with Dates</h3>
+<p>Earlier in the book we covered <code>readr</code>’s parsing functions for reading in dates. <code>readr</code> is great, but there is a package whose only job is to work with dates and it makes incredibly ergonomical and intuitive.</p>
+<p>You may have noticed that the <code>last_update_date</code> column in our <code>covid_clean</code> isn’t considered a date in R, but rather a character string. If you’re not going to be manipulating the dates, this isn’t a problem. However, if you want to do any date math - such as calculating the number of days between two dates, or filtering for dates within a certain range - you’ll need to convert the character string to a date object.</p>
+<p>Take a look at <code>last_update_date</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(last_update_date) <span class="sc">|&gt;</span> <span class="co"># select ONLY this column</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="co"># slice the first 5 rows - kind of like head()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 1
+  last_update_date
+  &lt;chr&gt;           
+1 06/24/2022      
+2 06/24/2022      
+3 06/24/2022      
+4 06/24/2022      
+5 06/24/2022      </code></pre>
+</div>
+</div>
+<p>Date format jargon is easy to lose track of, and with <code>lubridate</code> you don’t have to remember it. Those dates look like the month, then the day, then the year.</p>
+<p>We will tell lubridate that the date is in the month-day-year format by using its <code>mdy()</code> function and it handles the rest.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we are going to change the character string to a date and then save the changes</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># back to itself</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="ot">&lt;-</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">last_update_date =</span> <span class="fu">mdy</span>(last_update_date)) <span class="co"># mutate for manipulating columns</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(last_update_date) <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 1
+  last_update_date
+  &lt;date&gt;          
+1 2022-06-24      
+2 2022-06-24      
+3 2022-06-24      
+4 2022-06-24      
+5 2022-06-24      </code></pre>
+</div>
+</div>
+<p>Did you catch the <code>&lt;date&gt;</code> below the column name in the output? It is a date now and can be seen in R’s standard date format. We can now do date operations on this column.</p>
+<p>We can do simple things like this…</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many days are in the dataset?</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(covid_clean<span class="sc">$</span>last_update_date) <span class="sc">-</span> <span class="fu">min</span>(covid_clean<span class="sc">$</span>last_update_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time difference of 822 days</code></pre>
+</div>
+</div>
+<p>or more complex things like this…</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># average total deaths per calendar week - demonstration purposes only</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">week =</span> <span class="fu">floor_date</span>(last_update_date, <span class="st">"week"</span>)) <span class="sc">|&gt;</span> <span class="co"># here we are using lubridate's floor_date() to round down to the nearest week</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_total_deaths =</span> <span class="fu">mean</span>(total_deaths, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> <span class="co"># here we are using dplyr's summarise() to calculate the average total deaths per week</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  week       avg_total_deaths
+  &lt;date&gt;                &lt;dbl&gt;
+1 2020-03-22            0.118
+2 2020-03-29            0.530
+3 2020-04-05            1.95 
+4 2020-04-12            4.87 
+5 2020-04-19            9.01 </code></pre>
+</div>
+</div>
+<p><code>mdy()</code> isn’t the only parser in the family. <code>lubridate</code> has a parsing function for every common date order - the function name spells out the order of year (<code>y</code>), month (<code>m</code>), and day (<code>d</code>) that it expects in the string:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">"2026-06-30"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-06-30"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mdy</span>(<span class="st">"06/30/2026"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-06-30"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(<span class="st">"30-06-2026"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-06-30"</code></pre>
+</div>
+</div>
+<p>Pick whichever one matches the order used in your source data - no format string, no <code>strptime</code> codes to look up.</p>
+<p>It is important to keep in mind what folks want to do with these data and then clean them in a manner that will make it easier to do those things.</p>
 </section>
-<section id="stringr" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="stringr"><span class="header-section-number">4.4</span> <code>stringr</code></h2>
-<p>TODO: str_detect(), str_replace(), str_trim(), str_to_title() and friends.</p>
+<section id="converting-to-dates-with-as_date" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="converting-to-dates-with-as_date"><span class="header-section-number">4.3.2</span> Converting to dates with <code>as_date()</code></h3>
+<p>Sometimes a column is already a date-<em>time</em> (<code>POSIXct</code>), with hours, minutes, and seconds attached, but the analysis only needs the calendar date. <code>as_date()</code> truncates it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>() <span class="co"># a datetime, with a time attached</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-07-24 15:18:18 EDT"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">now</span>() <span class="sc">|&gt;</span> <span class="fu">as_date</span>() <span class="co"># a calendar date, time dropped</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-07-24"</code></pre>
+</div>
+</div>
 </section>
-<section id="lubridate" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="lubridate"><span class="header-section-number">4.5</span> <code>lubridate</code></h2>
-<p>TODO: ymd(), as_date(), wday(), floor_date() and other date parsing basics.</p>
+<section id="pulling-out-the-day-of-the-week-with-wday" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="pulling-out-the-day-of-the-week-with-wday"><span class="header-section-number">4.3.3</span> Pulling out the day of the week with <code>wday()</code></h3>
+<p>CT DPH published new case counts on a schedule, and gaps or slowdowns in reporting often line up with weekends. <code>wday()</code> extracts the day of the week from a date, and <code>label = TRUE</code> gives you a readable name instead of a number:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(last_update_date) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day_of_week =</span> <span class="fu">wday</span>(last_update_date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(day_of_week)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+  day_of_week     n
+  &lt;ord&gt;       &lt;int&gt;
+1 Sun            57
+2 Mon           112
+3 Tue           118
+4 Wed           117
+5 Thu           115
+6 Fri            72
+7 Sat            14</code></pre>
+</div>
+</div>
+<p>That count is a quick way to check whether report dates cluster on certain days of the week - useful for spotting reporting cadence, or gaps, before you build anything downstream that assumes daily data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>The <code>lubridate</code> family, at a glance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ymd()</code>, <code>mdy()</code>, <code>dmy()</code></td>
+<td>Parse a character string into a date, given the order of year/month/day</td>
+</tr>
+<tr class="even">
+<td><code>as_date()</code></td>
+<td>Convert a datetime (<code>POSIXct</code>) down to a calendar date</td>
+</tr>
+<tr class="odd">
+<td><code>wday(x, label = TRUE)</code></td>
+<td>Extract the day of the week as a name</td>
+</tr>
+<tr class="even">
+<td><code>floor_date(x, "week")</code></td>
+<td>Round a date down to the start of its week</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="tidyr" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="tidyr"><span class="header-section-number">4.4</span> <code>tidyr</code></h2>
+<p><code>tidyr</code> is a wonderful package for creating and reshaping <a href="https://tidyr.tidyverse.org/articles/tidy-data.html">tidy data</a>.</p>
+<p>Pivoting data is a common usecase for <code>tidyr</code>. Our <code>covid_clean</code> dataset as-is, is probably fine for most usecases. However, it was not uncommon for similar data to be presented in a wider format during the pandemic. Let’s purposely un-tidy our data by making it wide and use the town names as the column names, something that should be a value in the data. We will then take our wide ‘messy’ data and make it tidy again in a longer format.</p>
+<section id="reshaping-with-pivot_wider-and-pivot_longer" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="reshaping-with-pivot_wider-and-pivot_longer"><span class="header-section-number">4.4.1</span> Reshaping with <code>pivot_wider()</code> and <code>pivot_longer()</code></h3>
+<p><code>pivot_wider()</code> takes a longer dataset and makes it wider.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>wide <span class="ot">&lt;-</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> last_update_date, <span class="co"># this uniquely identifies each row in the dataset</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> town, <span class="co"># think to yourself, "what do I want to use as the new column names?"</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> total_cases, <span class="co"># think to yourself, "what do I want to use as the values in the new columns?"</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"cases_"</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>wide <span class="sc">|&gt;</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 170
+  last_update_date cases_andover cases_ansonia cases_ashford cases_avon
+  &lt;date&gt;                   &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+1 2022-06-24                 514          4911           744       3030
+2 2022-06-23                 512          4904           744       3020
+3 2022-06-22                 512          4900           742       3015
+4 2022-06-21                 512          4898           742       3010
+5 2022-06-20                 511          4892           741       3005
+6 2022-06-17                 506          4887           738       2999
+# ℹ 165 more variables: cases_barkhamsted &lt;dbl&gt;, cases_beacon_falls &lt;dbl&gt;,
+#   cases_berlin &lt;dbl&gt;, cases_bethany &lt;dbl&gt;, cases_bethel &lt;dbl&gt;,
+#   cases_bethlehem &lt;dbl&gt;, cases_bloomfield &lt;dbl&gt;, cases_bolton &lt;dbl&gt;,
+#   cases_bozrah &lt;dbl&gt;, cases_branford &lt;dbl&gt;, cases_bridgeport &lt;dbl&gt;,
+#   cases_bridgewater &lt;dbl&gt;, cases_bristol &lt;dbl&gt;, cases_brookfield &lt;dbl&gt;,
+#   cases_brooklyn &lt;dbl&gt;, cases_burlington &lt;dbl&gt;, cases_canaan &lt;dbl&gt;,
+#   cases_canterbury &lt;dbl&gt;, cases_canton &lt;dbl&gt;, cases_chaplin &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<p>Goodness - that is a lot of columns!</p>
+<p>Now let’s take that wide dataset and make it long again.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  wide <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">!</span>last_update_date, <span class="co"># pivot everything BUT last_update_date. You can also use a helper: starts_with("cases_")</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"town"</span>, <span class="co"># this is the name of the new column that will contain the town names</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"total_cases"</span> <span class="co"># this is the name of the new column that will contain the total cases</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>long <span class="sc">|&gt;</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  last_update_date town               total_cases
+  &lt;date&gt;           &lt;chr&gt;                    &lt;dbl&gt;
+1 2022-06-24       cases_andover              514
+2 2022-06-24       cases_ansonia             4911
+3 2022-06-24       cases_ashford              744
+4 2022-06-24       cases_avon                3030
+5 2022-06-24       cases_barkhamsted          527
+6 2022-06-24       cases_beacon_falls        1306</code></pre>
+</div>
+</div>
+</section>
+<section id="handling-missing-values-with-drop_na-and-replace_na" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="handling-missing-values-with-drop_na-and-replace_na"><span class="header-section-number">4.4.2</span> Handling missing values with <code>drop_na()</code> and <code>replace_na()</code></h3>
+<p>Not every column was filled in from day one. Early in the pandemic, CT DPH hadn’t started splitting cases into confirmed vs.&nbsp;probable yet - <code>confirmed_cases</code> and <code>probable_cases</code> are <code>NA</code> for the earliest reports.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">missing_confirmed =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(confirmed_cases)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  missing_confirmed
+              &lt;int&gt;
+1             11492</code></pre>
+</div>
+</div>
+<p>That’s a real gap, not a typo, and you have two honest ways to handle it depending on what comes next.</p>
+<p><code>drop_na()</code> removes rows missing a given column - use it when an analysis genuinely needs the confirmed/probable breakdown and rows without it can’t contribute:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(confirmed_cases) <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 90753</code></pre>
+</div>
+</div>
+<p><code>replace_na()</code> keeps every row and fills the gap with a value you choose:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">confirmed_cases =</span> <span class="dv">0</span>, <span class="at">probable_cases =</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(last_update_date, confirmed_cases, probable_cases) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  last_update_date confirmed_cases probable_cases
+  &lt;date&gt;                     &lt;dbl&gt;          &lt;dbl&gt;
+1 2022-06-24                   439             75
+2 2022-06-24                  4222            689
+3 2022-06-24                   671             73
+4 2022-06-24                  2773            257
+5 2022-06-24                   490             37
+6 2022-06-24                  1163            143</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Filling <code>NA</code> with <code>0</code> says “this was measured, and the answer was zero.” That’s not what happened here - the confirmed/probable split simply wasn’t being tracked yet. Replacing with <code>0</code> would make early 2020 look like it had zero confirmed cases, which is misleading in a public health report. <code>drop_na()</code> or leaving the <code>NA</code> in place is usually the more honest choice; only reach for <code>replace_na()</code> when missing genuinely does mean the same thing as zero (or whatever value you’re filling in with).</p>
+</div>
+</div>
+</section>
+<section id="splitting-and-combining-columns-with-separate-and-unite" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="splitting-and-combining-columns-with-separate-and-unite"><span class="header-section-number">4.4.3</span> Splitting and combining columns with <code>separate()</code> and <code>unite()</code></h3>
+<p>Sometimes several pieces of information need to travel together in one column - a “2026-06” style label for grouping by month, for example. <code>unite()</code> glues columns together with a separator:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dates_split <span class="ot">&lt;-</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">report_year =</span> <span class="fu">year</span>(last_update_date),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">report_month =</span> <span class="fu">month</span>(last_update_date)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(last_update_date, report_year, report_month) <span class="sc">|&gt;</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>dates_united <span class="ot">&lt;-</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  dates_split <span class="sc">|&gt;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="at">col =</span> <span class="st">"year_month"</span>, report_year, report_month, <span class="at">sep =</span> <span class="st">"-"</span>, <span class="at">remove =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>dates_united <span class="sc">|&gt;</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  last_update_date year_month report_year report_month
+  &lt;date&gt;           &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
+1 2022-06-24       2022-6            2022            6
+2 2022-06-23       2022-6            2022            6
+3 2022-06-22       2022-6            2022            6
+4 2022-06-21       2022-6            2022            6
+5 2022-06-20       2022-6            2022            6
+6 2022-06-17       2022-6            2022            6</code></pre>
+</div>
+</div>
+<p><code>separate()</code> does the reverse - split one column into several using a separator to know where to break it apart:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>dates_united <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(last_update_date, year_month) <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> year_month, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>), <span class="at">sep =</span> <span class="st">"-"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  last_update_date year  month
+  &lt;date&gt;           &lt;chr&gt; &lt;chr&gt;
+1 2022-06-24       2022  6    
+2 2022-06-23       2022  6    
+3 2022-06-22       2022  6    
+4 2022-06-21       2022  6    
+5 2022-06-20       2022  6    
+6 2022-06-17       2022  6    </code></pre>
+</div>
+</div>
+<p>Just like the wide/long round trip earlier, <code>unite()</code> and <code>separate()</code> are inverses of each other - whichever shape a report or a join needs, the other function gets you back.</p>
+</section>
+</section>
+<section id="stringr-and-glue" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="stringr-and-glue"><span class="header-section-number">4.5</span> <code>stringr</code> and <code>glue</code></h2>
+<p>Public health data is full of free text - town names, facility names, notes fields, category labels typed by different people at different times. <code>stringr</code> gives you consistent functions for detecting, replacing, and reshaping that text. <code>glue</code> turns data into sentences, useful for report text, labels, and messages that need to fill in with real values from your dataset instead of being copy-pasted by hand.</p>
+<section id="detecting-patterns-with-str_detect" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="detecting-patterns-with-str_detect"><span class="header-section-number">4.5.1</span> Detecting patterns with <code>str_detect()</code></h3>
+<p><code>str_detect()</code> returns <code>TRUE</code>/<code>FALSE</code> for whether a pattern appears in each string. Use it inside <code>filter()</code> to keep only rows that match.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(town) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(town, <span class="st">"New"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 1
+  town         
+  &lt;chr&gt;        
+1 New Britain  
+2 New Canaan   
+3 New Fairfield
+4 New Hartford 
+5 New Haven    
+6 Newington    
+7 New London   
+8 New Milford  
+9 Newtown      </code></pre>
+</div>
+</div>
+<p>That caught more than towns actually named “New Something” - <code>Newington</code> and <code>Newtown</code> matched too, because <code>str_detect()</code> looks for the pattern anywhere in the string. Anchor the pattern to the start with <code>^</code> and require a space after “New” to match only the compound names:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(town) <span class="sc">|&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(town, <span class="st">"^New "</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 1
+  town         
+  &lt;chr&gt;        
+1 New Britain  
+2 New Canaan   
+3 New Fairfield
+4 New Hartford 
+5 New Haven    
+6 New London   
+7 New Milford  </code></pre>
+</div>
+</div>
+</section>
+<section id="changing-case-with-str_to_title-and-friends" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="changing-case-with-str_to_title-and-friends"><span class="header-section-number">4.5.2</span> Changing case with <code>str_to_title()</code> and friends</h3>
+<p>Data entered by hand rarely agrees on case. <code>str_to_upper()</code>, <code>str_to_lower()</code>, and <code>str_to_title()</code> normalize it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="st">"HARTFORD"</span> <span class="sc">|&gt;</span> <span class="fu">str_to_title</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hartford"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="st">"hartford"</span> <span class="sc">|&gt;</span> <span class="fu">str_to_upper</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "HARTFORD"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="st">"Hartford"</span> <span class="sc">|&gt;</span> <span class="fu">str_to_lower</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "hartford"</code></pre>
+</div>
+</div>
+<p>Reach for <code>str_to_title()</code> when preparing labels for a plot or report where you want consistent, presentable capitalization no matter how the value happened to be stored.</p>
+</section>
+<section id="trimming-whitespace-with-str_trim" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="trimming-whitespace-with-str_trim"><span class="header-section-number">4.5.3</span> Trimming whitespace with <code>str_trim()</code></h3>
+<p>Stray leading or trailing whitespace is invisible in a viewer but breaks joins and comparisons. <code>str_trim()</code> removes it:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="st">"  Hartford   "</span> <span class="sc">|&gt;</span> <span class="fu">str_trim</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hartford"</code></pre>
+</div>
+</div>
+<p>If a <code>filter()</code> or a join isn’t matching rows you know should match, whitespace like this is one of the first things worth checking.</p>
+</section>
+<section id="replacing-values-with-str_replace" class="level3" data-number="4.5.4">
+<h3 data-number="4.5.4" class="anchored" data-anchor-id="replacing-values-with-str_replace"><span class="header-section-number">4.5.4</span> Replacing values with <code>str_replace()</code></h3>
+<p><code>str_replace()</code> swaps the first match of a pattern; <code>str_replace_all()</code> swaps every match. Both take the same three arguments: the string, the pattern to find, and the replacement.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(town) <span class="sc">|&gt;</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(town, <span class="st">"^New "</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">short_name =</span> <span class="fu">str_replace</span>(town, <span class="st">"^New "</span>, <span class="st">"N. "</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+  town          short_name  
+  &lt;chr&gt;         &lt;chr&gt;       
+1 New Britain   N. Britain  
+2 New Canaan    N. Canaan   
+3 New Fairfield N. Fairfield
+4 New Hartford  N. Hartford 
+5 New Haven     N. Haven    
+6 New London    N. London   
+7 New Milford   N. Milford  </code></pre>
+</div>
+</div>
+</section>
+<section id="building-sentences-with-glue" class="level3" data-number="4.5.5">
+<h3 data-number="4.5.5" class="anchored" data-anchor-id="building-sentences-with-glue"><span class="header-section-number">4.5.5</span> Building sentences with <code>glue()</code></h3>
+<p><code>glue()</code> interpolates R values directly into a string. Wrap any expression in <code>{}</code> and it is evaluated and inserted in place:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>town_name <span class="ot">&lt;-</span> <span class="st">"Hartford"</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>case_count <span class="ot">&lt;-</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(town <span class="sc">==</span> town_name, last_update_date <span class="sc">==</span> <span class="fu">max</span>(last_update_date)) <span class="sc">|&gt;</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(total_cases)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glue</span>(<span class="st">"As of the latest report, {town_name} had {case_count} total cases."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>As of the latest report, Hartford had 33844 total cases.</code></pre>
+</div>
+</div>
+<p><code>glue()</code> also works row-by-row against a data frame column, which is the more common way you’ll use it in practice:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(last_update_date <span class="sc">==</span> <span class="fu">max</span>(last_update_date)) <span class="sc">|&gt;</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary =</span> <span class="fu">glue</span>(<span class="st">"{town}: {total_cases} total cases, {total_deaths} deaths"</span>)</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Andover: 514 total cases, 6 deaths
+Ansonia: 4911 total cases, 49 deaths
+Ashford: 744 total cases, 5 deaths</code></pre>
+</div>
+</div>
+<p>This is the kind of line that goes straight into an automated report - no manually copying numbers into a sentence, and no risk of a stale number left over from last week’s version.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -826,8 +1447,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/03-data-visualization/index.html" class="pagination-link" aria-label="Visualizing Your Data">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/02-cleaning-data/project.html" class="pagination-link" aria-label="Cleaning the Full Report">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cleaning the Full Report</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

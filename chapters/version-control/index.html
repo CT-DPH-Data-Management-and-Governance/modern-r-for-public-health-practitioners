@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>13&nbsp; Version Control – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -37,8 +72,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/apis-functions/index.html" rel="next">
+<link href="../../chapters/04-project-checkin/index.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/version-control/index.html">Managing Code</a></li><li class="breadcrumb-item"><a href="../../chapters/version-control/index.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -269,16 +304,16 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
  <span class="menu-text">Managing Code</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/version-control/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/version-control/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></span></a>
   </div>
 </li>
@@ -415,17 +450,29 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#what-git-is" id="toc-what-git-is" class="nav-link active" data-scroll-target="#what-git-is"><span class="header-section-number">13.1</span> What Git Is</a></li>
+  <li><a href="#why-its-important" id="toc-why-its-important" class="nav-link" data-scroll-target="#why-its-important"><span class="header-section-number">13.2</span> Why It’s Important</a></li>
+  <li><a href="#installing-git" id="toc-installing-git" class="nav-link" data-scroll-target="#installing-git"><span class="header-section-number">13.3</span> Installing Git</a></li>
+  <li><a href="#intro-to-the-command-line" id="toc-intro-to-the-command-line" class="nav-link" data-scroll-target="#intro-to-the-command-line"><span class="header-section-number">13.4</span> Intro to the Command Line</a></li>
+  <li><a href="#the-happy-path-workflow" id="toc-the-happy-path-workflow" class="nav-link" data-scroll-target="#the-happy-path-workflow"><span class="header-section-number">13.5</span> The Happy Path Workflow</a>
+  <ul class="collapse">
+  <li><a href="#turn-a-folder-into-a-repository-once" id="toc-turn-a-folder-into-a-repository-once" class="nav-link" data-scroll-target="#turn-a-folder-into-a-repository-once"><span class="header-section-number">13.5.1</span> 1. Turn a folder into a repository — once</a></li>
+  <li><a href="#check-whats-changed" id="toc-check-whats-changed" class="nav-link" data-scroll-target="#check-whats-changed"><span class="header-section-number">13.5.2</span> 2. Check what’s changed</a></li>
+  <li><a href="#stage-the-changes-you-want-to-save" id="toc-stage-the-changes-you-want-to-save" class="nav-link" data-scroll-target="#stage-the-changes-you-want-to-save"><span class="header-section-number">13.5.3</span> 3. Stage the changes you want to save</a></li>
+  <li><a href="#commit-save-the-snapshot" id="toc-commit-save-the-snapshot" class="nav-link" data-scroll-target="#commit-save-the-snapshot"><span class="header-section-number">13.5.4</span> 4. Commit — save the snapshot</a></li>
+  <li><a href="#review-the-history" id="toc-review-the-history" class="nav-link" data-scroll-target="#review-the-history"><span class="header-section-number">13.5.5</span> 5. Review the history</a></li>
+  <li><a href="#putting-it-together" id="toc-putting-it-together" class="nav-link" data-scroll-target="#putting-it-together"><span class="header-section-number">13.5.6</span> Putting it together</a></li>
+  </ul></li>
+  <li><a href="#branches" id="toc-branches" class="nav-link" data-scroll-target="#branches"><span class="header-section-number">13.6</span> Branches</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/version-control/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/version-control/index.html">Managing Code</a></li><li class="breadcrumb-item"><a href="../../chapters/version-control/index.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></h1>
 </div>
 
 
@@ -442,23 +489,253 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
+<p>You have a project folder with a script and a data file in it. Right now, the only history of that project is whatever you remember. This chapter fixes that.</p>
+<p>This is a <strong>gentle</strong> introduction — just enough to work safely day to day. Remotes and collaborating with a team on GitHub are worth exploring once this part feels comfortable, but they’re beyond what we cover here. For now: what git is, why it matters, how to install it, enough command line to drive it, the everyday workflow, and branches.</p>
+<section id="what-git-is" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="what-git-is"><span class="header-section-number">13.1</span> What Git Is</h2>
+<p>Git is a tool that saves snapshots of a folder over time, on purpose, with a note attached to each one.</p>
+<p>If you’ve ever used “Track Changes” in Word, or kept files named <code>report_v1.docx</code>, <code>report_v2.docx</code>, <code>report_FINAL.docx</code>, <code>report_FINAL_really.docx</code> — you’ve already felt the problem git solves. Instead of guessing which version is current, git keeps every saved snapshot, labeled, in order, forever. You choose when to save a snapshot (that’s called a <strong>commit</strong>), and you write a short note explaining why.</p>
+<p>A few terms you’ll see everywhere:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Repository</strong> (repo)</td>
+<td>A project folder that git is tracking</td>
+</tr>
+<tr class="even">
+<td><strong>Commit</strong></td>
+<td>A saved snapshot of the whole folder, plus a message</td>
+</tr>
+<tr class="odd">
+<td><strong>Staging</strong></td>
+<td>Choosing <em>which</em> changes go into the next commit</td>
+</tr>
+<tr class="even">
+<td><strong>History</strong></td>
+<td>The full list of commits, oldest to newest</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
+<section id="why-its-important" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="why-its-important"><span class="header-section-number">13.2</span> Why It’s Important</h2>
+<p><strong>It’s an audit trail.</strong> Every commit records what changed, when, and why. When someone asks “where did this number come from,” you don’t just show the script — you show exactly which version of the script produced it.</p>
+<p><strong>It’s a safety net.</strong> Made a change that broke everything? Every previous commit is still there. You can always get back to a version that worked.</p>
+<p><strong>It’s how modern teams share code.</strong> Emailing zip files back and forth doesn’t scale past one person. Git — paired with a hosting service like GitHub — is how public health teams, CDC, and academic epi groups actually collaborate on code today.</p>
+<p><strong>It catches the honest mistakes.</strong> A filter that quietly drops a few towns, a column overwritten by accident, a formula copied one row short — these hide easily in a file that only ever gets edited in place, with nothing kept of what it looked like an hour ago. With git, “wait, when did this change, and what did it look like before” stops being a guessing game and becomes a <code>git log</code> and a diff.</p>
+</section>
+<section id="installing-git" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="installing-git"><span class="header-section-number">13.3</span> Installing Git</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Install git before continuing
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
+<li><strong>Windows:</strong> download and run the installer from <a href="https://git-scm.com/downloads">git-scm.com</a>. Accept the defaults.</li>
+<li><strong>macOS:</strong> open Terminal and run <code>git --version</code>. If it isn’t already installed, macOS will prompt you to install the Xcode Command Line Tools — accept that.</li>
+<li><strong>Linux:</strong> use your package manager, e.g.&nbsp;<code>sudo apt install git</code> (Debian/Ubuntu) or <code>sudo dnf install git</code> (Fedora).</li>
 </ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+</div>
+</div>
+<p>Once installed, confirm it worked:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You should see something like <code>git version 2.43.0</code>. Exact number doesn’t matter — any reasonably recent version is fine.</p>
+<p>One-time setup, so your commits are labeled with your name:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"you@example.com"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="intro-to-the-command-line" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="intro-to-the-command-line"><span class="header-section-number">13.4</span> Intro to the Command Line</h2>
+<p>Git’s full power lives on the command line. RStudio and Positron both have a <strong>Terminal</strong> tab/pane (next to the Console) — that’s a command line sitting right inside your IDE. Open it now; you’ll use it for the rest of this chapter.</p>
+<p>A few commands you’ll lean on, regardless of operating system:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pwd</code></td>
+<td>Print working directory — where am I right now?</td>
+</tr>
+<tr class="even">
+<td><code>ls</code> (<code>dir</code> on Windows)</td>
+<td>List files in the current folder</td>
+</tr>
+<tr class="odd">
+<td><code>cd folder-name</code></td>
+<td>Change directory — move into <code>folder-name</code></td>
+</tr>
+<tr class="even">
+<td><code>cd ..</code></td>
+<td>Move up one level</td>
+</tr>
+</tbody>
+</table>
+<p>The terminal always has a <strong>current location</strong>, same idea as <code>here()</code> from chapter 1 but for the shell instead of R. Before running git commands, make sure you’re inside your project folder:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> covid-briefing</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-happy-path-workflow" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="the-happy-path-workflow"><span class="header-section-number">13.5</span> The Happy Path Workflow</h2>
+<p>This is the loop you’ll repeat, day in and day out. Five steps.</p>
+<section id="turn-a-folder-into-a-repository-once" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="turn-a-folder-into-a-repository-once"><span class="header-section-number">13.5.1</span> 1. Turn a folder into a repository — once</h3>
+<p>Inside <code>covid-briefing/</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This creates a hidden <code>.git</code> folder. That’s git’s database — all your history lives there. You only run <code>git init</code> once per project.</p>
+</section>
+<section id="check-whats-changed" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="check-whats-changed"><span class="header-section-number">13.5.2</span> 2. Check what’s changed</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is your most-used git command. It tells you what’s new, what’s modified, and what git isn’t tracking yet. Run it constantly — it never changes anything, it only reports.</p>
+</section>
+<section id="stage-the-changes-you-want-to-save" class="level3" data-number="13.5.3">
+<h3 data-number="13.5.3" class="anchored" data-anchor-id="stage-the-changes-you-want-to-save"><span class="header-section-number">13.5.3</span> 3. Stage the changes you want to save</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add scripts/01_import.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Staging means “include this file in the <em>next</em> commit.” You can stage one file, several, or everything:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>git add .</code> stages every changed file in the current folder and below. Fine for now — the difference between staging some files versus all of them matters more once you’re working with others, which is a further-reading topic.</p>
+</section>
+<section id="commit-save-the-snapshot" class="level3" data-number="13.5.4">
+<h3 data-number="13.5.4" class="anchored" data-anchor-id="commit-save-the-snapshot"><span class="header-section-number">13.5.4</span> 4. Commit — save the snapshot</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Import raw COVID data and inspect structure"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>-m</code> flag attaches your message right there. Write it like you’re telling a colleague what you did and why — future you <em>is</em> that colleague.</p>
+</section>
+<section id="review-the-history" class="level3" data-number="13.5.5">
+<h3 data-number="13.5.5" class="anchored" data-anchor-id="review-the-history"><span class="header-section-number">13.5.5</span> 5. Review the history</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This lists every commit: who, when, and the message. <code>git log --oneline</code> gives you a compact one-line-per-commit view once your history grows.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The mental model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Three places your work can live: the <strong>working directory</strong> (files on disk, as you’re editing them), the <strong>staging area</strong> (what you’ve marked for the next commit with <code>git add</code>), and the <strong>repository</strong> (committed history, safe in <code>.git</code>). <code>git status</code> tells you what’s in each. <code>git add</code> moves changes to staging. <code>git commit</code> moves staging into history.</p>
+</div>
+</div>
+</section>
+<section id="putting-it-together" class="level3" data-number="13.5.6">
+<h3 data-number="13.5.6" class="anchored" data-anchor-id="putting-it-together"><span class="header-section-number">13.5.6</span> Putting it together</h3>
+<p>A normal working session looks like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status               <span class="co"># see what changed</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add data/processed/  <span class="co"># stage the files you want to save</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status                <span class="co"># confirm what's staged</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Clean town names and drop test rows"</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span>         <span class="co"># confirm it landed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Repeat that loop every time you reach a working, meaningful checkpoint — not just at the end of the day. Small, frequent commits with clear messages are worth far more later than one giant commit called “updates.”</p>
+</section>
+</section>
+<section id="branches" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="branches"><span class="header-section-number">13.6</span> Branches</h2>
+<p>So far your commits have piled up in a single line, one after another, on a branch called <code>main</code>. That’s the default name git gives the line of history you start with.</p>
+<p>A <strong>branch</strong> is a second line of history that splits off from <code>main</code>. You commit onto the branch instead of onto <code>main</code>, so <code>main</code> sits exactly where it was — still working, still the version you’d hand to someone — while you experiment somewhere else.</p>
+<p>Here’s the concrete case. Your <code>covid-briefing/</code> project already produces a choropleth of case rate by town, and that map went out in last week’s briefing. Now you want to see whether test positivity tells a better story. That means rewriting a chunk of the plotting script, and you have no idea yet if it’ll work out. You don’t want the version that produced last week’s map to be in pieces on your disk while you find out.</p>
+<p>So put the experiment on a branch:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> try-positivity-map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>-c</code> means “create.” That one command makes the branch and moves you onto it. From here, every commit you make lands on <code>try-positivity-map</code> and <code>main</code> stays untouched.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>git checkout -b</code> does the same thing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Older tutorials and most StackOverflow answers use <code>git checkout -b try-positivity-map</code>. It’s the same operation. <code>git switch</code> is the newer, narrower command — <code>checkout</code> does several unrelated jobs, which is exactly why it confused people for years. Use <code>switch</code>; recognize <code>checkout -b</code> when you see it.</p>
+</div>
+</div>
+<p>To see what branches exist and which one you’re on:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The current branch is marked with a <code>*</code>. <code>git status</code> tells you too, on its first line.</p>
+<p>Work on the branch exactly the way you already know — edit, <code>git add</code>, <code>git commit</code>. When you want to look at the old version again:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Your files on disk actually change
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This surprises everyone the first time. Switching branches rewrites the contents of your project folder to match that branch. Open the plotting script after <code>git switch main</code> and the positivity code is <em>gone</em> — it’s back on <code>try-positivity-map</code>, safe, but not on disk right now. Switch back and it returns.</p>
+<p>Git isn’t losing your work. The folder is just showing you one branch at a time. Commit before you switch, and nothing goes missing.</p>
+</div>
+</div>
+<p>Say the positivity map turns out better and you want it to become the real version. Go to <code>main</code> and merge the branch in:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge try-positivity-map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>main</code> now contains the branch’s commits. The experiment graduated.</p>
+<p>Once it’s merged, the branch has served its purpose and you can clean it up:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> try-positivity-map</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The lowercase <code>-d</code> only deletes branches that have already been merged, so it won’t quietly throw away work you haven’t brought over yet.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>git switch -c name</code></td>
+<td>Create a branch and move onto it</td>
+</tr>
+<tr class="even">
+<td><code>git branch</code></td>
+<td>List branches, <code>*</code> marks the current one</td>
+</tr>
+<tr class="odd">
+<td><code>git switch main</code></td>
+<td>Go back to <code>main</code></td>
+</tr>
+<tr class="even">
+<td><code>git merge name</code></td>
+<td>Bring <code>name</code>’s commits into the current branch</td>
+</tr>
+<tr class="odd">
+<td><code>git branch -d name</code></td>
+<td>Delete a branch you’ve already merged</td>
+</tr>
+</tbody>
+</table>
+<p>One thing you’ll eventually hit: if two branches changed the <em>same lines</em> of the <em>same file</em>, git can’t decide which version wins and asks you to sort it out. That’s a <strong>merge conflict</strong>. Working alone on one branch at a time, you’ll rarely see one — and resolving them is a topic for when you start sharing work with other people.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This chapter stops at your local history, and local history is genuinely enough to work safely on your own — snapshots, an audit trail, and room to experiment. When you’re ready to share your work or collaborate with colleagues, pushing your repository to GitHub is the natural next step.</p>
+</div>
+</div>
 
 
 </section>
@@ -866,13 +1143,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/04-project-checkin/index.html" class="pagination-link" aria-label="Checkpoint: Where the Project Stands">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/apis-functions/index.html" class="pagination-link" aria-label="Working with APIs and Functions">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Working with APIs and Functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1161,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/version-control/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>

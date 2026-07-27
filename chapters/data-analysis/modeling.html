@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>8&nbsp; Modeling: Adjusted Effect Estimates – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -37,8 +72,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/03-data-visualization/index.html" rel="next">
+<link href="../../chapters/data-analysis/describing-and-testing.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/data-analysis/describing-and-testing.html">Data Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/data-analysis/modeling.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -200,13 +235,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Data Analysis</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/data-analysis/describing-and-testing.html" class="sidebar-item-text sidebar-link">
@@ -215,7 +250,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-analysis/modeling.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/data-analysis/modeling.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></span></a>
   </div>
 </li>
@@ -415,17 +450,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#from-cross-tab-to-model" id="toc-from-cross-tab-to-model" class="nav-link active" data-scroll-target="#from-cross-tab-to-model"><span class="header-section-number">8.1</span> From cross-tab to model</a></li>
+  <li><a href="#fit-a-logistic-regression" id="toc-fit-a-logistic-regression" class="nav-link" data-scroll-target="#fit-a-logistic-regression"><span class="header-section-number">8.2</span> Fit a logistic regression</a></li>
+  <li><a href="#odds-ratios-with-broom" id="toc-odds-ratios-with-broom" class="nav-link" data-scroll-target="#odds-ratios-with-broom"><span class="header-section-number">8.3</span> Odds ratios with broom</a></li>
+  <li><a href="#the-tidymodels-way" id="toc-the-tidymodels-way" class="nav-link" data-scroll-target="#the-tidymodels-way"><span class="header-section-number">8.4</span> The tidymodels way</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up"><span class="header-section-number">8.5</span> Wrap-up</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/data-analysis/modeling.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/data-analysis/describing-and-testing.html">Data Analysis</a></li><li class="breadcrumb-item"><a href="../../chapters/data-analysis/modeling.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Modeling: Adjusted Effect Estimates</span></h1>
 </div>
 
 
@@ -442,23 +480,230 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages covered in this part:</strong> <a href="https://dplyr.tidyverse.org/">dplyr</a>, <a href="https://cran.r-project.org/package=broom">broom</a></p>
+</div>
+</div>
+</div>
+<p>The <a href="../../chapters/data-analysis/describing-and-testing.html">previous chapter</a> left you with a cliffhanger. Your cross-tabs showed two clear things: case fatality climbs steeply with age, and — separately — hospitalized cases die far more often than non-hospitalized ones. Both are real signals. But they’re tangled together. Older people are <em>also</em> the ones most likely to be hospitalized, so when you look at hospitalization and death in a cross-tab, some of what you’re seeing is really just age wearing a different hat.</p>
+<p>A two-way table can’t pull those apart. It only ever looks at one relationship at a time. What you need is a way to ask: <em>what is the effect of age on death, holding hospitalization and sex constant?</em> And at the same time, <em>what is the effect of hospitalization, holding age and sex constant?</em> That “holding the others constant” is exactly what a <strong>regression</strong> does, and it’s exactly what a stakeholder means when they ask for <strong>adjusted effect estimates</strong>.</p>
+<p>This chapter fits a <strong>logistic regression</strong> — the workhorse model for a yes/no outcome like <em>died</em> — and reads the results as <strong>odds ratios</strong> with confidence intervals. If this is your first model in R, don’t worry: we’ll take it a piece at a time and translate every number into a plain sentence.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>This models fake data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Everything here runs on the <strong>synthetic</strong> line-list from the <a href="../../chapters/building-a-dataset/index.html">Building a Dataset</a> chapter. The town names and case counts are real, but every age, sex, hospitalization, and death was randomly generated. The patterns are real-<em>shaped</em> — deaths really do skew old — but <strong>no row is a real person.</strong> Never report one of these odds ratios as a real finding. They exist only so you can practice the mechanics on data that behaves like the real thing.</p>
+</div>
+</div>
+<section id="from-cross-tab-to-model" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="from-cross-tab-to-model"><span class="header-section-number">8.1</span> From cross-tab to model</h2>
+<p>The previous chapter’s tools — chi-square, Fisher’s, the trend test — each answer a question about <em>one</em> pair of variables. Regression answers a different kind of question: given <em>several</em> predictors at once, what does each one contribute on its own? The model estimates every effect <strong>net of the others</strong>, which is the whole point. When it tells you the odds ratio for age, that number already has hospitalization and sex accounted for.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>This chapter uses broom
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ll use <strong>broom</strong> to turn the model’s output into a tidy data frame. It may not be installed yet. In your own <code>covid-briefing/</code> project, install it once with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"broom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you’re building this book from its repository (which uses <code>renv</code>), install it into the project library instead and record it in the lockfile:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">install</span>(<span class="st">"broom"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>broom</code> takes the somewhat awkward object that <code>glm()</code> hands back and turns it into a clean, rectangular data frame you can read, filter, and drop into a report — the same shape as everything else you’ve worked with.</p>
+</div>
+</div>
 </section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
+<section id="fit-a-logistic-regression" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="fit-a-logistic-regression"><span class="header-section-number">8.2</span> Fit a logistic regression</h2>
+<p>A little prep first. Two small but important setup moves before we fit anything.</p>
+<p><strong>First, an ordered age variable with a deliberate reference level.</strong> A regression with a categorical predictor doesn’t estimate an effect for <em>every</em> level — it picks one level as the baseline (the “reference”) and reports every other level <em>relative to it</em>. We make <code>age_group</code> a <code>factor</code> and put <code>"18-49"</code> first, which makes it the reference. That’s a choice with meaning: healthy working-age adults are the natural comparison group, so every age odds ratio will read as “compared to a 18–49-year-old.” Reference-first is a habit worth building.</p>
+<p><strong>Second, a numeric 0/1 outcome.</strong> Logistic regression models the probability of an <em>event</em> happening, so it needs the outcome coded as <code>1</code> for the event (died) and <code>0</code> for not. Our <code>died</code> column is <code>"Yes"</code>/<code>"No"</code> text; <code>as.integer(died == "Yes")</code> turns it into exactly the <code>1</code>/<code>0</code> the model wants.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model_data <span class="ot">&lt;-</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  linelist <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_group =</span> <span class="fu">factor</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">case_when</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&lt;</span> <span class="dv">18</span> <span class="sc">~</span> <span class="st">"0-17"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">~</span> <span class="st">"18-49"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"50-64"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&lt;</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"65-79"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cn">TRUE</span>     <span class="sc">~</span> <span class="st">"80+"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"18-49"</span>, <span class="st">"0-17"</span>, <span class="st">"50-64"</span>, <span class="st">"65-79"</span>, <span class="st">"80+"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">died_flag =</span> <span class="fu">as.integer</span>(died <span class="sc">==</span> <span class="st">"Yes"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now the model itself. <code>glm()</code> — <strong>g</strong>eneralized <strong>l</strong>inear <strong>m</strong>odel — is the function, and the two arguments that make it a <em>logistic</em> regression are the formula and the <code>family</code>.</p>
+<p>The formula <code>died_flag ~ age_group + sex + hospitalized</code> reads left to right as “<strong>died explained by</strong> age group, plus sex, plus hospitalization.” The <code>~</code> is “is modeled by”; the <code>+</code> signs add predictors. <code>family = binomial</code> is the piece that makes this logistic: it tells <code>glm()</code> the outcome is a yes/no event and to work on the <strong>log-odds</strong> scale rather than fitting a straight line.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  died_flag <span class="sc">~</span> age_group <span class="sc">+</span> sex <span class="sc">+</span> hospitalized,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> model_data,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = died_flag ~ age_group + sex + hospitalized, family = binomial, 
+    data = model_data)
+
+Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)     -5.40346    0.11523 -46.894  &lt; 2e-16 ***
+age_group0-17   -1.68075    0.51183  -3.284  0.00102 ** 
+age_group50-64   0.78213    0.15321   5.105 3.31e-07 ***
+age_group65-79   2.49119    0.12776  19.499  &lt; 2e-16 ***
+age_group80+     4.00982    0.12665  31.660  &lt; 2e-16 ***
+sexMale          0.02561    0.07499   0.341  0.73275    
+hospitalizedYes  1.41159    0.08274  17.060  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 8421.1  on 35221  degrees of freedom
+Residual deviance: 5696.3  on 35215  degrees of freedom
+AIC: 5710.3
+
+Number of Fisher Scoring iterations: 9</code></pre>
+</div>
+</div>
+<p><code>summary()</code> prints the full model report — the same one SAS’s <code>PROC LOGISTIC</code> would give you, if you’re coming from that world. There’s a lot there, but the key thing to know right now is that the numbers in the <code>Estimate</code> column are on the <strong>log-odds</strong> scale. A log-odds coefficient is nearly impossible to read directly — nobody thinks in log-odds. That’s why we almost never stop here. The next step converts these into <strong>odds ratios</strong>, which you <em>can</em> read.</p>
+</section>
+<section id="odds-ratios-with-broom" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="odds-ratios-with-broom"><span class="header-section-number">8.3</span> Odds ratios with broom</h2>
+<p>Here’s where <code>broom</code> earns its keep. <code>tidy()</code> takes the model and returns a tidy data frame, one row per term. Two arguments do the heavy lifting: <code>exponentiate = TRUE</code> converts those log-odds coefficients into <strong>odds ratios</strong>, and <code>conf.int = TRUE</code> adds a <strong>95% confidence interval</strong> for each one.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 7
+  term            estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)      0.00450    0.115    -46.9   0          0.00357   0.00560
+2 age_group0-17    0.186      0.512     -3.28  1.02e-  3  0.0569    0.447  
+3 age_group50-64   2.19       0.153      5.10  3.31e-  7  1.62      2.95   
+4 age_group65-79  12.1        0.128     19.5   1.13e- 84  9.44     15.6    
+5 age_group80+    55.1        0.127     31.7   5.50e-220 43.2      71.1    
+6 sexMale          1.03       0.0750     0.341 7.33e-  1  0.886     1.19   
+7 hospitalizedYes  4.10       0.0827    17.1   2.93e- 65  3.49      4.82   </code></pre>
+</div>
+</div>
+<p>Now every number is legible. The <code>estimate</code> column is the odds ratio, and <code>conf.low</code>/<code>conf.high</code> bracket the 95% CI. Here’s how to read an odds ratio:</p>
 <ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
+<li><strong>Greater than 1</strong> means <em>higher</em> odds of the outcome than the reference.</li>
+<li><strong>Less than 1</strong> means <em>lower</em> odds.</li>
+<li><strong>Exactly 1</strong> means no difference at all.</li>
 </ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+<p>And crucially — every one of these is <strong>adjusted</strong> for the other predictors in the model. Walk the age gradient, each compared to the 18–49 reference group:</p>
+<ul>
+<li><strong><code>age_group0-17</code>: 0.19</strong> (95% CI 0.06–0.45). Children have about a fifth the odds of death of a working-age adult — far <em>lower</em>, which is why the OR sits well below 1.</li>
+<li><strong><code>age_group50-64</code>: 2.19</strong> (1.62–2.95). Roughly double the odds.</li>
+<li><strong><code>age_group65-79</code>: 12.1</strong> (9.44–15.6). Twelve times the odds.</li>
+<li><strong><code>age_group80+</code>: 55.1</strong> (43.2–71.1). Fifty-five times the odds of death of a working-age adult — a dramatic age gradient, and all of it <em>after</em> adjusting for whether the person was hospitalized.</li>
+</ul>
+<p>Then the other two predictors:</p>
+<ul>
+<li><strong><code>hospitalizedYes</code>: 4.10</strong> (3.49–4.82). Hospitalized cases have about four times the odds of death — and, importantly, this is the hospitalization effect <em>with age already accounted for</em>. It’s not just older people showing up again in disguise.</li>
+<li><strong><code>sexMale</code>: 1.03</strong> (0.89–1.19). This one is the teaching moment. The odds ratio is a hair above 1, but look at the confidence interval: it runs from 0.89 to <strong>1.19</strong> — it <em>crosses 1</em>.</li>
+</ul>
+<p>That last point deserves its own paragraph. When a confidence interval crosses 1, the data can’t distinguish the effect from “no effect at all.” The interval includes odds ratios below 1 (protective) <em>and</em> above 1 (harmful), so you genuinely cannot say which direction, if any, sex pushes the outcome. This is a <strong>null adjusted estimate</strong>, and it’s a clean, concrete example of one. Contrast it with the previous chapter’s habit of eyeballing a cross-tab and declaring a pattern: here the model gives you a principled way to say “no, there’s nothing to see in this variable” — the interval says so.</p>
+<p>A nice sanity check falls out of all this. Remember <em>how</em> the synthetic data was built: with a strong age effect baked in, no sex effect, and a hospitalization bump. The model <strong>recovered exactly that structure</strong> — a steep age gradient, a null result for sex, a moderate hospitalization effect. When a model reproduces the signal you know is in the data, that’s reassurance about both the model <em>and</em> the data build.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>An odds ratio is not a risk ratio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>People often read an odds ratio as if it were a <em>risk</em> ratio (“55× the risk”), but the two only agree when the outcome is <strong>rare</strong>. For a common outcome the odds ratio exaggerates the risk ratio, sometimes badly. Death is uncommon enough here that the gap is modest, but keep the distinction in mind — say “odds,” not “risk,” when you report an OR.</p>
+</div>
+</div>
+</section>
+<section id="the-tidymodels-way" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="the-tidymodels-way"><span class="header-section-number">8.4</span> The tidymodels way</h2>
+<p>The <code>glm()</code> you just ran is the right tool for this job. When your goal is an <strong>explanatory</strong> model — you want an interpretable effect estimate, an adjusted odds ratio to hand a stakeholder — plain <code>glm()</code> plus <code>broom</code> is lean, clear, and hard to beat.</p>
+<p>There’s another whole ecosystem in the tidyverse for modeling, called <strong>tidymodels</strong>, and it’s worth knowing where it fits. Its real strength is <strong>prediction</strong>: when the goal isn’t “explain” but “forecast,” tidymodels gives you train/test splits, resampling, hyperparameter tuning, and standardized performance metrics, all with a consistent interface. That’s a different job from what we did above.</p>
+<p>But two of tidymodels’ habits are worth borrowing even for an explanatory model: <strong>recipes</strong> for declaring your preprocessing once, and <strong>parsnip</strong> for a model spec you can re-point at a different engine without rewriting. Here’s the same logistic regression, expressed the tidymodels way. We’re showing it as a reference — it does <strong>not</strong> run when the book builds — so you can read the shape of it without needing tidymodels installed:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(workflows)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># died as a factor outcome for classification; first level is the reference</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>model_data <span class="ot">&lt;-</span> model_data <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">died =</span> <span class="fu">factor</span>(died, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. recipe: declare outcome + predictors and preprocessing (dummy-code factors)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>death_recipe <span class="ot">&lt;-</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(died <span class="sc">~</span> age_group <span class="sc">+</span> sex <span class="sc">+</span> hospitalized, <span class="at">data =</span> model_data) <span class="sc">|&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. parsnip spec: logistic regression via the glm engine</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>death_spec <span class="ot">&lt;-</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. workflow bundles preprocessing + model and fits in one place</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>death_fit <span class="ot">&lt;-</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(death_recipe) <span class="sc">|&gt;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(death_spec) <span class="sc">|&gt;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(<span class="at">data =</span> model_data)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># same tidy odds-ratio table, now from the workflow</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(death_fit, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>What each piece buys you:</p>
+<ul>
+<li><strong>recipes</strong> — reproducible preprocessing, declared once and reused. Here it’s just dummy-coding the factors, but the same idea scales: <code>step_other()</code> to collapse rare categories into an “other” bucket, <code>step_normalize()</code> to center and scale continuous predictors, and dozens more. You write the recipe once and every fit and prediction uses the identical steps.</li>
+<li><strong>parsnip</strong> — one model spec, swappable engines. <code>logistic_reg()</code> is the <em>kind</em> of model; <code>set_engine("glm")</code> picks the implementation. Want a penalized version instead? Swap in <code>set_engine("glmnet")</code> and you don’t rewrite the fit.</li>
+<li><strong>workflows</strong> — bundle the recipe and the model together so they can’t drift apart. The preprocessing and the model travel as one object, which is a genuine reproducibility win on a bigger project.</li>
+</ul>
+<p><strong>When should you actually reach for full tidymodels?</strong> When the goal is prediction. That’s when you’ll add <code>rsample</code> for train/test splits and cross-validation, and <code>yardstick</code> for metrics like ROC-AUC and accuracy. For an adjusted odds ratio, though — a single explanatory model you want to interpret — <code>glm()</code> and <code>broom</code> are lighter and clearer, and there’s no prize for over-tooling. The full prediction track lives at <a href="https://www.tidymodels.org/" class="uri">https://www.tidymodels.org/</a>.</p>
+<p>One gotcha to file away: <code>logistic_reg()</code> needs a <strong>factor</strong> outcome (not the 0/1 integer <code>glm()</code> wanted), and tidymodels treats the <strong>first</strong> factor level as the reference — the <em>non</em>-event. That’s why the code above sets the levels as <code>c("No", "Yes")</code> deliberately, so that <code>"Yes"</code> (death) is the event being modeled. Set your factor levels on purpose; don’t let the default alphabetical order decide which outcome you’re predicting.</p>
+</section>
+<section id="wrap-up" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="wrap-up"><span class="header-section-number">8.5</span> Wrap-up</h2>
+<p>You fit a real adjusted model. You took a tangle that a cross-tab couldn’t resolve — is it age, or is it hospitalization? — and got a clean answer for each: an odds ratio, adjusted for the others, with a confidence interval that tells you how much to trust it. You saw a strong effect (age), a moderate one (hospitalization), and a genuinely null one (sex, its CI straddling 1), and you learned to read all three off a single tidy table. And you saw where the tidyverse’s bigger modeling toolkit fits, and where it’s more machine than the job needs.</p>
+<p>One honest gap remains. Everything here is about <strong>odds</strong> — the odds that a <em>known case</em> died. It says nothing about <strong>rates</strong> in a <em>population</em>: age-adjusted death rates, incidence-rate ratios, the per-100,000 measures that much of surveillance runs on. Those need a <strong>population denominator</strong> — how many people live in each town and age band — which this book doesn’t have in its data yet. When a denominator dataset lands, a future chapter can take up rate-based measures. Until then, you’ve got the case-level model that answers the stakeholder’s actual question: the adjusted effect estimates.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Want this chapter as a runnable script? See <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/line-list-practice"><code>project-snapshots/line-list-practice</code></a> on GitHub. <code>03_model_deaths.R</code> is the script version of the logistic regression and odds-ratio table you just built, ready to drop into your <code>scripts/</code> folder.</p>
+</div>
+</div>
 
 
 </section>
@@ -866,13 +1111,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/data-analysis/describing-and-testing.html" class="pagination-link" aria-label="Describing and Testing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Describing and Testing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/03-data-visualization/index.html" class="pagination-link" aria-label="Visualizing Your Data">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualizing Your Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1129,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/data-analysis/modeling.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>

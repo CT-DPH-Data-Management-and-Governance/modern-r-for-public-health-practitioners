@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>22&nbsp; Packages for Epi Work – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -37,8 +37,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/data-library/index.html" rel="next">
+<link href="../../chapters/further-reading/writing-files.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/epi-packages.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -326,13 +326,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
  <span class="menu-text">Further Reading</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/further-reading/index.html" class="sidebar-item-text sidebar-link">
@@ -365,7 +365,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/further-reading/epi-packages.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/further-reading/epi-packages.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></span></a>
   </div>
 </li>
@@ -415,17 +415,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#data-ingestion-getting-data-in-and-out" id="toc-data-ingestion-getting-data-in-and-out" class="nav-link active" data-scroll-target="#data-ingestion-getting-data-in-and-out"><span class="header-section-number">22.1</span> Data ingestion — getting data in and out</a></li>
+  <li><a href="#data-manipulation-and-management-reshaping-and-cleaning" id="toc-data-manipulation-and-management-reshaping-and-cleaning" class="nav-link" data-scroll-target="#data-manipulation-and-management-reshaping-and-cleaning"><span class="header-section-number">22.2</span> Data manipulation and management — reshaping and cleaning</a></li>
+  <li><a href="#data-analysis-describing-your-data" id="toc-data-analysis-describing-your-data" class="nav-link" data-scroll-target="#data-analysis-describing-your-data"><span class="header-section-number">22.3</span> Data analysis — describing your data</a></li>
+  <li><a href="#data-visualization-charts-maps-and-tables" id="toc-data-visualization-charts-maps-and-tables" class="nav-link" data-scroll-target="#data-visualization-charts-maps-and-tables"><span class="header-section-number">22.4</span> Data visualization — charts, maps, and tables</a></li>
+  <li><a href="#reproducible-practices-and-getting-data" id="toc-reproducible-practices-and-getting-data" class="nav-link" data-scroll-target="#reproducible-practices-and-getting-data"><span class="header-section-number">22.5</span> Reproducible practices and getting data</a></li>
+  <li><a href="#a-note-on-this-list" id="toc-a-note-on-this-list" class="nav-link" data-scroll-target="#a-note-on-this-list"><span class="header-section-number">22.6</span> A note on this list</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/further-reading/epi-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/further-reading/index.html">Further Reading</a></li><li class="breadcrumb-item"><a href="../../chapters/further-reading/epi-packages.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></h1>
 </div>
 
 
@@ -442,23 +446,183 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
+<p>R has thousands of packages. That number is genuinely overwhelming when you’re starting out, and you don’t need most of it. Real epidemiology work — loading data, cleaning it, summarizing it, mapping it, sharing it — runs on a small, learnable core. This page is that core: a “which package for which job” map, grouped by task, with a pointer to the chapter where the book actually teaches each one.</p>
+<p>It’s deliberately short and opinionated. It is <strong>not</strong> a tour of CRAN. If a package isn’t here, it’s usually because you don’t need it yet — not because it doesn’t exist.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The tidyverse umbrella
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many of these packages ship together under the <a href="https://www.tidyverse.org/">tidyverse</a>. One <code>library(tidyverse)</code> call loads <code>readr</code>, <code>dplyr</code>, <code>tidyr</code>, <code>stringr</code>, <code>lubridate</code>, <code>ggplot2</code>, and more all at once. The book loads them <strong>individually</strong> so it’s always obvious which package a function comes from — but once you know your way around, the umbrella call is a fine shortcut.</p>
+</div>
+</div>
+<section id="data-ingestion-getting-data-in-and-out" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="data-ingestion-getting-data-in-and-out"><span class="header-section-number">22.1</span> Data ingestion — getting data in and out</h2>
+<p>Reading raw files into R and writing results back out.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>What it’s for</th>
+<th>Where it’s taught</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>readr</code></td>
+<td>Read and write CSVs and other delimited text files</td>
+<td><a href="../../chapters/01-working-with-real-data/index.html">Loading Your First Dataset</a></td>
+</tr>
+<tr class="even">
+<td><code>here</code></td>
+<td>Build project-relative file paths that just work</td>
+<td><a href="../../chapters/01-working-with-real-data/index.html">Loading Your First Dataset</a></td>
+</tr>
+<tr class="odd">
+<td><code>readxl</code></td>
+<td>Read data out of Excel workbooks (<code>.xlsx</code>)</td>
+<td><a href="../../chapters/further-reading/excel-files.html">Working with Excel Files</a></td>
+</tr>
+<tr class="even">
+<td><code>writexl</code></td>
+<td>Write data to Excel workbooks for colleagues who live in Excel</td>
+<td><a href="../../chapters/further-reading/excel-files.html">Working with Excel Files</a></td>
+</tr>
+<tr class="odd">
+<td><code>fs</code></td>
+<td>Work with files and folders — create, copy, list directory trees</td>
+<td><a href="../../chapters/further-reading/writing-files.html">Writing Data Files</a></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
-<ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
-</ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+<section id="data-manipulation-and-management-reshaping-and-cleaning" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="data-manipulation-and-management-reshaping-and-cleaning"><span class="header-section-number">22.2</span> Data manipulation and management — reshaping and cleaning</h2>
+<p>The everyday workhorses. Most of your time is spent here.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>What it’s for</th>
+<th>Where it’s taught</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dplyr</code></td>
+<td>Filter, select, mutate, group, and summarize rows and columns</td>
+<td><a href="../../chapters/01-working-with-real-data/index.html">Loading Your First Dataset</a></td>
+</tr>
+<tr class="even">
+<td><code>tidyr</code></td>
+<td>Reshape between long and wide; pivot, separate, and tidy up</td>
+<td><a href="../../chapters/02-cleaning-data/index.html">Cleaning Data</a></td>
+</tr>
+<tr class="odd">
+<td><code>janitor</code></td>
+<td>Clean messy column names and make quick cross-tabs</td>
+<td><a href="../../chapters/02-cleaning-data/index.html">Cleaning Data</a></td>
+</tr>
+<tr class="even">
+<td><code>lubridate</code></td>
+<td>Parse and do math with dates and times</td>
+<td><a href="../../chapters/02-cleaning-data/index.html">Cleaning Data</a></td>
+</tr>
+<tr class="odd">
+<td><code>stringr</code></td>
+<td>Find, match, and reshape text and character data</td>
+<td><a href="../../chapters/02-cleaning-data/index.html">Cleaning Data</a></td>
+</tr>
+<tr class="even">
+<td><code>glue</code></td>
+<td>Build strings by dropping variables straight into text</td>
+<td><a href="../../chapters/02-cleaning-data/index.html">Cleaning Data</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-analysis-describing-your-data" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="data-analysis-describing-your-data"><span class="header-section-number">22.3</span> Data analysis — describing your data</h2>
+<p>Here’s the honest picture: the book currently does its descriptive work — counts, rates, group summaries — with <code>dplyr::summarise()</code> and friends. That covers a surprising amount of real reporting.</p>
+<p>Dedicated statistics packages (for regression, cross-tabulations, age-adjusted rates, survival, and the like) are a <strong>future addition</strong> to this book rather than something it teaches today. When they arrive, they’ll show up here. For now, <code>dplyr</code> is your analysis engine.</p>
+</section>
+<section id="data-visualization-charts-maps-and-tables" class="level2" data-number="22.4">
+<h2 data-number="22.4" class="anchored" data-anchor-id="data-visualization-charts-maps-and-tables"><span class="header-section-number">22.4</span> Data visualization — charts, maps, and tables</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>What it’s for</th>
+<th>Where it’s taught</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ggplot2</code></td>
+<td>Build charts layer by layer — the standard for R graphics</td>
+<td><a href="../../chapters/03-data-visualization/index.html">Visualizing Your Data</a></td>
+</tr>
+<tr class="even">
+<td><code>sf</code></td>
+<td>Hold and manipulate spatial (geographic) data as tidy tables</td>
+<td><a href="../../chapters/03-data-visualization/index.html">Visualizing Your Data</a></td>
+</tr>
+<tr class="odd">
+<td><code>tigris</code></td>
+<td>Download US Census geographies (town, county, tract boundaries)</td>
+<td><a href="../../chapters/03-data-visualization/index.html">Visualizing Your Data</a></td>
+</tr>
+<tr class="even">
+<td><code>leaflet</code></td>
+<td>Build interactive, zoomable web maps</td>
+<td><a href="../../chapters/03-data-visualization/mapview-leaflet.html">Interactive Maps: mapview &amp; leaflet</a></td>
+</tr>
+<tr class="odd">
+<td><code>mapview</code></td>
+<td>Get a quick interactive look at spatial data in one line</td>
+<td><a href="../../chapters/03-data-visualization/mapview-leaflet.html">Interactive Maps: mapview &amp; leaflet</a></td>
+</tr>
+<tr class="even">
+<td><code>gt</code></td>
+<td>Build polished, publication-ready tables</td>
+<td>Not yet covered — the go-to when the book adds table formatting</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reproducible-practices-and-getting-data" class="level2" data-number="22.5">
+<h2 data-number="22.5" class="anchored" data-anchor-id="reproducible-practices-and-getting-data"><span class="header-section-number">22.5</span> Reproducible practices and getting data</h2>
+<p>Pulling data from the web, and turning your analysis into something you can hand off.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package / Tool</th>
+<th>What it’s for</th>
+<th>Where it’s taught</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>httr2</code></td>
+<td>Talk to web APIs to pull data directly into R</td>
+<td><a href="../../chapters/apis-functions/index.html">Working with APIs and Functions</a></td>
+</tr>
+<tr class="even">
+<td>Quarto</td>
+<td>Turn code, prose, and results into reproducible reports, sites, and documents</td>
+<td>This entire book is built with it — see <a href="https://quarto.org/">quarto.org</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="a-note-on-this-list" class="level2" data-number="22.6">
+<h2 data-number="22.6" class="anchored" data-anchor-id="a-note-on-this-list"><span class="header-section-number">22.6</span> A note on this list</h2>
+<p>This is a small core, chosen so you can actually learn it — not a complete inventory. It will grow as the book grows (dedicated stats and table-formatting packages are on the way). When a task isn’t listed here, that’s usually a sign the book hasn’t taught it yet, and inventing a package for it would only add to the overwhelm this page is trying to cut.</p>
 
 
 </section>
@@ -866,13 +1030,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/further-reading/writing-files.html" class="pagination-link" aria-label="Writing Data Files">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Writing Data Files</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/data-library/index.html" class="pagination-link" aria-label="Data Library">
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1048,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/further-reading/epi-packages.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>

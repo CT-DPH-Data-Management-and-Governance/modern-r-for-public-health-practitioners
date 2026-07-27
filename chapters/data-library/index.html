@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>23&nbsp; Data Library – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -37,8 +37,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/glossary/index.html" rel="next">
+<link href="../../chapters/further-reading/epi-packages.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/data-library/index.html">Data Library</a></li><li class="breadcrumb-item"><a href="../../chapters/data-library/index.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -373,16 +373,16 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
  <span class="menu-text">Data Library</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/data-library/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/data-library/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></span></a>
   </div>
 </li>
@@ -415,17 +415,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#at-a-glance" id="toc-at-a-glance" class="nav-link active" data-scroll-target="#at-a-glance"><span class="header-section-number">23.1</span> At a glance</a></li>
+  <li><a href="#covid-19-tests-cases-and-deaths-by-town" id="toc-covid-19-tests-cases-and-deaths-by-town" class="nav-link" data-scroll-target="#covid-19-tests-cases-and-deaths-by-town"><span class="header-section-number">23.2</span> COVID-19 Tests, Cases, and Deaths by Town</a></li>
+  <li><a href="#covid-19-by-town-2022-excel-demo-slice" id="toc-covid-19-by-town-2022-excel-demo-slice" class="nav-link" data-scroll-target="#covid-19-by-town-2022-excel-demo-slice"><span class="header-section-number">23.3</span> COVID-19 by Town — 2022 Excel demo slice</a></li>
+  <li><a href="#synthetic-covid-19-line-list" id="toc-synthetic-covid-19-line-list" class="nav-link" data-scroll-target="#synthetic-covid-19-line-list"><span class="header-section-number">23.4</span> Synthetic COVID-19 line-list</a></li>
+  <li><a href="#covid-19-cases-and-deaths-by-race-and-ethnicity" id="toc-covid-19-cases-and-deaths-by-race-and-ethnicity" class="nav-link" data-scroll-target="#covid-19-cases-and-deaths-by-race-and-ethnicity"><span class="header-section-number">23.5</span> COVID-19 Cases and Deaths by Race and Ethnicity</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/data-library/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/data-library/index.html">Data Library</a></li><li class="breadcrumb-item"><a href="../../chapters/data-library/index.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Data Library</span></h1>
 </div>
 
 
@@ -442,23 +445,165 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
+<p>This page is the book’s running index of every raw dataset we use — where each one came from, what we do with it, and where to grab it. You’re coding along without cloning the repo, so this is your one-stop shop for pulling down the source data. It starts small and grows as the book grows, so check back when a new chapter introduces a new file.</p>
+<p>Every dataset lives in the top-level <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/data"><code>data/</code> folder</a> of the book’s repository. For each file below you’ll find its original home on the <a href="https://data.ct.gov/">Connecticut Open Data Portal</a> (the “ODP”) plus direct GitHub links — a <strong>blob</strong> link to browse it in the browser and a <strong>raw</strong> link you can hand straight to <code>readr::read_csv()</code> or download with your browser.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>These are snapshots
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The files here are point-in-time snapshots, frozen so the book’s code gives everyone the same results. The live ODP datasets keep updating — the APIs chapter shows you how to pull fresh data straight from the source when you want it.</p>
+</div>
+</div>
+<section id="at-a-glance" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="at-a-glance"><span class="header-section-number">23.1</span> At a glance</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Source</th>
+<th>Where it’s used</th>
+<th>Links</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ct-covid-by-town-2026-06-30.csv</code></td>
+<td>COVID-19 By Town (ARCHIVE), <code>28fr-iqnx</code></td>
+<td>Chapters 1–4 and the maps</td>
+<td><a href="https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data">ODP</a> · <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/ct-covid-by-town-2026-06-30.csv">blob</a> · <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/ct-covid-by-town-2026-06-30.csv">raw</a></td>
+</tr>
+<tr class="even">
+<td><code>covid-2022.csv</code></td>
+<td>2022 slice of <code>28fr-iqnx</code></td>
+<td>Further Reading → Excel files</td>
+<td><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.csv">blob</a> · <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.csv">raw</a></td>
+</tr>
+<tr class="odd">
+<td><code>covid-2022.xlsx</code></td>
+<td>2022 slice of <code>28fr-iqnx</code></td>
+<td>Further Reading → Excel files</td>
+<td><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.xlsx">blob</a> · <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.xlsx">raw</a></td>
+</tr>
+<tr class="even">
+<td><code>synthetic-covid-linelist.csv</code> ⚠️ <strong>fake</strong></td>
+<td>Built from <code>28fr-iqnx</code> counts</td>
+<td>Building a Dataset lesson</td>
+<td><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/synthetic-covid-linelist.csv">blob</a> · <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/synthetic-covid-linelist.csv">raw</a></td>
+</tr>
+<tr class="odd">
+<td><em>not yet downloaded</em></td>
+<td>Cases &amp; Deaths by Race/Ethnicity (ARCHIVE), <code>7rne-efic</code></td>
+<td>Planned — future scenarios</td>
+<td><a href="https://data.ct.gov/Health-and-Human-Services/COVID-19-Cases-and-Deaths-by-Race-Ethnicity-ARCHIV/7rne-efic/about_data">ODP</a> · <a href="https://data.ct.gov/resource/7rne-efic.json">SODA</a></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
+<section id="covid-19-tests-cases-and-deaths-by-town" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="covid-19-tests-cases-and-deaths-by-town"><span class="header-section-number">23.2</span> COVID-19 Tests, Cases, and Deaths by Town</h2>
+<p><strong><code>ct-covid-by-town-2026-06-30.csv</code></strong> is the book’s primary dataset — the one the running analysis is built on. Each row is a Connecticut town’s cumulative COVID-19 tally (cases, deaths, tests, and rates) as of a given report date, so the file is a stack of daily snapshots for all 169 towns.</p>
 <ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
+<li><strong>What we use it for:</strong> it drives the analysis from Chapter 1 through Chapter 4, including the maps in the data visualization chapter.</li>
+<li><strong>Coverage:</strong> 169 CT towns, report dates spanning roughly <strong>2020-03-24 to 2022-06-24</strong>.</li>
+<li><strong>Snapshot taken:</strong> 2026-06-30, from the ODP dataset <strong>“COVID-19 Tests, Cases, and Deaths By Town — ARCHIVE”</strong> (dataset id <code>28fr-iqnx</code>).</li>
 </ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+<p>Links:</p>
+<ul>
+<li>ODP landing page: <a href="https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data" class="uri">https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data</a></li>
+<li>SODA API endpoint (used in the APIs chapter): <a href="https://data.ct.gov/resource/28fr-iqnx.json" class="uri">https://data.ct.gov/resource/28fr-iqnx.json</a></li>
+<li>GitHub (browse): <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/ct-covid-by-town-2026-06-30.csv" class="uri">https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/ct-covid-by-town-2026-06-30.csv</a></li>
+<li>GitHub (raw download): <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/ct-covid-by-town-2026-06-30.csv" class="uri">https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/ct-covid-by-town-2026-06-30.csv</a></li>
+</ul>
+</section>
+<section id="covid-19-by-town-2022-excel-demo-slice" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="covid-19-by-town-2022-excel-demo-slice"><span class="header-section-number">23.3</span> COVID-19 by Town — 2022 Excel demo slice</h2>
+<p><strong><code>covid-2022.csv</code></strong> and <strong><code>covid-2022.xlsx</code></strong> are the same data in two formats: a 2022-only slice of the COVID-by-town dataset above, carved out purely to demonstrate reading Excel files with <code>readxl</code> in Further Reading → <a href="../../chapters/further-reading/excel-files.html">Working with Excel Files</a>.</p>
+<p>Both files carry the same 16 columns as the primary dataset — <code>town</code>, <code>total_cases</code>, <code>confirmed_cases</code>, <code>probable_cases</code>, <code>case_rate</code>, <code>total_deaths</code>, <code>people_tested</code>, <code>number_of_tests</code>, and so on — cleaned up to tidy <code>snake_case</code> names. The slice covers all 169 towns for report dates from <strong>2022-01-03 to 2022-06-24</strong>.</p>
+<p>Links:</p>
+<ul>
+<li><code>covid-2022.csv</code> — <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.csv">browse</a> · <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.csv">raw</a></li>
+<li><code>covid-2022.xlsx</code> — <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.xlsx">browse</a> · <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.xlsx">raw</a></li>
+</ul>
+</section>
+<section id="synthetic-covid-19-line-list" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="synthetic-covid-19-line-list"><span class="header-section-number">23.4</span> Synthetic COVID-19 line-list</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>This one is fake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong><code>synthetic-covid-linelist.csv</code> is not real data.</strong> The town names and case counts come from the real ODP dataset above, but every age, sex, race/ethnicity, date, and outcome is randomly generated. No row is a real person. It exists purely to practice case-level (one-row-per-case) work that the aggregate files can’t support. Never treat it as real DPH records.</p>
+</div>
+</div>
+<p>A synthetic line-list of ~35,000 COVID-19 cases in Hartford County during the winter 2020–2021 surge — one row per case, with simulated demographics, onset and report dates, hospitalization, and death. The <a href="../../chapters/building-a-dataset/index.html">Building a Dataset</a> chapter walks through exactly how it was made, and the generator that produced it is version-controlled at <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data-raw/make-synthetic-linelist.R"><code>data-raw/make-synthetic-linelist.R</code></a> (seeded, so it reproduces byte-for-byte).</p>
+<ul>
+<li>Based on ODP dataset <code>28fr-iqnx</code> (see above), scoped to Hartford County, Dec 2020 – Jan 2021.</li>
+<li>GitHub (browse): <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/synthetic-covid-linelist.csv" class="uri">https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/synthetic-covid-linelist.csv</a></li>
+<li>GitHub (raw download): <a href="https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/synthetic-covid-linelist.csv" class="uri">https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/synthetic-covid-linelist.csv</a></li>
+</ul>
+</section>
+<section id="covid-19-cases-and-deaths-by-race-and-ethnicity" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="covid-19-cases-and-deaths-by-race-and-ethnicity"><span class="header-section-number">23.5</span> COVID-19 Cases and Deaths by Race and Ethnicity</h2>
+<p>Statewide COVID-19 cases and deaths broken out by race and ethnicity, from the ODP dataset <strong>“COVID-19 Cases and Deaths by Race/Ethnicity — ARCHIVE”</strong> (dataset id <code>7rne-efic</code>). It’s earmarked here for future scenarios — a demographic breakdown opens up questions the town-level file can’t answer, like disparities in outcomes across groups.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No local snapshot lives in <code>data/</code> yet. Once you download one and commit it (same date-stamped convention as the other files), fill in its GitHub blob and raw links here and update the “At a glance” row above.</p>
+</div>
+</div>
+<p>Links:</p>
+<ul>
+<li>ODP landing page: <a href="https://data.ct.gov/Health-and-Human-Services/COVID-19-Cases-and-Deaths-by-Race-Ethnicity-ARCHIV/7rne-efic/about_data" class="uri">https://data.ct.gov/Health-and-Human-Services/COVID-19-Cases-and-Deaths-by-Race-Ethnicity-ARCHIV/7rne-efic/about_data</a></li>
+<li>SODA API endpoint: <a href="https://data.ct.gov/resource/7rne-efic.json" class="uri">https://data.ct.gov/resource/7rne-efic.json</a></li>
+</ul>
+<!--
+================================================================================
+ADDING A NEW DATASET — copy this block, drop it above this comment, fill it in.
+
+1. Add a row to the "At a glance" table:
+
+| `your-file.csv` | Human-readable source, `dataset-id` | Where it's used | [ODP](ODP_ABOUT_URL) · [blob](BLOB_URL) · [raw](RAW_URL) |
+
+2. Add a detail subsection:
+
+## Human-readable dataset name
+
+**`your-file.csv`** is a ONE-SENTENCE description of what a row represents.
+
+- **What we use it for:** which chapter(s) and to what end.
+- **Coverage:** geography / date range / row grain.
+- **Snapshot taken:** YYYY-MM-DD, from ODP dataset "NAME" (id `dataset-id`).
+
+Links:
+
+- ODP landing page: <ODP_ABOUT_URL>
+- SODA API endpoint: <https://data.ct.gov/resource/DATASET-ID.json>
+- GitHub (browse): <https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/your-file.csv>
+- GitHub (raw download): <https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/your-file.csv>
+
+Link patterns to fill in:
+  blob : https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/<file>
+  raw  : https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/<file>
+================================================================================
+-->
 
 
 </section>
@@ -866,13 +1011,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/further-reading/epi-packages.html" class="pagination-link" aria-label="Packages for Epi Work">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Packages for Epi Work</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/glossary/index.html" class="pagination-link" aria-label="Glossary">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Glossary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1029,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/data-library/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>

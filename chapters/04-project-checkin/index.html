@@ -8,7 +8,7 @@
 
 <meta name="description" content="A project-based course for public health practitioners who want to become confident R users by building a report that grows with every chapter.">
 
-<title>Preface – Modern R for Public Health Practitioners</title>
+<title>12&nbsp; Checkpoint: Where the Project Stands – Modern R for Public Health Practitioners</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -27,6 +27,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -37,8 +72,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/00-orientation/index.html" rel="next">
-<link href="../../index.html" rel="prev">
+<link href="../../chapters/version-control/index.html" rel="next">
+<link href="../../chapters/03-data-visualization/project.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -89,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/00-orientation/preface.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/04-project-checkin/index.html">Checkpoint</a></li><li class="breadcrumb-item"><a href="../../chapters/04-project-checkin/index.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -125,7 +160,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../chapters/00-orientation/preface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -252,16 +287,16 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
  <span class="menu-text">Checkpoint</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/04-project-checkin/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/04-project-checkin/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></span></a>
   </div>
 </li>
@@ -415,17 +450,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#how-this-book-works" id="toc-how-this-book-works" class="nav-link active" data-scroll-target="#how-this-book-works">How this book works</a></li>
-  <li><a href="#what-you-need-to-bring" id="toc-what-you-need-to-bring" class="nav-link" data-scroll-target="#what-you-need-to-bring">What you need to bring</a></li>
+  <li><a href="#the-arc-so-far" id="toc-the-arc-so-far" class="nav-link active" data-scroll-target="#the-arc-so-far"><span class="header-section-number">12.1</span> The arc so far</a></li>
+  <li><a href="#this-weeks-briefing-summary" id="toc-this-weeks-briefing-summary" class="nav-link" data-scroll-target="#this-weeks-briefing-summary"><span class="header-section-number">12.2</span> This week’s briefing summary</a>
+  <ul class="collapse">
+  <li><a href="#saving-the-checkpoint-artifact" id="toc-saving-the-checkpoint-artifact" class="nav-link" data-scroll-target="#saving-the-checkpoint-artifact"><span class="header-section-number">12.2.1</span> Saving the checkpoint artifact</a></li>
+  </ul></li>
+  <li><a href="#what-your-project-folder-should-look-like-now" id="toc-what-your-project-folder-should-look-like-now" class="nav-link" data-scroll-target="#what-your-project-folder-should-look-like-now"><span class="header-section-number">12.3</span> What your project folder should look like now</a></li>
+  <li><a href="#whats-still-manual" id="toc-whats-still-manual" class="nav-link" data-scroll-target="#whats-still-manual"><span class="header-section-number">12.4</span> What’s still manual</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next"><span class="header-section-number">12.5</span> What’s next</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/04-project-checkin/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/04-project-checkin/index.html">Checkpoint</a></li><li class="breadcrumb-item"><a href="../../chapters/04-project-checkin/index.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Preface</h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Checkpoint: Where the Project Stands</span></h1>
 </div>
 
 
@@ -442,23 +483,161 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This book is for public health practitioners who already know how to do the work — the epidemiology, the surveillance, the briefings — but are being asked to do it in R. Maybe your agency is moving off SAS. Maybe a collaborator handed you a <code>.R</code> file and you want to understand it. Maybe you’ve opened RStudio, stared at a blank script, and closed it again.</p>
-<p>This book is not a general introduction to R. It is not a statistics textbook. It will not teach you epidemiology. It assumes you already have domain knowledge and gives you the R fluency to apply it.</p>
-<p>This book has one job: get a practicing epidemiologist writing, running, and sharing R-based analyses as fast as possible.</p>
-<section id="how-this-book-works" class="level2">
-<h2 class="anchored" data-anchor-id="how-this-book-works">How this book works</h2>
-<p>Every chapter builds on one analysis: a COVID-19 briefing for a state health commissioner. You start with a raw CSV and a blank folder. By the end, you have a self-updating report that pulls live data and publishes itself. Each chapter introduces exactly one new skill and shows you why it earns its place in the workflow — not as an exercise, but as a real improvement to something you built yourself in the chapter before.</p>
-<p>Work through the chapters in order. They are designed to be read with R open in front of you, running the code as you go.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Packages covered in this part:</strong> <a href="https://fs.r-lib.org/">fs</a>, <a href="https://glue.tidyverse.org/">glue</a></p>
+</div>
+</div>
+</div>
+<p>No new package today, no new geometry or verb to learn. This far in, it’s worth stopping to combine everything you’ve built so far into one thing the Commissioner could actually read.</p>
+<section id="the-arc-so-far" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="the-arc-so-far"><span class="header-section-number">12.1</span> The arc so far</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Question it answered</th>
+<th>What it left in <code>covid-briefing/</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>00 — Orientation</td>
+<td>Why R, and how is the project folder organized?</td>
+<td>The scaffold itself, and <code>data/raw/</code> with the CT COVID CSV</td>
+</tr>
+<tr class="even">
+<td>01 — Working with Real Data</td>
+<td>How do I read, inspect, and trust this file?</td>
+<td>A Hartford-only tibble, filtered and column-renamed by hand</td>
+</tr>
+<tr class="odd">
+<td>02 — Cleaning Data</td>
+<td>How do I fix names, dates, and messy text?</td>
+<td><code>covid_clean</code> — every column name fixed, dates parsed, town names trimmed and title-cased</td>
+</tr>
+<tr class="even">
+<td>03 — Data Visualization</td>
+<td>How do I show this to someone who won’t open a CSV?</td>
+<td>A trend chart and a statewide map, saved to <code>outputs/figures/</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each chapter’s project picked up exactly where the last one left off. That’s on purpose — a real analysis rarely restarts from scratch every time a new technique gets introduced.</p>
 </section>
-<section id="what-you-need-to-bring" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-need-to-bring">What you need to bring</h2>
+<section id="this-weeks-briefing-summary" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="this-weeks-briefing-summary"><span class="header-section-number">12.2</span> This week’s briefing summary</h2>
+<p>Charts are great for a slide deck, but sometimes the Commissioner just wants the numbers in a sentence, right now, before the meeting starts. That’s today’s artifact: a short status paragraph built entirely from skills you already have — <code>dplyr</code> to find the numbers, <code>lubridate</code> to know which date counts as “now”, and <code>glue</code> to turn it into English.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>latest_date <span class="ot">&lt;-</span> <span class="fu">max</span>(covid_clean<span class="sc">$</span>last_update_date)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>days_of_data <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(latest_date <span class="sc">-</span> <span class="fu">min</span>(covid_clean<span class="sc">$</span>last_update_date))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>statewide_latest <span class="ot">&lt;-</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(last_update_date <span class="sc">==</span> latest_date) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_cases =</span> <span class="fu">sum</span>(total_cases, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_deaths =</span> <span class="fu">sum</span>(total_deaths, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>hartford_latest <span class="ot">&lt;-</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  covid_clean <span class="sc">|&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(town <span class="sc">==</span> <span class="st">"Hartford"</span>, last_update_date <span class="sc">==</span> latest_date) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(total_cases, total_deaths)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>briefing_summary <span class="ot">&lt;-</span> <span class="fu">glue</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Status as of {latest_date} ({days_of_data} days of data collected):</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Statewide: {format(statewide_latest$total_cases, big.mark = ',')} total cases, "</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"{format(statewide_latest$total_deaths, big.mark = ',')} total deaths.</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hartford: {format(hartford_latest$total_cases, big.mark = ',')} total cases, "</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"{format(hartford_latest$total_deaths, big.mark = ',')} total deaths."</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>briefing_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Status as of 2022-06-24 (822 days of data collected):
+Statewide: 822,459 total cases, 11,032 total deaths.
+Hartford: 33,844 total cases, 417 total deaths.</code></pre>
+</div>
+</div>
+<p>Four lines of code, no new concepts, and a paragraph that’s actually correct as of whatever the latest date in the file happens to be — because it’s computed, not typed in by hand.</p>
+<section id="saving-the-checkpoint-artifact" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="saving-the-checkpoint-artifact"><span class="header-section-number">12.2.1</span> Saving the checkpoint artifact</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_lines</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  briefing_summary,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"outputs"</span>, <span class="st">"tables"</span>, <span class="st">"briefing_summary.txt"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>That text file is this checkpoint’s deliverable, the same way a chart was chapter 3’s — a small, real thing that lives in the project folder and didn’t exist before today.</p>
+</section>
+</section>
+<section id="what-your-project-folder-should-look-like-now" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="what-your-project-folder-should-look-like-now"><span class="header-section-number">12.3</span> What your project folder should look like now</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(here<span class="sc">::</span><span class="fu">here</span>(), <span class="at">recurse =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If you’ve been following along in your own <code>covid-briefing/</code> project, you should see something close to this:</p>
+<pre><code>covid-briefing/
+├── data/
+│   ├── raw/
+│   │   └── ct_covid_by_town_2026-06-30.csv
+│   └── processed/
+│       └── covid_clean.csv        # if you uncommented the write_csv() in ch. 2
+├── R/
+├── scripts/
+├── outputs/
+│   ├── figures/
+│   │   ├── hartford_new_cases.png
+│   │   ├── hartford_vs_state_trend.png
+│   │   └── statewide_positivity_map.png
+│   └── tables/
+│       └── briefing_summary.txt
+└── docs/</code></pre>
+<p>If your folder looks different, that’s fine — the point isn’t to match this tree exactly, it’s to notice that the folder is <em>filling up with real artifacts</em> instead of staying empty. That’s what progress looks like in a data project: not lines of code, but files someone else could open and use.</p>
+</section>
+<section id="whats-still-manual" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="whats-still-manual"><span class="header-section-number">12.4</span> What’s still manual</h2>
+<p>Being honest about the current state of things:</p>
 <ul>
-<li>R and Quarto installed on your machine</li>
-<li>RStudio or Positron as your editor</li>
-<li>A folder where you keep projects</li>
-<li>Epidemiological concepts you already know — rates, counts, surveillance cadence</li>
+<li>Every chapter’s project re-runs the cleaning steps by hand, from the top, in a <code>.qmd</code> file. Nothing here is a function you could call twice.</li>
+<li>The raw CSV is a snapshot someone downloaded once. Nothing fetches new data automatically.</li>
+<li>“Hartford” and the current date are typed directly into the code. Asking about a different town means editing the script, not passing an argument.</li>
+<li>There’s no history of any of this yet — if you overwrite a file by accident, it’s just gone.</li>
 </ul>
-<p>You do not need prior programming experience. You do not need to clone this repository. Everything you need to run is in the book itself.</p>
+<p>None of that is a problem yet — it’s normal for a project this size. It becomes a problem the day someone asks for the same briefing next week, for a different town, without you sitting at the keyboard.</p>
+</section>
+<section id="whats-next" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">12.5</span> What’s next</h2>
+<p>The parts ahead exist to close exactly those gaps:</p>
+<ul>
+<li><strong>Managing Code</strong> — version control, so every change to this project is recorded, reversible, and explainable to someone other than you.</li>
+<li><strong>Intermediate R: Automating the Manual Steps</strong> — turning repeated code into functions, and pulling fresh data straight from the state’s API instead of re-downloading a CSV by hand.</li>
+</ul>
+<p>The scenario hasn’t changed: the Commissioner still wants to know if it’s getting worse in Hartford. What changes from here is how much of the answer you have to rebuild yourself every time someone asks.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Want to compare against a reference? See <a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-04"><code>project-snapshots/after-ch-04</code></a> on GitHub for the full set of <code>scripts/</code> the book has produced so far — run them in order, 01 through 06, and the empty folders fill in with real artifacts.</p>
+</div>
+</div>
 
 
 </section>
@@ -866,13 +1045,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../index.html" class="pagination-link" aria-label="Welcome">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      <a href="../../chapters/03-data-visualization/project.html" class="pagination-link" aria-label="Building This Week's Briefing Deck">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Building This Week’s Briefing Deck</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/00-orientation/index.html" class="pagination-link" aria-label="Modern R and Public Health">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modern R and Public Health</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/version-control/index.html" class="pagination-link" aria-label="Version Control">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Version Control</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -884,7 +1063,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/00-orientation/preface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/edit/main/chapters/04-project-checkin/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Made with <a href="https://quarto.org">Quarto</a> and <a href="https://github.com">GitHub</a>.</p>
 </div>
