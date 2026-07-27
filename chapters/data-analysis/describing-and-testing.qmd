@@ -1,0 +1,289 @@
+---
+title: "Describing and Testing"
+packages: [dplyr, janitor]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+```{r}
+#| label: load-linelist
+#| include: false
+linelist <- read_book_data("synthetic-covid-linelist.csv")
+```
+
+You built a line-list in the last chapter — one row per case, with an age, a
+set of dates, and outcome flags. Now we get to *ask questions of it*. This
+chapter is the everyday inferential toolkit: describe what's in the data,
+cross-tabulate one variable against another, and run the handful of statistical
+tests that answer "is this pattern real, or could it be chance?"
+
+If you're coming from SAS, this is `PROC FREQ` and `PROC MEANS` territory —
+just tidier, and with the whole thing scriptable end to end.
+
+::: {.callout-warning}
+## This analysis runs on fake data
+
+Everything below runs on the **synthetic** line-list from the
+[previous chapter](../building-a-dataset/index.qmd). The town names and case
+counts are real, but every age, sex, date, and outcome was randomly generated.
+The *shape* of the patterns is realistic — deaths really do skew older — but
+**no row is a real person.** Never report these numbers as real, and never let
+one of these tables walk out the door as if it described actual patients.
+:::
+
+## Getting set up
+
+We'll lean on two packages: `dplyr` for the summarising and `janitor` for the
+epi-friendly tables. In your own `covid-briefing/` project you'd start by
+reading the file you built:
+
+```{r}
+#| label: read-linelist-shown
+#| eval: false
+linelist <- read_csv(here("data", "synthetic-covid-linelist.csv"))
+```
+
+Then we recreate the `age_group` column from the previous chapter — most of the
+questions in this chapter are about how outcomes vary *across ages*, and a
+handful of ordered bands is far easier to tabulate than raw years:
+
+```{r}
+#| label: prep
+library(dplyr)
+library(janitor)
+
+linelist <- linelist |>
+  mutate(
+    age_group = case_when(
+      age < 18 ~ "0-17",
+      age < 50 ~ "18-49",
+      age < 65 ~ "50-64",
+      age < 80 ~ "65-79",
+      TRUE     ~ "80+"
+    )
+  )
+```
+
+## Section 1 — Describing what you have
+
+Before any test, look at the data. The first question about almost any outcome
+is simply *how often did it happen?* — counts and percents.
+
+`janitor::tabyl()` is the tool for that. Hand it a column and it returns a tidy
+table of counts and proportions; `adorn_pct_formatting()` turns the raw
+proportions into readable percentages. If you've reached for `PROC FREQ` in
+SAS, this is the same job.
+
+```{r}
+#| label: tabyl-died
+linelist |>
+  tabyl(died) |>
+  adorn_pct_formatting()
+```
+
+That's your case fatality snapshot: about 2.6% of cases in this line-list died.
+`tabyl()` is a data frame like any other, so it drops straight into a report or
+a `gt` table later without any wrestling.
+
+Counts answer "how many." For a continuous variable like age you want the
+*shape* — where the middle sits and how far it spreads. `summarise()` gives you
+whichever statistics you name, and the classic epi move is to compute them
+**split by outcome** so you can compare. Here's "does age differ between people
+who died and people who survived?":
+
+```{r}
+#| label: age-by-outcome
+linelist |>
+  group_by(died) |>
+  summarise(
+    n = n(),
+    mean_age   = round(mean(age), 1),
+    median_age = median(age),
+    min_age    = min(age),
+    max_age    = max(age)
+  )
+```
+
+Read across the two rows and the story jumps out. Among the people who died,
+the mean age is about 74.8 and the median 79; among survivors the mean is 41.4
+and the median 41. Deaths skew old — decades older, on average. The `mean` and
+`median` sitting close together within each group also tells you neither is
+being dragged around by a few extreme outliers.
+
+This one table is often the whole descriptive section of a briefing. But it
+also raises the obvious follow-up: we can *see* that deaths are older, but is
+the association between age and death strong enough to trust? That's what the
+next section is for.
+
+## Section 2 — Cross-tabulation with a statistical test
+
+The natural next step is a **two-way table**: age group down the side, outcome
+across the top. `tabyl()` takes two variables and builds exactly that, and the
+`adorn_*` helpers layer on the pieces you want to see.
+
+```{r}
+#| label: crosstab
+linelist |>
+  tabyl(age_group, died) |>
+  adorn_totals("row") |>
+  adorn_percentages("row") |>
+  adorn_pct_formatting() |>
+  adorn_ns()
+```
+
+There's a lot packed into that pipe, so here's what each adornment does:
+
+- `adorn_totals("row")` adds a totals row across the bottom.
+- `adorn_percentages("row")` converts each cell to a **row** percentage — so
+  each age group's numbers add to 100% *across* its own row.
+- `adorn_pct_formatting()` formats those as percents.
+- `adorn_ns()` puts the raw counts back in, in parentheses, so you never lose
+  sight of how many people each percentage rests on.
+
+Why row percents? Because the row is the age group, so the percentage in the
+`Yes` column is the **case fatality rate within that age group** — exactly the
+number an epidemiologist wants. Reading down that `Yes` column, the CFR climbs
+steadily: roughly 0.1% for 0–17, 0.5% for 18–49, 1.2% for 50–64, 7.2% for
+65–79, and 29.3% for the 80+ group. Nearly three in ten of the oldest cases
+died. That's the association from Section 1, now resolved group by group.
+
+Seeing a trend in a table and *establishing* it statistically are two different
+things. A **chi-square test** asks whether the association between age group and
+outcome could plausibly have arisen by chance if the two were actually
+unrelated.
+
+```{r}
+#| label: chisq
+age_died <- table(linelist$age_group, linelist$died)
+chisq.test(age_died)
+```
+
+`table()` builds the plain contingency table (chi-square wants counts, not
+percentages), and `chisq.test()` does the rest. The null hypothesis is that
+there is **no association** — that outcome doesn't depend on age group. The test
+returns a huge X-squared statistic (around 5176) on 4 degrees of freedom and a
+p-value below 2.2e-16, which is R's way of printing "smaller than I bother to
+show." In plain terms: if age and death were truly unrelated, a table this
+lopsided would essentially never happen. We reject the null.
+
+::: {.callout-warning}
+## A tiny p-value is not a big effect
+
+With this many cases, almost *any* association will come back "significant" —
+the p-value is partly a measure of your sample size. A huge `n` makes the test
+exquisitely sensitive, so it will flag even trivial differences. Don't let a
+row of zeros after the decimal point fool you into thinking you've found
+something important. The **effect size** — the actual jump from 0.1% to 29.3%
+CFR you read off the cross-tab — is what makes this finding matter. The
+p-value only tells you it's not noise; the percentages tell you it's a big
+deal.
+:::
+
+### When cells are small: Fisher's exact test
+
+Chi-square relies on an *approximation* that gets shaky when the expected count
+in any cell is small — the usual rule of thumb is that no expected cell should
+drop below 5. That happens all the time when you slice down to a single small
+town or a rare outcome. **Fisher's exact test** computes the exact probability
+instead of approximating it, so it stays honest on sparse tables.
+
+Let's force the situation by looking at one small town, Hartland:
+
+```{r}
+#| label: fisher
+hartland <- linelist |> filter(town == "Hartland")
+
+table(hartland$hospitalized, hartland$died)
+
+fisher.test(table(hartland$hospitalized, hartland$died))
+```
+
+Hartland has only 59 cases, and the `table()` shows why chi-square would
+struggle: the cells are thin and at least one is a flat zero. `fisher.test()`
+handles that without complaint and returns a p-value of about 0.0018 — strong
+evidence of an association between being hospitalized and dying, even in this
+tiny slice.
+
+The teaching point: **reach for Fisher when the counts are small.** If you run
+`chisq.test()` on a sparse table it'll warn you that the approximation may be
+unreliable — that warning is your cue to switch. On small or zero-heavy tables,
+Fisher is the trustworthy choice.
+
+## Section 3 — Testing a trend in proportions
+
+The stakeholder didn't just ask "is there an association" — they asked about
+**trends in proportions**, like an outcome rising over time or across ordered
+categories. A plain chi-square treats the age groups as unordered labels; it
+would give the same answer if you shuffled them. But our age bands have a
+natural order, and the interesting claim is specifically that CFR *rises
+monotonically* from young to old.
+
+The **test for trend in proportions** (a Cochran–Armitage-style test) is built
+for that. It needs two things in order: the number of deaths in each group, and
+the number of cases in each group. We build those with a grouped
+`summarise()`, then `arrange()` to lock in the order:
+
+```{r}
+#| label: trend
+cfr_by_age <-
+  linelist |>
+  group_by(age_group) |>
+  summarise(deaths = sum(died == "Yes"), n = n()) |>
+  arrange(age_group)
+
+cfr_by_age
+
+prop.trend.test(cfr_by_age$deaths, cfr_by_age$n)
+```
+
+`sum(died == "Yes")` counts the deaths in each group (a `TRUE`/`FALSE` vector
+sums to the number of `TRUE`s), and `n()` counts everyone. `prop.trend.test()`
+takes the deaths and the group sizes and asks: is there a **directional**
+trend in the proportion across these ordered groups?
+
+The result — X-squared around 2919 on 1 degree of freedom, p below 2.2e-16 —
+says yes, emphatically: CFR increases in a clear linear fashion across the age
+bands. Because this test uses the *ordering* of the groups, it's a sharper
+instrument than a plain chi-square when the order is meaningful. It's asking a
+more specific question ("does it trend?") and so gives stronger evidence when
+the answer is yes.
+
+The same machinery answers the stakeholder's "outcome by year" question
+directly: group by year instead of age band, feed the yearly death counts and
+case counts into `prop.trend.test()` **in chronological order**, and you're
+testing whether the outcome trended up or down over time. Any ordered grouping
+— age bands, years, weeks of a wave — works the same way.
+
+## Wrap-up
+
+You can now do the three things that make up the bread-and-butter of case-level
+analysis: **describe** a line-list with counts and summaries, **cross-tabulate**
+two variables and test the association with chi-square or Fisher's exact test,
+and **test a trend** across ordered groups. That's the everyday inferential
+toolkit, and it'll carry you through most routine surveillance questions.
+
+What it *won't* do is untangle variables that move together. Older cases might
+also be more likely to be hospitalized, or to belong to a particular group — and
+these simple tests look at one relationship at a time. The next chapter,
+**Modeling**, is how you get *adjusted* effect estimates that hold age, sex, and
+the rest constant all at once.
+
+::: {.callout-note}
+Want this chapter's work as a runnable script? See
+[`project-snapshots/line-list-practice`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/line-list-practice)
+on GitHub. `02_describe_and_test.R` is the script version of everything above —
+the tabyls, the chi-square, Fisher's, and the trend test — ready to drop into
+your `scripts/` folder.
+:::
