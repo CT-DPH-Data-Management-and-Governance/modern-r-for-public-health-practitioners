@@ -6,7 +6,7 @@ title: "A First Look at Hartford"
 #| label: project-root
 #| include: false
 library(here)
-.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+source(here::here("preamble-data.R"))
 ```
 
 The scenario question from chapter 0: **Is it getting worse in Hartford?**
@@ -32,13 +32,9 @@ covid_data <- read_csv(here("data", "raw", "ct_covid_by_town_2026-06-30.csv"))
 
 library(dplyr)
 library(readr)
-library(fs)
 library(here)
 
-covid_data <- read_csv(fs::path(
-  .chapter_data,
-  "ct-covid-by-town-2026-06-30.csv"
-))
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 ```
 
 ## The pipe
@@ -65,9 +61,13 @@ without writing an intermediate dataset between each one.
 
 | Shortcut | What it does |
 |---|---|
-| `Ctrl+Shift+M` | Insert the pipe `|>` |
+| `Ctrl+Shift+M` | Insert the native pipe, once you turn that option on |
 | `Ctrl+Enter` | Run the current line or selection |
 | `Ctrl+Shift+Enter` | Run the entire current chunk |
+
+Out of the box that shortcut inserts the older `%>%` pipe. Flip it in
+Tools → Global Options → Code → Editing → "Use native pipe operator" and
+you'll get `|>` like the rest of this book.
 
 Learn all three early — you will use them on every line you write.
 :::
@@ -98,7 +98,6 @@ hartford <-
   select(
     date = `Last update date`,
     town = Town,
-    new_positives = `Number of positives`,
     total_cases = `Total cases`,
     total_deaths = `Total deaths`
   )
@@ -140,6 +139,43 @@ hartford <-
 head(hartford)
 ```
 
+## Step 5 — Computing daily new cases
+
+`total_cases` is a running total — it only ever goes up. To see whether
+things are getting *worse* day to day, we need the change between one
+report and the next, not the running total itself. `lag()` shifts a
+column down by one row, so `total_cases - lag(total_cases)` gives
+"today's total minus yesterday's total" — the daily new cases.
+
+```{r}
+hartford <-
+  hartford |>
+  mutate(new_cases = total_cases - lag(total_cases))
+
+tail(hartford, 14)
+```
+
+The very first row has no "yesterday" to subtract, so `lag()` gives it
+`NA` there — expected, not a bug.
+
+::: {.callout-warning}
+## Handle "as reported" data with care
+
+`new_cases` here is only as good as the reporting behind it. Real
+pandemic data was reported in batches — weekends and holidays often
+showed artificially low counts followed by a backlog dump on the next
+business day, and health departments regularly went back and revised
+earlier totals as duplicate tests were removed or late results came in.
+That means `new_cases` can come out *negative* on a day when a
+correction lowered a previous total, even though nothing was actually
+"un-reported." This wasn't a quirk of this dataset specifically — it
+was one of the most persistent, genuinely frustrating problems in
+tracking COVID-19 nationally. It's worth remembering any time "new
+cases" is computed by subtracting two "as of" snapshots instead of
+coming from a system that recorded each case on the day it actually
+happened.
+:::
+
 ## Putting it together
 
 Each step above modified `hartford` and saved it back. We can write that
@@ -154,12 +190,12 @@ hartford <-
   select(
     date = `Last update date`,
     town = Town,
-    new_positives = `Number of positives`,
     total_cases = `Total cases`,
     total_deaths = `Total deaths`
   ) |>
   mutate(date = parse_date(date, format = "%m/%d/%Y")) |>
-  arrange(date)
+  arrange(date) |>
+  mutate(new_cases = total_cases - lag(total_cases))
 ```
 
 ## What does the data say?
@@ -168,13 +204,14 @@ hartford <-
 tail(hartford, 14)
 ```
 
-Two weeks of Hartford data, with new daily positives and running totals.
+Two weeks of Hartford data, with daily new cases and running totals.
 This is the foundation the briefing will be built on — clean, sorted,
 and scoped to the question.
 
-Note that `total_cases` is cumulative: it only goes up. `new_positives`
-is the count of new positive tests reported for that date — that is the
-number to watch when asking whether things are getting worse.
+Note that `total_cases` is cumulative: it only goes up. `new_cases` is
+the day-over-day change we just computed — that's the number to watch
+when asking whether things are getting worse, with the reporting
+caveat above kept in mind.
 
 ## Saving our data artifact
 

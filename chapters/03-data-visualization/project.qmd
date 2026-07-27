@@ -1,0 +1,268 @@
+---
+title: "Building This Week's Briefing Deck"
+---
+
+```{r}
+#| label: project-root
+#| include: false
+library(here)
+source(here::here("preamble-themes.R"))
+source(here::here("preamble-data.R"))
+```
+
+Chapter 2 left you with `covid_clean` — tidy snake_case names, real
+`Date` values, trimmed and title-cased town names. Time to put that to
+work. The Commissioner's briefing packet needs two things this week: a
+trend chart comparing Hartford to the rest of the state, and a
+statewide map. Both need to end up as files in `outputs/figures/`,
+ready to paste into a slide deck.
+
+## Setup
+
+```{r}
+#| eval: false
+
+library(dplyr)
+library(readr)
+library(here)
+library(janitor)
+library(stringr)
+library(lubridate)
+library(ggplot2)
+library(sf)
+library(tigris)
+
+covid_data <- read_csv(here("data", "raw", "ct_covid_by_town_2026-06-30.csv"))
+
+covid_clean <-
+  covid_data |>
+  clean_names() |>
+  mutate(
+    last_update_date = mdy(last_update_date),
+    town = town |> str_trim() |> str_to_title()
+  ) |>
+  arrange(town, last_update_date) |>
+  group_by(town) |>
+  mutate(new_cases = total_cases - lag(total_cases)) |>
+  ungroup()
+```
+
+```{r}
+#| label: setup-exec
+#| include: false
+
+library(dplyr)
+library(readr)
+library(here)
+library(janitor)
+library(stringr)
+library(lubridate)
+library(ggplot2)
+library(sf)
+library(tigris)
+
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
+
+covid_clean <-
+  covid_data |>
+  clean_names() |>
+  mutate(
+    last_update_date = mdy(last_update_date),
+    town = town |> str_trim() |> str_to_title()
+  ) |>
+  arrange(town, last_update_date) |>
+  group_by(town) |>
+  mutate(new_cases = total_cases - lag(total_cases)) |>
+  ungroup()
+```
+
+## Step 1 — Hartford vs. the statewide average
+
+A single town's trend only means something next to a baseline. Build
+Hartford's daily new-case series, then a statewide daily average, and
+stack them into one tibble so both can be mapped to the same `color`
+aesthetic.
+
+```{r}
+#| label: trend-data
+hartford_trend <-
+  covid_clean |>
+  filter(town == "Hartford") |>
+  select(last_update_date, new_cases) |>
+  mutate(series = "Hartford")
+
+statewide_trend <-
+  covid_clean |>
+  group_by(last_update_date) |>
+  summarise(new_cases = mean(new_cases, na.rm = TRUE)) |>
+  mutate(series = "Statewide Average")
+
+combined_trend <- bind_rows(hartford_trend, statewide_trend)
+```
+
+::: {.callout-note}
+`new_cases` is the day-over-day change in `total_cases`, computed with
+`lag()` back in setup, grouped by town so one town's data never bleeds
+into another's. See chapter 1's project for why this number can come
+out negative on a day the state revises an earlier total — real
+pandemic reporting data, this dataset included, is rarely clean enough
+to avoid that.
+:::
+
+```{r}
+#| label: trend-plot
+ggplot(
+  data = combined_trend,
+  mapping = aes(x = last_update_date, y = new_cases, color = series)
+) +
+  geom_line(linewidth = 1) +
+  scale_color_manual(
+    name = NULL,
+    values = c(
+      "Hartford" = "#3371E7",
+      "Statewide Average" = "gray50"
+    )
+  ) +
+  labs(
+    title = "Hartford New Cases vs. Statewide Average",
+    subtitle = "Daily count from report to report",
+    x = NULL,
+    y = "New Cases"
+  ) +
+  theme_classic()
+```
+
+If Hartford's line rides above the statewide average, that's the
+"getting worse relative to the rest of the state" story the
+Commissioner asked about back in chapter 0.
+
+## Step 2 — Save the trend chart
+
+```{r}
+#| label: save-trend
+#| eval: false
+ggsave(
+  here("outputs", "figures", "hartford_vs_state_trend.png"),
+  width = 7,
+  height = 4,
+  dpi = 300
+)
+```
+
+## Step 3 — This week's statewide map
+
+The lesson's choropleth mapped `case_rate` — cumulative cases per
+100,000 people. The Commissioner's packet already has that map from
+chapter 3. This time, map a different question: **of everyone tested,
+what share came back positive?** That's test positivity —
+`number_of_positives / number_of_tests`, as a percentage. A town can
+have a low case rate but a high positivity rate if it isn't testing
+much; the two numbers tell different stories, and a briefing packet
+usually wants both.
+
+```{r}
+#| label: map-data
+ct_towns <-
+  county_subdivisions(
+    state = "09",
+    cb = TRUE,
+    progress_bar = FALSE
+  )
+
+latest_date <- max(covid_clean$last_update_date)
+
+town_positivity <-
+  covid_clean |>
+  filter(last_update_date == latest_date) |>
+  mutate(positivity = number_of_positives / number_of_tests * 100) |>
+  select(town, positivity)
+
+ct_bounded <-
+  ct_towns |>
+  left_join(town_positivity, by = join_by(NAME == town))
+```
+
+```{r}
+#| label: map-plot
+ggplot() +
+  geom_sf(
+    data = ct_bounded[is.na(ct_bounded$positivity), ],
+    fill = "gray95",
+    color = "white",
+    linewidth = 0.1
+  ) +
+  geom_sf(
+    data = ct_bounded[!is.na(ct_bounded$positivity), ],
+    mapping = aes(fill = positivity),
+    color = "white",
+    linewidth = 0.1
+  ) +
+  scale_fill_gradient2(
+    low = "#C6D4FB",
+    mid = "#7094F5",
+    high = "#00214D",
+    midpoint = mean(ct_bounded$positivity, na.rm = TRUE),
+    na.value = "gray95",
+    name = "Test Positivity\n(%)"
+  ) +
+  labs(
+    title = "COVID-19 Test Positivity by Town",
+    subtitle = paste("As of", latest_date),
+    fill = NULL
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 10, color = "gray50"),
+    legend.position = "right"
+  )
+```
+
+## Step 4 — Save the map
+
+```{r}
+#| label: save-map
+#| eval: false
+ggsave(
+  here("outputs", "figures", "statewide_positivity_map.png"),
+  width = 7,
+  height = 5,
+  dpi = 300
+)
+```
+
+## Step 5 — A quick top 5 / bottom 5 look
+
+Not everything needs a map. Sometimes the Commissioner just wants a
+short list: which five towns are worst, and which five are best.
+`slice_max()` and `slice_min()` grab the top and bottom rows by a
+column, no `arrange()` + `head()` needed.
+
+```{r}
+#| label: positivity-extremes
+town_positivity |>
+  slice_max(positivity, n = 5)
+
+town_positivity |>
+  slice_min(positivity, n = 5)
+```
+
+Two plain tibbles, printed as-is. Dressing a table like this up —
+borders, color-coded cells, a footnote citing the data source — is
+exactly what table-formatting packages like `gt` are built for. That's
+further down the road; for now, a sorted tibble already answers the
+question.
+
+## Wrap-up
+
+Two figures and a ranked list, all built from the same `covid_clean`
+table chapter 2 handed you. That's the pattern this book is building
+toward: clean once, reuse everywhere, and let each chapter's new skill
+turn that clean data into something a person outside R can actually
+read.
+
+::: {.callout-note}
+Want to compare against a reference? See
+[`project-snapshots/after-ch-03`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/after-ch-03)
+on GitHub for the `scripts/` this chapter should leave you with.
+:::

@@ -1,0 +1,335 @@
+---
+title: "Modeling: Adjusted Effect Estimates"
+packages: [dplyr, broom]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+```{r}
+#| label: load-linelist
+#| include: false
+linelist <- read_book_data("synthetic-covid-linelist.csv")
+```
+
+The [previous chapter](describing-and-testing.qmd) left you with a cliffhanger.
+Your cross-tabs showed two clear things: case fatality climbs steeply with age,
+and — separately — hospitalized cases die far more often than non-hospitalized
+ones. Both are real signals. But they're tangled together. Older people are
+*also* the ones most likely to be hospitalized, so when you look at
+hospitalization and death in a cross-tab, some of what you're seeing is really
+just age wearing a different hat.
+
+A two-way table can't pull those apart. It only ever looks at one relationship
+at a time. What you need is a way to ask: *what is the effect of age on death,
+holding hospitalization and sex constant?* And at the same time, *what is the
+effect of hospitalization, holding age and sex constant?* That "holding the
+others constant" is exactly what a **regression** does, and it's exactly what a
+stakeholder means when they ask for **adjusted effect estimates**.
+
+This chapter fits a **logistic regression** — the workhorse model for a
+yes/no outcome like *died* — and reads the results as **odds ratios** with
+confidence intervals. If this is your first model in R, don't worry: we'll take
+it a piece at a time and translate every number into a plain sentence.
+
+::: {.callout-warning}
+## This models fake data
+
+Everything here runs on the **synthetic** line-list from the
+[Building a Dataset](../building-a-dataset/index.qmd) chapter. The town names
+and case counts are real, but every age, sex, hospitalization, and death was
+randomly generated. The patterns are real-*shaped* — deaths really do skew old
+— but **no row is a real person.** Never report one of these odds ratios as a
+real finding. They exist only so you can practice the mechanics on data that
+behaves like the real thing.
+:::
+
+## From cross-tab to model
+
+The previous chapter's tools — chi-square, Fisher's, the trend test — each
+answer a question about *one* pair of variables. Regression answers a different
+kind of question: given *several* predictors at once, what does each one
+contribute on its own? The model estimates every effect **net of the others**,
+which is the whole point. When it tells you the odds ratio for age, that number
+already has hospitalization and sex accounted for.
+
+::: {.callout-note}
+## This chapter uses broom
+
+We'll use **broom** to turn the model's output into a tidy data frame. It may
+not be installed yet. In your own `covid-briefing/` project, install it once
+with:
+
+```r
+install.packages("broom")
+```
+
+If you're building this book from its repository (which uses `renv`), install
+it into the project library instead and record it in the lockfile:
+
+```r
+renv::install("broom")
+renv::snapshot()
+```
+
+`broom` takes the somewhat awkward object that `glm()` hands back and turns it
+into a clean, rectangular data frame you can read, filter, and drop into a
+report — the same shape as everything else you've worked with.
+:::
+
+## Fit a logistic regression
+
+A little prep first. Two small but important setup moves before we fit
+anything.
+
+**First, an ordered age variable with a deliberate reference level.** A
+regression with a categorical predictor doesn't estimate an effect for *every*
+level — it picks one level as the baseline (the "reference") and reports every
+other level *relative to it*. We make `age_group` a `factor` and put `"18-49"`
+first, which makes it the reference. That's a choice with meaning: healthy
+working-age adults are the natural comparison group, so every age odds ratio
+will read as "compared to a 18–49-year-old." Reference-first is a habit worth
+building.
+
+**Second, a numeric 0/1 outcome.** Logistic regression models the probability
+of an *event* happening, so it needs the outcome coded as `1` for the event
+(died) and `0` for not. Our `died` column is `"Yes"`/`"No"` text;
+`as.integer(died == "Yes")` turns it into exactly the `1`/`0` the model wants.
+
+```{r}
+#| label: prep
+library(dplyr)
+library(broom)
+
+model_data <-
+  linelist |>
+  mutate(
+    age_group = factor(
+      case_when(
+        age < 18 ~ "0-17",
+        age < 50 ~ "18-49",
+        age < 65 ~ "50-64",
+        age < 80 ~ "65-79",
+        TRUE     ~ "80+"
+      ),
+      levels = c("18-49", "0-17", "50-64", "65-79", "80+")
+    ),
+    died_flag = as.integer(died == "Yes")
+  )
+```
+
+Now the model itself. `glm()` — **g**eneralized **l**inear **m**odel — is the
+function, and the two arguments that make it a *logistic* regression are the
+formula and the `family`.
+
+The formula `died_flag ~ age_group + sex + hospitalized` reads left to right as
+"**died explained by** age group, plus sex, plus hospitalization." The `~` is
+"is modeled by"; the `+` signs add predictors. `family = binomial` is the piece
+that makes this logistic: it tells `glm()` the outcome is a yes/no event and to
+work on the **log-odds** scale rather than fitting a straight line.
+
+```{r}
+#| label: fit
+model <- glm(
+  died_flag ~ age_group + sex + hospitalized,
+  data = model_data,
+  family = binomial
+)
+
+summary(model)
+```
+
+`summary()` prints the full model report — the same one SAS's `PROC LOGISTIC`
+would give you, if you're coming from that world. There's a lot there, but the
+key thing to know right now is that the numbers in the `Estimate` column are on
+the **log-odds** scale. A log-odds coefficient is nearly impossible to read
+directly — nobody thinks in log-odds. That's why we almost never stop here.
+The next step converts these into **odds ratios**, which you *can* read.
+
+## Odds ratios with broom
+
+Here's where `broom` earns its keep. `tidy()` takes the model and returns a
+tidy data frame, one row per term. Two arguments do the heavy lifting:
+`exponentiate = TRUE` converts those log-odds coefficients into **odds ratios**,
+and `conf.int = TRUE` adds a **95% confidence interval** for each one.
+
+```{r}
+#| label: odds-ratios
+tidy(model, exponentiate = TRUE, conf.int = TRUE)
+```
+
+Now every number is legible. The `estimate` column is the odds ratio, and
+`conf.low`/`conf.high` bracket the 95% CI. Here's how to read an odds ratio:
+
+- **Greater than 1** means *higher* odds of the outcome than the reference.
+- **Less than 1** means *lower* odds.
+- **Exactly 1** means no difference at all.
+
+And crucially — every one of these is **adjusted** for the other predictors in
+the model. Walk the age gradient, each compared to the 18–49 reference group:
+
+- **`age_group0-17`: 0.19** (95% CI 0.06–0.45). Children have about a fifth the
+  odds of death of a working-age adult — far *lower*, which is why the OR sits
+  well below 1.
+- **`age_group50-64`: 2.19** (1.62–2.95). Roughly double the odds.
+- **`age_group65-79`: 12.1** (9.44–15.6). Twelve times the odds.
+- **`age_group80+`: 55.1** (43.2–71.1). Fifty-five times the odds of death of a
+  working-age adult — a dramatic age gradient, and all of it *after* adjusting
+  for whether the person was hospitalized.
+
+Then the other two predictors:
+
+- **`hospitalizedYes`: 4.10** (3.49–4.82). Hospitalized cases have about four
+  times the odds of death — and, importantly, this is the hospitalization
+  effect *with age already accounted for*. It's not just older people showing
+  up again in disguise.
+- **`sexMale`: 1.03** (0.89–1.19). This one is the teaching moment. The odds
+  ratio is a hair above 1, but look at the confidence interval: it runs from
+  0.89 to **1.19** — it *crosses 1*.
+
+That last point deserves its own paragraph. When a confidence interval crosses
+1, the data can't distinguish the effect from "no effect at all." The interval
+includes odds ratios below 1 (protective) *and* above 1 (harmful), so you
+genuinely cannot say which direction, if any, sex pushes the outcome. This is a
+**null adjusted estimate**, and it's a clean, concrete example of one. Contrast
+it with the previous chapter's habit of eyeballing a cross-tab and declaring a
+pattern: here the model gives you a principled way to say "no, there's nothing
+to see in this variable" — the interval says so.
+
+A nice sanity check falls out of all this. Remember *how* the synthetic data
+was built: with a strong age effect baked in, no sex effect, and a
+hospitalization bump. The model **recovered exactly that structure** — a steep
+age gradient, a null result for sex, a moderate hospitalization effect. When a
+model reproduces the signal you know is in the data, that's reassurance about
+both the model *and* the data build.
+
+::: {.callout-warning}
+## An odds ratio is not a risk ratio
+
+People often read an odds ratio as if it were a *risk* ratio ("55× the risk"),
+but the two only agree when the outcome is **rare**. For a common outcome the
+odds ratio exaggerates the risk ratio, sometimes badly. Death is uncommon
+enough here that the gap is modest, but keep the distinction in mind — say
+"odds," not "risk," when you report an OR.
+:::
+
+## The tidymodels way
+
+The `glm()` you just ran is the right tool for this job. When your goal is an
+**explanatory** model — you want an interpretable effect estimate, an adjusted
+odds ratio to hand a stakeholder — plain `glm()` plus `broom` is lean, clear,
+and hard to beat.
+
+There's another whole ecosystem in the tidyverse for modeling, called
+**tidymodels**, and it's worth knowing where it fits. Its real strength is
+**prediction**: when the goal isn't "explain" but "forecast," tidymodels gives
+you train/test splits, resampling, hyperparameter tuning, and standardized
+performance metrics, all with a consistent interface. That's a different job
+from what we did above.
+
+But two of tidymodels' habits are worth borrowing even for an explanatory
+model: **recipes** for declaring your preprocessing once, and **parsnip** for a
+model spec you can re-point at a different engine without rewriting. Here's the
+same logistic regression, expressed the tidymodels way. We're showing it as a
+reference — it does **not** run when the book builds — so you can read the shape
+of it without needing tidymodels installed:
+
+```{r}
+#| label: tidymodels-way
+#| eval: false
+library(recipes)
+library(parsnip)
+library(workflows)
+
+# died as a factor outcome for classification; first level is the reference
+model_data <- model_data |>
+  mutate(died = factor(died, levels = c("No", "Yes")))
+
+# 1. recipe: declare outcome + predictors and preprocessing (dummy-code factors)
+death_recipe <-
+  recipe(died ~ age_group + sex + hospitalized, data = model_data) |>
+  step_dummy(all_nominal_predictors())
+
+# 2. parsnip spec: logistic regression via the glm engine
+death_spec <-
+  logistic_reg() |>
+  set_engine("glm")
+
+# 3. workflow bundles preprocessing + model and fits in one place
+death_fit <-
+  workflow() |>
+  add_recipe(death_recipe) |>
+  add_model(death_spec) |>
+  fit(data = model_data)
+
+# same tidy odds-ratio table, now from the workflow
+tidy(death_fit, exponentiate = TRUE, conf.int = TRUE)
+```
+
+What each piece buys you:
+
+- **recipes** — reproducible preprocessing, declared once and reused. Here it's
+  just dummy-coding the factors, but the same idea scales: `step_other()` to
+  collapse rare categories into an "other" bucket, `step_normalize()` to center
+  and scale continuous predictors, and dozens more. You write the recipe once
+  and every fit and prediction uses the identical steps.
+- **parsnip** — one model spec, swappable engines. `logistic_reg()` is the
+  *kind* of model; `set_engine("glm")` picks the implementation. Want a
+  penalized version instead? Swap in `set_engine("glmnet")` and you don't
+  rewrite the fit.
+- **workflows** — bundle the recipe and the model together so they can't drift
+  apart. The preprocessing and the model travel as one object, which is a
+  genuine reproducibility win on a bigger project.
+
+**When should you actually reach for full tidymodels?** When the goal is
+prediction. That's when you'll add `rsample` for train/test splits and
+cross-validation, and `yardstick` for metrics like ROC-AUC and accuracy. For an
+adjusted odds ratio, though — a single explanatory model you want to interpret —
+`glm()` and `broom` are lighter and clearer, and there's no prize for
+over-tooling. The full prediction track lives at
+<https://www.tidymodels.org/>.
+
+One gotcha to file away: `logistic_reg()` needs a **factor** outcome (not the
+0/1 integer `glm()` wanted), and tidymodels treats the **first** factor level as
+the reference — the *non*-event. That's why the code above sets the levels as
+`c("No", "Yes")` deliberately, so that `"Yes"` (death) is the event being
+modeled. Set your factor levels on purpose; don't let the default alphabetical
+order decide which outcome you're predicting.
+
+## Wrap-up
+
+You fit a real adjusted model. You took a tangle that a cross-tab couldn't
+resolve — is it age, or is it hospitalization? — and got a clean answer for
+each: an odds ratio, adjusted for the others, with a confidence interval that
+tells you how much to trust it. You saw a strong effect (age), a moderate one
+(hospitalization), and a genuinely null one (sex, its CI straddling 1), and you
+learned to read all three off a single tidy table. And you saw where the
+tidyverse's bigger modeling toolkit fits, and where it's more machine than the
+job needs.
+
+One honest gap remains. Everything here is about **odds** — the odds that a
+*known case* died. It says nothing about **rates** in a *population*:
+age-adjusted death rates, incidence-rate ratios, the per-100,000 measures that
+much of surveillance runs on. Those need a **population denominator** — how many
+people live in each town and age band — which this book doesn't have in its data
+yet. When a denominator dataset lands, a future chapter can take up rate-based
+measures. Until then, you've got the case-level model that answers the
+stakeholder's actual question: the adjusted effect estimates.
+
+::: {.callout-note}
+Want this chapter as a runnable script? See
+[`project-snapshots/line-list-practice`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/line-list-practice)
+on GitHub. `03_model_deaths.R` is the script version of the logistic regression
+and odds-ratio table you just built, ready to drop into your `scripts/` folder.
+:::

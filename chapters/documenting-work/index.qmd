@@ -1,0 +1,27 @@
+---
+title: "Documenting Your Work"
+---
+
+Code explains *how*. Documentation explains *why* — and saves the next
+person (often you, in six months) from re-deriving decisions you already
+made.
+
+## Comments: When and Why
+
+TODO: commenting the non-obvious, not restating the code, keeping comments
+from rotting.
+
+## READMEs
+
+TODO: what belongs in a project README (`covid-briefing/`'s from ch 00 as
+the running example), keeping it current.
+
+## Documenting Functions
+
+TODO: roxygen-style comments once a script grows helper functions, even
+outside a formal package.
+
+## Quarto Docs as Documentation
+
+TODO: this book's own `.qmd` reports as an example of documentation that
+runs — code, output, and narrative kept in sync automatically.

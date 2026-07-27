@@ -1,9 +1,164 @@
 ---
-title: Implementing APIs into our Analysis
+title: "Implementing APIs into our Analysis"
+execute:
+  # Live API calls - see the note in this part's lesson chapter.
+  freeze: true
 ---
 
+The Commissioner's next question is bigger than one town: **how many
+tests has Connecticut run in total, as of the most recent report?**
+Rather than re-downloading a CSV every time that number is needed,
+this script pulls the freshest data straight from the API and
+calculates the answer itself - the same `fetch_all_data()` function
+from the lesson, now put to work.
+
+## Setup
+
+Same packages as the lesson, plus `lubridate` this time, to parse the
+timestamp the API sends back.
 
 ```{r}
+#| label: setup
+library(dplyr)
+library(httr2)
+library(lubridate)
+```
+
+## Step 1 — Hoist the constants
+
+The resource ID is the one piece of this script most likely to
+change - next year's report might live under a different four by
+four. Constants like this get pulled to the top of the script in
+SCREAMING_CASE by convention, so anyone skimming the file can spot
+what's configurable at a glance, instead of hunting through function
+bodies for a hardcoded string.
+
+```{r}
+#| label: constants
+RESOURCE <- "28fr-iqnx"
+```
+
+## Step 2 — The fetch function
+
+This is the same `fetch_all_data()` function from the lesson, dropped
+in as-is. Keeping the fetch logic in its own function - rather than
+writing the request/response/pagination dance directly into the
+script - means the messy details of pagination live in exactly one
+place. If the API changes tomorrow, there's one function to fix, not
+every script that happens to need CT COVID data.
+
+```{r}
+#| label: fetch-function
+fetch_all_data <-
+  function(resource, rows = 10000) {
+    # Fetch all data from the provided resource id for the CT Open Data Portal
+    #
+    # resource: string - Required portal "four by four" in the format 'xxxx-xxxx'
+    # rows: numeric - Number of rows of data to fetch one response at a time.
+    #   defaults to 100000 and becomes the LIMIT and OFFSET for the request.
+    # Returns: A tibble
+
+    # handle the resource from the user
+
+    base <- "https://data.ct.gov/resource"
+
+    # create the first request
+    req <-
+      request(base) |>
+      req_url_path_append(resource) |> #append the user provided 4x4 to the base url
+      req_url_query(
+        `$limit` = rows, # use the default rows=10000 or what ever the user provided
+        `$offset` = 0 # start with the first row
+      )
+
+    # perform the request and then with each request increment the offset by `rows`
+    resps <-
+      req_perform_iterative(
+        req,
+        progress = FALSE,
+        next_req = iterate_with_offset(
+          param_name = "$offset",
+          start = 0,
+          offset = rows # use the default rows=10000 or what ever the user provided
+        )
+      )
+
+    # convert the response objects from the API to a tibble of data
+    # for each response from the API grab the json body, convert to an R list
+    # and then squash all that into a singular tibble
+    data <-
+      resps |>
+      resps_data(
+        \(resp) {
+          resp |>
+            resp_body_json() |>
+            bind_rows()
+        }
+      )
+
+    return(data)
+  }
+```
+
+## Step 3 — A `main()` entrypoint
+
+Nothing has actually run yet - so far this script has only defined a
+constant and a function. `main()` is where the analysis itself lives:
+fetch the data, then compute the one number the Commissioner asked
+for. Wrapping a whole analysis in a function called `main()` (a
+convention borrowed from other programming languages) buys you two
+things: one place to read top-to-bottom to see the entire analysis at
+a glance, and a script that does nothing until you actually call it.
+That second part matters once a script gets sourced by other scripts -
+you don't want an API call firing off just because something else
+needed one function out of the file.
+
+```{r}
+#| label: main-function
+main <- function() {
+  # main entrypoint into our analysis
+
+  # data ingestion
+  data <- fetch_all_data(resource = RESOURCE)
+
+  # key measures
+  total_tests <-
+    data |>
+    mutate(date = ymd_hms(lastupdatedate)) |>
+    filter(date == max(date)) |>
+    reframe(
+      total_pandemic_tests = sum(
+        as.numeric(numberoftests),
+        na.rm = TRUE
+      )
+    ) |>
+    pull(total_pandemic_tests)
+
+  cat(
+    paste(
+      "The total number of pandemic tests in these data were:",
+      format(total_tests, big.mark = ',')
+    )
+  )
+}
+```
+
+## Step 4 — Running the analysis
+
+Defining `main()` didn't run anything - calling it does.
+
+```{r}
+#| label: run-main
+main()
+```
+
+## Putting it together
+
+Each step above built up one script piece by piece. Written as a
+single file, the whole thing looks like this:
+
+```{r}
+#| eval: false
 
 # === setup ===
 library(dplyr)
@@ -95,3 +250,7 @@ main <- function() {
 # === entrypoint ===
 main()
 ```
+
+One constant, one fetch function, one `main()` - a script you can hand
+to someone else, and the only thing they need to know to run it is
+that last line.

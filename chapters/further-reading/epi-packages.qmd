@@ -1,0 +1,90 @@
+---
+title: "Packages for Epi Work"
+---
+
+R has thousands of packages. That number is genuinely overwhelming when
+you're starting out, and you don't need most of it. Real epidemiology
+work — loading data, cleaning it, summarizing it, mapping it, sharing it
+— runs on a small, learnable core. This page is that core: a
+"which package for which job" map, grouped by task, with a pointer to
+the chapter where the book actually teaches each one.
+
+It's deliberately short and opinionated. It is **not** a tour of CRAN.
+If a package isn't here, it's usually because you don't need it yet —
+not because it doesn't exist.
+
+::: {.callout-note}
+## The tidyverse umbrella
+Many of these packages ship together under the
+[tidyverse](https://www.tidyverse.org/). One `library(tidyverse)` call
+loads `readr`, `dplyr`, `tidyr`, `stringr`, `lubridate`, `ggplot2`, and
+more all at once. The book loads them **individually** so it's always
+obvious which package a function comes from — but once you know your way
+around, the umbrella call is a fine shortcut.
+:::
+
+## Data ingestion — getting data in and out
+
+Reading raw files into R and writing results back out.
+
+| Package | What it's for | Where it's taught |
+|---|---|---|
+| `readr` | Read and write CSVs and other delimited text files | [Loading Your First Dataset](../01-working-with-real-data/index.qmd) |
+| `here` | Build project-relative file paths that just work | [Loading Your First Dataset](../01-working-with-real-data/index.qmd) |
+| `readxl` | Read data out of Excel workbooks (`.xlsx`) | [Working with Excel Files](excel-files.qmd) |
+| `writexl` | Write data to Excel workbooks for colleagues who live in Excel | [Working with Excel Files](excel-files.qmd) |
+| `fs` | Work with files and folders — create, copy, list directory trees | [Writing Data Files](writing-files.qmd) |
+
+## Data manipulation and management — reshaping and cleaning
+
+The everyday workhorses. Most of your time is spent here.
+
+| Package | What it's for | Where it's taught |
+|---|---|---|
+| `dplyr` | Filter, select, mutate, group, and summarize rows and columns | [Loading Your First Dataset](../01-working-with-real-data/index.qmd) |
+| `tidyr` | Reshape between long and wide; pivot, separate, and tidy up | [Cleaning Data](../02-cleaning-data/index.qmd) |
+| `janitor` | Clean messy column names and make quick cross-tabs | [Cleaning Data](../02-cleaning-data/index.qmd) |
+| `lubridate` | Parse and do math with dates and times | [Cleaning Data](../02-cleaning-data/index.qmd) |
+| `stringr` | Find, match, and reshape text and character data | [Cleaning Data](../02-cleaning-data/index.qmd) |
+| `glue` | Build strings by dropping variables straight into text | [Cleaning Data](../02-cleaning-data/index.qmd) |
+
+## Data analysis — describing your data
+
+Here's the honest picture: the book currently does its descriptive work
+— counts, rates, group summaries — with `dplyr::summarise()` and
+friends. That covers a surprising amount of real reporting.
+
+Dedicated statistics packages (for regression, cross-tabulations,
+age-adjusted rates, survival, and the like) are a **future addition** to
+this book rather than something it teaches today. When they arrive,
+they'll show up here. For now, `dplyr` is your analysis engine.
+
+## Data visualization — charts, maps, and tables
+
+| Package | What it's for | Where it's taught |
+|---|---|---|
+| `ggplot2` | Build charts layer by layer — the standard for R graphics | [Visualizing Your Data](../03-data-visualization/index.qmd) |
+| `sf` | Hold and manipulate spatial (geographic) data as tidy tables | [Visualizing Your Data](../03-data-visualization/index.qmd) |
+| `tigris` | Download US Census geographies (town, county, tract boundaries) | [Visualizing Your Data](../03-data-visualization/index.qmd) |
+| `leaflet` | Build interactive, zoomable web maps | [Interactive Maps: mapview & leaflet](../03-data-visualization/mapview-leaflet.qmd) |
+| `mapview` | Get a quick interactive look at spatial data in one line | [Interactive Maps: mapview & leaflet](../03-data-visualization/mapview-leaflet.qmd) |
+| `gt` | Build polished, publication-ready tables | Not yet covered — the go-to when the book adds table formatting |
+
+## Reproducible practices and getting data
+
+Pulling data from the web, and turning your analysis into something you
+can hand off.
+
+| Package / Tool | What it's for | Where it's taught |
+|---|---|---|
+| `httr2` | Talk to web APIs to pull data directly into R | [Working with APIs and Functions](../apis-functions/index.qmd) |
+| Quarto | Turn code, prose, and results into reproducible reports, sites, and documents | This entire book is built with it — see [quarto.org](https://quarto.org/) |
+
+## A note on this list
+
+This is a small core, chosen so you can actually learn it — not a
+complete inventory. It will grow as the book grows (dedicated stats and
+table-formatting packages are on the way). When a task isn't listed
+here, that's usually a sign the book hasn't taught it yet, and inventing
+a package for it would only add to the overwhelm this page is trying to
+cut.

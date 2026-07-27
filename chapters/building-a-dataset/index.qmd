@@ -1,0 +1,419 @@
+---
+title: "Building a Dataset"
+packages: [dplyr, tidyr, readr, janitor, stringr, lubridate]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+```{r}
+#| label: load-linelist
+#| include: false
+linelist <- read_book_data("synthetic-covid-linelist.csv")
+library(dplyr)
+```
+
+Every dataset so far has been a **count** table: one row per town per report
+date, with cumulative cases and deaths. That's what the state publishes, and
+it's plenty for trends and maps. But a lot of everyday epi work happens one
+level down — at the **case** level. How old were the people who got sick? How
+long between symptom onset and a positive report? What share of hospitalized
+patients died, and did that differ by age?
+
+None of those questions can be answered from a count table, because the
+individual people have already been summed away. To practice case-level work
+you need a **line-list**: one row per case, with that person's age, dates, and
+outcomes.
+
+Real line-lists exist — but they're confidential. You can't paste real
+patients into a public book. So this chapter does the next best thing: it
+**manufactures** a fake line-list from the real counts, and the act of
+building it *is* the lesson. It also means stepping away from the town-level
+Commissioner briefing for a chapter or two — the real town data resumes in the
+Data Visualization chapter — while we drop down to the case level, where a
+safe-to-share synthetic dataset is the only honest option. Along the way you'll
+expand a count table into
+individual rows, invent plausible values with controlled randomness, recode
+and categorize variables, and do arithmetic on dates — the core moves of data
+manipulation.
+
+::: {.callout-warning}
+## This data is fake
+
+`synthetic-covid-linelist.csv` is **synthetic**. The town names and the number
+of cases per town are real (from the CT Open Data Portal), but every age, sex,
+race/ethnicity, date, hospitalization, and death is randomly generated. **No
+row is a real person.** It exists only to practice on — never analyze it as if
+it were real, and never mix it into real reporting.
+:::
+
+## The plan
+
+We'll scope the work to **Hartford County during the winter 2020–2021 surge**
+(December 2020 through January 2021) — a real wave, before vaccines were widely
+available, and a chunk of data small enough to build on a laptop. The recipe
+has three moves:
+
+1. Start from the real town counts and work out how many *new* cases each town
+   had on each report date.
+2. Expand those counts into one row per case.
+3. Attach invented-but-plausible demographics and outcomes to each row.
+
+## Part A — How the line-list was built
+
+The full recipe lives in `data-raw/make-synthetic-linelist.R` in the book's
+repository. We'll walk through it a piece at a time. You don't need to run it
+yourself — the finished file is in the [Data
+Library](../data-library/index.qmd) — but reading it teaches the moves.
+
+### Real counts into new cases
+
+`Total cases` is cumulative, so a town's *new* cases on a given day are the
+change from its previous report — the same `lag()` trick from earlier
+chapters. We floor negatives at zero (the state sometimes revises an old total
+downward, and you can't have negative people), then keep only our county and
+our two-month window.
+
+```{r}
+#| label: recipe-counts
+#| eval: false
+hartford_county <- c(
+  "Avon",
+  "Berlin",
+  "Bloomfield",
+  "Bristol",
+  "Burlington",
+  "Canton",
+  "East Granby",
+  "East Hartford",
+  "East Windsor",
+  "Enfield",
+  "Farmington",
+  "Glastonbury",
+  "Granby",
+  "Hartford",
+  "Hartland",
+  "Manchester",
+  "Marlborough",
+  "New Britain",
+  "Newington",
+  "Plainville",
+  "Rocky Hill",
+  "Simsbury",
+  "Southington",
+  "South Windsor",
+  "Suffield",
+  "West Hartford",
+  "Wethersfield",
+  "Windsor",
+  "Windsor Locks"
+)
+
+counts <-
+  read_csv(
+    here("data", "raw", "ct_covid_by_town_2026-06-30.csv")
+  ) |>
+  clean_names() |>
+  mutate(
+    report_date = mdy(last_update_date),
+    town = str_to_title(str_trim(town)),
+    total_cases = parse_number(as.character(total_cases))
+  ) |>
+  filter(town %in% hartford_county) |>
+  arrange(town, report_date) |>
+  mutate(new_cases = total_cases - lag(total_cases), .by = town) |> # .by is great so you don't forget to ungroup after doing a grouped mutate
+  mutate(new_cases = pmax(new_cases, 0)) |>
+  filter(
+    report_date >= ymd("2020-12-01"),
+    report_date <= ymd("2021-01-31"),
+    !is.na(new_cases),
+    new_cases > 0
+  ) |>
+  select(town, report_date, new_cases)
+```
+
+That leaves a compact table: for each town and report date, how many new cases
+showed up. Now we blow it apart.
+
+### One row per case with `uncount()`
+
+`tidyr::uncount()` is the workhorse of this chapter. Hand it a column of
+counts and it repeats each row that many times — the exact inverse of
+`count()`. A row that says "Hartford, 2020-12-15, 90 new cases" becomes 90
+identical Hartford rows.
+
+```{r}
+#| label: recipe-uncount
+#| eval: false
+linelist <-
+  counts |>
+  uncount(new_cases) |>
+  mutate(case_id = sprintf("HC-%06d", row_number()))
+```
+
+Each row is now one case. They're still identical within a town-day, so the
+last step is to give each one an identity.
+
+### Inventing values with `set.seed()` and random draws
+
+To fill in age, sex, and the rest we *draw* values at random from
+distributions we pick. `sample()` draws from a set of categories with given
+probabilities; `rnorm()` draws numbers from a bell curve; `rbinom()` flips
+weighted coins (hospitalized or not, died or not).
+
+Random draws are different every time you run them — which would make the
+dataset impossible to reproduce. `set.seed()` fixes the random number
+generator so every draw comes out the same on every run. Set it once, at the
+top, before any drawing happens.
+
+```{r}
+#| label: recipe-seed
+#| eval: false
+set.seed(20210101)
+```
+
+::: {.callout-note}
+## A cleaner seed is coming later
+
+`set.seed()` changes the random state for the *rest of your session*, which is
+fine in a one-shot script like this but can surprise you in a longer analysis.
+The reproducibility chapter will introduce
+[`withr::with_seed()`](https://withr.r-lib.org/), which sets a seed for just
+one expression and then puts the random state back the way it found it — the
+tidier tool when you only want one block of code to be reproducible. For a
+standalone data-generation script, plain `set.seed()` at the top is perfectly
+good.
+:::
+
+With the seed fixed, every field is one `mutate()` away. A few patterns worth
+naming:
+
+- **A number from a distribution** — age from a bell curve centered on 42,
+  clamped to a human range with `pmin()`/`pmax()`:
+
+  ```r
+  age = pmin(pmax(round(rnorm(n, mean = 42, sd = 22)), 0L), 100L)
+  ```
+
+- **A category with set odds** — `sample()` with a `prob` vector. These
+  proportions are illustrative, not measured:
+
+  ```r
+  sex = sample(c("Female", "Male"), n, replace = TRUE, prob = c(0.51, 0.49))
+  ```
+
+- **A weighted coin flip that depends on another column** — `case_when()`
+  builds an age-dependent probability, then `rbinom()` flips it. Hospitalization
+  risk climbs steeply with age:
+
+  ```r
+  hosp_prob = case_when(
+    age < 18 ~ 0.01,
+    age < 50 ~ 0.02,
+    age < 65 ~ 0.06,
+    age < 80 ~ 0.15,
+    TRUE     ~ 0.30
+  )
+  hospitalized = if_else(rbinom(n, 1, hosp_prob) == 1, "Yes", "No")
+  ```
+
+- **A date relative to another date** — onset happens a few days *before* the
+  report; subtract a random number of days:
+
+  ```r
+  onset_date = report_date - sample(3:14, n, replace = TRUE)
+  ```
+
+The full script layers a handful of these together, drops the intermediate
+probability columns, and writes the result with `write_csv()`. That's the
+whole trick: real counts decide *how many* rows, random draws decide *what's in
+them*.
+
+## Part B — Working with the line-list
+
+Here's the finished product. In your own project you'd read the file you built:
+
+```{r}
+#| label: read-linelist-shown
+#| eval: false
+linelist <- read_csv(here("data", "synthetic-covid-linelist.csv"))
+```
+
+```{r}
+#| label: glimpse-linelist
+glimpse(linelist)
+```
+
+The twelve columns:
+
+| Column | What it is |
+|---|---|
+| `case_id` | Unique fake ID, one per case |
+| `town` | Hartford County town (real) |
+| `age` | Age in years (simulated) |
+| `sex` | `Female` / `Male` (simulated) |
+| `race_ethnicity` | Race/ethnicity category (simulated) |
+| `onset_date` | Symptom onset date (simulated, before the report) |
+| `report_date` | Date the case was reported (real report date) |
+| `hospitalized` | `Yes` / `No` (simulated) |
+| `hosp_admit_date` | Admission date, or `NA` if not hospitalized |
+| `hosp_discharge_date` | Discharge date, or `NA` |
+| `died` | `Yes` / `No` (simulated) |
+| `death_date` | Date of death, or `NA` |
+
+Everything below runs on this real (fake) data.
+
+### Categorizing a continuous variable
+
+Age as a raw number is hard to tabulate — you rarely want a row for every
+single year. Collapsing it into groups is a job for `case_when()`, reading top
+to bottom and stopping at the first match:
+
+```{r}
+#| label: age-groups
+linelist <- linelist |>
+  mutate(
+    age_group = case_when(
+      age < 18 ~ "0-17",
+      age < 50 ~ "18-49",
+      age < 65 ~ "50-64",
+      age < 80 ~ "65-79",
+      TRUE ~ "80+"
+    )
+  )
+
+count(linelist, age_group)
+```
+
+### Recoding values
+
+`hospitalized` and `died` arrived as `"Yes"`/`"No"` text. For counting that's
+fine, but for modelling later you'll often want a clean logical. `if_else()`
+recodes a single variable in one line:
+
+```{r}
+#| label: recode-flags
+linelist <- linelist |>
+  mutate(
+    hospitalized_flag = if_else(hospitalized == "Yes", TRUE, FALSE),
+    died_flag = if_else(died == "Yes", TRUE, FALSE)
+  )
+
+count(linelist, hospitalized, hospitalized_flag)
+```
+
+### Doing arithmetic on dates
+
+Subtracting one date from another gives a number of days. Two classic epi
+measures fall straight out of that:
+
+- **Reporting delay** — how long from symptom onset to the case being
+  reported.
+- **Length of stay** — how long a hospitalized patient was admitted.
+
+```{r}
+#| label: date-math
+linelist <- linelist |>
+  mutate(
+    reporting_delay = as.integer(report_date - onset_date),
+    length_of_stay = as.integer(hosp_discharge_date - hosp_admit_date)
+  )
+
+linelist |>
+  summarise(
+    median_delay = median(reporting_delay),
+    median_stay = median(length_of_stay, na.rm = TRUE)
+  )
+```
+
+`length_of_stay` is `NA` for anyone who was never admitted, which is exactly
+right — there's no stay to measure. That's why `na.rm = TRUE` is needed in the
+summary.
+
+### Selecting a date range
+
+Filtering to a window is the same `filter()` you already know, with date
+comparisons. Say you only want cases reported in the first two weeks of
+December:
+
+```{r}
+#| label: date-range
+linelist |>
+  filter(
+    report_date >= as.Date("2020-12-01"),
+    report_date <= as.Date("2020-12-14")
+  ) |>
+  nrow()
+```
+
+### A quick sanity check
+
+Before trusting any built dataset, look for values that can't be real. Ages
+should sit between 0 and about 120; onset should never come *after* the
+report. A `filter()` that returns zero rows is a clean bill of health:
+
+```{r}
+#| label: range-check
+linelist |>
+  filter(age < 0 | age > 120 | onset_date > report_date) |>
+  nrow()
+```
+
+Zero out-of-range rows — no surprise, since we built the data to behave, but on
+real data this is the check that catches a birth year of 1850 or a typo'd date.
+
+### Does it match the real counts?
+
+The whole point of anchoring to real data is that the totals should line up.
+The synthetic line-list has one row per real case in the window, so its row
+count equals the real number of new cases Hartford County recorded from
+December 2020 through January 2021:
+
+```{r}
+#| label: validate
+nrow(linelist)
+```
+
+```{r}
+#| label: validate-town
+linelist |>
+  count(town, name = "cases") |>
+  arrange(desc(cases))
+```
+
+The demographics are invented, but the *shape* — which towns had the most
+cases, when the wave peaked — is real, because the counts came from real data.
+
+## Wrap-up
+
+You started with a published count table and ended with a case-level
+line-list you can slice by age, date, and outcome. More importantly you
+practiced the manipulation moves that show up everywhere: `uncount()` to go
+from counts to rows, `case_when()` to recode and categorize, seeded random
+draws to fill in values reproducibly, and date arithmetic to turn two dates
+into a meaningful number. The next chapters lean on exactly these skills — now
+on data that finally has a person in every row.
+
+::: {.callout-note}
+The finished file, its source page, and the generator script are cataloged in
+the [Data Library](../data-library/index.qmd).
+:::
+
+::: {.callout-note}
+Want the finished generator in one file? See
+[`project-snapshots/line-list-practice`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/project-snapshots/line-list-practice)
+on GitHub. `01_make_synthetic_linelist.R` is the finished generator this chapter
+walks through — drop it into your project's `scripts/` (or `data-raw/`) folder
+and run it to build the line-list yourself.
+:::

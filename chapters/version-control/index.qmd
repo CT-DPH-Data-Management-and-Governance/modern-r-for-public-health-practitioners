@@ -1,0 +1,305 @@
+---
+title: "Version Control"
+---
+
+You have a project folder with a script and a data file in it. Right now,
+the only history of that project is whatever you remember. This chapter
+fixes that.
+
+This is a **gentle** introduction — just enough to work safely day to day.
+Remotes and collaborating with a team on GitHub are worth exploring once
+this part feels comfortable, but they're beyond what we cover here. For
+now: what git is, why it matters, how to install it, enough command line
+to drive it, the everyday workflow, and branches.
+
+## What Git Is
+
+Git is a tool that saves snapshots of a folder over time, on purpose, with
+a note attached to each one.
+
+If you've ever used "Track Changes" in Word, or kept files named
+`report_v1.docx`, `report_v2.docx`, `report_FINAL.docx`,
+`report_FINAL_really.docx` — you've already felt the problem git solves.
+Instead of guessing which version is current, git keeps every saved
+snapshot, labeled, in order, forever. You choose when to save a snapshot
+(that's called a **commit**), and you write a short note explaining why.
+
+A few terms you'll see everywhere:
+
+| Term | Meaning |
+|---|---|
+| **Repository** (repo) | A project folder that git is tracking |
+| **Commit** | A saved snapshot of the whole folder, plus a message |
+| **Staging** | Choosing *which* changes go into the next commit |
+| **History** | The full list of commits, oldest to newest |
+
+## Why It's Important
+
+**It's an audit trail.** Every commit records what changed, when, and why.
+When someone asks "where did this number come from," you don't just show
+the script — you show exactly which version of the script produced it.
+
+**It's a safety net.** Made a change that broke everything? Every previous
+commit is still there. You can always get back to a version that worked.
+
+**It's how modern teams share code.** Emailing zip files back and forth
+doesn't scale past one person. Git — paired with a hosting service like
+GitHub — is how public health teams, CDC, and academic epi groups actually
+collaborate on code today.
+
+**It catches the honest mistakes.** A filter that quietly drops a few
+towns, a column overwritten by accident, a formula copied one row short —
+these hide easily in a file that only ever gets edited in place, with
+nothing kept of what it looked like an hour ago. With git, "wait, when
+did this change, and what did it look like before" stops being a
+guessing game and becomes a `git log` and a diff.
+
+## Installing Git
+
+::: {.callout-tip}
+## Install git before continuing
+
+- **Windows:** download and run the installer from
+  [git-scm.com](https://git-scm.com/downloads). Accept the defaults.
+- **macOS:** open Terminal and run `git --version`. If it isn't already
+  installed, macOS will prompt you to install the Xcode Command Line Tools —
+  accept that.
+- **Linux:** use your package manager, e.g. `sudo apt install git` (Debian/Ubuntu)
+  or `sudo dnf install git` (Fedora).
+:::
+
+Once installed, confirm it worked:
+
+```bash
+git --version
+```
+
+You should see something like `git version 2.43.0`. Exact number doesn't
+matter — any reasonably recent version is fine.
+
+One-time setup, so your commits are labeled with your name:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+## Intro to the Command Line
+
+Git's full power lives on the command line. RStudio and Positron both have
+a **Terminal** tab/pane (next to the Console) — that's a command line
+sitting right inside your IDE. Open it now; you'll use it for the rest of
+this chapter.
+
+A few commands you'll lean on, regardless of operating system:
+
+| Command | What it does |
+|---|---|
+| `pwd` | Print working directory — where am I right now? |
+| `ls` (`dir` on Windows) | List files in the current folder |
+| `cd folder-name` | Change directory — move into `folder-name` |
+| `cd ..` | Move up one level |
+
+The terminal always has a **current location**, same idea as `here()` from
+chapter 1 but for the shell instead of R. Before running git commands,
+make sure you're inside your project folder:
+
+```bash
+cd covid-briefing
+pwd
+```
+
+## The Happy Path Workflow
+
+This is the loop you'll repeat, day in and day out. Five steps.
+
+### 1. Turn a folder into a repository — once
+
+Inside `covid-briefing/`:
+
+```bash
+git init
+```
+
+This creates a hidden `.git` folder. That's git's database — all your
+history lives there. You only run `git init` once per project.
+
+### 2. Check what's changed
+
+```bash
+git status
+```
+
+This is your most-used git command. It tells you what's new, what's
+modified, and what git isn't tracking yet. Run it constantly — it never
+changes anything, it only reports.
+
+### 3. Stage the changes you want to save
+
+```bash
+git add scripts/01_import.R
+```
+
+Staging means "include this file in the *next* commit." You can stage one
+file, several, or everything:
+
+```bash
+git add .
+```
+
+`git add .` stages every changed file in the current folder and below. Fine
+for now — the difference between staging some files versus all of them
+matters more once you're working with others, which is a further-reading
+topic.
+
+### 4. Commit — save the snapshot
+
+```bash
+git commit -m "Import raw COVID data and inspect structure"
+```
+
+The `-m` flag attaches your message right there. Write it like you're
+telling a colleague what you did and why — future you *is* that colleague.
+
+### 5. Review the history
+
+```bash
+git log
+```
+
+This lists every commit: who, when, and the message. `git log --oneline`
+gives you a compact one-line-per-commit view once your history grows.
+
+::: {.callout-note}
+## The mental model
+
+Three places your work can live: the **working directory** (files on
+disk, as you're editing them), the **staging area** (what you've marked
+for the next commit with `git add`), and the **repository** (committed
+history, safe in `.git`). `git status` tells you what's in each. `git add`
+moves changes to staging. `git commit` moves staging into history.
+:::
+
+### Putting it together
+
+A normal working session looks like this:
+
+```bash
+git status               # see what changed
+git add data/processed/  # stage the files you want to save
+git status                # confirm what's staged
+git commit -m "Clean town names and drop test rows"
+git log --oneline         # confirm it landed
+```
+
+Repeat that loop every time you reach a working, meaningful checkpoint —
+not just at the end of the day. Small, frequent commits with clear
+messages are worth far more later than one giant commit called "updates."
+
+## Branches
+
+So far your commits have piled up in a single line, one after another, on
+a branch called `main`. That's the default name git gives the line of
+history you start with.
+
+A **branch** is a second line of history that splits off from `main`. You
+commit onto the branch instead of onto `main`, so `main` sits exactly
+where it was — still working, still the version you'd hand to someone —
+while you experiment somewhere else.
+
+Here's the concrete case. Your `covid-briefing/` project already produces
+a choropleth of case rate by town, and that map went out in last week's
+briefing. Now you want to see whether test positivity tells a better
+story. That means rewriting a chunk of the plotting script, and you have
+no idea yet if it'll work out. You don't want the version that produced
+last week's map to be in pieces on your disk while you find out.
+
+So put the experiment on a branch:
+
+```bash
+git switch -c try-positivity-map
+```
+
+The `-c` means "create." That one command makes the branch and moves you
+onto it. From here, every commit you make lands on
+`try-positivity-map` and `main` stays untouched.
+
+::: {.callout-note}
+## `git checkout -b` does the same thing
+
+Older tutorials and most StackOverflow answers use
+`git checkout -b try-positivity-map`. It's the same operation.
+`git switch` is the newer, narrower command — `checkout` does several
+unrelated jobs, which is exactly why it confused people for years. Use
+`switch`; recognize `checkout -b` when you see it.
+:::
+
+To see what branches exist and which one you're on:
+
+```bash
+git branch
+```
+
+The current branch is marked with a `*`. `git status` tells you too, on
+its first line.
+
+Work on the branch exactly the way you already know — edit, `git add`,
+`git commit`. When you want to look at the old version again:
+
+```bash
+git switch main
+```
+
+::: {.callout-important}
+## Your files on disk actually change
+
+This surprises everyone the first time. Switching branches rewrites the
+contents of your project folder to match that branch. Open the plotting
+script after `git switch main` and the positivity code is *gone* — it's
+back on `try-positivity-map`, safe, but not on disk right now. Switch
+back and it returns.
+
+Git isn't losing your work. The folder is just showing you one branch at
+a time. Commit before you switch, and nothing goes missing.
+:::
+
+Say the positivity map turns out better and you want it to become the
+real version. Go to `main` and merge the branch in:
+
+```bash
+git switch main
+git merge try-positivity-map
+```
+
+`main` now contains the branch's commits. The experiment graduated.
+
+Once it's merged, the branch has served its purpose and you can clean it
+up:
+
+```bash
+git branch -d try-positivity-map
+```
+
+The lowercase `-d` only deletes branches that have already been merged,
+so it won't quietly throw away work you haven't brought over yet.
+
+| Command | What it does |
+|---|---|
+| `git switch -c name` | Create a branch and move onto it |
+| `git branch` | List branches, `*` marks the current one |
+| `git switch main` | Go back to `main` |
+| `git merge name` | Bring `name`'s commits into the current branch |
+| `git branch -d name` | Delete a branch you've already merged |
+
+One thing you'll eventually hit: if two branches changed the *same lines*
+of the *same file*, git can't decide which version wins and asks you to
+sort it out. That's a **merge conflict**. Working alone on one branch at a
+time, you'll rarely see one — and resolving them is a topic for when you
+start sharing work with other people.
+
+::: {.callout-note}
+This chapter stops at your local history, and local history is genuinely
+enough to work safely on your own — snapshots, an audit trail, and room
+to experiment. When you're ready to share your work or collaborate with
+colleagues, pushing your repository to GitHub is the natural next step.
+:::

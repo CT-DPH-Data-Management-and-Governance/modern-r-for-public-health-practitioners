@@ -1,6 +1,6 @@
 ---
 title: "Loading Your First Dataset"
-packages: [dplyr, readr, fs, here]
+packages: [dplyr, readr, here]
 ---
 
 ```{r}
@@ -8,7 +8,7 @@ packages: [dplyr, readr, fs, here]
 #| include: false
 library(here)
 source(here::here("preamble-packages.R"))
-.chapter_data <- here::here("chapters", "01-working-with-real-data", "data")
+source(here::here("preamble-data.R"))
 ```
 
 ```{r}
@@ -31,8 +31,8 @@ repository.
 
 The family of packages we'll lean on most is called the **tidyverse** —
 a curated set of tools that share a common design and work well together.
-We'll introduce them one at a time. This chapter uses three of them plus
-a few helpers for reading, writing, and navigating files.
+We'll introduce them one at a time. This chapter uses two of them plus
+one helper for building file paths.
 
 ### Installing Packages
 
@@ -44,7 +44,6 @@ a few helpers for reading, writing, and navigating files.
 install.packages(c(
   "dplyr", # for manipulating data
   "readr", # for reading common data files
-  "fs", # for working with files and paths
   "here" # for building paths that work everywhere
 ))
 ```
@@ -64,7 +63,6 @@ We are going to do a few things here:
 
 library(dplyr)
 library(readr)
-library(fs)
 library(here)
 ```
 
@@ -76,15 +74,18 @@ people up early.
 When you run code interactively, R looks for files starting from your project
 root (wherever your `.Rproj` file lives or the root of the folder you opened
 your with your IDE).
-Often you will users will find themselves referencing files in various places
-that are not in the root of their project.
-Hardcoding out a file path like `/home/my-username/folder-that-only-i-have/r-file.R`
-makes this project tied only to that user's computer. That is not ideal,
-which is why using paths relative to the project root  is so important.
+You'll often need to reference files that live somewhere other than the
+project root. Hardcoding a full path like
+`/home/my-username/folder-that-only-i-have/r-file.R` ties your project to
+one specific computer. That's not ideal, which is why building paths
+relative to the project root matters.
 
 `here()` from the `here` package fixes both problems. It detects your project
 root and always builds paths from there, regardless of how or where the code
-runs. Use it instead of `path()` whenever you are building paths to data files.
+runs. Reach for it any time you're building a path to a data file, instead of
+pasting in a full path from your own machine or typing a relative path like
+`"data/raw/file.csv"` that quietly breaks the moment your working directory
+isn't where you assumed it was.
 
 ```{r}
 #| eval: false
@@ -99,8 +100,7 @@ covid_data <- read_csv(csv_path)
 ```{r}
 #| include: false
 
-csv_path <- fs::path(.chapter_data, "ct-covid-by-town-2026-06-30.csv")
-covid_data <- read_csv(csv_path)
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 ```
 
 We have our data saved into our session — now let's look at it.
@@ -124,3 +124,10 @@ Working with Excel files (`.xlsx`) is covered in [Working with Excel Files](../f
 Writing data to files — CSV, parquet, and others — is covered in
 [Writing Data Files](../further-reading/writing-files.qmd).
 :::
+
+### Why build paths?
+
+It's a small thing for one file, but the habit pays off fast: the same
+`here()` pattern works whether you're reading one file or reading from
+several folders across a project, and it keeps working when you hand
+the project to a teammate or open it on a different machine.

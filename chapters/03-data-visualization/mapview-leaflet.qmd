@@ -8,21 +8,24 @@ packages: [mapview, leaflet]
 #| include: false
 source(here::here("preamble-themes.R"))
 source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
 
 library(here)
 library(readr)
 library(dplyr)
+library(janitor)
+library(lubridate)
 library(sf)
 library(tigris)
 library(leaflet)
 library(mapview)
 
-.chapter_data <- here::here("chapters", "03-data-visualization", "data")
+covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 
-covid_data <- read_csv(fs::path(
-  .chapter_data,
-  "ct-covid-by-town-2026-06-30.csv"
-))
+covid_clean <-
+  covid_data |>
+  clean_names() |>
+  mutate(last_update_date = mdy(last_update_date))
 
 # Fetch CT town boundaries
 ct_towns <-
@@ -33,21 +36,16 @@ ct_towns <-
   )
 
 # Summarize cases by town on the latest date
-latest_date <- max(covid_data$`Last update date`, na.rm = TRUE)
+latest_date <- max(covid_clean$last_update_date, na.rm = TRUE)
 
 town_cases <-
-  covid_data |>
-  filter(`Last update date` == latest_date) |>
-  select(
-    Town = Town,
-    case_rate = `Case rate`,
-    total_cases = `Total cases`
-  ) |>
-  rename(name = Town)
+  covid_clean |>
+  filter(last_update_date == latest_date) |>
+  select(town, case_rate, total_cases)
 
 # Join COVID data to spatial data
 ct_bounded <- ct_towns |>
-  left_join(town_cases, by = join_by(NAME == name))
+  left_join(town_cases, by = join_by(NAME == town))
 ```
 
 ```{r}
@@ -155,18 +153,18 @@ lines the same way you would on a web page.
 
 `colorBin()` turns a numeric column into a small palette function —
 give it bin breaks and colors, and it hands back a function that maps
-any value in that range to a color. Build the ramp from the CT DPH
-primary palette so the map matches every other plot in this book:
+any value in that range to a color. Build the ramp light-to-dark so
+the map reads the same way the static choropleth did:
 
 ```{r}
 #| label: leaflet-color
 case_rate_palette <- colorBin(
   palette = c(
-    list_ct_primary_colors$primary_shade4,
-    list_ct_primary_colors$primary_shade3,
-    list_ct_primary_colors$primary,
-    list_ct_primary_colors$primary_shade2,
-    list_ct_primary_colors$primary_shade1
+    "#C6D4FB", # lightest
+    "#7094F5",
+    "#3371E7",
+    "#003D9C",
+    "#00214D" # darkest
   ),
   domain = ct_bounded$case_rate,
   bins = 5,
@@ -193,18 +191,19 @@ ct_case_map <-
 ct_case_map
 ```
 
-`primary_shade4` (the lightest blue) anchors the low end of the ramp,
-`primary_shade1` (the darkest) anchors the high end — light means
-fewer cases, dark means more, same logic as `scale_fill_gradient2()`
-in the static choropleth. `~case_rate_palette(case_rate)` uses `leaflet`'s
-formula syntax to say "run this function on the `case_rate` column of
-the data I gave `leaflet()` at the start" — it plays the same role
-`aes(fill = case_rate)` played earlier.
+The lightest blue anchors the low end of the ramp and the darkest
+anchors the high end — light means fewer cases, dark means more, same
+logic as `scale_fill_gradient2()` in the static choropleth.
+`~case_rate_palette(case_rate)` uses `leaflet`'s formula syntax to say
+"run this function on the `case_rate` column of the data I gave
+`leaflet()` at the start" — it plays the same role `aes(fill =
+case_rate)` played earlier.
 
 ::: {.callout-tip}
-Because we built `case_rate_palette` from `list_ct_primary_colors`
-instead of hardcoded hex codes, if the CT DPH brand colors ever change,
-updating `preamble-themes.R` updates this map too.
+Five hex codes repeated across a dozen plots is five chances to fat-finger
+one. Once you're reusing the same ramp, pull the colors into a named
+object at the top of your script and refer to that instead — change the
+palette in one place, every plot follows.
 :::
 
 ## Marking a single town
@@ -222,7 +221,7 @@ ct_case_map |>
   addMarkers(
     lng = -72.6734,
     lat = 41.7658,
-    popup = "Hartford — click here to see the daily new-case trend for this town."
+    popup = "Hartford — see the daily new-case trend for this town earlier in this chapter."
   )
 ```
 

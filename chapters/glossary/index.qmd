@@ -1,0 +1,443 @@
+---
+title: "Glossary"
+---
+
+A plain-language reference for the R, tidyverse, workflow, and epidemiology
+terms you'll meet in this book. Two kinds of reader should feel at home here:
+someone brand new to R who wants a word explained, and an epidemiologist who
+knows the statistics cold but not the R name for the thing. Where a SAS
+comparison genuinely helps, we make one — but only where it earns its keep.
+
+Definitions are short on purpose. Where a term has a natural home chapter,
+there's a "(see …)" link, but every entry is meant to stand on its own.
+
+## A
+
+Adjusted estimate
+: An effect (like an odds ratio) that accounts for other variables in the
+  model at the same time, so each one is reported holding the others constant.
+  In a logistic regression with several predictors, every coefficient is
+  already adjusted for the rest.
+
+Aesthetic (`aes()`)
+: In ggplot2, the mapping from a column in your data to something you can see
+  on the plot — the x position, the y position, color, size, and so on. `aes(x
+  = date, y = cases)` says "put date on the x-axis, cases on the y." (see
+  [Data visualization](../03-data-visualization/index.qmd))
+
+Aggregate (count) data
+: Data where each row is already a summed-up total — cases per town per day,
+  say — rather than one row per person. The opposite of a line-list. Most of
+  the CT COVID data in this book is aggregate count data.
+
+API (Application Programming Interface)
+: A structured way for one program to ask another for data over the internet.
+  Instead of downloading a file by hand, you send a request in code and get
+  data back. (see [APIs and functions](../apis-functions/index.qmd))
+
+Argument
+: A value you hand to a function to tell it what to do. In `read_csv("data.csv")`,
+  the string `"data.csv"` is the argument. Functions often take several,
+  usually named (`n = 10`).
+
+Arrange (`arrange()`)
+: The dplyr verb that sorts rows by one or more columns. `arrange(desc(date))`
+  puts the newest dates first. Like an `ORDER BY` in SQL or `PROC SORT`.
+
+Assignment (`<-`)
+: How you save a result under a name so you can use it later. `covid <-
+  read_csv(...)` reads the file and stores it in an object called `covid`. The
+  arrow points from the value into the name.
+
+## B
+
+Branch
+: In git, a parallel line of work. You make a branch to try changes without
+  touching the main version, then merge it back in when you're happy. (see
+  [Version control](../version-control/index.qmd))
+
+broom
+: A tidyverse-friendly package that turns messy model output into a tidy
+  tibble. `broom::tidy(model, conf.int = TRUE)` gives you one row per term with
+  its estimate and confidence interval. (see [Modeling](../data-analysis/modeling.qmd))
+
+## C
+
+`case_when()`
+: A dplyr function for building a new column from a cascade of "if this, then
+  that" rules — handy for recoding or bucketing a continuous variable into
+  categories. Reads a bit like a `SELECT … CASE` or a chain of `IF/ELSE`
+  statements.
+
+Case fatality rate (CFR)
+: The share of diagnosed cases that end in death — deaths divided by cases. A
+  descriptive proportion, not a rate over person-time. (see [Describing and
+  testing](../data-analysis/describing-and-testing.qmd))
+
+Chi-square test
+: A test for whether two categorical variables are associated — the counts in
+  a cross-tab, compared against what you'd expect if there were no
+  relationship. `chisq.test()` in R; the CHISQ option on `PROC FREQ` in SAS.
+
+Choropleth
+: A map that shades each area (here, each CT town) by a value — case rate,
+  count, whatever — so the color tells the story geographically. (see [Data
+  visualization](../03-data-visualization/index.qmd))
+
+Code chunk
+: A block of runnable R inside a Quarto document, fenced by `` ```{r} `` …
+  `` ``` ``. When you render, the code runs and its output lands in the
+  finished page.
+
+Commit
+: A saved snapshot of your project in git, with a short message describing what
+  changed. Your history is the chain of commits. (see [Version
+  control](../version-control/index.qmd))
+
+Confidence interval
+: A range of plausible values for an estimate. For an odds ratio, if the 95%
+  interval crosses 1, the association isn't statistically clear at that level —
+  the "no effect" value is still in play.
+
+Count vs. percent
+: A raw tally versus that tally as a share of some total. Counts answer "how
+  many," percents answer "how much of the whole" — you usually want both, which
+  is why `janitor`'s `adorn_` helpers add percents onto a count table.
+
+CRAN (Comprehensive R Archive Network)
+: R's official package repository — the place `install.packages()` downloads
+  from. If a package is "on CRAN," it's been through some basic checks and is
+  one command away.
+
+Cross-tabulation
+: A table of counts broken down by two categorical variables at once — the epi
+  workhorse. `janitor::tabyl(data, var1, var2)` builds one; think `PROC FREQ`
+  with two variables. (see [Describing and testing](../data-analysis/describing-and-testing.qmd))
+
+Cumulative vs. incremental
+: Cumulative counts are running totals that only ever grow (total cases to
+  date); incremental counts are the *new* amount in each period (new cases
+  today). You get daily new cases by subtracting each day's cumulative total
+  from the one before.
+
+## D
+
+Data frame / tibble
+: A rectangular table of data — rows and columns — which is how R holds most
+  datasets. A **tibble** is the tidyverse's modern data frame: same idea,
+  friendlier printing and fewer surprises. Closest thing to a SAS dataset.
+
+Denominator
+: The "out of how many" underneath a rate — the population at risk. Counts
+  alone can mislead; a big town has more cases simply because more people live
+  there. Age-adjusted rates in particular need a population denominator to be
+  meaningful, which is why they wait for a dataset that supplies one.
+
+Descriptive statistics
+: The plain summaries — counts, percents, means, ranges — that describe what's
+  in your data before any formal test. The R answer to a first pass with `PROC
+  MEANS` and `PROC FREQ`. (see [Describing and testing](../data-analysis/describing-and-testing.qmd))
+
+dplyr
+: The tidyverse package for manipulating data frames, built around a handful of
+  verbs — `filter`, `select`, `mutate`, `arrange`, `group_by`, `summarise`.
+  The core of most wrangling in this book.
+
+## E
+
+Endpoint
+: The specific URL an API exposes for a particular dataset or action. You point
+  your request at an endpoint and it hands back the matching data. (see [APIs
+  and functions](../apis-functions/index.qmd))
+
+## F
+
+Factor
+: R's type for a categorical variable, with a fixed set of allowed values
+  called levels. Models use the first level as the reference group, so factors
+  matter when you fit a logistic regression. Like a SAS variable with a defined
+  format for its categories.
+
+Filter (`filter()`)
+: The dplyr verb that keeps only the rows matching a condition —
+  `filter(town == "Hartford")`. This is subsetting rows, the equivalent of a
+  `WHERE` clause or a subsetting `IF` in a SAS DATA step.
+
+Fisher's exact test
+: An alternative to the chi-square test used when cell counts are small, where
+  the chi-square approximation gets shaky. `fisher.test()` in R; the EXACT
+  option on `PROC FREQ`.
+
+Freeze
+: A Quarto feature (`freeze: auto`) that caches the output of your code chunks
+  so they only re-run when the source changes. It keeps builds fast and results
+  stable between renders.
+
+Function
+: A named, reusable piece of code that takes inputs (arguments) and returns a
+  result. `read_csv()`, `filter()`, and `mean()` are all functions; you can
+  also write your own. (see [APIs and functions](../apis-functions/index.qmd))
+
+`fs`
+: A tidyverse-adjacent package for working with files and folders — listing,
+  checking existence, creating directories — with consistent, predictable
+  behavior across operating systems.
+
+## G
+
+Geom
+: A ggplot2 layer that decides *how* your mapped data is drawn — points
+  (`geom_point()`), lines (`geom_line()`), bars, and so on. You stack geoms to
+  build a plot up in layers.
+
+ggplot2
+: The tidyverse plotting package, built on the "grammar of graphics": you
+  describe a plot as data plus aesthetic mappings plus geoms, and add pieces
+  with `+`. (see [Data visualization](../03-data-visualization/index.qmd))
+
+git
+: The version-control system that tracks changes to your files over time, so
+  you can see history, undo mistakes, and collaborate. GitHub is a website that
+  hosts git projects. (see [Version control](../version-control/index.qmd))
+
+glue
+: A stringr-adjacent package for building strings by dropping R values straight
+  into `{braces}` inside text — great for one-line summaries like "Hartford
+  reported {n} new cases."
+
+`group_by()` / `summarise()`
+: The dplyr pair for split-apply-combine: `group_by()` splits the data into
+  groups (say, by town), `summarise()` collapses each group to one summary row.
+  This is `PROC MEANS`/`PROC SUMMARY` with a `BY` statement, done in a pipe.
+
+## H
+
+`here` (the here package)
+: A package that builds file paths from your project's root, so
+  `here("data", "raw", "covid.csv")` works no matter where your script runs.
+  It's the reliable alternative to hard-coded or fragile relative paths.
+
+httr2
+: The package this book uses to talk to web APIs — you build a request piece by
+  piece, send it, and pull data out of the response. (see [APIs and
+  functions](../apis-functions/index.qmd))
+
+## J
+
+janitor
+: A package for cleaning up real-world data: `clean_names()` fixes ugly column
+  names in one shot, and `tabyl()` plus the `adorn_` helpers build tidy count
+  tables with totals and percents. (see [Cleaning data](../02-cleaning-data/index.qmd))
+
+Join (merge)
+: Combining two tables by matching on a shared key column. `left_join()` keeps
+  every row on the left and pulls in matches from the right; `inner_join()`
+  keeps only matches; there are also `right_`, `full_`, `semi_`, and
+  `anti_join()`. This is a SQL join or a SAS `MERGE`. (see [Joins](../further-reading/joins.qmd))
+
+## L
+
+Library
+: The command `library(dplyr)` loads an installed package so you can use its
+  functions in the current session. Heads up for SAS users: this is *not* a SAS
+  library — in R a package is code, not a folder of datasets.
+
+Line-list
+: Data with one row per person or event, carrying individual-level detail — the
+  opposite of aggregate count data. The book uses a synthetic line-list to
+  demonstrate analyses that need person-level records.
+
+Logistic regression
+: A model for a yes/no outcome (died vs. survived) that reports effects as odds
+  ratios. Fit with `glm(..., family = "binomial")` in base R, or the
+  tidymodels way; the SAS equivalent is `PROC LOGISTIC`. (see [Modeling](../data-analysis/modeling.qmd))
+
+lubridate
+: The tidyverse package for working with dates and times — parsing text into
+  real dates with `as_date()`, doing date arithmetic, pulling out the week or
+  month. Sidesteps the classic Excel date-serial-number headaches.
+
+## M
+
+Merge (git)
+: In git, combining the changes from one branch into another. Distinct from a
+  data join, which merges *tables* — same word, different world. (see [Version
+  control](../version-control/index.qmd))
+
+Missing value (`NA`)
+: R's marker for "no value here." `NA` is contagious in arithmetic (anything
+  plus `NA` is `NA`), so you handle it deliberately with tools like `drop_na()`
+  and `replace_na()`. Roughly R's version of a SAS missing (`.`).
+
+Mutate (`mutate()`)
+: The dplyr verb that adds or changes a column — `mutate(rate = cases /
+  population)`. It's how you compute new variables, like an assignment inside a
+  SAS DATA step.
+
+## O
+
+Odds ratio
+: The measure of association a logistic regression reports: how the odds of the
+  outcome change with a predictor. An odds ratio of 1 means no association, and
+  it is *not* the same as a risk ratio — the book is careful about that. (see
+  [Modeling](../data-analysis/modeling.qmd))
+
+Open Data Portal
+: A public website that publishes government datasets for anyone to download or
+  query, often through an API. Connecticut's COVID data lives on one. (see
+  [APIs and functions](../apis-functions/index.qmd))
+
+## P
+
+Package
+: A bundle of ready-made R code (functions, data, docs) you install once and
+  load when you need it. The tidyverse is a family of packages designed to work
+  together.
+
+Pipe (`|>`)
+: The operator that passes the result of one step into the next as its first
+  argument, so you can read code left-to-right, top-to-bottom:
+  `covid |> filter(...) |> summarise(...)`. It's what makes tidyverse code read
+  like a recipe.
+
+p-value
+: The probability of seeing a result at least this extreme if there were truly
+  no association. Small p-values flag "probably not chance" — but a tiny
+  p-value is not the same as a big or important effect.
+
+Project
+: A self-contained working folder that RStudio or Positron treats as home base,
+  keeping your data, scripts, and outputs together. Opening the project sets
+  everything up so paths and packages behave. (see [Orientation](../00-orientation/index.qmd))
+
+## Q
+
+Quarto
+: The publishing system this book is written in. A Quarto document mixes prose
+  with runnable code chunks and renders to HTML, PDF, and more — so the analysis
+  and the write-up live in one file.
+
+## R
+
+recode
+: Replacing the values in a column with new ones — turning `1`/`2` into
+  `"case"`/`"control"`, for instance. Often done with `case_when()` or dplyr's
+  recoding helpers.
+
+Relative path
+: A file location written relative to some starting point rather than from the
+  root of the disk. Fragile relative paths break when scripts move, which is
+  exactly the problem `here()` solves.
+
+renv
+: A package that records the exact versions of every package your project uses,
+  so a collaborator (or future you) can restore the same setup with
+  `renv::restore()`. A cornerstone of reproducibility.
+
+Reproducibility
+: The property that someone else can re-run your work and get the same result —
+  the point of projects, `here()`, renv, seeds, and Quarto freeze all working
+  together. The book treats it as a spectrum, not a pass/fail.
+
+## S
+
+Seed (`set.seed()`)
+: A number that fixes R's random-number generator so "random" operations come
+  out the same every time you run them. Set a seed before anything random and
+  your results reproduce exactly.
+
+Select (`select()`)
+: The dplyr verb that keeps, drops, or reorders *columns* — `select(town, date,
+  cases)`. Column-side counterpart to `filter()`; like `KEEP`/`DROP` in SAS.
+
+`sf` (simple features)
+: The R package for spatial data — it holds map geometries (town boundaries) in
+  a data frame you can wrangle with dplyr and plot with ggplot2. (see [Data
+  visualization](../03-data-visualization/index.qmd))
+
+Snapshot
+: A dataset saved at a fixed point in time. Because open data updates and gets
+  revised, the book pins to a snapshot so the numbers stay stable as you code
+  along.
+
+SODA (Socrata Open Data API)
+: The particular API standard the Connecticut open-data portal uses. It lets you
+  query for just the rows and columns you want instead of downloading
+  everything. (see [APIs and functions](../apis-functions/index.qmd))
+
+String
+: Text data, written in quotes: `"Hartford"`. The stringr package gives you
+  consistent tools for detecting, replacing, trimming, and reshaping strings.
+
+stringr
+: The tidyverse package for working with text — `str_detect()`, `str_replace()`,
+  `str_to_title()`, `str_trim()` and friends — used here to guard and tidy up
+  messy town names.
+
+Summarise (`summarise()`)
+: See **group_by / summarise** — the dplyr verb that collapses rows into summary
+  values like counts and means, usually one row per group.
+
+Synthetic data
+: Fake data generated to look realistic without being anyone's real records.
+  The book uses a synthetic line-list so it can teach person-level analysis
+  without exposing real individuals. (see [Building a dataset](../building-a-dataset/index.qmd))
+
+## T
+
+`tabyl`
+: janitor's tabulation function — a tidy, pipeable frequency or cross-tab table,
+  dressed up with the `adorn_` helpers for totals and percents. The everyday
+  stand-in for `PROC FREQ`. (see [Describing and testing](../data-analysis/describing-and-testing.qmd))
+
+tidy data
+: Data arranged so each variable is a column, each observation a row, and each
+  cell one value. Tidyverse tools expect this shape, and getting there is half
+  the battle of a clean analysis.
+
+tidymodels
+: A family of packages (parsnip, recipes, workflows, broom) that brings the
+  tidyverse's consistent style to modeling — a recipe declares preprocessing, a
+  parsnip spec picks the model, and a workflow bundles them to fit. (see
+  [Modeling](../data-analysis/modeling.qmd))
+
+tidyr
+: The tidyverse package for reshaping data — `pivot_longer()`/`pivot_wider()` to
+  go between wide and long, plus `separate()`, `unite()`, and `uncount()`.
+
+tidyverse
+: The curated collection of R packages (dplyr, readr, ggplot2, tidyr, stringr,
+  and more) that share a common design and are meant to work smoothly together.
+  This book teaches the tidyverse first and skips base R.
+
+Trend in proportions
+: A test for whether a proportion moves steadily in one direction across an
+  ordered variable — rising case-positivity over time, say. `prop.trend.test()`
+  in R. (see [Describing and testing](../data-analysis/describing-and-testing.qmd))
+
+## U
+
+`uncount()`
+: A tidyr function that expands a count table back into one row per unit — the
+  reverse of tallying. Handy for turning aggregate counts into a line-list-shaped
+  table when an analysis needs individual rows.
+
+## V
+
+Vector
+: R's most basic data structure: an ordered sequence of values, all the same
+  type (a column of a data frame is a vector). Most R functions operate on whole
+  vectors at once rather than looping row by row.
+
+## W
+
+Wide vs. long
+: Two shapes for the same data. Wide spreads a variable across many columns (one
+  column per week); long stacks it into fewer columns with more rows (a week
+  column and a value column). `pivot_longer()` and `pivot_wider()` move between
+  them — this is `PROC TRANSPOSE`'s job in SAS.
+
+Working directory
+: The folder R currently treats as "here" when it reads or writes files. Rather
+  than fiddling with it, this book leans on projects and `here()` so paths just
+  work.

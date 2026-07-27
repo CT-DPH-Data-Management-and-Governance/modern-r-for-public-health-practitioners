@@ -1,6 +1,12 @@
 ---
 title: Working with APIs and Functions
 packages: [httr2]
+execute:
+  # This chapter calls the live CT Open Data Portal. Frozen so a portal
+  # outage can never fail a publish, and so routine builds don't hammer
+  # a public API. Re-render deliberately with `quarto render <file>
+  # --execute` when you want fresh output.
+  freeze: true
 ---
 
 ```{r}
@@ -18,30 +24,30 @@ packages_used_callout(rmarkdown::metadata$packages)
 
 ## What is an API!?
 
-To put it simply, An API^[[IBM's definition](https://www.ibm.com/think/topics/api)] 
-or **application programming interface** can be thought of in part as another 
-tool in the user's tool belt to *programmatically* interact and often extract 
-data without having to manually download data. No one needs to lift their
-mouse and search through a webpage and click download.  This is a simple,
-yet powerful concept that extend to many areas of data work and beyond. 
-I encourage users to read up on and develop their API skills beyond 
-what is presented in our coursework.
+To put it simply, an API^[[IBM's definition](https://www.ibm.com/think/topics/api)]
+or **application programming interface** can be thought of as another
+tool in your tool belt to *programmatically* interact with and often extract
+data without having to manually download it. You don't need to lift your
+mouse and search through a webpage and click download. This is a simple,
+yet powerful concept that extends to many areas of data work and beyond.
+There's a lot more to APIs than what's covered here, and it's well worth
+digging further into on your own.
 
 
 ## Working with `httr2`
 
 We will be working with [`httr2`](https://httr2.r-lib.org/articles/httr2.html)
 as our package of choice for API work. Often, specific APIs will have their
-own packages for working with them, it is often better to use those, but we
+own packages for working with them, and it is often better to use those, but we
 cannot cover them all, and not every API has its own package. `httr2` will
-always be here for us, and if users can understand `httr2` then picking
-up the other more specific packages will become even easier.
+always be here for you, and if you can understand `httr2` then picking
+up other, more specific packages will become even easier.
 
-Remember our Covid-19 pandemic dataset? Before we would navigate to that 
-website and download the datafile, or perhaps rely on the snippet of data
-provided in this course. No more - we are far too busy for that kind of work.
-From here on out we will be using the API, and in the future when users
-encounter data they want to incorporate into their analyses - it is almost
+Remember our COVID-19 pandemic dataset? Before, you would navigate to that
+website and download the data file, or perhaps rely on the snippet of data
+provided in this course. No more - you are far too busy for that kind of work.
+From here on out we will be using the API, and in the future when you
+encounter data you want to incorporate into your analyses, it is almost
 always better to use the API.
 
 Install `httr2` like we would any other package.
@@ -116,18 +122,18 @@ my_odp_data
 
 Lovely - but how come there are only 1000 rows? That leads us to our next
 wrinkle when working with APIs. This one is public, so just about anyone
-can hammer on this API at anytime, and some of data can be quite large. In 
-order to prevent users from accidentally running a massive query for data they
+can hammer on this API at anytime, and some of the data can be quite large. In
+order to prevent you from accidentally running a massive query for data you
 may not even need (and to prevent misuse from unscrupulous types) APIs will
 often only send a small chunk of the data and then offer up ways to retrieve
-the next chunk, and then the next chunk, and so on and so forth.  This can
+the next chunk, and then the next chunk, and so on and so forth. This can
 be accomplished in a few different ways, but for this API they use pages
-with **limits** and **offsets**. 
+with **limits** and **offsets**.
 
 
 ::: {.callout-note}
-Users working with different APIs should read *that* API's 
-documentation to see how that specific API handles pagination/iteration
+When you work with a different API, read *that* API's
+documentation to see how it specifically handles pagination/iteration
 through responses.
 :::
 
@@ -137,11 +143,11 @@ through responses.
 ## Extracting *all* data
 
 We're going to have to do a little leg work here to get *all* the
-data, and then I am going to show you how you can package this all up
-so you can reuse it over and over again.
+data, and then we'll package it all up so you can reuse it over and
+over again.
 
-First, users need to understand what the limit and offset are and
-how they can leverage those to get the data they expect.
+First, you need to understand what the limit and offset are and
+how you can leverage those to get the data you expect.
 
 - **limit**: The total number of *rows* of data brought back in the request.
     - The default for *this* API and this endpoint is 1000. Some datasets might
@@ -168,9 +174,9 @@ of our dataset we can modify our url to look like this:
 [`https://data.ct.gov/resource/28fr-iqnx.json?$limit=1&$offset=9`](https://data.ct.gov/resource/28fr-iqnx.json?$limit=1&$offset=9)
 
 Notice that the parameters come at the end of the original url after a `?`.
-Users then append `$limit=` and `&` and `$offset=` with the desired values.
+You then append `$limit=` and `&` and `$offset=` with the desired values.
 Feel free to try this in your web browser - most modern browsers will display
-the data from the response. 
+the data from the response.
 
 
 ::: {.callout-note}
@@ -181,7 +187,7 @@ data is 'row' 0. To grab the 10th item we skip the first 9 items.
 :::
 
 
-Do not take my word for it. Try this out:
+See for yourself:
 click on [`https://data.ct.gov/resource/28fr-iqnx.json?$limit=10&$offset=0`](https://data.ct.gov/resource/28fr-iqnx.json?$limit=10&$offset=0)
 and make note of the tenth item.
 
@@ -263,8 +269,8 @@ data
 
 Wait - weren't we promised all the data!?
 Fair point, how do we grab that data if we don't know how many rows there are?
-At time of writing there are 102245 rows in this dataset, but let's pretend
-we do not know that, and often that is the case.
+At time of writing there were about 102,000 rows in this dataset, but let's
+pretend we do not know that, and often that is the case.
 
 ```{r}
 
@@ -301,17 +307,24 @@ data <-
     }
   )
 
-nrow(data) == 102245
+nrow(data)
 ```
 
-Look at that! We have our 102245 rows. 
+Look at that - every row, without knowing the count up front.
+
+Notice we printed the row count rather than checking it against a number
+typed into the script. This dataset is an archive, so it's stable, but
+live endpoints rarely are: rows get added, corrected, and occasionally
+removed. Hardcoding "there should be 102,245 rows" is the kind of check
+that quietly starts failing months later for a reason that has nothing
+to do with your code.
 
 
 ::: {.callout-warning}
 
 ***Start small when working with a new endpoint***
 
-Users will often want *all* the data, but they will often *not* know how many 
+You will often want *all* the data, but you'll often *not* know how many
 rows there are. Use caution when grabbing everything, there may be more data
 than can be handled at once.
 
@@ -320,17 +333,17 @@ than can be handled at once.
 
 ## Functions crash course
 
-By now users may have noticed that we've written the same or similar
-chain of request and response a few times now. Let us tidy this up into
-something we can reuse over and over - a function! The `httr2` documentation
+By now you may have noticed that you've written the same or similar
+chain of request and response a few times now. Let's tidy this up into
+something you can reuse over and over - a function! The `httr2` documentation
 has a wonderful section on [wrapping apis](https://httr2.r-lib.org/articles/wrapping-apis.html#secret-management)
-into useful functions that I will encourage users to read.
+into useful functions, and it's well worth reading.
 
-We will take much of the logic and code discussed in that document and 
+We will take much of the logic and code discussed in that document and
 apply it to our usecases.
 
-Up to this point users will be using functions all over the place in R.
-Now we are going to write out own using the `function()` function to
+Up to this point you've been using functions all over the place in R.
+Now you're going to write your own using the `function()` function to
 encapsulate our logic. We will do this time and time again. We create
 our function by providing the inputs it expects, and then perform
 the actions we want it to do with those inputs. Good functions typically
@@ -343,11 +356,11 @@ typing we need to do, smooths over some API rough edges and finally
 returns all the data.
 
 Take one more look at our endpoint: `https://data.ct.gov/resource/28fr-iqnx.json`.
-Notice anything? If we're always using the Open Data Portal, the domain (data.ct.gov)
-is always going to be the same. There is always going to be a '/resource/' 
-section and always a '.json'.  The only real part that is going to change is
-the resource id (often called a four by four on this portal). So that is
-probably a good target for input from users.
+Notice anything? If you're always using the Open Data Portal, the domain (data.ct.gov)
+is always going to be the same. There is always going to be a '/resource/'
+section and always a '.json'. The only real part that is going to change is
+the resource id (often called a four by four on this portal). That's a
+good candidate for an argument to your function.
 
 ```{r}
 
@@ -415,20 +428,20 @@ covid_data <- fetch_all_data(resource = resource)
 covid_data
 ```
 
-If this was your first function, congratulations! 
+If this was your first function, congratulations!
 
 
 ::: {.callout-tip}
 
-From here users can go in many different directions. 
+From here you can go in many different directions.
 Some tips to consider:
-    - It would be a good idea to check the user input to make sure it is valid
+    - It would be a good idea to check the input to make sure it is valid
     - Handling errors gracefully would be a good next stop - remember the issue
-    may not be on the user's end, the portal could be having issues etc...
+    may not be on your end, the portal could be having issues etc...
 :::
 
-Users who checked out the `httr2` documentation may have noticed that the
+If you checked out the `httr2` documentation, you may have noticed that the
 authors went through great lengths to discuss secrets and api keys.
 Since the API key is sort of a nice to have for this public API we
 will be discussing those later on. See @sec-secrets for
-those details if you wish skip ahead now. 
+those details if you wish skip ahead now.

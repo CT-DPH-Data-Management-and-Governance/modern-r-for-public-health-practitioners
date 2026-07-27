@@ -40,26 +40,33 @@ One thing to know about R before you start: unlike SAS, R is interactive. When y
 
 ## The arc
 
-| Chapter | What you build | The new skill |
+| Part | What you build | The new skill |
 |--------|---------------|---------------|
-| **0 — Orientation** | Your first rendered R analysis | R mindset; the SAS→R Rosetta stone |
-| **1 — Import** | A real CT dataset + data profile | `readr`; inspect before you trust |
-| **2 — Wrangling** | A clean, joined, analysis-ready dataset | tidyverse `DATA`-step verbs; joins |
-| **3 — Descriptive epi** | Publication-quality tables | `gt`; counts, rates, CIs |
-| **4 — Visualization** | Trend charts + a CT choropleth map | `ggplot2`; `sf` + `tigris` |
-| **5 — Quarto report** | Leadership-ready report v1 | Quarto; findings before methods |
-| **6 — Functions** | One template, any county or year | Functions; Quarto params |
-| **7 — API** | A self-fetching, live-data report | SODA API; SoQL; fallback caching |
-| **8 — Reproducibility** | Published GitHub Pages capstone | `renv`; `here`; GitHub Pages |
-| **9 — Automation** *(stretch)* | Scheduled re-render | GitHub Actions; handoff |
+| **Orientation** | Your project folder + first rendered analysis | R mindset; the SAS→R Rosetta stone |
+| **Working with Real Data** | A clean, tidy, analysis-ready dataset | `readr`; `janitor`, `tidyr`, `stringr`, `lubridate`, `glue` |
+| **Data Visualization** | Trend charts + a CT choropleth, static and interactive | `ggplot2`; `sf` + `tigris`; `leaflet`/`mapview` |
+| **Checkpoint** | A one-paragraph status report, built from everything so far | Nothing new — just pulling the pieces together |
+| **Managing Code** | A project with real, reviewable history | git: commits, history, branches |
+| **Intermediate R** | One template that works for any town | Functions; the state's open-data API |
+| **Security Basics** | Credentials that never live in your script | Environment variables; `keyring` |
+
+Further Reading picks up deeper dives — joins, Excel files, writing data
+out — whenever a chapter needs one and you want more than the quick
+version.
 
 ## How to use this site
 
 Work through chapters in order. Each one has:
 
-- **Lesson** — a runnable, narrated `.qmd` file you execute yourself
-- **Exercises** — 3–5 scaffolded problems with explicit "done when" checks
-- **Solutions** — available after you've tried on your own
+- **Lesson** (`index.qmd`) — a narrated, runnable walkthrough of the new
+  ideas, with code you type out yourself as you read
+- **Project** (`project.qmd`) — on the main arc chapters, a shorter pass
+  that puts the lesson to work on the running COVID briefing and leaves
+  something real in your `covid-briefing/` folder
+
+Read the lesson first, then do the project. The project picks up where
+the last one left off, so skipping one will leave you missing a file the
+next one expects.
 
 ## Before you start
 
@@ -82,7 +89,7 @@ If you run into install problems, the Posit community forums are the fastest pla
 
 ## The scenario
 
-It's spring of 2020 and you are working as an analyst for
+The pandemic is in full swing and you are working as an analyst for
 the Connecticut Department of Public Health's Pandemic Incident Command.
 You are tasked with preparing a briefing for the Commissioner so that they
 can in turn brief the governor on the current situation.
@@ -154,12 +161,17 @@ directory. This matters throughout the rest of the book.
 
 ### Getting the Data
 
-1. Go to the dataset page:
-   `https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx`
+1. Go to the Open Data dataset page: [Covid 19 Tests, Cases and Deaths by Town ARCHIVE](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data)
 2. Click **Export → CSV** to download it.
 3. Move the downloaded file into `data/raw/`.
 4. Rename it to include the date you downloaded it, e.g.:
    `ct_covid_by_town_2026-06-30.csv`
+
+::: {.callout-tip}
+Every dataset this book uses — with its source page and direct download links —
+is cataloged in the [Data Library](../data-library/index.qmd) at the end of the
+book. If you ever need to find or re-download source data, that's where to look.
+:::
 
 The date stamp matters more than it looks like it should. This dataset is
 revised after the fact — Connecticut DPH updates prior dates as new reports

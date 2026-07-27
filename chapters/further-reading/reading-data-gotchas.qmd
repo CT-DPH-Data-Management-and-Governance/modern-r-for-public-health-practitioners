@@ -1,0 +1,201 @@
+---
+title: "Reading Data: Formats and Gotchas"
+---
+
+Data shows up in a lot of shapes. A CSV emailed from a hospital, an Excel
+workbook from a lab, a Microsoft Access database that's been passed around
+a program for a decade. R can read all of these, but a stakeholder's very
+fair question is: *once it's in R, does the data need reformatting, and does
+that depend on the file type?*
+
+The short version: the file *type* changes **how** you read it — which package
+and function you reach for — but most of the cleanup headaches are the **same**
+no matter where the data came from. Dates come in as text, column names arrive
+messy, and blank cells mean different things to different systems. Those quirks
+follow the data around regardless of format.
+
+This page is the reference for those cross-cutting quirks. For the actual
+*how-to* of reading files, you've already seen it:
+
+- [Loading Your First Dataset](../01-working-with-real-data/index.qmd) covers
+  reading a `.csv` with `readr::read_csv()`.
+- [Working with Excel Files](excel-files.qmd) covers `.xlsx` with
+  `readxl::read_excel()`.
+
+This page is about the *gotchas* that come after the read.
+
+## Formats at a glance
+
+Here are the formats an epidemiologist meets most often, the function that reads
+each one, and the quirks that come with the territory.
+
+| Format | Read it with | Format-specific quirks |
+|---|---|---|
+| `.csv` (comma-separated) | `readr::read_csv()` | Plain text, so there's no stored notion of "this is a date" or "this is a number" — `readr` guesses column types from the values. Watch for commas *inside* fields, and for regional files that use `;` as the separator (`read_csv2()`). |
+| `.xlsx` / `.xls` (Excel) | `readxl::read_excel()` | Multiple sheets (use `sheet =`), merged cells, and title rows above the real header. Excel stores dates as **serial numbers** under the hood, which sometimes surface as numbers like `44927` instead of a date. |
+| `.accdb` / `.mdb` (MS Access) / other databases | `DBI` + `odbc`, **or** export to CSV first | Needs a database connector and a platform-specific driver — often Windows-only. See the note below. |
+
+Databases deserve an honest note rather than a full tutorial. Reading directly
+from Microsoft Access (or SQL Server, or similar) means connecting to it with
+the `DBI` package plus a backend like `odbc`, and that in turn needs a
+database *driver* installed on your machine — which is frequently
+Windows-specific and not always something you can install yourself. The
+pragmatic path, and the one worth trying first, is to open the database and
+**export the table you need to CSV**, then read that CSV with the tools you
+already know. A fuller treatment of connecting to databases from R is a good
+candidate for a later chapter.
+
+## The gotchas
+
+### Dates read in as text
+
+This is the one that trips up almost everyone. Unless you tell it otherwise, R
+will read a column of dates as plain **character** text. A value like
+`06/30/2026` is just a string of characters as far as R is concerned — you
+can't do date math on it, sort it chronologically, or filter a date range until
+it's been *parsed* into a real date.
+
+Parsing is exactly what [`lubridate`](../02-cleaning-data/index.qmd) is for. You
+tell it the order the pieces appear in — month, day, year — and it handles the
+rest:
+
+```{r}
+#| eval: false
+library(lubridate)
+
+mdy("06/30/2026") # month-day-year
+ymd("2026-06-30") # year-month-day
+```
+
+There's no format string to memorize; the function name spells out the order.
+The [Cleaning Data chapter](../02-cleaning-data/index.qmd) walks through this on
+the real COVID dataset.
+
+::: {.callout-warning}
+## Excel's date serial-number trap
+Excel doesn't store dates as text at all — it stores them as a **serial
+number** counting days from an internal start date. Most of the time `readxl`
+converts these back to dates for you, but if a column has mixed content, or the
+cell was formatted oddly, dates can arrive in R as bare numbers like `44927`.
+
+If you open a "date" column and find integers around `40000`–`46000`, that's
+almost certainly an Excel serial number. You can convert it back with
+`as.Date(44927, origin = "1899-12-30")`. When you spot this, it's worth going
+back to the source workbook to confirm what those numbers are supposed to mean
+before trusting the conversion.
+:::
+
+### Variable (column) names
+
+R is picky about names, and data files rarely respect its rules. A "clean" R
+name — what R calls a *syntactic* name — must:
+
+- **not start with a number** (`2020_cases` is illegal; `cases_2020` is fine),
+- **contain no spaces** (`Total Cases` breaks),
+- **avoid most punctuation** (`%`, `#`, `/`, `(` and friends are out;
+  underscores and dots are allowed),
+- and remember that names are **case-sensitive** (`Town` and `town` are two
+  different things).
+
+R won't refuse to *hold* a messy name — it just forces you to wrap it in
+backticks every single time you refer to it:
+
+```{r}
+#| eval: false
+# a column literally named "Total Cases" with a space
+covid_data |>
+  select(`Total Cases`)
+```
+
+Typing backticks around every reference gets old fast. The fix is
+`janitor::clean_names()`, taught in the
+[Cleaning Data chapter](../02-cleaning-data/index.qmd). It lowercases
+everything, swaps spaces for underscores, and strips the problem characters in
+one call:
+
+```{r}
+#| eval: false
+library(janitor)
+
+covid_data <- clean_names(covid_data)
+# "Total Cases" becomes total_cases, no backticks needed ever again
+```
+
+On length: R technically allows very long names, but keep them short and
+readable anyway. Some export formats and downstream tools quietly truncate long
+names, and a column called `n_confirmed` is easier to live with than
+`number_of_confirmed_cases_reported_this_week`.
+
+### Case sensitivity bites twice
+
+Case sensitivity isn't just a naming rule — it applies to the **data values**
+too. To R, `"Hartford"`, `"hartford"`, and `"HARTFORD"` are three different
+strings. That has two practical consequences:
+
+- **Filtering** silently misses rows. `filter(town == "hartford")` returns
+  nothing if the data stores `"Hartford"`.
+- **Joins** silently drop matches. If one table has `"New Haven"` and another
+  has `"NEW HAVEN"`, those rows won't line up, and you may not notice the gap
+  until your counts look wrong.
+
+The defense is to normalize case *before* you filter or join, using
+`stringr`'s case helpers (also from the
+[Cleaning Data chapter](../02-cleaning-data/index.qmd)):
+
+```{r}
+#| eval: false
+library(stringr)
+
+str_to_lower("HARTFORD") # "hartford"  — good for matching
+str_to_title("new haven") # "New Haven" — good for display
+```
+
+A common pattern is to lowercase both sides of a join key so the match doesn't
+depend on how each source happened to capitalize things.
+
+### Blanks, empties, and "missing"
+
+An empty cell is more ambiguous than it looks, and different systems disagree on
+what it means. When R reads a file, a "missing" value might arrive as any of:
+
+| What's in the file | How R may see it | What it means |
+|---|---|---|
+| truly empty cell | `NA` | no value recorded |
+| empty text `""` | `""` (empty string) | a value that happens to be blank text |
+| the literal text `NA`, `N/A`, `.`, `Unknown` | a character string | a *placeholder* someone typed for missing |
+
+That last row is the trap. If a source system writes `"N/A"` or `.` (a
+convention SAS users will recognize) into blank cells, R reads them as ordinary
+text, not as missing. A count of missing values will say zero, and any numeric
+column with `"N/A"` sprinkled in will refuse to be numeric at all.
+
+`read_csv()` has an `na =` argument for exactly this — you list the strings that
+should be treated as missing:
+
+```{r}
+#| eval: false
+library(readr)
+
+# treat blanks, "NA", "N/A", and a lone "." all as missing
+covid_data <- read_csv(
+  csv_path,
+  na = c("", "NA", "N/A", ".")
+)
+```
+
+Why fuss over blank-versus-`NA`? Because it changes your numbers. An empty
+string `""` is a real (if empty) value and gets **counted**; an `NA` does not.
+And functions like `mean()` and `sum()` return `NA` the moment a single `NA` is
+present unless you tell them to skip it with `na.rm = TRUE`. Getting the missing
+values labeled correctly up front is what makes counts, denominators, and
+`na.rm` behave the way you expect downstream. The
+[Cleaning Data chapter](../02-cleaning-data/index.qmd) covers what to do with
+`NA`s once they're correctly identified (`drop_na()`, `replace_na()`).
+
+## This list will grow
+
+These are the gotchas that come up again and again, across nearly every format
+an epidemiologist reads. As the book picks up more formats — databases, APIs,
+and other sources — new format-specific quirks will land here alongside them.
+The reassuring part is that the *core* cleanup — dates, names, case, and
+missing values — stays the same no matter how the data arrived.

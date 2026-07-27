@@ -8,7 +8,7 @@ book:
   date: "06/22/2026"
   description: >
     A project-based course for public health practitioners who
-    want to become confident R users by buidling a report
+    want to become confident R users by building a report
     that grows with every chapter.
 
   search: true
@@ -17,6 +17,7 @@ book:
 
   sidebar:
     style: floating
+    collapse-level: 1
 
   page-footer:
     left: |
@@ -26,7 +27,7 @@ book:
 
 
   chapters:
-    - index.qmd 
+    - index.qmd
     - chapters/00-orientation/preface.qmd
     - part: "Introduction and Process"
       chapters:
@@ -36,18 +37,33 @@ book:
         - chapters/01-working-with-real-data/index.qmd
         - chapters/01-working-with-real-data/project.qmd
         - chapters/02-cleaning-data/index.qmd
+        - chapters/02-cleaning-data/project.qmd
+    - part: "Building a Dataset"
+      chapters:
+        - chapters/building-a-dataset/index.qmd
+    - part: "Data Analysis"
+      chapters:
+        - chapters/data-analysis/describing-and-testing.qmd
+        - chapters/data-analysis/modeling.qmd
     - part: "Data Visualization"
       chapters:
         - chapters/03-data-visualization/index.qmd
         - chapters/03-data-visualization/mapview-leaflet.qmd
+        - chapters/03-data-visualization/project.qmd
+    - part: "Checkpoint"
+      chapters:
+        - chapters/04-project-checkin/index.qmd
+    - part: "Managing Code"
+      chapters:
+        - chapters/version-control/index.qmd
+        # Drafts — unwired until they have real content beyond TODOs.
+        # - chapters/team-github/index.qmd
+        # - chapters/code-style/index.qmd
+        # - chapters/documenting-work/index.qmd
     - part: "Intermediate R: Automating the Manual Steps"
       chapters:
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
-    - part: "Data Visualization"
-      chapters:
-        - chapters/03-data-visualization/index.qmd
-        - chapters/03-data-visualization/mapview-leaflet.qmd
     - part: "Security Basics"
       chapters:
         - chapters/secrets/index.qmd
@@ -56,7 +72,15 @@ book:
         - chapters/further-reading/index.qmd
         - chapters/further-reading/joins.qmd
         - chapters/further-reading/excel-files.qmd
+        - chapters/further-reading/reading-data-gotchas.qmd
         - chapters/further-reading/writing-files.qmd
+        - chapters/further-reading/epi-packages.qmd
+    - part: "Data Library"
+      chapters:
+        - chapters/data-library/index.qmd
+    - part: "Glossary"
+      chapters:
+        - chapters/glossary/index.qmd
   page-navigation: true
 
 
@@ -72,7 +96,3 @@ execute:
   echo: true
   warning: false
   message: false
-
-
-
-
