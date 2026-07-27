@@ -17,6 +17,7 @@ book:
 
   sidebar:
     style: floating
+    collapse-level: 1
 
   page-footer:
     left: |
@@ -37,6 +38,13 @@ book:
         - chapters/01-working-with-real-data/project.qmd
         - chapters/02-cleaning-data/index.qmd
         - chapters/02-cleaning-data/project.qmd
+    - part: "Building a Dataset"
+      chapters:
+        - chapters/building-a-dataset/index.qmd
+    - part: "Data Analysis"
+      chapters:
+        - chapters/data-analysis/describing-and-testing.qmd
+        - chapters/data-analysis/modeling.qmd
     - part: "Data Visualization"
       chapters:
         - chapters/03-data-visualization/index.qmd
@@ -64,7 +72,15 @@ book:
         - chapters/further-reading/index.qmd
         - chapters/further-reading/joins.qmd
         - chapters/further-reading/excel-files.qmd
+        - chapters/further-reading/reading-data-gotchas.qmd
         - chapters/further-reading/writing-files.qmd
+        - chapters/further-reading/epi-packages.qmd
+    - part: "Data Library"
+      chapters:
+        - chapters/data-library/index.qmd
+    - part: "Glossary"
+      chapters:
+        - chapters/glossary/index.qmd
   page-navigation: true
 
 

@@ -49,6 +49,9 @@ hartford <-
 ```
 
 
+With the synthetic line-list detour behind us, we're back on the real
+town-level data and the Commissioner's briefing.
+
 Earlier we filtered Hartford's data down to a single tidy tibble.
 You looked at the rows in your console and we moved on. This is great
 for getting a feel for the data, but it doesn't necessarily make it easy

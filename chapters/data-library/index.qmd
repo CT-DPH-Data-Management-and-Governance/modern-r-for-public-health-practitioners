@@ -1,0 +1,150 @@
+---
+title: "Data Library"
+---
+
+This page is the book's running index of every raw dataset we use — where
+each one came from, what we do with it, and where to grab it. You're
+coding along without cloning the repo, so this is your one-stop shop for
+pulling down the source data. It starts small and grows as the book
+grows, so check back when a new chapter introduces a new file.
+
+Every dataset lives in the top-level [`data/`
+folder](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/tree/main/data)
+of the book's repository. For each file below you'll find its original
+home on the [Connecticut Open Data Portal](https://data.ct.gov/) (the
+"ODP") plus direct GitHub links — a **blob** link to browse it in the
+browser and a **raw** link you can hand straight to `readr::read_csv()`
+or download with your browser.
+
+::: {.callout-note}
+## These are snapshots
+
+The files here are point-in-time snapshots, frozen so the book's code
+gives everyone the same results. The live ODP datasets keep updating —
+the APIs chapter shows you how to pull fresh data straight from the
+source when you want it.
+:::
+
+## At a glance
+
+| File | Source | Where it's used | Links |
+|---|---|---|---|
+| `ct-covid-by-town-2026-06-30.csv` | COVID-19 By Town (ARCHIVE), `28fr-iqnx` | Chapters 1–4 and the maps | [ODP](https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data) · [blob](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/ct-covid-by-town-2026-06-30.csv) · [raw](https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/ct-covid-by-town-2026-06-30.csv) |
+| `covid-2022.csv` | 2022 slice of `28fr-iqnx` | Further Reading → Excel files | [blob](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.csv) · [raw](https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.csv) |
+| `covid-2022.xlsx` | 2022 slice of `28fr-iqnx` | Further Reading → Excel files | [blob](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.xlsx) · [raw](https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.xlsx) |
+| `synthetic-covid-linelist.csv` ⚠️ **fake** | Built from `28fr-iqnx` counts | Building a Dataset lesson | [blob](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/synthetic-covid-linelist.csv) · [raw](https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/synthetic-covid-linelist.csv) |
+| _not yet downloaded_ | Cases & Deaths by Race/Ethnicity (ARCHIVE), `7rne-efic` | Planned — future scenarios | [ODP](https://data.ct.gov/Health-and-Human-Services/COVID-19-Cases-and-Deaths-by-Race-Ethnicity-ARCHIV/7rne-efic/about_data) · [SODA](https://data.ct.gov/resource/7rne-efic.json) |
+
+## COVID-19 Tests, Cases, and Deaths by Town
+
+**`ct-covid-by-town-2026-06-30.csv`** is the book's primary dataset — the
+one the running analysis is built on. Each row is a Connecticut town's
+cumulative COVID-19 tally (cases, deaths, tests, and rates) as of a given
+report date, so the file is a stack of daily snapshots for all 169 towns.
+
+- **What we use it for:** it drives the analysis from Chapter 1 through
+  Chapter 4, including the maps in the data visualization chapter.
+- **Coverage:** 169 CT towns, report dates spanning roughly
+  **2020-03-24 to 2022-06-24**.
+- **Snapshot taken:** 2026-06-30, from the ODP dataset **"COVID-19 Tests,
+  Cases, and Deaths By Town — ARCHIVE"** (dataset id `28fr-iqnx`).
+
+Links:
+
+- ODP landing page: <https://data.ct.gov/Health-and-Human-Services/COVID-19-Tests-Cases-and-Deaths-By-Town-ARCHIVE/28fr-iqnx/about_data>
+- SODA API endpoint (used in the APIs chapter): <https://data.ct.gov/resource/28fr-iqnx.json>
+- GitHub (browse): <https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/ct-covid-by-town-2026-06-30.csv>
+- GitHub (raw download): <https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/ct-covid-by-town-2026-06-30.csv>
+
+## COVID-19 by Town — 2022 Excel demo slice
+
+**`covid-2022.csv`** and **`covid-2022.xlsx`** are the same data in two
+formats: a 2022-only slice of the COVID-by-town dataset above, carved out
+purely to demonstrate reading Excel files with `readxl` in Further
+Reading → [Working with Excel Files](../further-reading/excel-files.qmd).
+
+Both files carry the same 16 columns as the primary dataset — `town`,
+`total_cases`, `confirmed_cases`, `probable_cases`, `case_rate`,
+`total_deaths`, `people_tested`, `number_of_tests`, and so on — cleaned
+up to tidy `snake_case` names. The slice covers all 169 towns for report
+dates from **2022-01-03 to 2022-06-24**.
+
+Links:
+
+- `covid-2022.csv` — [browse](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.csv) · [raw](https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.csv)
+- `covid-2022.xlsx` — [browse](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/covid-2022.xlsx) · [raw](https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/covid-2022.xlsx)
+
+## Synthetic COVID-19 line-list
+
+::: {.callout-warning}
+## This one is fake
+
+**`synthetic-covid-linelist.csv` is not real data.** The town names and case
+counts come from the real ODP dataset above, but every age, sex,
+race/ethnicity, date, and outcome is randomly generated. No row is a real
+person. It exists purely to practice case-level (one-row-per-case) work that
+the aggregate files can't support. Never treat it as real DPH records.
+:::
+
+A synthetic line-list of ~35,000 COVID-19 cases in Hartford County during the
+winter 2020–2021 surge — one row per case, with simulated demographics, onset
+and report dates, hospitalization, and death. The [Building a
+Dataset](../building-a-dataset/index.qmd) chapter walks through exactly how it
+was made, and the generator that produced it is version-controlled at
+[`data-raw/make-synthetic-linelist.R`](https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data-raw/make-synthetic-linelist.R)
+(seeded, so it reproduces byte-for-byte).
+
+- Based on ODP dataset `28fr-iqnx` (see above), scoped to Hartford County,
+  Dec 2020 – Jan 2021.
+- GitHub (browse): <https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/synthetic-covid-linelist.csv>
+- GitHub (raw download): <https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/synthetic-covid-linelist.csv>
+
+## COVID-19 Cases and Deaths by Race and Ethnicity
+
+Statewide COVID-19 cases and deaths broken out by race and ethnicity, from
+the ODP dataset **"COVID-19 Cases and Deaths by Race/Ethnicity — ARCHIVE"**
+(dataset id `7rne-efic`). It's earmarked here for future scenarios — a
+demographic breakdown opens up questions the town-level file can't answer,
+like disparities in outcomes across groups.
+
+::: {.callout-note}
+No local snapshot lives in `data/` yet. Once you download one and commit it
+(same date-stamped convention as the other files), fill in its GitHub blob
+and raw links here and update the "At a glance" row above.
+:::
+
+Links:
+
+- ODP landing page: <https://data.ct.gov/Health-and-Human-Services/COVID-19-Cases-and-Deaths-by-Race-Ethnicity-ARCHIV/7rne-efic/about_data>
+- SODA API endpoint: <https://data.ct.gov/resource/7rne-efic.json>
+
+<!--
+================================================================================
+ADDING A NEW DATASET — copy this block, drop it above this comment, fill it in.
+
+1. Add a row to the "At a glance" table:
+
+| `your-file.csv` | Human-readable source, `dataset-id` | Where it's used | [ODP](ODP_ABOUT_URL) · [blob](BLOB_URL) · [raw](RAW_URL) |
+
+2. Add a detail subsection:
+
+## Human-readable dataset name
+
+**`your-file.csv`** is a ONE-SENTENCE description of what a row represents.
+
+- **What we use it for:** which chapter(s) and to what end.
+- **Coverage:** geography / date range / row grain.
+- **Snapshot taken:** YYYY-MM-DD, from ODP dataset "NAME" (id `dataset-id`).
+
+Links:
+
+- ODP landing page: <ODP_ABOUT_URL>
+- SODA API endpoint: <https://data.ct.gov/resource/DATASET-ID.json>
+- GitHub (browse): <https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/your-file.csv>
+- GitHub (raw download): <https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/your-file.csv>
+
+Link patterns to fill in:
+  blob : https://github.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/blob/main/data/<file>
+  raw  : https://raw.githubusercontent.com/CT-DPH-Data-Management-and-Governance/modern-r-for-public-health-practitioners/main/data/<file>
+================================================================================
+-->

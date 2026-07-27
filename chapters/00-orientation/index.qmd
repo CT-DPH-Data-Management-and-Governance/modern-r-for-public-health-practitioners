@@ -167,6 +167,12 @@ directory. This matters throughout the rest of the book.
 4. Rename it to include the date you downloaded it, e.g.:
    `ct_covid_by_town_2026-06-30.csv`
 
+::: {.callout-tip}
+Every dataset this book uses — with its source page and direct download links —
+is cataloged in the [Data Library](../data-library/index.qmd) at the end of the
+book. If you ever need to find or re-download source data, that's where to look.
+:::
+
 The date stamp matters more than it looks like it should. This dataset is
 revised after the fact — Connecticut DPH updates prior dates as new reports
 come in. Stamping the filename is how you'll later be able to say
