@@ -70,21 +70,165 @@ next one expects.
 
 ## Before you start
 
+You need three pieces of software before chapter 1: **R** itself, an
+**IDE** to write R in (RStudio or Positron), and **Quarto** to build the
+report. The rest of this section walks through each one.
+
+::: {.callout-important}
+## Check with your IT department first
+
+On a government-managed machine you often cannot install software
+yourself, and the steps below may not apply. Many agencies push R,
+RStudio, and Positron through a software center, a managed installer, or
+a locked-down internal package mirror instead of the public download
+sites.
+
+Always defer to your IT or security team on **what** to install, **how**
+to install it, and **where** packages are allowed to come from. Treat the
+links here as a description of the pieces you need — not as permission to
+bypass agency policy. When in doubt, send IT this list and ask them how
+your agency does it.
+:::
+
+### Step 1 — Install R
+
+R is the language and the engine that runs your code. Everything else
+sits on top of it.
+
+- Download it from [r-project.org](https://www.r-project.org) → CRAN →
+  pick a mirror → choose your operating system (Windows, macOS, or Linux).
+- Get version **4.3 or newer**.
+- Accept the defaults during install unless IT tells you otherwise.
+
+R by itself is just the engine — you rarely open it directly. You drive
+it through an IDE, which is Step 2.
+
+### Step 2 — Install an IDE (RStudio *or* Positron)
+
+An **IDE** (Integrated Development Environment) is the program you
+actually sit in front of: a code editor, a live R console, your plots,
+your files, and your data all in one window. You only need **one** of the
+two below — either works for everything in this book.
+
+**RStudio** is the long-standing standard for R. If you have ever seen a
+screenshot of someone using R, it was almost certainly RStudio. It is
+mature, stable, and what most R tutorials and colleagues assume.
+
+- Download: [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop/)
+- Install R (Step 1) **first** — RStudio finds it automatically.
+
+**Positron** is a newer IDE from the same company (Posit). It is built on
+the same foundation as VS Code and handles **R and Python side by side**,
+which is handy if your team works in both.
+
+- Download: [positron.posit.co](https://positron.posit.co/)
+- Also needs R (Step 1) installed first.
+
 ::: {.callout-tip}
-## Install these before chapter 1
+## Which one should you pick?
 
-- **R** (≥ 4.3): [r-project.org](https://www.r-project.org)
-- **RStudio** or **Positron**: either works; Positron is newer and supports R and Python side-by-side
-- **Quarto**: [quarto.org](https://quarto.org/docs/get-started/)
+If you are brand new, or your colleagues already use RStudio, choose
+**RStudio** — you will have more people to ask for help. If you also work
+in Python, or want the newer VS Code-style experience, choose
+**Positron**. This book's instructions work in both, and you can switch
+later.
+:::
 
-If you run into install problems, the Posit community forums are the fastest place to get unstuck.
+### Step 3 — Install Quarto
+
+Quarto turns your code and writing into a finished report — HTML, PDF, or
+Word. It is what builds the COVID briefing at the end of this book.
+
+- Download: [quarto.org/docs/get-started](https://quarto.org/docs/get-started/)
+- Recent versions of RStudio ship Quarto bundled in, so you may already
+  have it. Installing it separately does no harm.
+
+### A note on packages and CRAN
+
+Base R can already do a great deal, but its real power comes from
+**packages** — bundles of extra functions someone else has written,
+tested, and documented so you don't have to. Think of base R as a stocked
+kitchen and packages as specialized appliances: `readr` reads data files,
+`dplyr` reshapes tables, `ggplot2` draws charts. This book leans heavily
+on a family of packages called the **tidyverse**.
+
+Where do packages come from? Mostly **CRAN** — the *Comprehensive R
+Archive Network*. CRAN is R's official, curated package repository (the
+same network you downloaded R itself from). Every package on CRAN is
+checked to install and run on the major operating systems before it is
+accepted, which makes it a trustworthy default source.
+
+R ships with a built-in installer, `install.packages()`. It works, and
+you'll see it everywhere in older tutorials — but this book uses a more
+modern tool called **`pak`** instead. `pak` is itself a package, so you
+install it *once* with the built-in installer, and after that you let
+`pak` do the rest:
+
+```r
+# One time, to get pak itself (the one place we use install.packages):
+install.packages("pak")
+```
+
+From then on, install anything with `pak::pak()`:
+
+```r
+pak::pak("readr")
+```
+
+Notice the `pak::pak()` form — `package::function()`. The `::` reaches
+into a package and uses one function from it *without* loading the whole
+package with `library()`. It's a common R idiom, and it's why you never
+have to `library(pak)`.
+
+Why `pak` over the built-in `install.packages()`? It's faster (it
+downloads in parallel), it sorts out dependencies and system libraries
+more cleanly, it gives clearer error messages, and the *same* function
+installs from CRAN, GitHub, or Bioconductor — one command instead of
+three.
+
+Once a package is installed, load it at the top of each script that uses
+it with `library()`:
+
+```r
+library(readr)
+```
+
+**Install once, load every session.** `pak::pak()` downloads the package
+to your machine and you rarely run it again. `library()` switches a
+package on for the current R session — you call it every time you restart
+R. Chapter 1 will have you install the handful of packages the book uses.
+
+::: {.callout-warning}
+## Packages and your IT department
+
+Installing a package reaches out to the internet to download from CRAN.
+On a locked-down agency network that connection may be blocked, or your
+organization may run its **own internal mirror** of CRAN that has been
+vetted for security. `pak` honors the same configured repositories as the
+built-in installer, so whatever mirror IT sets up, it will use. If an
+install fails or hangs, that is usually a network or policy issue, not a
+mistake on your end — ask IT where your agency expects packages to come
+from.
+:::
+
+::: {.callout-note}
+## Later: Posit Public Package Manager (P3M)
+
+There's a hosted service called [Posit Public Package
+Manager](https://packagemanager.posit.co/) (P3M) that serves pre-built
+packages — installs are faster and you can pin to a snapshot of CRAN from
+a specific date, which is gold for reproducibility. We'll wire it up in
+the reproducibility material *after* the git chapter, once you have a
+project whose history is worth locking down. For now, plain `pak::pak()`
+against CRAN is all you need — just file the name away.
 :::
 
 ## What you'll need
 
-- A computer where you can install software
-- R, Quarto, and an IDE (see above)
-- An internet connection to download the dataset
+- A computer where you can install software (or IT support to install it
+  for you)
+- R, an IDE (RStudio or Positron), and Quarto — see the steps above
+- An internet connection to download the dataset and packages
 - No prior programming experience required
 
 ## The scenario
