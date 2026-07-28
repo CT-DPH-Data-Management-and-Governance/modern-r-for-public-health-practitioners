@@ -307,6 +307,104 @@ the reference — the *non*-event. That's why the code above sets the levels as
 modeled. Set your factor levels on purpose; don't let the default alphabetical
 order decide which outcome you're predicting.
 
+## From model to service: vetiver and pins
+
+The tidymodels track ends at a prediction, but a *predictive* model has an
+awkward property the odds-ratio table above doesn't: it's an object you
+have to **keep**. An odds ratio is a number — you write it into a brief
+and move on. A prediction model is a thing other people, or other
+systems, want to *run* next week on cases that don't exist yet. Left in
+your R session, it vanishes the moment you close R.
+
+Two Posit packages handle that last mile, and they pair naturally:
+**pins** stores the model somewhere durable and versioned, and
+**vetiver** wraps it into something deployable — a standard prediction
+interface plus, if you want it, a REST API other systems can call.
+
+As with tidymodels, this is a **reference** — the code below does not run
+when the book builds, and you don't need either package installed to read
+it. In your own project you'd install them once:
+
+```r
+pak::pak(c("vetiver", "pins"))
+```
+
+### pins: a versioned home for the model
+
+A **pin** is a named object stored on a **board**. The board is just
+"where things live," and it can be a local folder, a network share, an S3
+or Azure bucket, or a Posit Connect server — the same `pin_` calls
+regardless. That flexibility matters in a health department: the board
+can be a shared drive your whole team reaches, not a file on one
+analyst's laptop.
+
+```{r}
+#| label: pins-way
+#| eval: false
+library(pins)
+
+# A board backed by a folder. Swap board_folder() for board_connect(),
+# board_s3(), and so on without touching the pin_ calls below.
+board <- board_folder("outputs/model-board", versioned = TRUE)
+
+# Store any R object — here the fitted model — under a name.
+board |> pin_write(death_fit, name = "covid-death-model")
+
+# Read it back in a fresh session, next week, from another script:
+model <- board |> pin_read("covid-death-model")
+```
+
+Every `pin_write()` to a versioned board keeps the previous copy. That
+gives a model the same thing version control gave your code: a history
+you can roll back to, and an honest answer to "*which* model produced
+this prediction?"
+
+### vetiver: wrap it for deployment
+
+pins can store any object. **vetiver** makes it a *deployable model*
+specifically. `vetiver_model()` bundles the fitted model with the
+metadata a server needs — how to preprocess an incoming row, what a
+prediction looks like — into one standard object, whatever engine trained
+it (`glm`, a tidymodels workflow, and more).
+
+```{r}
+#| label: vetiver-way
+#| eval: false
+library(vetiver)
+library(pins)
+
+# 1. Wrap the fitted model in a deployable vetiver object.
+v <- vetiver_model(death_fit, model_name = "covid-death-model")
+
+# 2. Store and version it on a board — pins under the hood.
+board <- board_folder("outputs/model-board", versioned = TRUE)
+board |> vetiver_pin_write(v)
+
+# 3. Turn it into a live REST API other systems can POST new cases to.
+library(plumber)
+pr() |>
+  vetiver_api(v) |>
+  pr_run(port = 8080)
+```
+
+Now the model isn't a variable in your session — it's a service. Another
+team's system can send a row of case attributes and get back a predicted
+probability, with nobody opening R. vetiver also covers the other half of
+production life: `vetiver_compute_metrics()` and its companions track how
+the model performs *over time*, so you notice when a model trained on last
+winter's cases starts drifting on this winter's.
+
+### When is this worth it?
+
+Not for a one-off odds ratio, and not for the weekly Situation Brief —
+those are a script and a render. Reach for vetiver and pins when a model
+stops being something *you* run and becomes something *others depend on*:
+a risk score another system queries, a forecast that has to be
+reproducible months later, a model whose version must be auditable when
+someone asks "what predicted this?" That's real infrastructure, and it's
+the honest next step past a fitted model sitting in memory. The full guide
+lives at <https://vetiver.posit.co/>.
+
 ## Wrap-up
 
 You fit a real adjusted model. You took a tangle that a cross-tab couldn't
@@ -315,8 +413,9 @@ each: an odds ratio, adjusted for the others, with a confidence interval that
 tells you how much to trust it. You saw a strong effect (age), a moderate one
 (hospitalization), and a genuinely null one (sex, its CI straddling 1), and you
 learned to read all three off a single tidy table. And you saw where the
-tidyverse's bigger modeling toolkit fits, and where it's more machine than the
-job needs.
+tidyverse's bigger modeling toolkit fits, where it's more machine than the
+job needs, and — past that — how a finished model gets versioned and served
+with pins and vetiver when it has to outlive your session.
 
 One honest gap remains. Everything here is about **odds** — the odds that a
 *known case* died. It says nothing about **rates** in a *population*:
