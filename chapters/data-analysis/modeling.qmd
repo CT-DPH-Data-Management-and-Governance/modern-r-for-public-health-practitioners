@@ -72,7 +72,7 @@ not be installed yet. In your own `covid-briefing/` project, install it once
 with:
 
 ```r
-install.packages("broom")
+pak::pak("broom")
 ```
 
 If you're building this book from its repository (which uses `renv`), install

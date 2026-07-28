@@ -10,7 +10,7 @@ writing `.xlsx` files using `readxl` and `writexl`.
 ```{r}
 #| eval: false
 
-install.packages(c(
+pak::pak(c(
   "readxl",  # for reading .xlsx files
   "writexl"  # for writing .xlsx files
 ))

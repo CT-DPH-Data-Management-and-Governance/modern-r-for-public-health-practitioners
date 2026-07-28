@@ -53,7 +53,7 @@ data exceeds a few hundred thousand rows.
 ```{r}
 #| eval: false
 
-install.packages("arrow")
+pak::pak("arrow")
 ```
 
 ```{r}

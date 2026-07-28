@@ -56,7 +56,7 @@ Install `httr2` like we would any other package.
 #| label: installing httr2
 #| eval: false
 
-install.packages('httr2')
+pak::pak("httr2")
 ```
 
 Next we'll attach the `httr2` and `dplyr` packages to our session.
