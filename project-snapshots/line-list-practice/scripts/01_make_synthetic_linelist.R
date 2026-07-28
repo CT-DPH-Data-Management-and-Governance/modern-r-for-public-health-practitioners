@@ -23,12 +23,35 @@ library(here)
 set.seed(20210101) # fixes every random draw so the file reproduces exactly
 
 hartford_county <- c(
-  "Avon", "Berlin", "Bloomfield", "Bristol", "Burlington", "Canton",
-  "East Granby", "East Hartford", "East Windsor", "Enfield", "Farmington",
-  "Glastonbury", "Granby", "Hartford", "Hartland", "Manchester", "Marlborough",
-  "New Britain", "Newington", "Plainville", "Rocky Hill", "Simsbury",
-  "Southington", "South Windsor", "Suffield", "West Hartford", "Wethersfield",
-  "Windsor", "Windsor Locks"
+  "Avon",
+  "Berlin",
+  "Bloomfield",
+  "Bristol",
+  "Burlington",
+  "Canton",
+  "East Granby",
+  "East Hartford",
+  "East Windsor",
+  "Enfield",
+  "Farmington",
+  "Glastonbury",
+  "Granby",
+  "Hartford",
+  "Hartland",
+  "Manchester",
+  "Marlborough",
+  "New Britain",
+  "Newington",
+  "Plainville",
+  "Rocky Hill",
+  "Simsbury",
+  "Southington",
+  "South Windsor",
+  "Suffield",
+  "West Hartford",
+  "Wethersfield",
+  "Windsor",
+  "Windsor Locks"
 )
 
 # --- 1. Real counts: new cases per town per report date ----------------------
@@ -105,7 +128,8 @@ linelist <- linelist |>
         age < 65 ~ 0.010,
         age < 80 ~ 0.060,
         TRUE ~ 0.180
-      ) * if_else(hospitalized == "Yes", 3, 1),
+      ) *
+        if_else(hospitalized == "Yes", 3, 1),
       0.6
     ),
     died = if_else(rbinom(n, 1, death_prob) == 1, "Yes", "No"),
@@ -116,12 +140,25 @@ linelist <- linelist |>
     )
   ) |>
   select(
-    case_id, town, age, sex, race_ethnicity,
-    onset_date, report_date, hospitalized,
-    hosp_admit_date, hosp_discharge_date, died, death_date
+    case_id,
+    town,
+    age,
+    sex,
+    race_ethnicity,
+    onset_date,
+    report_date,
+    hospitalized,
+    hosp_admit_date,
+    hosp_discharge_date,
+    died,
+    death_date
   )
 
 # --- 4. Write it out ---------------------------------------------------------
 write_csv(linelist, here("data", "synthetic-covid-linelist.csv"))
 
-cat("Wrote", nrow(linelist), "synthetic cases to data/synthetic-covid-linelist.csv\n")
+cat(
+  "Wrote",
+  nrow(linelist),
+  "synthetic cases to data/synthetic-covid-linelist.csv\n"
+)

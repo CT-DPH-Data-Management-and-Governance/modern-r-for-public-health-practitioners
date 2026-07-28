@@ -33,12 +33,35 @@ set.seed(20210101) # a date from the wave we're modeling; any fixed value works
 # The 29 towns of Hartford County (the ARCHIVE dataset predates the switch to
 # planning regions, so it still reports by the old eight counties).
 hartford_county <- c(
-  "Avon", "Berlin", "Bloomfield", "Bristol", "Burlington", "Canton",
-  "East Granby", "East Hartford", "East Windsor", "Enfield", "Farmington",
-  "Glastonbury", "Granby", "Hartford", "Hartland", "Manchester", "Marlborough",
-  "New Britain", "Newington", "Plainville", "Rocky Hill", "Simsbury",
-  "Southington", "South Windsor", "Suffield", "West Hartford", "Wethersfield",
-  "Windsor", "Windsor Locks"
+  "Avon",
+  "Berlin",
+  "Bloomfield",
+  "Bristol",
+  "Burlington",
+  "Canton",
+  "East Granby",
+  "East Hartford",
+  "East Windsor",
+  "Enfield",
+  "Farmington",
+  "Glastonbury",
+  "Granby",
+  "Hartford",
+  "Hartland",
+  "Manchester",
+  "Marlborough",
+  "New Britain",
+  "Newington",
+  "Plainville",
+  "Rocky Hill",
+  "Simsbury",
+  "Southington",
+  "South Windsor",
+  "Suffield",
+  "West Hartford",
+  "Wethersfield",
+  "Windsor",
+  "Windsor Locks"
 )
 
 window_start <- as.Date("2020-12-01")
@@ -142,7 +165,8 @@ linelist <- linelist |>
         age < 65 ~ 0.010,
         age < 80 ~ 0.060,
         TRUE ~ 0.180
-      ) * if_else(hospitalized == "Yes", 3, 1),
+      ) *
+        if_else(hospitalized == "Yes", 3, 1),
       0.6
     ),
     died = if_else(rbinom(n, 1, death_prob) == 1, "Yes", "No"),
@@ -184,8 +208,15 @@ cat(
   as.character(max(linelist$report_date)),
   "\n"
 )
-cat("Age: min", min(linelist$age), "median", median(linelist$age),
-    "max", max(linelist$age), "\n")
+cat(
+  "Age: min",
+  min(linelist$age),
+  "median",
+  median(linelist$age),
+  "max",
+  max(linelist$age),
+  "\n"
+)
 cat(sprintf(
   "Hospitalized: %.1f%%\n",
   100 * mean(linelist$hospitalized == "Yes")
