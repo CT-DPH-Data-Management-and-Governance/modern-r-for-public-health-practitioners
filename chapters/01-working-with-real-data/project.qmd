@@ -9,9 +9,12 @@ library(here)
 source(here::here("preamble-data.R"))
 ```
 
-The scenario question from chapter 0: **Is it getting worse in Hartford?**
+It's Monday. The incident-command call is at 4 p.m., and the
+Commissioner's office wants the Hartford numbers in writing before it —
+the first standing question from chapter 0: **is it getting worse in
+Hartford?**
 
-The data is loaded. Now let's answer it.
+The data is loaded. You have until 4 o'clock to turn it into an answer.
 
 ## Setup
 
@@ -213,9 +216,39 @@ the day-over-day change we just computed — that's the number to watch
 when asking whether things are getting worse, with the reporting
 caveat above kept in mind.
 
+## The answer for the 4 p.m. call
+
+A table isn't an answer. The Commissioner's office asked a yes-or-no
+question, so give them one. Compare the most recent week of reports
+against the week before — a week's average rides over the weekend dips
+and one-day corrections that a single date would trip on:
+
+```{r}
+#| label: finding
+
+recent <- hartford |> filter(!is.na(new_cases))
+
+last_week <- mean(tail(recent$new_cases, 7))
+prior_week <- mean(head(tail(recent$new_cases, 14), 7))
+
+verdict <- if (last_week > prior_week) "getting worse" else "holding steady or improving"
+
+verdict
+```
+
+That's the line for this week's Situation Brief: **Hartford is
+`r verdict`** — its daily new cases averaged about `r round(last_week, 1)`
+over the last week of reports, against `r round(prior_week, 1)` the week
+before. One sentence, backed by the two-week table above, with the
+reporting caveat noted so nobody over-reads a single day.
+
+That's the whole difference between a query and a briefing: a briefing
+ends in an answer, not a data dump. Every chapter from here adds to how
+that answer is built — but the shape never changes.
+
 ## Saving our data artifact
 
-Imagine that these hartford data was the end goal - now would be the time
+Imagine this Hartford data was the end goal — now would be the time
 to save the data in memory to a file in our `data/processed/` folder.
 
 ```{r}

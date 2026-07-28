@@ -24,8 +24,12 @@ packages_used_callout(rmarkdown::metadata$packages)
 ```
 
 No new package today, no new geometry or verb to learn. This far in,
-it's worth stopping to combine everything you've built so far into one
-thing the Commissioner could actually read.
+it's time to build the thing the whole scenario has been pointing at
+since chapter 0: **the one-page Situation Brief** the Commissioner reads
+before the incident-command call. Everything you've made so far — the
+cleaned table, the trend chart, the statewide map — was an ingredient.
+Today you plate them into a single document a person outside R can open
+and act on.
 
 ## The arc so far
 
@@ -42,11 +46,12 @@ time a new technique gets introduced.
 
 ## This week's briefing summary
 
-Charts are great for a slide deck, but sometimes the Commissioner just
-wants the numbers in a sentence, right now, before the meeting starts.
-That's today's artifact: a short status paragraph built entirely from
-skills you already have — `dplyr` to find the numbers, `lubridate` to
-know which date counts as "now", and `glue` to turn it into English.
+A brief is not a pile of numbers — it opens with the answer. The
+Commissioner's standing question since chapter 0 was *is it getting worse
+in Hartford?*, so the brief leads with a one-line verdict and then backs
+it with the figures. Build that verdict the same way you'd build any
+finding: `dplyr` to pull the numbers, `lubridate` to decide which date
+counts as "now", and `glue` to turn it into a sentence a person can read.
 
 ```{r}
 #| label: status-setup
@@ -56,7 +61,11 @@ covid_data <- read_book_data("ct-covid-by-town-2026-06-30.csv")
 covid_clean <-
   covid_data |>
   clean_names() |>
-  mutate(last_update_date = mdy(last_update_date))
+  mutate(last_update_date = mdy(last_update_date)) |>
+  arrange(town, last_update_date) |>
+  group_by(town) |>
+  mutate(new_cases = total_cases - lag(total_cases)) |>
+  ungroup()
 ```
 
 ```{r}
@@ -78,9 +87,39 @@ hartford_latest <-
   select(total_cases, total_deaths)
 ```
 
+The verdict is a comparison: Hartford's most recent week of reports
+against the week before it. Averaging over a week smooths out the
+reporting noise you met back in chapter 1 — a single low weekend or a
+one-day correction won't flip the answer on its own.
+
+```{r}
+#| label: status-finding
+# Hartford's daily new-case series, oldest report to newest.
+hartford_series <-
+  covid_clean |>
+  filter(town == "Hartford", !is.na(new_cases)) |>
+  arrange(last_update_date)
+
+# Most recent 7 reports vs. the 7 before them.
+recent_new <- tail(hartford_series$new_cases, 14)
+prior_avg <- mean(head(recent_new, 7))
+latest_avg <- mean(tail(recent_new, 7))
+
+verdict <- if (latest_avg > prior_avg) {
+  "getting worse"
+} else {
+  "holding steady or improving"
+}
+
+verdict
+```
+
 ```{r}
 #| label: status-summary
 briefing_summary <- glue(
+  "Bottom line: Hartford is {verdict}. Daily new cases there averaged ",
+  "{round(latest_avg, 1)} over the last week of reports, against ",
+  "{round(prior_avg, 1)} the week before.\n\n",
   "Status as of {latest_date} ({days_of_data} days of data collected):\n",
   "Statewide: {format(statewide_latest$total_cases, big.mark = ',')} total cases, ",
   "{format(statewide_latest$total_deaths, big.mark = ',')} total deaths.\n",
@@ -91,24 +130,88 @@ briefing_summary <- glue(
 briefing_summary
 ```
 
-Four lines of code, no new concepts, and a paragraph that's actually
-correct as of whatever the latest date in the file happens to be —
-because it's computed, not typed in by hand.
+A verdict on top, the supporting numbers underneath, and every value
+computed — correct as of whatever the latest date in the file happens to
+be, not typed in by hand. That's the difference between a query result
+and a briefing: it opens with the answer.
 
-### Saving the checkpoint artifact
+## Assembling the one-page brief
+
+The verdict paragraph is the words. Chapter 3 already saved the pictures
+to `outputs/figures/`. A briefing is those two things on one page, with a
+title and an "as of" date, rendered to something you can email or print.
+
+That page is its own small Quarto document. Create
+`docs/situation-brief.qmd` in your project and give it this:
+
+````{verbatim}
+#| lang: markdown
+---
+title: "COVID-19 Situation Brief"
+format: html
+---
 
 ```{r}
-#| label: save-summary
-#| eval: false
-write_lines(
-  briefing_summary,
-  here("outputs", "tables", "briefing_summary.txt")
-)
+#| label: brief-setup
+#| include: false
+library(dplyr)
+library(readr)
+library(here)
+library(glue)
+
+# Read the clean table chapter 2 saved — no re-cleaning needed.
+covid_clean <- read_csv(here("data", "processed", "covid_clean.csv"))
+
+latest_date <- max(covid_clean$last_update_date)
+
+hartford_series <-
+  covid_clean |>
+  filter(town == "Hartford", !is.na(new_cases)) |>
+  arrange(last_update_date)
+
+recent_new <- tail(hartford_series$new_cases, 14)
+prior_avg  <- mean(head(recent_new, 7))
+latest_avg <- mean(tail(recent_new, 7))
+verdict <- if (latest_avg > prior_avg) "getting worse" else "holding steady or improving"
 ```
 
-That text file is this checkpoint's deliverable, the same way a chart
-was chapter 3's — a small, real thing that lives in the project folder
-and didn't exist before today.
+**As of `r latest_date`.** Prepared for the Commissioner ahead of the
+incident-command call.
+
+## Bottom line
+
+`r glue("Hartford is **{verdict}** — daily new cases averaged {round(latest_avg, 1)} over the last week of reports, against {round(prior_avg, 1)} the week before.")`
+
+## Hartford vs. the statewide average
+
+![](../outputs/figures/hartford_vs_state_trend.png)
+
+## Statewide test positivity
+
+![](../outputs/figures/statewide_positivity_map.png)
+````
+
+Then render it — from the R console, or the Render button in your IDE:
+
+```{r}
+#| eval: false
+quarto::quarto_render(here("docs", "situation-brief.qmd"))
+```
+
+That drops `docs/situation-brief.html` in your project: **one page, the
+verdict up top, both figures underneath, dated automatically.** That —
+not a tibble, not a lone PNG — is what the scenario has meant by "a
+briefing for the Commissioner" all along. This is the checkpoint's
+deliverable, and the first artifact in the book a non-R person could open
+and use without you standing next to them.
+
+::: {.callout-note}
+The brief reads `data/processed/covid_clean.csv` (chapter 2's saved
+table) and embeds the two figures from `outputs/figures/` (chapter 3's
+`ggsave()` calls). If you skipped either save, run it now — the brief has
+nothing to assemble without them. That dependency is the whole point:
+clean once, chart once, and the brief is just composition.
+:::
 
 ## What your project folder should look like now
 
@@ -135,8 +238,9 @@ covid-briefing/
 │   │   ├── hartford_vs_state_trend.png
 │   │   └── statewide_positivity_map.png
 │   └── tables/
-│       └── briefing_summary.txt
 └── docs/
+    ├── situation-brief.qmd
+    └── situation-brief.html        # the one-page brief, rendered
 ```
 
 If your folder looks different, that's fine — the point isn't to match
@@ -152,11 +256,13 @@ Being honest about the current state of things:
 - Every chapter's project re-runs the cleaning steps by hand, from the
   top, in a `.qmd` file. Nothing here is a function you could call
   twice.
-- The raw CSV is a snapshot someone downloaded once. Nothing fetches
-  new data automatically.
-- "Hartford" and the current date are typed directly into the code.
-  Asking about a different town means editing the script, not passing
-  an argument.
+- The brief looks self-updating — its date and verdict are computed —
+  but it's only as fresh as the CSV underneath it. That CSV is a
+  snapshot someone downloaded by hand. Nothing fetches new data
+  automatically, so "this week's brief" still means someone
+  re-downloading and re-rendering every week.
+- "Hartford" is typed directly into the code. Asking the brief about a
+  different town means editing the file, not passing an argument.
 - There's no history of any of this yet — if you overwrite a file by
   accident, it's just gone.
 

@@ -5,12 +5,18 @@ execute:
   freeze: true
 ---
 
+Back at the checkpoint you named the one thing still holding the
+Situation Brief back: it's only as fresh as a CSV someone downloads by
+hand. This chapter cuts that cord.
+
 The Commissioner's next question is bigger than one town: **how many
 tests has Connecticut run in total, as of the most recent report?**
 Rather than re-downloading a CSV every time that number is needed,
 this script pulls the freshest data straight from the API and
 calculates the answer itself - the same `fetch_all_data()` function
-from the lesson, now put to work.
+from the lesson, now put to work. Point the brief's setup at a fetch
+like this instead of a static file, and "this week's brief" stops
+meaning "the week someone remembered to re-download."
 
 ## Setup
 

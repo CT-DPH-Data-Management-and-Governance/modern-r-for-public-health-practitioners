@@ -9,9 +9,15 @@ library(here)
 source(here::here("preamble-data.R"))
 ```
 
-The Commissioner liked the Hartford briefing. The next ask: **stop
-picking one town by hand and clean the whole report properly**, so any
-town's numbers can be pulled on demand without redoing the work.
+The 4 p.m. call didn't stay about Hartford. Someone asked about
+Stamford, and you didn't have it — you'd cleaned exactly one town, by
+hand. The Commissioner's follow-up is blunt: **stop picking towns one at
+a time. Clean the whole report once, so any town's number is ready
+before the question gets asked.**
+
+Same brief, wider net: this week's Situation Brief still leads with
+Hartford, but you never want to be caught flat again when the call turns
+to some other town.
 
 ## Setup
 
@@ -103,9 +109,30 @@ covid_clean <-
   ungroup()
 ```
 
-Same reporting caveat as before applies here too — a revised total can
-still make `new_cases` negative for a town on a given day. That's the
-data, not a bug in this pipeline.
+Chapter 1 warned this could happen; at 169 towns, now it actually does.
+Go look:
+
+```{r}
+#| label: find-negatives
+covid_clean |>
+  filter(new_cases < 0) |>
+  select(town, last_update_date, new_cases) |>
+  arrange(new_cases) |>
+  head()
+```
+
+Those negative "new case" counts are real rows in your own output, not a
+bug you introduced. Each one is a day a town's cumulative total came in
+*lower* than its previous report — a correction, a de-duplicated test, a
+late reversal. Subtracting two "as of" snapshots faithfully records that
+as negative growth.
+
+So what do you do with them? **Not** silently floor them to zero — that
+hides a real data-quality signal, and the brief is supposed to be honest.
+You leave them in and you don't let a single day drive a conclusion. That
+is exactly why every verdict in this book averages over a week: one
+corrected report can't flip the answer when it's one of seven. Knowing
+these rows exist is the fix; the weekly average is the guard rail.
 
 ## Step 5 — Scope to the latest report
 
@@ -121,9 +148,10 @@ nrow(this_week)
 
 ## Step 6 — Generate a one-line summary per town with `glue`
 
-This is the payoff. Instead of a Commissioner asking "what about
-Stamford?" and someone re-running a filter by hand, every town already
-has a ready-made sentence.
+This is the payoff, and the answer to the ask that opened the chapter.
+The next time the call turns to Stamford — or any of the other 168 towns
+— the sentence is already sitting there, no filter to re-run under
+pressure.
 
 ```{r}
 town_lines <-
@@ -136,7 +164,7 @@ town_lines <-
   select(town, line)
 
 town_lines |>
-  filter(town %in% c("Hartford", "New Haven", "Bridgeport")) |>
+  filter(town %in% c("Hartford", "Stamford", "New Haven")) |>
   pull(line)
 ```
 

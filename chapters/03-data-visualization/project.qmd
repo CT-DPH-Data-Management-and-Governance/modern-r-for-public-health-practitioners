@@ -12,10 +12,11 @@ source(here::here("preamble-data.R"))
 
 Chapter 2 left you with `covid_clean` — tidy snake_case names, real
 `Date` values, trimmed and title-cased town names. Time to put that to
-work. The Commissioner's briefing packet needs two things this week: a
-trend chart comparing Hartford to the rest of the state, and a
-statewide map. Both need to end up as files in `outputs/figures/`,
-ready to paste into a slide deck.
+work. This week's Situation Brief needs two pictures: a trend chart
+comparing Hartford to the rest of the state, and a statewide map. Both
+have to land as files in `outputs/figures/` — which is exactly where the
+next chapter's brief will go looking for them when it assembles the page.
+You're not making slides here; you're stocking the brief.
 
 ## Setup
 
@@ -132,9 +133,29 @@ ggplot(
   theme_classic()
 ```
 
-If Hartford's line rides above the statewide average, that's the
-"getting worse relative to the rest of the state" story the
-Commissioner asked about back in chapter 0.
+Don't leave that read to the eye — state it. Average each series over
+its last week of reports and compare:
+
+```{r}
+#| label: trend-finding
+recent_avgs <-
+  combined_trend |>
+  filter(!is.na(new_cases)) |>
+  group_by(series) |>
+  slice_max(last_update_date, n = 7) |>
+  summarise(avg_new = mean(new_cases), .groups = "drop")
+
+hartford_avg <- recent_avgs$avg_new[recent_avgs$series == "Hartford"]
+state_avg <- recent_avgs$avg_new[recent_avgs$series == "Statewide Average"]
+standing <- if (hartford_avg > state_avg) "above" else "at or below"
+
+recent_avgs
+```
+
+The line for the brief: over the last week of reports Hartford averaged
+about `r round(hartford_avg, 1)` new cases a day against the statewide
+`r round(state_avg, 1)` — running **`r standing`** the rest of the state.
+The chart shows it; this sentence says it.
 
 ## Step 2 — Save the trend chart
 

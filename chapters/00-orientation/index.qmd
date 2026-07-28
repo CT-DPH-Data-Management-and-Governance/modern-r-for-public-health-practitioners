@@ -235,10 +235,35 @@ against CRAN is all you need — just file the name away.
 
 The pandemic is in full swing and you are working as an analyst for
 the Connecticut Department of Public Health's Pandemic Incident Command.
-You are tasked with preparing a briefing for the Commissioner so that they
-can in turn brief the governor on the current situation.
+Every week, ahead of the standing incident-command call, you produce one
+thing: a **one-page Situation Brief** the Commissioner reads before
+turning around and briefing the Governor. One page, the answer on top,
+the evidence underneath.
 
-The first standing question is this: **Is it getting worse in Hartford, or not?**
+That brief is the destination for everything in this book. Chapter by
+chapter you'll build the pieces it's made of — the clean data, the
+trend chart, the map, the written verdict — and then assemble them into
+the page itself. By the end it will refresh and re-render on its own.
+
+The first standing question the brief has to answer is this: **Is it
+getting worse in Hartford, or not?**
+
+::: {.callout-note}
+## The standing weekly brief
+
+A few fixtures carry through every chapter, so it's worth naming them once:
+
+- **You** — an analyst in DPH's Pandemic Incident Command. You do the work.
+- **The Commissioner** — reads your brief, then briefs the Governor. Never
+  opens R, never sees a CSV. Everything you make has to survive that
+  handoff.
+- **The cadence** — one Situation Brief per week, due before the Monday
+  incident-command call. "This week's brief" is the recurring deadline the
+  projects keep coming back to.
+- **The standing question** — *is it getting worse in Hartford?* It never
+  changes. What changes, chapter by chapter, is how little of the answer
+  you have to rebuild by hand each time it's asked.
+:::
 
 Today we are going to answer that question, click by click. Slowly we will
 build up our R knowledge and reduce friction until we have an analysis
