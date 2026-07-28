@@ -41,7 +41,8 @@ one helper for building file paths.
 #| eval: false
 
 # Run this once to install the packages onto your computer.
-install.packages(c(
+# If you skipped ch 0: get pak first with install.packages("pak").
+pak::pak(c(
   "dplyr", # for manipulating data
   "readr", # for reading common data files
   "here" # for building paths that work everywhere

@@ -71,11 +71,11 @@ Before this chapter can work, install the package once.
 ```{r}
 #| eval: false
 
-install.packages("ggplot2")
+pak::pak("ggplot2")
 
 # You'll also install extra packages later in this chapter for
 # mapping and choropleths.
-install.packages(c("tigris", "sf"))
+pak::pak(c("tigris", "sf"))
 ```
 
 Load `ggplot2` along with the packages you've used so far:

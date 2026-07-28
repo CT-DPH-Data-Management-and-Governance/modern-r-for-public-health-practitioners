@@ -70,7 +70,7 @@ Install both once:
 
 ```{r}
 #| eval: false
-install.packages(c("leaflet", "mapview"))
+pak::pak(c("leaflet", "mapview"))
 ```
 
 ## The fast way: `mapview`

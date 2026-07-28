@@ -29,7 +29,7 @@ handle the bulk of that work.
 #| label: install-packages
 #| eval: false
 
-install.packages(c(
+pak::pak(c(
   "janitor", # for cleaning names and basic data cleaning
   "tidyr", # for reshaping data
   "stringr", # for working with text
