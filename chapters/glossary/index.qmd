@@ -105,9 +105,9 @@ Count vs. percent
   is why `janitor`'s `adorn_` helpers add percents onto a count table.
 
 CRAN (Comprehensive R Archive Network)
-: R's official package repository — the place `install.packages()` downloads
-  from. If a package is "on CRAN," it's been through some basic checks and is
-  one command away.
+: R's official package repository — the place `pak::pak()` (or the older
+  `install.packages()`) downloads from. If a package is "on CRAN," it's been
+  through some basic checks and is one command away.
 
 Cross-tabulation
 : A table of counts broken down by two categorical variables at once — the epi
@@ -293,6 +293,13 @@ Package
 : A bundle of ready-made R code (functions, data, docs) you install once and
   load when you need it. The tidyverse is a family of packages designed to work
   together.
+
+`pak` (the pak package)
+: The modern package installer this book uses. You bootstrap it once with
+  `install.packages("pak")`, then install everything else with `pak::pak("dplyr")`
+  — one command that pulls from CRAN, GitHub, or Bioconductor, resolves
+  dependencies cleanly, and downloads in parallel. Replaces the older
+  `install.packages()` for day-to-day use. (see [Orientation](../00-orientation/index.qmd))
 
 Pipe (`|>`)
 : The operator that passes the result of one step into the next as its first
