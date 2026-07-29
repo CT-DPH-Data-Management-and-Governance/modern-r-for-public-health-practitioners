@@ -394,7 +394,8 @@ lab_ds |>
 **Hand the query to DuckDB.** `to_duckdb()` passes an arrow Dataset to
 the DuckDB engine without copying the data, and DuckDB is a full SQL
 engine — window functions, complex joins, the lot. You stay in `dplyr`
-the whole way:
+the whole way. The last chapter of this part is about exactly that, so
+treat this as a preview:
 
 ```{r}
 #| label: to-duckdb

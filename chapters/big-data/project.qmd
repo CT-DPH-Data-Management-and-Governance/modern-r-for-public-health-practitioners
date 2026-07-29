@@ -566,5 +566,6 @@ working with data too big to re-read.
   expected. A column quietly renamed upstream would sail straight
   through.
 - The dedupe in Step 4 collects two columns for every row. That is fine
-  at this size and would not be fine at sixteen million; that is the
-  query to hand to DuckDB.
+  at this size and would not be fine at sixteen million. That query needs
+  a window function, which arrow's engine does not have — it is the
+  opening problem of [the next chapter](duckdb.qmd).

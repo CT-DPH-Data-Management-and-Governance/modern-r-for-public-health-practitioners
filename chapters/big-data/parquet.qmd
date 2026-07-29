@@ -373,7 +373,7 @@ in Python reads your parquet file with `pandas.read_parquet()` or
 round-trip, no "why is the date a string on my end," no argument about
 encodings. The file *is* the contract.
 
-**It is what the platforms underneath you already use.** DuckDB, Spark,
+**It is what the platforms underneath you already use.** [DuckDB](duckdb.qmd), Spark,
 Databricks, BigQuery, Snowflake, Amazon Athena, and most cloud data lakes
 either store parquet natively or read it directly. If your agency ever
 moves its surveillance data to a cloud warehouse, it is landing in
