@@ -1,0 +1,519 @@
+---
+title: "Databases, with DuckDB Standing In"
+packages: [duckdb, DBI, dbplyr]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+library(dplyr)
+library(readr)
+library(arrow)
+library(fs)
+library(lubridate)
+library(stringr)
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+```{r}
+#| label: rebuild-dataset
+#| include: false
+# Rebuild the project chapter's parquet dataset so this chapter stands alone.
+LAB_DATASET <- path(tempdir(), "lab-results")
+
+read_book_data(
+  "synthetic-covid-lab-results.csv",
+  col_types = cols(
+    result_snomed = col_character(),
+    specimen_source_snomed = col_character(),
+    ordering_provider_npi = col_character(),
+    patient_zip = col_character(),
+    .default = col_guess()
+  )
+) |>
+  mutate(
+    performing_lab = str_to_title(performing_lab),
+    collection_year = year(specimen_collection_dt),
+    collection_month = month(specimen_collection_dt)
+  ) |>
+  write_dataset(
+    LAB_DATASET,
+    format = "parquet",
+    partitioning = c("collection_year", "collection_month")
+  )
+```
+
+The last chapter left a loose thread. To get one row per specimen, it did
+this:
+
+```r
+lab_ds |>
+  select(specimen_id, result_dt, result_snomed) |>
+  collect() |>
+  slice_max(result_dt, n = 1, by = specimen_id, with_ties = FALSE)
+```
+
+Look at where `collect()` sits. Three columns for **every row in the
+feed** come into memory, and only then does the deduplication happen.
+At 25,000 rows nobody notices. At sixteen million, that's the exact
+mistake the arrow chapter warned about — and it isn't carelessness. The
+query needs to rank rows within each specimen, and arrow's engine has no
+window functions. There was nowhere else to put the `collect()`.
+
+That's the wall for this part: not the size of the data, but the *kind
+of question*. Which means it's time for a database.
+
+## What a database gives you
+
+This chapter uses DuckDB, but the point isn't DuckDB. It's that at some
+size and some complexity, the answer stops being "a better file" and
+becomes "a system that manages the data for you." What you get:
+
+- **A query planner.** You describe the result you want; the engine
+  decides the order of operations, which indexes to use, what to do in
+  parallel. You stop hand-optimizing the order of your `filter()` calls.
+- **SQL.** The most widely spoken language in data work, and the one
+  every agency database already speaks.
+- **Execution beyond memory.** A good engine spills to disk when a join
+  or a sort outgrows RAM, instead of failing.
+- **Persistence with real types and constraints.** A column is an
+  integer because the schema says so, and it can be made impossible for
+  a column to be null or a key to be duplicated.
+- **Concurrency and transactions.** Several people query at once; a
+  half-finished write never becomes half-visible.
+
+### Two kinds of database, and which one you're in
+
+Worth knowing, because the words come up in every conversation with a
+database administrator:
+
+**OLTP** — online *transaction* processing. Postgres, SQL Server, MySQL.
+Built for many small reads and writes hitting a few rows at a time:
+register a patient, record a result, update an address. Almost certainly
+what your agency's surveillance system runs on.
+
+**OLAP** — online *analytical* processing. Built for the opposite: a few
+enormous reads scanning millions of rows to produce one summary table.
+Columnar, like parquet, and for the same reasons.
+
+You do OLAP work. The system of record is OLTP. That mismatch is why
+"just run the query in production" is a request the DBA will refuse —
+your scan of sixteen million rows would sit on top of the tables
+clinicians are trying to write to.
+
+## DuckDB: the analytical database with no server
+
+DuckDB is an OLAP database that runs **inside your R session**. No
+server, no port, no service account, no ticket. If SQLite is "a database
+in a file," DuckDB is that for analytics.
+
+```{r}
+#| label: install
+#| eval: false
+pak::pak("duckdb")
+```
+
+```{r}
+#| label: connect
+library(DBI)
+library(duckdb)
+
+con <- dbConnect(duckdb(), dbdir = path(tempdir(), "lab.duckdb"))
+
+dbGetQuery(con, "SELECT version() AS duckdb_version")
+```
+
+`dbConnect()` and `DBI` are not DuckDB-specific — that's the point. The
+same two lines, pointed at a different driver, connect to Postgres or SQL
+Server. Everything in this chapter except DuckDB's file-reading tricks is
+knowledge that transfers directly to your agency's database.
+
+::: {.callout-warning}
+## Always close the connection
+
+`dbDisconnect(con, shutdown = TRUE)` at the end. Without `shutdown =
+TRUE`, DuckDB leaves its database process running and the file locked,
+which is a confusing thing to debug an hour later.
+:::
+
+## Trick one: query files without importing them
+
+Most databases make you load data in before you can query it. DuckDB
+reads parquet and CSV files *as if they were tables*:
+
+```{r}
+#| label: query-parquet
+lab_glob <- path(LAB_DATASET, "**", "*.parquet")
+
+dbGetQuery(
+  con,
+  sprintf(
+    "SELECT count(*) AS results,
+            count(DISTINCT specimen_id) AS specimens
+     FROM read_parquet('%s', hive_partitioning = true)",
+    lab_glob
+  )
+)
+```
+
+Nothing was imported. DuckDB opened the parquet files the last chapter
+wrote, read the columns the query mentioned, and answered. Hive
+partitions come through as columns, exactly as they did in arrow:
+
+```{r}
+#| label: partitions
+dbGetQuery(
+  con,
+  sprintf(
+    "SELECT collection_year, count(*) AS n
+     FROM read_parquet('%s', hive_partitioning = true)
+     GROUP BY collection_year
+     ORDER BY collection_year",
+    lab_glob
+  )
+)
+```
+
+Note the `NA` row. Those are the specimens with no collection date —
+still there, still counted, sitting in the partition named for the null
+value. A database will not hide them from you, but it won't point at
+them either.
+
+Typing that `read_parquet(...)` every time gets old. Make it a **view** —
+a saved query that behaves like a table:
+
+```{r}
+#| label: create-view
+dbExecute(
+  con,
+  sprintf(
+    "CREATE OR REPLACE VIEW lab_results AS
+     SELECT * FROM read_parquet('%s', hive_partitioning = true)",
+    lab_glob
+  )
+)
+
+dbListTables(con)
+```
+
+The data still lives in the parquet files. The database file holds only
+the definition — a few hundred bytes saying "when someone asks for
+`lab_results`, go read those." Your dataset stays portable, and you get
+to query it by name.
+
+## Trick two: the same dplyr you already write
+
+You do not have to write SQL. `dbplyr` translates `dplyr` into whatever
+dialect the database speaks:
+
+```{r}
+#| label: dbplyr-basic
+lab_results <- tbl(con, "lab_results")
+
+lab_results |>
+  group_by(performing_lab) |>
+  summarise(tests = n(), .groups = "drop") |>
+  arrange(desc(tests)) |>
+  collect()
+```
+
+Identical to the arrow version, identical to plain `dplyr`, and lazy in
+the same way — nothing runs until `collect()`.
+
+`show_query()` is the part to linger on, because it's the best SQL
+teacher you will meet:
+
+```{r}
+#| label: show-query
+lab_results |>
+  group_by(performing_lab) |>
+  summarise(tests = n(), .groups = "drop") |>
+  arrange(desc(tests)) |>
+  show_query()
+```
+
+Write the `dplyr` you know, read the SQL it produces, and after a few
+weeks of that you can write the SQL yourself. For anyone who arrived here
+from SAS, this is the same trick that made `PROC SQL` learnable: see the
+same question expressed two ways.
+
+::: {.callout-tip}
+## This is the transferable skill
+
+`tbl(con, "table_name") |> dplyr verbs |> collect()` works against
+Postgres, SQL Server, Snowflake, BigQuery, Redshift, and Spark. Change
+the connection, keep the pipeline. When someone finally grants you
+read access to the real surveillance database, you already know how to
+query it — and `show_query()` is what you paste into the ticket when the
+DBA asks what you intend to run.
+:::
+
+## Trick three: the query arrow couldn't do
+
+Back to the dedupe. In SQL, "keep the latest result per specimen" is a
+window function — number the rows within each specimen, newest first,
+keep number one:
+
+```{r}
+#| label: dedupe-sql
+dbGetQuery(
+  con,
+  "
+  WITH ranked AS (
+    SELECT
+      specimen_id,
+      result_snomed,
+      row_number() OVER (
+        PARTITION BY specimen_id
+        ORDER BY result_dt DESC
+      ) AS rn
+    FROM lab_results
+  )
+  SELECT
+    count(*) AS specimens,
+    sum(CASE WHEN result_snomed IN ('260373001', '10828004') THEN 1 ELSE 0 END)
+      AS positives
+  FROM ranked
+  WHERE rn = 1
+  "
+)
+```
+
+Or the same thing in `dplyr`, which `dbplyr` turns into that same SQL:
+
+```{r}
+#| label: dedupe-dplyr
+lab_results |>
+  group_by(specimen_id) |>
+  dbplyr::window_order(desc(result_dt)) |>
+  mutate(rn = row_number()) |>
+  ungroup() |>
+  filter(rn == 1) |>
+  summarise(
+    specimens = n(),
+    positives = sum(
+      ifelse(result_snomed %in% c("260373001", "10828004"), 1L, 0L),
+      na.rm = TRUE
+    )
+  ) |>
+  collect()
+```
+
+Now compare that positive count against the naive one — every row,
+corrections and superseded results included:
+
+```{r}
+#| label: naive-count
+lab_results |>
+  summarise(
+    all_rows = n(),
+    positives_counting_every_row = sum(
+      ifelse(result_snomed %in% c("260373001", "10828004"), 1L, 0L),
+      na.rm = TRUE
+    )
+  ) |>
+  collect()
+```
+
+**Forty-four positives that don't exist.** Small here. Scaled to a real
+feed, that's the difference between a positivity rate you can defend and
+one you can't — and no error was raised at any point along the way. The
+whole computation stayed in the database; nothing but the two-row answer
+crossed into R.
+
+## Trick four: exact answers
+
+The arrow chapter had to settle for an approximate median. DuckDB
+doesn't:
+
+```{r}
+#| label: exact-median
+dbGetQuery(
+  con,
+  "
+  SELECT
+    median(epoch(result_dt::TIMESTAMP) - epoch(specimen_collection_dt::TIMESTAMP))
+      / 86400.0 AS median_days,
+    quantile_cont(
+      epoch(result_dt::TIMESTAMP) - epoch(specimen_collection_dt::TIMESTAMP),
+      0.9
+    ) / 86400.0 AS p90_days
+  FROM lab_results
+  WHERE specimen_collection_dt IS NOT NULL
+  "
+)
+```
+
+An exact median, and a 90th percentile — the number that actually
+matters for turnaround, since the tail is what makes a count provisional.
+Two notes on that query:
+
+`epoch()` turns a timestamp into seconds, and the `::TIMESTAMP` casts
+drop the time zone first. Subtracting two *time-zone-aware* timestamps
+directly is an error in DuckDB, and `date_diff()` on them pulls in an
+extension (see below). Casting sidesteps both.
+
+::: {.callout-warning}
+## Extensions and locked-down networks
+
+DuckDB ships a small core and downloads optional **extensions** on
+demand — time zones (`icu`), spatial, direct reads from S3 or HTTP. The
+first query that needs one triggers a download, and on an agency network
+that download may simply fail:
+
+```
+Extension Autoloading Error: An error occurred while trying to
+automatically install the required extension 'icu'
+```
+
+That is a firewall, not a bug. Install what you need while you have
+connectivity (`INSTALL icu;` once, then `LOAD icu;` per session), or
+write queries that stay inside the core — which is what the casts above
+are doing. Worth knowing *before* you're demoing to a room.
+:::
+
+## Trick five: it works with arrow, not against it
+
+They are built by people who talk to each other. An arrow Dataset can be
+handed to DuckDB without copying the data:
+
+```{r}
+#| label: to-duckdb
+open_dataset(LAB_DATASET) |>
+  to_duckdb() |>
+  group_by(test_method) |>
+  summarise(tests = n(), .groups = "drop") |>
+  collect()
+```
+
+And results go back out to parquet, so the database is a step in the
+pipeline rather than a place data goes to live:
+
+```{r}
+#| label: copy-out
+deduped_path <- path(tempdir(), "deduped.parquet")
+
+dbExecute(
+  con,
+  sprintf(
+    "COPY (
+       SELECT * EXCLUDE rn FROM (
+         SELECT *, row_number() OVER (
+           PARTITION BY specimen_id ORDER BY result_dt DESC
+         ) AS rn
+         FROM lab_results
+       ) WHERE rn = 1
+     ) TO '%s' (FORMAT PARQUET)",
+    deduped_path
+  )
+)
+
+file_size(deduped_path)
+```
+
+That's a deduplicated copy of the whole feed, written straight to
+parquet, without a single row passing through R. (`SELECT * EXCLUDE rn`
+is a DuckDB convenience — every column except that one. Standard SQL
+makes you list all forty-three.)
+
+You can also put R data *into* the database, which is how you join a
+lookup table against the feed:
+
+```{r}
+#| label: write-table
+dbWriteTable(
+  con,
+  "town_population",
+  tibble(town = c("Hartford", "New Britain", "Avon"), population = c(121054, 74135, 18098)),
+  overwrite = TRUE
+)
+
+dbGetQuery(con, "SELECT * FROM town_population")
+```
+
+Unlike the view, this one is really stored in the `.duckdb` file. Close
+the connection, come back tomorrow, and it's there.
+
+```{r}
+#| label: disconnect
+dbDisconnect(con, shutdown = TRUE)
+```
+
+## So which one do I use?
+
+| Situation | Reach for |
+|---|---|
+| One file, fits in memory | `readr` and `dplyr`. Don't overthink it. |
+| Bigger than memory, straightforward filters and group-bys | parquet + `arrow` |
+| Window functions, multi-table joins, exact quantiles, SQL | DuckDB |
+| Several people need the same data, or it must be written to | A server database — Postgres, SQL Server |
+| It's the agency's system of record | That database, and a DBA to talk to |
+
+These are not rivals. A normal workflow uses three of them: land the feed
+as partitioned parquet, query it with arrow for the simple things, and
+open a DuckDB connection when the question gets sharp. The files stay the
+source of truth the whole time.
+
+## A shout-out across the fence: polars
+
+If you work anywhere near data engineers or Python-based modelers, you
+will hear about **polars**. It's a dataframe library — closer in spirit
+to `dplyr` than to a database — built on the same columnar ideas as
+everything in this part: typed columns, lazy evaluation, a query
+optimizer, execution that can exceed memory.
+
+The reason it matters to you is not that you should switch. It's that
+your parquet file is the handoff:
+
+```python
+import polars as pl
+
+lab = pl.scan_parquet("data/processed/lab-results/**/*.parquet")
+
+(
+    lab.filter(pl.col("collection_year") == 2021)
+    .group_by("test_method")
+    .agg(pl.len().alias("tests"))
+    .collect()
+)
+```
+
+`scan_parquet` is lazy; `.collect()` runs it. If that reads like the
+arrow chapter, that's the point — same three ideas, different keyboard.
+Your colleague reads your dataset with their tools, with your types and
+your column names intact, and neither of you emails a CSV. Python's own
+`duckdb` package will run the identical SQL from this chapter, too.
+
+Learn one of these properly and the others are dialects.
+
+## A word about what this does not change
+
+A `.duckdb` file is a database, not a vault. It is not encrypted, it does
+not authenticate anyone, and copying it copies everything in it. Putting
+identifiable data into an analytical database on your laptop is exactly
+as consequential as putting it in a CSV on your laptop. The same data-use
+agreement, the same storage rules, the same minimum-necessary principle.
+Convenience is not permission.
+
+## Where this leaves the part
+
+Four chapters ago the problem was a file that wouldn't open. Now:
+
+- **arrow** reads more data than fits, lazily, with `dplyr`.
+- **parquet** stores it in a container that knows its own types and reads
+  only what a query touches.
+- **DuckDB** answers questions those two can't, in SQL that transfers to
+  every database you'll ever be handed a connection string for.
+
+None of it required a server, an administrator, or a budget line. That is
+the actual lesson: the ceiling on what you can analyze is much higher
+than "what fits in RAM," and getting above it is a matter of picking the
+right container and the right engine.

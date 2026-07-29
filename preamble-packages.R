@@ -20,7 +20,12 @@ package_doc_urls <- list(
   lubridate = "https://lubridate.tidyverse.org/",
   dotenv = "https://github.com/gaborcsardi/dotenv",
   keyring = "https://keyring.r-lib.org/",
-  glue = "https://glue.tidyverse.org/"
+  glue = "https://glue.tidyverse.org/",
+  arrow = "https://arrow.apache.org/docs/r/",
+  duckdb = "https://r.duckdb.org/",
+  DBI = "https://dbi.r-dbi.org/",
+  dbplyr = "https://dbplyr.tidyverse.org/",
+  lobstr = "https://lobstr.r-lib.org/"
 )
 
 #' Render a "packages covered" callout from a chapter's YAML `packages:` field.

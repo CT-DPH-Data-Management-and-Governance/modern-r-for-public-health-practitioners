@@ -55,3 +55,6 @@ _book/
 
 # env vars
 .env
+# Scaled-up synthetic data (regenerate with `just lab-data <rows>`)
+data/scale/
+*.parquet

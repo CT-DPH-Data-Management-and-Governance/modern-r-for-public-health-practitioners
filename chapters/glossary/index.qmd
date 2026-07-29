@@ -49,6 +49,12 @@ Assignment (`<-`)
   read_csv(...)` reads the file and stores it in an object called `covid`. The
   arrow points from the value into the name.
 
+arrow (the arrow package)
+: R's interface to Apache Arrow — a columnar data format plus a query engine
+  that reads only the columns and rows a query actually touches. Lets you use
+  `dplyr` verbs on files far larger than your computer's memory. (see [When the
+  data outgrows your laptop](../big-data/index.qmd))
+
 ## B
 
 Branch
@@ -120,6 +126,19 @@ Cumulative vs. incremental
   today). You get daily new cases by subtracting each day's cumulative total
   from the one before.
 
+Columnar (column-oriented) format
+: A file layout that stores all the values of one column together, instead of
+  storing each row's values together the way a CSV does. Reading three columns
+  out of forty then costs three columns' worth of disk, and repeated values in
+  a column compress extremely well. Parquet is the format you'll meet. (see
+  [Parquet](../big-data/parquet.qmd))
+
+Corrected result
+: A laboratory result re-sent to replace one already reported, flagged in HL7
+  with a result status of `C`. Corrections are why a count you briefed on
+  Monday can be different on Friday — deduplicate by keeping the *latest*
+  result for a specimen, not the first.
+
 ## D
 
 Data frame / tibble
@@ -143,12 +162,30 @@ dplyr
   verbs — `filter`, `select`, `mutate`, `arrange`, `group_by`, `summarise`.
   The core of most wrangling in this book.
 
+DuckDB
+: An analytical database that runs inside your R session — no server, no
+  administrator, one file. Reads parquet and CSV directly, speaks SQL, and
+  handles the window functions and exact quantiles arrow's engine won't. (see
+  [Databases, with DuckDB standing in](../big-data/duckdb.qmd))
+
+`DBI` / `dbplyr`
+: The two packages that connect R to a database. `DBI` handles the connection
+  and raw SQL; `dbplyr` translates `dplyr` pipelines into SQL so you can query
+  a database with verbs you already know. Both work against Postgres, SQL
+  Server, DuckDB, and more — change the connection, keep the pipeline.
+
 ## E
 
 Endpoint
 : The specific URL an API exposes for a particular dataset or action. You point
   your request at an endpoint and it hands back the matching data. (see [APIs
   and functions](../apis-functions/index.qmd))
+
+ELR (Electronic Laboratory Reporting)
+: The stream of messages laboratories send to public health with test results,
+  usually in the HL7 v2 format, which surveillance systems flatten into one
+  very wide table of one row per result. (see [When the data outgrows your
+  laptop](../big-data/index.qmd))
 
 ## F
 
@@ -237,6 +274,18 @@ Join (merge)
 
 ## L
 
+Lazy evaluation
+: Building up a query without running it, then executing the whole thing at
+  once at the end. `dplyr` verbs on an arrow dataset or a database table record
+  what you asked for; `collect()` is what actually runs it and brings the
+  result back into R. Putting `collect()` last is the whole point. (see [When
+  the data outgrows your laptop](../big-data/index.qmd))
+
+LOINC
+: The standard code system for *what test was performed* — `94500-6` is
+  "SARS-CoV-2 RNA by NAA with probe detection." Pairs with SNOMED CT, which
+  codes the answer.
+
 Library
 : The command `library(dplyr)` loads an installed package so you can use its
   functions in the current session. Heads up for SAS users: this is *not* a SAS
@@ -287,6 +336,14 @@ Open Data Portal
   query, often through an API. Connecticut's COVID data lives on one. (see
   [APIs and functions](../apis-functions/index.qmd))
 
+OLTP / OLAP
+: Two jobs a database can be built for. **OLTP** (transaction processing —
+  Postgres, SQL Server) handles many small reads and writes touching a few
+  rows: the system of record your agency runs on. **OLAP** (analytical
+  processing — DuckDB) handles a few enormous scans producing one summary
+  table: what your analysis does. It's why the DBA won't let you run a
+  sixteen-million-row scan against production.
+
 ## P
 
 Package
@@ -300,6 +357,24 @@ Package
   — one command that pulls from CRAN, GitHub, or Bioconductor, resolves
   dependencies cleanly, and downloads in parallel. Replaces the older
   `install.packages()` for day-to-day use. (see [Orientation](../00-orientation/index.qmd))
+
+Parquet
+: A columnar, compressed, binary file format that stores its own column types
+  and statistics. Typically several times smaller than the equivalent CSV,
+  much faster to query, readable by R, Python, DuckDB, Spark, and every major
+  cloud warehouse. (see [Parquet](../big-data/parquet.qmd))
+
+Partitioning
+: Splitting a dataset across folders named for a column's value —
+  `collection_year=2021/collection_month=1/` — so a query filtered on that
+  column never opens the other folders. Partition on what you filter on, and
+  not on anything with thousands of distinct values. (see
+  [Parquet](../big-data/parquet.qmd))
+
+Predicate pushdown
+: Letting the storage layer do the filtering. Because a parquet file records
+  the minimum and maximum of every column in every chunk, an engine can skip
+  whole chunks that can't possibly match your `filter()` without reading them.
 
 Pipe (`|>`)
 : The operator that passes the result of one step into the next as its first
@@ -346,6 +421,13 @@ Reproducibility
   the point of projects, `here()`, renv, seeds, and Quarto freeze all working
   together. The book treats it as a spectrum, not a pass/fail.
 
+polars
+: A Python dataframe library built on the same columnar, lazy,
+  query-optimized ideas as arrow — worth knowing about because it reads the
+  same parquet files you write, with your types intact. The format is the
+  handoff between languages, not a CSV. (see [Databases, with DuckDB standing
+  in](../big-data/duckdb.qmd))
+
 ## S
 
 Seed (`set.seed()`)
@@ -390,6 +472,17 @@ Synthetic data
   The book uses a synthetic line-list so it can teach person-level analysis
   without exposing real individuals. (see [Building a dataset](../building-a-dataset/index.qmd))
 
+SNOMED CT
+: The standard clinical vocabulary used for *the answer* a test returned —
+  `260373001` is "Detected", `260415000` is "Not detected". Codes like these
+  are identifiers, not numbers: read them as text or you will eventually lose
+  a leading zero.
+
+SQL
+: The language databases speak. You don't have to write it to use a database
+  from R — `dbplyr` translates `dplyr` for you — but `show_query()` will show
+  you the SQL it generated, which is the least painful way to learn it.
+
 ## T
 
 `tabyl`
@@ -422,6 +515,13 @@ Trend in proportions
   ordered variable — rising case-positivity over time, say. `prop.trend.test()`
   in R. (see [Describing and testing](../data-analysis/describing-and-testing.qmd))
 
+Turnaround time
+: The gap between specimen collection and the result being reported. It
+  stretches when laboratories are busiest, which means the most recent days in
+  any surveillance count are the least complete — the usual reason a number
+  keeps rising after it was briefed. (see [Answering the lab-feed
+  questions](../big-data/project.qmd))
+
 ## U
 
 `uncount()`
@@ -436,7 +536,19 @@ Vector
   type (a column of a data frame is a vector). Most R functions operate on whole
   vectors at once rather than looping row by row.
 
+View (database)
+: A saved query that behaves like a table. `CREATE VIEW lab_results AS SELECT
+  * FROM read_parquet(...)` lets you query a folder of parquet files by name
+  without importing anything — the database stores the definition, the files
+  stay the data.
+
 ## W
+
+Window function
+: A calculation that runs across a set of rows related to the current one
+  without collapsing them — ranking each specimen's results by date to keep
+  the latest, or a running total. Standard in SQL, absent from arrow's engine,
+  which is a common reason to reach for DuckDB.
 
 Wide vs. long
 : Two shapes for the same data. Wide spreads a variable across many columns (one

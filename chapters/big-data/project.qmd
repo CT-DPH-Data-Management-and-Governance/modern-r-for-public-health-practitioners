@@ -1,0 +1,570 @@
+---
+title: "Answering the Lab-Feed Questions"
+packages: [arrow]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+library(dplyr)
+library(readr)
+library(arrow)
+library(fs)
+library(lubridate)
+library(stringr)
+library(ggplot2)
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+source(here::here("preamble-themes.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+Two questions came off the incident-command call and neither one has been
+answered yet:
+
+> "Why do last week's numbers keep changing *after* we've briefed them?"
+>
+> "And positivity is up — but I'm told most of our testing is rapid
+> antigen now. Is that the same eleven percent it was in December?"
+
+This chapter answers both from the lab feed, and adds what it finds to
+the Situation Brief. The pattern is the one the last two chapters built:
+**convert once, query many times.**
+
+## Setup
+
+Download the feed into your project the same way you did the town file —
+it goes in `data/raw/`. The [Data Library](../data-library/index.qmd) has
+the link.
+
+```{r}
+#| label: setup
+#| eval: false
+library(dplyr)
+library(readr)
+library(arrow)
+library(fs)
+library(lubridate)
+library(stringr)
+library(ggplot2)
+library(here)
+```
+
+## Step 1 — Hoist the constants
+
+Two things belong at the top: the paths, and the codes. Burying
+`"260373001"` in the middle of a pipeline is how you end up with a
+positivity rate nobody can check.
+
+```{r}
+#| label: constants
+#| eval: false
+RAW_CSV <- here("data", "raw", "synthetic-covid-lab-results.csv")
+LAB_DATASET <- here("data", "processed", "lab-results")
+
+# SNOMED CT concept ids for a positive result. "Detected" is what an
+# amplification test reports; "Positive" is what serology reports.
+POSITIVE_CODES <- c("260373001", "10828004")
+```
+
+```{r}
+#| label: constants-book
+#| include: false
+# The book renders against its own shared data folder and a temp directory
+# rather than your project — the code is otherwise identical.
+RAW_CSV <- book_data_path("synthetic-covid-lab-results.csv")
+LAB_DATASET <- path(tempdir(), "lab-results")
+POSITIVE_CODES <- c("260373001", "10828004")
+```
+
+## Step 2 — Convert once
+
+This is the step that only runs when new data arrives. Read the CSV,
+fix the types **once**, add the partition columns, and write the dataset.
+
+```{r}
+#| label: convert
+convert_feed <- function(csv_path, dataset_path) {
+  # Convert the raw ELR csv export into a partitioned parquet dataset.
+  #
+  # csv_path: string - path to the raw csv from the lab feed
+  # dataset_path: string - directory to write the parquet dataset into
+  # Returns: the dataset path, invisibly
+
+  raw <-
+    read_csv(
+      csv_path,
+      col_types = cols(
+        # Identifiers are labels, not numbers - say so here and the
+        # parquet file remembers it forever.
+        result_snomed = col_character(),
+        specimen_source_snomed = col_character(),
+        ordering_provider_npi = col_character(),
+        patient_zip = col_character(),
+        .default = col_guess()
+      )
+    )
+
+  raw |>
+    mutate(
+      # Lab names arrive in mixed case from some senders. Normalize now,
+      # so every later group_by() lands on one row per lab.
+      performing_lab = str_to_title(performing_lab),
+      collection_year = year(specimen_collection_dt),
+      collection_month = month(specimen_collection_dt)
+    ) |>
+    write_dataset(
+      path = dataset_path,
+      format = "parquet",
+      partitioning = c("collection_year", "collection_month")
+    )
+
+  invisible(dataset_path)
+}
+
+convert_feed(RAW_CSV, LAB_DATASET)
+
+dir_ls(LAB_DATASET) |> path_file()
+```
+
+From here on, nothing reads the CSV again:
+
+```{r}
+#| label: open
+lab_ds <- open_dataset(LAB_DATASET)
+
+nrow(lab_ds)
+```
+
+::: {.callout-tip}
+## Why this is a function and not five loose lines
+
+Conversion is the one step in this analysis that will be run on a
+schedule by someone who is not you — next month's extract, next quarter's
+extract. Everything the conversion decides (which columns are
+identifiers, how lab names are normalized, how the data is partitioned)
+has to be decided the *same way* every time, or the dataset quietly
+becomes two datasets. That's what a function is for.
+:::
+
+## Step 3 — Why the numbers keep changing, part one: lag
+
+A result is not available the moment the swab is taken. The gap between
+`specimen_collection_dt` and `result_dt` is the **turnaround time**, and
+it is the reason a count for last Tuesday keeps going up after Tuesday.
+
+```{r}
+#| label: turnaround
+turnaround <-
+  lab_ds |>
+  filter(!is.na(specimen_collection_dt)) |>
+  mutate(
+    # arrow returns a duration here, which it cannot convert with
+    # as.numeric() - cast it to a plain integer instead.
+    turnaround_secs = cast(
+      difftime(result_dt, specimen_collection_dt, units = "secs"),
+      int64()
+    )
+  ) |>
+  group_by(collection_year, collection_month) |>
+  summarise(
+    tests = n(),
+    median_secs = median(turnaround_secs),
+    pct_over_3_days = 100 * mean(turnaround_secs > 3 * 86400),
+    .groups = "drop"
+  ) |>
+  collect() |>
+  mutate(
+    month = make_date(collection_year, collection_month, 1),
+    median_days = round(median_secs / 86400, 1),
+    pct_over_3_days = round(pct_over_3_days, 1)
+  ) |>
+  arrange(month) |>
+  select(month, tests, median_days, pct_over_3_days)
+
+turnaround
+```
+
+::: {.callout-note}
+## Two arrow quirks worth knowing, both visible above
+
+**`difftime()` only does seconds.** Ask arrow for any other unit and it
+says so plainly: `difftime() with units other than secs not supported in
+Arrow`. Take the seconds and convert to days after `collect()` — that
+conversion is arithmetic on eighteen rows of summary, so it costs
+nothing.
+
+**The duration it hands back is not a number yet.** `as.numeric()` on it
+fails with `Unsupported cast from duration[s] to double`, because arrow's
+type system treats a duration as its own thing. `cast(x, int64())` — an
+arrow function, not a dplyr one — is the conversion that works. This is
+the seam where you stop writing portable dplyr and start writing arrow,
+and it is worth noticing when you cross it.
+
+**`median()` is approximate.** Run this query and arrow tells you:
+`median() currently returns an approximate median in Arrow`. It uses a
+streaming sketch rather than sorting every value, which is exactly what
+lets it work on data larger than memory. For monitoring turnaround that
+is fine. For a median that will be quoted in a publication, push the
+query through `to_duckdb()` instead.
+:::
+
+There it is. Turnaround holds under a day through the quiet summer of
+2020, then stretches as testing volume climbs into the winter surge —
+the exact weeks the Commissioner is being briefed on. When labs are
+busiest, results arrive slowest, so the most recent days in any report
+are the *least* complete. Brief a count for the last three days during a
+surge and you are briefing a number that is guaranteed to go up.
+
+```{r}
+#| label: turnaround-plot
+#| fig-alt: "Line chart of median laboratory turnaround time by month, rising during the winter 2020-2021 surge."
+turnaround |>
+  ggplot(aes(x = month, y = median_days)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Lab turnaround stretches exactly when it matters",
+    subtitle = "Median days from specimen collection to result, synthetic feed",
+    x = NULL,
+    y = "Median days"
+  ) +
+  theme_ct_horizontal()
+```
+
+## Step 4 — Why the numbers keep changing, part two: corrections
+
+Lag isn't the whole story. Labs also **correct** results they have
+already sent. In HL7, `result_status` carries `F` for final, `P` for
+preliminary, and `C` for corrected.
+
+```{r}
+#| label: statuses
+lab_ds |>
+  group_by(result_status) |>
+  summarise(n = n(), .groups = "drop") |>
+  collect() |>
+  arrange(desc(n))
+```
+
+Every `C` is a result that was already counted once, under a different
+answer. Because corrections are a small slice, this is a case where
+pulling them into R is the right call — `collect()` here is cheap:
+
+```{r}
+#| label: corrections
+corrections <-
+  lab_ds |>
+  filter(result_status == "C") |>
+  select(specimen_id, performing_lab, result_dt, result_value) |>
+  collect()
+
+# Which specimens came back with a *different* answer than before?
+changed <-
+  lab_ds |>
+  select(specimen_id, result_value) |>
+  collect() |>
+  summarise(versions = n_distinct(result_value), .by = specimen_id) |>
+  filter(versions > 1)
+
+tibble(
+  corrected_results = nrow(corrections),
+  of_which_changed_the_answer = nrow(changed)
+)
+```
+
+A few hundred corrections, and a quarter of them flipped the result. That
+is the honest answer to the Commissioner's first question: **the numbers
+change because the underlying results change**, partly by arriving late
+and partly by being revised.
+
+Which means a count of results is not the same as a count of specimens:
+
+```{r}
+#| label: dedupe
+# One row per specimen: the most recent result wins.
+deduped <-
+  lab_ds |>
+  select(specimen_id, result_dt, result_snomed) |>
+  collect() |>
+  slice_max(result_dt, n = 1, by = specimen_id, with_ties = FALSE)
+
+tibble(
+  rows_in_feed = nrow(lab_ds),
+  distinct_specimens = nrow(deduped),
+  difference = nrow(lab_ds) - nrow(deduped)
+)
+```
+
+::: {.callout-warning}
+## Deduplicate, don't drop
+
+The tempting shortcut is `filter(result_status != "C")` — throw the
+corrections away. That gets you the right row *count* and the wrong
+*answers*, because you have just kept the superseded version of every
+corrected result. Keep the latest, not the first.
+:::
+
+## Step 5 — Positivity, by method
+
+The second question. Now it's a query against the dataset, and the
+denominator comes with it:
+
+```{r}
+#| label: positivity
+positivity <-
+  lab_ds |>
+  filter(!is.na(specimen_collection_dt)) |>
+  mutate(is_positive = result_snomed %in% POSITIVE_CODES) |>
+  group_by(collection_year, collection_month, test_method) |>
+  summarise(tests = n(), positives = sum(is_positive), .groups = "drop") |>
+  collect() |>
+  mutate(
+    month = make_date(collection_year, collection_month, 1),
+    positivity = round(100 * positives / tests, 1)
+  ) |>
+  arrange(month, test_method)
+
+positivity |>
+  filter(month >= as.Date("2020-11-01"), month <= as.Date("2021-02-01"))
+```
+
+```{r}
+#| label: positivity-plot
+#| fig-alt: "Line chart of monthly test positivity split by test method."
+positivity |>
+  filter(test_method != "Chemiluminescent immunoassay") |>
+  ggplot(aes(x = month, y = positivity, color = test_method)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "One positivity rate hides three different tests",
+    subtitle = "Monthly positivity by test method, synthetic feed",
+    x = NULL,
+    y = "Positivity (%)",
+    color = NULL
+  ) +
+  theme_ct_horizontal()
+```
+
+Serology is left out of that chart on purpose, and the reason is
+epidemiology rather than code: an antibody test tells you about past
+infection, so pooling it into a current-positivity number would inflate
+the rate and mean nothing. It stays in the table, out of the trend.
+
+That is the answer to the second question: no, it is not the same eleven
+percent. Rapid antigen runs consistently below the amplification tests on
+the same days, so a rising share of antigen testing pushes the blended
+rate down even when nothing about transmission has changed.
+
+## Step 6 — Save what the brief needs
+
+The brief doesn't need the dataset. It needs two small tables and two
+figures.
+
+```{r}
+#| label: save-outputs
+#| eval: false
+write_csv(positivity, here("outputs", "tables", "positivity_by_method.csv"))
+write_csv(turnaround, here("outputs", "tables", "lab_turnaround.csv"))
+
+ggsave(
+  here("outputs", "figures", "positivity_by_method.png"),
+  width = 8,
+  height = 4.5,
+  dpi = 300
+)
+```
+
+## Step 7 — Into the brief
+
+Add a section to `docs/situation-brief.qmd`. The point of it is the
+caveat, not the chart — a number the Commissioner knows is provisional is
+worth more than one they find out was provisional later.
+
+````{verbatim}
+#| lang: markdown
+## Testing and data completeness
+
+```{r}
+#| label: brief-testing
+#| include: false
+positivity <- readr::read_csv(here("outputs", "tables", "positivity_by_method.csv"))
+turnaround <- readr::read_csv(here("outputs", "tables", "lab_turnaround.csv"))
+
+latest_tat <- dplyr::slice_max(turnaround, month, n = 1)
+```
+
+`r glue::glue("Results currently take a median of {latest_tat$median_days} days from collection to report, and {latest_tat$pct_over_3_days}% take longer than three days. Counts for the last several days are provisional and will rise.")`
+
+![](../outputs/figures/positivity_by_method.png)
+
+Positivity is reported by test method. Rapid antigen and amplification
+tests are not interchangeable, and the share of testing done by each has
+shifted over time — a change in the blended rate is not by itself a
+change in transmission.
+````
+
+## Putting it together
+
+```{r}
+#| eval: false
+
+# === setup ===
+library(dplyr)
+library(readr)
+library(arrow)
+library(fs)
+library(lubridate)
+library(stringr)
+library(ggplot2)
+library(here)
+
+# === constants ===
+RAW_CSV <- here("data", "raw", "synthetic-covid-lab-results.csv")
+LAB_DATASET <- here("data", "processed", "lab-results")
+POSITIVE_CODES <- c("260373001", "10828004")
+
+# === functions ===
+convert_feed <- function(csv_path, dataset_path) {
+  # Convert the raw ELR csv export into a partitioned parquet dataset.
+  # Run this when new data arrives, not on every analysis.
+
+  read_csv(
+    csv_path,
+    col_types = cols(
+      result_snomed = col_character(),
+      specimen_source_snomed = col_character(),
+      ordering_provider_npi = col_character(),
+      patient_zip = col_character(),
+      .default = col_guess()
+    )
+  ) |>
+    mutate(
+      performing_lab = str_to_title(performing_lab),
+      collection_year = year(specimen_collection_dt),
+      collection_month = month(specimen_collection_dt)
+    ) |>
+    write_dataset(
+      path = dataset_path,
+      format = "parquet",
+      partitioning = c("collection_year", "collection_month")
+    )
+
+  invisible(dataset_path)
+}
+
+lab_turnaround <- function(dataset) {
+  # Median and tail of specimen-collection-to-result time, by month.
+
+  dataset |>
+    filter(!is.na(specimen_collection_dt)) |>
+    mutate(
+      # arrow does difftime in seconds only, and returns a duration
+      # that needs cast() rather than as.numeric().
+      turnaround_secs = cast(
+        difftime(result_dt, specimen_collection_dt, units = "secs"),
+        int64()
+      )
+    ) |>
+    group_by(collection_year, collection_month) |>
+    summarise(
+      tests = n(),
+      median_secs = median(turnaround_secs),
+      pct_over_3_days = 100 * mean(turnaround_secs > 3 * 86400),
+      .groups = "drop"
+    ) |>
+    collect() |>
+    mutate(
+      month = make_date(collection_year, collection_month, 1),
+      median_days = round(median_secs / 86400, 1),
+      pct_over_3_days = round(pct_over_3_days, 1)
+    ) |>
+    arrange(month) |>
+    select(month, tests, median_days, pct_over_3_days)
+}
+
+positivity_by_method <- function(dataset, positive_codes) {
+  # Monthly test counts, positives, and positivity, split by test method.
+
+  dataset |>
+    filter(!is.na(specimen_collection_dt)) |>
+    mutate(is_positive = result_snomed %in% positive_codes) |>
+    group_by(collection_year, collection_month, test_method) |>
+    summarise(tests = n(), positives = sum(is_positive), .groups = "drop") |>
+    collect() |>
+    mutate(
+      month = make_date(collection_year, collection_month, 1),
+      positivity = round(100 * positives / tests, 1)
+    ) |>
+    arrange(month, test_method)
+}
+
+# === main ===
+main <- function(refresh = FALSE) {
+  # main entrypoint into our analysis
+  #
+  # refresh: logical - re-convert the raw csv before querying
+
+  if (refresh || !dir_exists(LAB_DATASET)) {
+    convert_feed(RAW_CSV, LAB_DATASET)
+  }
+
+  lab_ds <- open_dataset(LAB_DATASET)
+
+  turnaround <- lab_turnaround(lab_ds)
+  positivity <- positivity_by_method(lab_ds, POSITIVE_CODES)
+
+  write_csv(turnaround, here("outputs", "tables", "lab_turnaround.csv"))
+  write_csv(positivity, here("outputs", "tables", "positivity_by_method.csv"))
+
+  positivity |>
+    filter(test_method != "Chemiluminescent immunoassay") |>
+    ggplot(aes(x = month, y = positivity, color = test_method)) +
+    geom_line(linewidth = 1) +
+    labs(
+      title = "One positivity rate hides three different tests",
+      x = NULL,
+      y = "Positivity (%)",
+      color = NULL
+    )
+
+  ggsave(
+    here("outputs", "figures", "positivity_by_method.png"),
+    width = 8,
+    height = 4.5,
+    dpi = 300
+  )
+
+  invisible(list(turnaround = turnaround, positivity = positivity))
+}
+
+# === entrypoint ===
+main()
+```
+
+Note what `main()` does on a normal day: it does **not** re-convert
+anything. The parquet dataset is already there, so the analysis opens it
+and runs. Conversion is a separate branch, taken when the data is new.
+That split — expensive once, cheap forever after — is the whole shape of
+working with data too big to re-read.
+
+## What's still manual
+
+- The conversion runs against a CSV somebody still downloads. Chapter by
+  chapter this project has been closing that kind of gap; the same
+  `fetch_all_data()` idea from the APIs part applies here.
+- `convert_feed()` rewrites the entire dataset every time. For a feed
+  that only ever gains new months, rewriting the 2020 partitions is
+  wasted work — writing just the new partitions is the natural next step.
+- Nothing here checks that the file it was handed is the file it
+  expected. A column quietly renamed upstream would sail straight
+  through.
+- The dedupe in Step 4 collects two columns for every row. That is fine
+  at this size and would not be fine at sixteen million; that is the
+  query to hand to DuckDB.

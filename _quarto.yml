@@ -64,6 +64,12 @@ book:
       chapters:
         - chapters/apis-functions/index.qmd
         - chapters/apis-functions/project.qmd
+    - part: "Working with Bigger Data"
+      chapters:
+        - chapters/big-data/index.qmd
+        - chapters/big-data/parquet.qmd
+        - chapters/big-data/project.qmd
+        - chapters/big-data/duckdb.qmd
     - part: "Security Basics"
       chapters:
         - chapters/secrets/index.qmd

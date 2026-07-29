@@ -1,0 +1,427 @@
+---
+title: "Parquet: The Format Worth Knowing"
+packages: [arrow]
+---
+
+```{r}
+#| label: chapter-root
+#| include: false
+library(dplyr)
+library(readr)
+library(arrow)
+library(fs)
+source(here::here("preamble-packages.R"))
+source(here::here("preamble-data.R"))
+```
+
+```{r}
+#| label: packages-header
+#| echo: false
+#| results: asis
+packages_used_callout(rmarkdown::metadata$packages)
+```
+
+Last chapter ended on an unfinished job. `open_dataset()` stopped R from
+swallowing the whole file at once, but the file underneath was still a
+CSV: still text to be parsed, still silent about its own types, still
+unable to answer "how many rows?" without being read end to end.
+
+This chapter swaps the container. The format is **Apache Parquet**, and
+the argument of this chapter is that it is worth learning properly —
+not as an arrow implementation detail, but as a thing you will keep
+running into for the rest of your career, in and out of public health.
+
+## What a parquet file actually is
+
+Take five rows of the feed and think about how they sit on disk.
+
+A CSV is **row-oriented**. Everything about test one, then everything
+about test two:
+
+```
+NRL-20201029-03807,Nutmeg Regional...,2020-10-29T11:42:28Z,RT-PCR,260415000,Not detected
+HVH21-004263,Housatonic Valley...,2021-04-03T12:38:05Z,Rapid immunoassay,260373001,Detected
+```
+
+Parquet is **column-oriented**. All the specimen IDs together, then all
+the lab names together, then all the results together:
+
+```
+specimen_id      : NRL-20201029-03807 | HVH21-004263 | NRL-20210106-07234 | ...
+performing_lab   : Nutmeg Regional... | Housatonic Valley... | Nutmeg Regional... | ...
+result_snomed    : 260415000 | 260373001 | 260415000 | ...
+```
+
+That one rearrangement is where nearly everything else comes from. Four
+consequences, in the order they will matter to you:
+
+1. **Reading three columns costs three columns.** They're contiguous on
+   disk. The other forty are never touched — not read, not decompressed,
+   not skipped over byte by byte.
+2. **Compression gets much better.** A column holds one kind of thing.
+   Eight lab names repeating across sixteen million rows compress to
+   almost nothing; the same eight names scattered through a row-oriented
+   file do not.
+3. **Types are stored, not guessed.** Each column carries its type in the
+   file's footer. `result_snomed` is a string because the file says it's
+   a string.
+4. **The file describes itself.** Row counts, column names, types, and
+   per-chunk minimum and maximum values all live in the footer, so a lot
+   of questions get answered without reading any data at all.
+
+## Writing one
+
+`write_parquet()` takes a data frame and a path. That's the whole API.
+
+```{r}
+#| label: write-parquet
+lab_results <-
+  read_book_data(
+    "synthetic-covid-lab-results.csv",
+    col_types = cols(
+      result_snomed = col_character(),
+      specimen_source_snomed = col_character(),
+      ordering_provider_npi = col_character(),
+      patient_zip = col_character(),
+      .default = col_guess()
+    )
+  )
+
+parquet_path <- path(tempdir(), "lab-results.parquet")
+
+write_parquet(lab_results, parquet_path)
+
+file_size(parquet_path)
+```
+
+Compare that against the CSV it came from:
+
+```{r}
+#| label: size-comparison
+csv_path <- book_data_path("synthetic-covid-lab-results.csv")
+
+tibble(
+  format = c("csv", "parquet"),
+  size = as_fs_bytes(c(file_size(csv_path), file_size(parquet_path)))
+) |>
+  mutate(times_smaller = round(as.numeric(size[1]) / as.numeric(size), 1))
+```
+
+Roughly a sixth of the size, holding exactly the same 25,425 rows. No
+sampling, no dropped columns, nothing thrown away — it's the same data in
+a container that doesn't waste space.
+
+## Types survive the round trip
+
+This is the part that should sell you, and it has nothing to do with size
+or speed.
+
+```{r}
+#| label: type-round-trip
+from_parquet <- read_parquet(parquet_path)
+
+tibble(
+  column = c(
+    "result_snomed",
+    "ordering_provider_npi",
+    "specimen_collection_dt",
+    "ct_value"
+  ),
+  original = c(
+    class(lab_results$result_snomed)[1],
+    class(lab_results$ordering_provider_npi)[1],
+    class(lab_results$specimen_collection_dt)[1],
+    class(lab_results$ct_value)[1]
+  ),
+  after_parquet = c(
+    class(from_parquet$result_snomed)[1],
+    class(from_parquet$ordering_provider_npi)[1],
+    class(from_parquet$specimen_collection_dt)[1],
+    class(from_parquet$ct_value)[1]
+  )
+)
+```
+
+Identical. No `col_types` argument, no guessing, no chunk of the file
+sampled to work it out. You fixed those types **once**, when you wrote
+the file, and the fix is now a property of the file rather than a block
+of code every reader has to remember to include.
+
+Watch a CSV fail the same test:
+
+```{r}
+#| label: csv-round-trip
+small <- tibble(
+  n_tests = 1:5L,
+  rate = c(1.5, 2, 3, 4, 5),
+  collected = as.Date("2020-03-01") + 0:4,
+  zip = c("06001", "06002", "06003", "06004", "06005")
+)
+
+csv_tmp <- path(tempdir(), "types.csv")
+write_csv(small, csv_tmp)
+
+tibble(
+  column = names(small),
+  original = sapply(small, \(x) class(x)[1]),
+  after_csv = sapply(read_csv(csv_tmp, show_col_types = FALSE), \(x) class(x)[1]),
+  after_parquet = {
+    pq_tmp <- path(tempdir(), "types.parquet")
+    write_parquet(small, pq_tmp)
+    sapply(read_parquet(pq_tmp), \(x) class(x)[1])
+  }
+)
+```
+
+`readr` does well here — it recovers the date and keeps the ZIP as text,
+because modern `readr` is good at guessing. But look at `n_tests`: it
+went in as an **integer** and came back a **double**. The CSV had no way
+to say "this is a count, not a measurement," so the information was
+simply lost in transit. Parquet returns exactly what it was given.
+
+::: {.callout-important}
+## Why an epidemiologist should care about this specifically
+
+The bugs this prevents are the ones that bite quietly.
+
+- A ZIP code or FIPS code losing its leading zero, so `06001` joins
+  against nothing and a town silently drops out of a map.
+- A SNOMED or LOINC code read as a number, written back out in
+  scientific notation, and never matching the code table again.
+- A date column that parses as a date on your machine and as text on a
+  colleague's, because a locale differs.
+- An MRN that fits in a double until the day it doesn't.
+
+None of these throws an error. They produce a number that is wrong, in a
+report that looks fine. Storing types in the file removes the entire
+class.
+:::
+
+## Why it's faster
+
+Three mechanisms, and it's worth knowing which is which, because they
+reward different habits.
+
+**Column projection.** `select()` fewer columns and parquet reads less
+disk, in direct proportion. On a forty-three column feed where your query
+touches four, that is roughly a tenfold reduction in bytes read before
+anything else happens.
+
+**Row groups and statistics.** A parquet file is internally divided into
+row groups — typically a few hundred thousand rows each — and the footer
+records the minimum and maximum of every column in every row group. Ask
+for `specimen_collection_dt >= "2021-01-01"` and the engine reads the
+footer, sees that a row group tops out at 2020-06-30, and never opens it.
+This is called **predicate pushdown**, and it's why filtering early
+matters so much.
+
+**No parsing.** A double is stored as a double. There is no text to
+convert.
+
+::: {.callout-note}
+## Measured, not guessed
+
+The numbers below come from the 2,034,000-row version of this same feed
+(`just lab-data 2000000`), queried with a columnar engine on one laptop,
+on a RAM-backed temporary filesystem. Absolute times on your machine will
+differ and the ratios will move around. The *shape* is the point.
+
+| File | Size |
+|---|---|
+| `lab-results.csv` | 1,310 MB |
+| `lab-results.parquet` (snappy, the default) | 193 MB |
+| `lab-results.parquet` (zstd) | 140 MB |
+| partitioned by year and month (zstd, 19 files) | 136 MB |
+
+| Query over 2.03M rows | From CSV | From parquet |
+|---|---|---|
+| monthly test counts and positives | 1.86 s | 0.01 s |
+| count distinct performing labs | 1.80 s | < 0.01 s |
+| count one month of collections | 1.73 s | 0.01 s |
+| same count, partitioned by month | — | 0.004 s |
+
+The CSV timings barely move between those three queries, because all
+three do the same work: parse the entire file. That is the tell. With
+parquet, the cost tracks what you actually asked for.
+:::
+
+## Datasets: many files, one table
+
+One parquet file is good. A **dataset** — a directory of parquet files
+that arrow treats as a single table — is where this starts paying for
+itself on real surveillance data.
+
+`write_dataset()` splits the data across files using columns you choose:
+
+```{r}
+#| label: write-dataset
+lab_dir <- path(tempdir(), "lab-dataset")
+
+lab_results |>
+  mutate(
+    collection_year = lubridate::year(specimen_collection_dt),
+    collection_month = lubridate::month(specimen_collection_dt)
+  ) |>
+  write_dataset(
+    path = lab_dir,
+    format = "parquet",
+    partitioning = c("collection_year", "collection_month")
+  )
+
+dir_tree(lab_dir, recurse = 1)
+```
+
+Those folder names are not decoration. `collection_year=2021` is a
+convention called **Hive partitioning**, and every tool that reads
+parquet understands it. When you open the directory, the partition
+columns come back as real columns even though they aren't stored inside
+any file — they're in the paths:
+
+```{r}
+#| label: read-dataset
+lab_ds <- open_dataset(lab_dir)
+
+lab_ds |>
+  filter(collection_year == 2021, collection_month == 1) |>
+  group_by(test_method) |>
+  summarise(tests = n(), .groups = "drop") |>
+  collect()
+```
+
+That query never opened a single 2020 file. Not "read them and discarded
+them" — never opened them. On ten years of surveillance data partitioned
+by year, a question about last year costs one year of reading.
+
+::: {.callout-warning}
+## Partition on what you filter on — and don't overdo it
+
+Partitioning is the one setting here that people get badly wrong.
+
+**Good partition keys** are low-cardinality columns that show up in your
+`filter()` calls constantly: year, month, disease, jurisdiction,
+reporting county.
+
+**Bad partition keys** are high-cardinality: patient ID, specimen ID,
+town-by-day. Partitioning by patient on sixteen million tests means
+millions of tiny files, and reading a million 4 KB files is *slower* than
+reading one big one — you've replaced a data problem with a filesystem
+problem.
+
+Aim for partitions that leave files somewhere in the tens-to-hundreds of
+megabytes. If a partition would produce a 30 KB file, that partition is
+too fine.
+
+One more gotcha visible in the tree above: rows whose partition key is
+`NA` land in a directory named for the null value rather than being
+dropped. Missing collection dates don't vanish — they collect somewhere
+you'll only find if you look.
+:::
+
+## Compression is a dial
+
+Snappy is the default: fast to write, fast to read, decent ratio. When a
+dataset is going to be written once and read for years — an annual
+archive, say — zstd is usually the better trade: a noticeably smaller
+file, slightly more CPU on write, and read speed close enough that you
+won't notice.
+
+There's a catch worth meeting now rather than in production. The `arrow`
+R package is a wrapper around a C++ library, and **which codecs are
+available depends on how that library was built** on your machine. Ask
+before you assume:
+
+```{r}
+#| label: codecs
+sapply(c("snappy", "gzip", "zstd", "lz4"), codec_is_available)
+```
+
+If `zstd` is `TRUE` there, use it for archival datasets:
+
+```{r}
+#| label: compression
+if (codec_is_available("zstd")) {
+  zstd_path <- path(tempdir(), "lab-results-zstd.parquet")
+  write_parquet(lab_results, zstd_path, compression = "zstd")
+
+  tibble(
+    file = c("snappy (default)", "zstd"),
+    size = as_fs_bytes(c(file_size(parquet_path), file_size(zstd_path)))
+  )
+} else {
+  "zstd not available in this arrow build - snappy it is."
+}
+```
+
+If it's `FALSE`, you have a partial build. On Linux that usually means
+`arrow` compiled against a system library without the optional codecs;
+reinstalling with `Sys.setenv(NOT_CRAN = "true")` set before
+`pak::pak("arrow")` generally pulls a full-featured build. It is worth
+sorting out — `arrow_info()` will show you the whole capability list,
+including whether S3 reading is compiled in — but nothing else in this
+chapter depends on it. A parquet file written with snappy is still a
+parquet file.
+
+## Why this is worth knowing beyond this book
+
+Everything so far has been about one feed on one laptop. The reason to
+learn parquet properly is that it isn't an R thing, and it isn't an
+epidemiology thing.
+
+**It is the interchange format between languages.** A colleague working
+in Python reads your parquet file with `pandas.read_parquet()` or
+`polars.read_parquet()` and gets your exact types back — no CSV
+round-trip, no "why is the date a string on my end," no argument about
+encodings. The file *is* the contract.
+
+**It is what the platforms underneath you already use.** DuckDB, Spark,
+Databricks, BigQuery, Snowflake, Amazon Athena, and most cloud data lakes
+either store parquet natively or read it directly. If your agency ever
+moves its surveillance data to a cloud warehouse, it is landing in
+parquet whether or not anyone tells the epidemiologists.
+
+**It reads well over a network.** Because the footer describes the file,
+a tool can fetch just the footer, work out which byte ranges it needs,
+and pull only those — from S3 or Azure Blob storage, without downloading
+the file. You cannot do that with a CSV.
+
+**It is a good archival format.** Self-describing, compressed, and a
+stable open specification with multiple independent implementations. A
+parquet file written today opens in ten years without the sidecar
+document explaining what column 17 meant.
+
+For public health work specifically, the ones that come up most:
+
+- **Annual surveillance archives.** Partition by year, keep a decade
+  online, query any slice without a database server.
+- **Line lists that outgrow Excel.** Which is most of them, eventually.
+- **Handing data to a modeler.** They get your types, your missingness,
+  and your column names exactly as you meant them.
+- **Reproducibility.** The types are in the file, so a re-run in two
+  years reads the same data the same way. No `col_types` block to
+  maintain, and no chance of a colleague forgetting it.
+
+## When *not* to use parquet
+
+Being fair about it:
+
+- **Someone needs to open it in Excel.** Excel doesn't read parquet.
+  Export a CSV or an `.xlsx` for that person and keep parquet for the
+  pipeline.
+- **The data is small.** A 200-row lookup table is fine as a CSV. Use
+  the thing you can read with `less`.
+- **You want it in version control with readable diffs.** Parquet is
+  binary; git can store it but can't show you what changed.
+- **You're appending one row at a time.** Parquet is written in
+  column-chunk batches, not appended to row by row. Log to something
+  else, convert on a schedule.
+- **It is not encryption.** Parquet is compressed and binary, which makes
+  it unreadable in a text editor and *not at all* protected. Sensitive
+  data needs the same access controls, storage rules, and agreements it
+  always did. Nothing in this chapter changes your data-use agreement.
+
+## Where this leaves the brief
+
+You now have a container that stores its own types, compresses to a
+fraction of the CSV, and reads only what a query asks for. The project
+chapter puts it to work: convert the feed once, partition it sensibly,
+and answer both of the Commissioner's questions from it.

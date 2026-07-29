@@ -3,8 +3,10 @@
 
 set shell := ["bash", "-uc"]
 
-yaml_files := "_quarto.yml .github/ISSUE_TEMPLATE/bug_report.yml .github/ISSUE_TEMPLATE/content_suggestion.yml"
-yamllint_config := '{extends: default, rules: {line-length: disable, document-start: disable}}'
+yaml_files := "_quarto.yml .github/ISSUE_TEMPLATE/bug_report.yml .github/ISSUE_TEMPLATE/content_suggestion.yml .github/workflows/lint.yml .github/workflows/publish.yml"
+# truthy check-keys is off because GitHub Actions requires a bare `on:` key,
+# which yamllint otherwise reads as the boolean true.
+yamllint_config := '{extends: default, rules: {line-length: disable, document-start: disable, truthy: {check-keys: false}}}'
 
 # List available recipes
 default:
@@ -30,6 +32,29 @@ quarto-check:
 render-dry:
     quarto render --to html --no-execute
 
+# --- Synthetic data ---------------------------------------------------------
+
+# Rebuild the synthetic COVID-19 line-list (data/synthetic-covid-linelist.csv)
+linelist-data:
+    Rscript data-raw/make-synthetic-linelist.R
+
+# Rebuild the synthetic lab-result feed. Default 25k rows -> data/.
+# Usage: just lab-data            (the committed teaching file)
+#        just lab-data 5000000    (a CSV big enough to hurt)
+lab-data rows="25000" out="data/synthetic-covid-lab-results.csv":
+    Rscript data-raw/make-synthetic-lab-results.R --rows {{rows}} --out {{out}}
+
+# The same feed with every sender quirk turned on: per-lab datetime formats,
+# town spelling drift, local (non-LOINC) test codes, result-text drift.
+# Usage: just lab-data-messy
+#        just lab-data-messy 25000 data/x.csv "--messy-parts dates,towns"
+lab-data-messy rows="25000" out="data/synthetic-covid-lab-results-messy.csv" parts="--messy":
+    Rscript data-raw/make-synthetic-lab-results.R --rows {{rows}} --out {{out}} {{parts}}
+
+# Same feed written as a partitioned parquet dataset (needs the arrow package)
+lab-data-parquet rows="5000000" out="data/scale/lab-results-parquet":
+    Rscript data-raw/make-synthetic-lab-results.R --rows {{rows}} --out {{out}} --format parquet
+
 # Format all R code (.R, .qmd) with air
 fmt:
     air format .
@@ -38,7 +63,7 @@ fmt:
 fmt-check:
     air format --check .
 
-# Lint repo YAML files (quarto config + issue templates)
+# Lint repo YAML files (quarto config, issue templates, CI workflows)
 yaml-lint:
     yamllint -d '{{yamllint_config}}' {{yaml_files}}
 
