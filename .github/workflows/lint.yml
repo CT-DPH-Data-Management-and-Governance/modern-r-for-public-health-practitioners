@@ -3,6 +3,11 @@ name: Lint
 # Informational checks only — nothing here is required to pass.
 # Every step runs with continue-on-error so issues are flagged (as a
 # yellow warning on the step) without blocking pushes, PRs, or merges.
+#
+# Split into two jobs on purpose. `static` needs no R, no system libraries
+# and no package restore, so it reports back in well under a minute. `render`
+# is the slow one. Running them in parallel means the fast feedback isn't
+# stuck behind the slow feedback.
 
 on:
   push:
@@ -11,8 +16,38 @@ on:
     branches: [dev, main]
   workflow_dispatch:
 
+# A new push to the same branch makes the in-flight lint run irrelevant.
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  lint:
+  static:
+    name: Formatting and YAML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: extractions/setup-just@v3
+
+      - name: Install air
+        run: |
+          curl -LsSf https://github.com/posit-dev/air/releases/latest/download/air-installer.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: R formatting (air)
+        continue-on-error: true
+        run: just fmt-check
+
+      - name: Install yamllint
+        run: pipx install yamllint
+
+      - name: YAML lint
+        continue-on-error: true
+        run: just yaml-lint
+
+  render:
+    name: Quarto render check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -22,34 +57,28 @@ jobs:
       - name: Install spatial system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev
+          sudo apt-get install -y \
+            libudunits2-dev libgdal-dev libgeos-dev libproj-dev
 
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: release
+          # renv.lock already points at Posit Package Manager's binary
+          # endpoint, so restore pulls prebuilt Linux binaries rather than
+          # compiling. This keeps the two in agreement.
+          use-public-rspm: true
 
       - uses: r-lib/actions/setup-renv@v2
 
+      # No `tinytex:` input: this check renders HTML only, and not
+      # installing LaTeX is the default.
       - uses: quarto-dev/quarto-actions/setup@v2
 
       - uses: extractions/setup-just@v3
 
-      - name: Install air
-        run: |
-          curl -LsSf https://github.com/posit-dev/air/releases/latest/download/air-installer.sh | sh
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-
-      - name: Install yamllint
-        run: pipx install yamllint
-
-      - name: R formatting (air)
-        continue-on-error: true
-        run: just fmt-check
-
-      - name: YAML lint
-        continue-on-error: true
-        run: just yaml-lint
-
+      # `--no-execute` skips code chunks but still evaluates inline `r ...`
+      # expressions, which is why this job needs R and the package library
+      # at all.
       - name: Quarto render check (no-execute)
         continue-on-error: true
         run: just render-dry
