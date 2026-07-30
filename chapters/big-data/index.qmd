@@ -433,7 +433,11 @@ version in memory:
 #| label: make-big-file
 #| eval: false
 big_path <- here::here("data", "raw", "lab-results-big.csv")
-one_copy <- read_csv(here::here("data", "raw", "synthetic-covid-lab-results.csv"))
+one_copy <- read_csv(here::here(
+  "data",
+  "raw",
+  "synthetic-covid-lab-results.csv"
+))
 
 # The first copy carries the header; the other 199 don't.
 write_csv(one_copy, big_path)

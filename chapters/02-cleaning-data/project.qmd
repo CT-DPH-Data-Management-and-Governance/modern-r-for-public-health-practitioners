@@ -176,7 +176,13 @@ into weeks, and `pivot_wider()` lays those weeks out as columns — a
 compact table that reads left-to-right like a trend line.
 
 ```{r}
-cities_of_interest <- c("Hartford", "New Haven", "Bridgeport", "Stamford", "Waterbury")
+cities_of_interest <- c(
+  "Hartford",
+  "New Haven",
+  "Bridgeport",
+  "Stamford",
+  "Waterbury"
+)
 
 weekly_trend <-
   covid_clean |>
@@ -191,7 +197,8 @@ weekly_trend |>
     values_from = avg_new_cases,
     names_prefix = "week_of_"
   ) |>
-  clean_names()
+  clean_names() |>
+  print(max_footer_lines = 1)
 ```
 
 ## Putting it together
@@ -218,7 +225,8 @@ covid_clean <-
 ## Saving our data artifact
 
 ```{r}
-# write_csv(covid_clean, here("data", "processed", "covid_clean.csv"))
+#| eval: false
+write_csv(covid_clean, here("data", "processed", "covid_clean.csv"))
 ```
 
 Every future chapter can now start from `covid_clean` instead of
