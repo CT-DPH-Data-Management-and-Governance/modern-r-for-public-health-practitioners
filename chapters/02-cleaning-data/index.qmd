@@ -270,7 +270,8 @@ wide <-
   clean_names()
 
 wide |>
-  head()
+  head() |>
+  print(max_footer_lines = 1)
 ```
 
 Goodness - that is a lot of columns!
@@ -338,7 +339,7 @@ missing genuinely does mean the same thing as zero (or whatever value
 you're filling in with).
 :::
 
-### Splitting and combining columns with `separate()` and `unite()`
+### Splitting and combining columns with `separate_wider_delim()` and `unite()`
 
 Sometimes several pieces of information need to travel together in one
 column - a "2026-06" style label for grouping by month, for example.
@@ -356,25 +357,35 @@ dates_split <-
 
 dates_united <-
   dates_split |>
-  unite(col = "year_month", report_year, report_month, sep = "-", remove = FALSE)
+  unite(
+    col = "year_month",
+    report_year,
+    report_month,
+    sep = "-",
+    remove = FALSE
+  )
 
 dates_united |>
   head()
 ```
 
-`separate()` does the reverse - split one column into several using a
-separator to know where to break it apart:
+`separate_wider_delim()` does the reverse - split one column into several 
+using a separator to know where to break it apart:
 
 ```{r}
 dates_united |>
   select(last_update_date, year_month) |>
-  separate(col = year_month, into = c("year", "month"), sep = "-") |>
+  separate_wider_delim(
+    col = year_month,
+    delim = "-",
+    names = c("year", "month")
+  ) |>
   head()
 ```
 
-Just like the wide/long round trip earlier, `unite()` and `separate()`
-are inverses of each other - whichever shape a report or a join needs,
-the other function gets you back.
+Just like the wide/long round trip earlier, `unite()` and 
+`separate_wider_delim()` are inverses of each other - whichever shape a 
+report or a join needs, the other function gets you back.
 
 ## `stringr` and `glue`
 
